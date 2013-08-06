@@ -1,0 +1,54 @@
+.menu
+{
+	position:fixed;
+	width:300px;
+	padding-right:30px;
+	top:167px;
+	left:-315px;
+	background:url(../../../images/menubarra.png) no-repeat center right #FFF;
+	background-size:25px;
+	transition:left ease-in-out .5s;
+	box-shadow:0 5px 50px 0 #000;
+	border-right:2px solid #DDD;
+	border-top-right-radius:10px;
+	border-bottom-right-radius:10px;
+	z-index: 999;
+}
+
+.menu:active,.menu:hover
+{
+	left:0;
+}
+
+.menu ul
+{
+	list-style-type:none;
+}
+
+.menu .menu_titulo
+{
+	border-bottom:1px solid #AAA;
+	margin-bottom:5px;
+	font:normal normal bold 12px Verdana;
+}
+
+.menu .menu_enlace
+{
+	margin-left:10px;
+}
+
+.menu .menu_enlace a
+{
+	transition:margin 1s;
+}
+
+.menu .menu_enlace a:hover
+{
+	margin-left:20px;
+	text-decoration:underline;
+}
+
+.menu .menu_sep
+{
+	margin:10px;
+}

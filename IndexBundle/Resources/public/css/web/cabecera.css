@@ -1,0 +1,72 @@
+#barra
+{
+	position:fixed;
+	overflow:hidden;
+	top:-49px;
+	left:5px;
+	right:5px;
+	min-width:830px;
+	height:50px;
+	background:url(../../images/titulobarra1.png) center bottom no-repeat #FFF;
+	transition:top ease-in-out .5s, padding-top .5s;
+	border-bottom:2px solid #DDD;
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+	box-shadow:0 5px 50px 0 #000;
+	font-size:15px;
+	color:#525252;
+	z-index:999999;
+	padding:5px 15px;
+}
+
+#barra a
+{
+	display:block;
+	height:18px;
+}
+
+#barra a:hover
+{
+	background:url(sub_menu.png) no-repeat center bottom;
+	background-size:8px;
+}
+
+#barra:hover
+{
+	top:0;
+	font-size:15px;
+}
+
+#barra_nav
+{
+	position:relative;
+	float:right;
+	margin:25px 0 0;
+	padding:0;
+}
+
+#barra h1
+{
+	font-size:15px;
+	margin:7px 0 0;
+	padding:0;
+}
+
+aside.conectado
+{
+	border-bottom:1px solid #525252;
+}
+
+#barra_nav ul
+{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+
+#barra_nav ul li
+{
+	float:left;
+	margin:0;
+	padding:0 10px;
+}

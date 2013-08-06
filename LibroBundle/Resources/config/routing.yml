@@ -1,0 +1,17 @@
+rgarcia_entrelineas_libro_crear:
+    pattern:  /gestor/crear/{crearMasivo}
+    defaults: 
+        _controller: "RGMELibreriaLibroBundle:Libro:crearLibro"
+        crearMasivo: 0
+    
+rgarcia_entrelineas_libro_editar:
+    pattern:  /gestor/editar/{isbn}
+    defaults: { _controller: "RGMELibreriaLibroBundle:Libro:editarLibro" }
+    
+rgarcia_entrelineas_libro_borrar:
+    pattern:  /gestor/borrar/{isbn}
+    defaults: { _controller: "RGMELibreriaLibroBundle:Libro:borrarLibro" }
+    
+rgarcia_entrelineas_libro_homepage:
+    pattern:  /gestor
+    defaults: { _controller: "RGMELibreriaLibroBundle:Libro:verLibros" }

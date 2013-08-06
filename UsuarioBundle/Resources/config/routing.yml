@@ -1,0 +1,17 @@
+rgarcia_entrelineas_usuario_homepage:
+    pattern:  /
+    defaults: { _controller: 'RGMELibreriaUsuarioBundle:Usuario:editar' }
+    
+rgarcia_entrelineas_usuario_password:
+    pattern:  /password
+    defaults: { _controller: 'RGMELibreriaUsuarioBundle:Usuario:password' }
+
+rgarcia_entrelineas_usuario_login:
+    pattern:  /login
+    defaults: { _controller: 'RGMELibreriaUsuarioBundle:Usuario:login' }
+
+rgarcia_entrelineas_usuario_login_check:
+    pattern:  /login_check
+
+rgarcia_entrelineas_usuario_logout:
+    pattern:  /logout

@@ -1,0 +1,7 @@
+parameters:
+#    rgarcia_entrelineas_usuario.example.class: RGM\eLibreria\UsuarioBundle\Example
+
+services:
+#    rgarcia_entrelineas_usuario.example:
+#        class: %rgarcia_entrelineas_usuario.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

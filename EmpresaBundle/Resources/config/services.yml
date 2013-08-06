@@ -1,0 +1,7 @@
+parameters:
+#    rgarcia_entrelineas_empresa.example.class: RGM\eLibreria\EmpresaBundle\Example
+
+services:
+#    rgarcia_entrelineas_empresa.example:
+#        class: %rgarcia_entrelineas_empresa.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

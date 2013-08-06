@@ -1,0 +1,48 @@
+@import url('cuerpo/contenido.css');
+@import url('cuerpo/menu.css');
+@import url('cuerpo/login.css');
+
+#cuerpo
+{
+	margin:50px 10px 20px 50px;
+	padding:0;
+}
+
+#cuerpo article
+{
+	border-radius:5px;
+	border:1px solid #AAA;
+	background-color:#FFF;
+	padding:10px 20px;
+}
+
+.seccion
+{
+	text-align:right;
+	font:normal normal normal 48px Verdana;
+	color:#777;
+	border-bottom:1px solid #777;
+	margin:0;
+}
+
+.subseccion
+{
+	text-align:left;
+	font:normal normal normal 20px Verdana;
+	color:#777;
+	border-bottom:1px solid #777;
+	margin:0 0 20px;
+	padding:5px 20px;
+}
+
+.busqueda
+{
+	float:left;
+	margin-left:15px;
+	margin-top:20px;
+	border-radius:10px;
+	opacity:.5;
+	width:300px;
+	font:normal normal normal 10px Verdana;
+	padding:5px;
+}

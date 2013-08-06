@@ -1,0 +1,22 @@
+<div id="ventanaModal" onclick="cierre(event, this);">
+	<div class="ventanaModal_contenedor">
+		<header>
+			<a class="cerrar" onclick="cerrarInfo('ventanaModal')" href="#">X</a>
+			{{ titulo_ventana }}
+		</header>
+	
+		<section>
+			{% block ventana_contenido %}
+			{% if path_form %}<form method="POST" action="{{ path_form }}" {% if form %} {{ form_enctype(form) }} {% endif %}>{% endif %}				
+				{% if titulo_form %}<p class="titulo_form">{{ titulo_form }}</p>{% endif %}
+				{% if msg %}<p class="msg">{{ msg }}</p>{% endif %}	
+				{% if form %}<div class="form">{{ form_widget(form) }}</div>{% endif %}
+				{% if msg_confirmar %}<p class="msg_confirmar">{{ msg_confirmar }}</p>{% endif %}
+				{% if msg_confirmar2 %}<p class="msg_confirmar">{{ msg_confirmar2 }}</p>{% endif %}
+				{% if opcion_salto_msg %}<p class="opcion_salto_msg">{{ opcion_salto_msg }} haga click <a href="{{ opcion_salto_dir }}">aquí</a>{% endif %}
+				{% if titulo_submit %}<input class="submit" type="submit" value="{{ titulo_submit }}">{% endif %}
+			{% if path_form %}</form>{% endif %}
+			{% endblock %}
+		</section>
+	</div>
+</div>

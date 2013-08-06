@@ -1,0 +1,10 @@
+{% if app.session.started %}
+	{% for flashMessage in app.session.flashbag.get('info') %}
+		<div id="flash" class="info">
+			<div onclick="cerrarInfo(flash)">{{ flashMessage }}</div>
+		</div>
+		<script>
+			waitCierre();
+		</script>
+	{% endfor %}
+{% endif %}

@@ -1,0 +1,73 @@
+body
+{
+	position:relative;
+	background:#DDD;
+	width:100%;
+	margin:0;
+	padding:0;
+}
+
+#contenedor
+{
+	position:relative;
+	overflow:hidden;
+	min-width:800px;
+	margin:0 5px;
+	padding:0;
+}
+
+a
+{
+	color:#525252;
+	text-decoration:none;
+}
+
+.desaparece
+{
+	opacity:0;
+	transition:opacity .3s;
+	transition-delay:0;
+}
+
+#barra:hover .desaparece
+{
+	opacity:1;
+	transition:opacity .3s;
+	transition-delay:.2s;
+}
+
+.editar{
+	background: url('../../images/edit.png') no-repeat center center;
+}
+
+.borrar{
+	background: url('../../images/borrar.png') no-repeat center center;
+}
+
+.crear{
+	background: url('../../images/nuevo.png') no-repeat center center;
+	
+	background-size: 33px 30px !important;
+		
+	float: right;
+}
+
+.editar, .borrar, .crear{
+	background-size: 20px 20px;
+	display: block;
+	height: 22px;
+	width: 22px;
+	text-indent: -9999px;
+}
+
+@media screen and max-width 1180px {
+	#barra:hover
+	{
+		padding-top:30px;
+	}
+	
+	#barra
+	{
+		background:url(titulobarra2.png) center bottom no-repeat #FFF;
+	}
+}

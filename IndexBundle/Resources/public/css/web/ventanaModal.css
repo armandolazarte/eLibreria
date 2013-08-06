@@ -1,0 +1,53 @@
+#ventanaModal
+{
+	position:fixed;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	transition:all 1s;
+	background:rgba(0,0,0,0.8);
+	opacity:1;
+	z-index:1000000;
+}
+
+.ventanaModal_contenedor
+{
+	width:800px;
+	max-height:85%;
+	position:relative;
+	overflow:auto;
+	z-index:1000001;
+	background:#FFF;
+	border-radius:10px;
+	margin:50px auto 0;
+	padding:5px;
+	padding-bottom: 15px;
+}
+
+#ventanaModal .cerrar
+{
+	float:right;
+	display:block;
+	border-radius:10px;
+	background:#444;
+	transition:all 1s;
+	color:#DDD;
+	font:normal normal bold 10px Verdana;
+	margin:-4px 10px 5px;
+	padding:5px 10px;
+}
+
+#ventanaModal .cerrar:hover
+{
+	font-size:15px;
+	margin-top:-6.5px;
+	margin-right:8.5px;
+}
+
+#ventanaModal header
+{
+	font:normal normal bold 15px Verdana;
+	border-bottom:1px solid #777;
+	padding:10px 0 10px 10px;
+}

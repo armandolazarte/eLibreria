@@ -1,0 +1,32 @@
+{% extends 'RGMELibreriaIndexBundle::layout.html.twig' %}
+
+{% block cabecera %}{% endblock %}
+
+{% block cuerpo %}
+	<div id="ventanaModal">
+		<div class="ventanaModal_contenedor">
+			<header>
+				{{ titulo_ventana }}
+			</header>
+		
+			<section>
+				{% if error %}
+				<article class="error">
+					<p><span class="titulo">Error en el login:</span> <span class="mensaje">{{ error.message }}</span></p>
+				</article>
+				{% endif %}
+				<article class="formulario">
+					<form method="POST" action="{{ path('rgarcia_entrelineas_usuario_login_check') }}"> 
+						<fieldset class="login">
+							<label for="user">Usuario</label>
+							<input class="reg" name="_username" type="text" value="{{ last_username }}" />
+							<label for="pass">Password</label>
+							<input class="reg" name="_password" type="password" />
+						</fieldset>
+						<input class="boton" type="submit" value="Entrar" />
+					</form>
+				</article>
+			</section>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,168 @@
+.grid{
+	position: relative;
+
+	margin-top: 10px;
+}
+
+.grid form{
+	position: relative;
+	overflow: hidden;
+}
+
+.grid-search input, .grid input, .pager input{
+	width: auto;
+}
+
+.grid_header{
+}
+
+.mass-actions{
+	width: auto;
+	overflow: hidden;
+	position: relative;
+}
+
+.mass-actions a{
+	color: #336699;
+	text-decoration: none;
+}
+
+.mass-actions a:hover{
+	text-decoration: underline;
+}
+
+.grid_massactions_helper{
+	position: absolute;
+	line-height: 25px;
+}
+
+.grid_massactions{
+	float: right;
+}
+
+.grid_massactions input{
+	display: inline;
+}
+
+.grid_body{
+	position: relative;
+	overflow-x: auto;
+}
+
+.grid_body .sort_up{
+	width: 10px;
+	height: 10px;
+
+	position: absolute;
+	top: 13px;
+	left: 5px;
+
+	background: url('../../images/flecha-arriba.png') center center no-repeat;
+}
+
+.grid_body .sort_down{
+	width: 10px;
+	height: 10px;
+
+	position: absolute;
+	top: 13px;
+	left: 5px;
+
+	background: url('../../images/flecha-abajo.png') center center no-repeat;
+
+}
+
+.grid_body table{
+	border-collapse: collapse;
+	border: 2px solid #A2B5D0;
+	width: 100%;
+}
+
+.grid, .grid input, .grid select {
+	font-size: 12px;
+}
+
+.grid-row-actions{
+	width: 65px;
+
+	padding: 0px;
+	margin: 0px auto;
+
+	list-style-type: none;
+
+	overflow: hidden;
+}
+
+.grid-row-actions a{
+	text-decoration: none;
+	color: #336699;
+}
+
+.grid-row-actions a:hover{
+	text-decoration: underline;
+}
+
+.grid-row-actions li{
+	position: relative;
+	
+	margin: 0px 5px;
+
+	float: right;
+	
+	z-index: 9;
+}
+
+.grid_body th, .grid_body td{
+	padding: 5px;
+}
+
+.grid_body th{
+	position: relative;
+
+	background: -webkit-linear-gradient(#F9F9F9, #CAD6E8);
+   	background: -moz-linear-gradient(#F9F9F9, #CAD6E8);
+   	background: -o-linear-gradient(#F9F9F9, #CAD6E8);
+	
+	color: #000;
+
+	border: 1px solid #A2B5D0;
+}
+
+.grid_body th a{
+	color: #000;
+	text-decoration: none;
+}
+
+.grid_body th a:hover{
+	color: #444;
+	text-decoration: underline;
+}
+
+.grid_body td{
+	border: 1px solid #D0D7E5;
+}
+
+.even{
+	background-color: #FCFCFC;
+}
+
+.even .last-column{
+	background-color: #E4ECF7;
+}
+
+.odd{
+	background-color: #F7F7F7;
+}
+
+.odd .last-column{
+	background-color: #D9E3F1;
+}
+
+.grid_footer{
+	text-align: center;
+}
+
+.grid_footer .pager{
+	float: none!important;
+	display: inline;
+}

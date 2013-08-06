@@ -1,0 +1,16 @@
+rgarcia_entrelineas_libro:
+    resource: "@RGMELibreriaLibroBundle/Resources/config/routing.yml"
+    prefix:   /libro
+
+rgarcia_entrelineas_empresa:
+    resource: "@RGMELibreriaEmpresaBundle/Resources/config/routing.yml"
+    prefix:   /empresa
+
+rgarcia_entrelineas_usuario:
+    resource: "@RGMELibreriaUsuarioBundle/Resources/config/routing.yml"
+    prefix:   /usuario
+
+rgarcia_entrelineas_index:
+    resource: "@RGMELibreriaIndexBundle/Resources/config/routing.yml"
+    prefix:   /
+

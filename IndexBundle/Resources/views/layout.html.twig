@@ -1,0 +1,95 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% if not app.request.get('page') %}
+	{% set paginacion = 1 %}
+{% else %}
+	{% set paginacion = app.request.get('page') %}
+{% endif %}
+
+{% block stylesheets %}
+	<link href="{{ asset('bundles/RGMELibreriaindex/css/estilo.css') }}" type="text/css" rel="stylesheet" />
+	
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+{% endblock %}
+
+{% block body %}
+<div id="contenedor">
+	{% block cabecera %}
+	<header id="barra">
+		<nav id="barra_nav" class="desaparece">
+			{% include 'RGMELibreriaIndexBundle::menu_cabecera.html.twig' %}
+		</nav>		
+		
+		<h1 class="desaparece">{{ titulo }}</h1>
+		
+		<aside class="conectado desaparece">
+			Conectado como: {{ empleado }}
+		</aside>
+	</header>
+	{% endblock %}
+	
+	{% block cuerpo %}
+	<section id="cuerpo">
+		{% block buscar %}
+		<input type="text" class="busqueda" id="busqueda" placeholder="Buscar">
+		{% endblock %}
+		
+		{% block seccion_titulo %}
+		<hgroup>
+			<h1 class="seccion">{% block sec_tit_titulo %}{{ seccion }}{% endblock %}</h1>
+			<h2 class="subseccion">{% block sec_tit_subtitulo %}{{ subseccion }}{% endblock %}</h2>
+		</hgroup>
+		{% endblock %}
+		
+		{% block seccion_menu %}
+		<aside class="menu">
+			{% block seccion_menu_include %}
+			<nav>
+				<ul>
+					<li class="menu_titulo"><a href="#">Libros</a></li>
+						<li class="menu_enlace"><a href="{{ path('rgarcia_entrelineas_libro_homepage') }}">Gestion de Libros</a></li>
+						<li class="menu_enlace"><a href="#">Gestion de Autores</a></li>
+						<li class="menu_enlace"><a href="#">Gestion de Editoriales</a></li>
+						<li class="menu_enlace"><a href="#">Gestion de Estilos</a></li>
+						<li class="menu_sep"></li>
+						
+					<li class="menu_titulo"><a href="#">Suministros</a></li>
+						<li class="menu_enlace"><a href="#">Gestion de Bancos / Avales</a></li>
+						<li class="menu_enlace"><a href="#">Gestion de Distribuidoras</a></li>
+						<li class="menu_enlace"><a href="#">Gestion de Contratos de Suministro</a></li>
+						<li class="menu_sep"></li>
+						
+					<li class="menu_titulo"><a href="#">Procedimientos de Suministro</a></li>
+						<li class="menu_enlace"><a href="#">Gestion de lotes</a></li>
+						<li class="menu_enlace"><a href="#">Creacion de nuevo lote</a></li>
+						<li class="menu_enlace"><a href="#">Recepcion de lotes</a></li>
+						<li class="menu_sep"></li>
+						
+					<li class="menu_titulo"><a href="#">Estadisticas</a></li>
+						<li class="menu_enlace"><a href="#">Libros vendidos</a></li>
+						<li class="menu_enlace"><a href="#">Libros por vender</a></li>
+						<li class="menu_enlace"><a href="#">Libros a devolver</a></li>
+				</ul>
+			</nav>
+			{% endblock %}
+		</aside>
+		{% endblock %}
+		
+		{% block article_contenido %}
+			<article id="contenido">
+				{% block contenido %}{% endblock %}
+			</article>
+		{% endblock %}
+	</section>
+	{% endblock %}
+</div>
+{% include 'RGMELibreriaIndexBundle::flashes.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+	{% javascripts '@RGMELibreriaIndexBundle/Resources/public/js/*' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}

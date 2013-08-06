@@ -1,0 +1,3 @@
+rgarcia_entrelineas_index_homepage:
+    pattern:  /
+    defaults: { _controller: "RGMELibreriaIndexBundle:Index:index" }
