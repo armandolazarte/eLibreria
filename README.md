@@ -27,11 +27,23 @@ eLibreria
     b. Modificar:
         assetic:
             bundles:        [ RGMELibreriaIndexBundle ]
+            
+10.- Añadir a app/AppKernel.php:
+
+```php
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+        	new MakerLabs\PagerBundle\MakerLabsPagerBundle(),
+            new RGM\eLibreria\IndexBundle\RGMELibreriaIndexBundle(),
+            new RGM\eLibreria\UsuarioBundle\RGMELibreriaUsuarioBundle(),
+            new RGM\eLibreria\EmpresaBundle\RGMELibreriaEmpresaBundle(),
+            new RGM\eLibreria\LibroBundle\RGMELibreriaLibroBundle(),
+        	new APY\DataGridBundle\APYDataGridBundle(),
+```
         
-10.- Lanzar php app/console doctrine:database:create
+11.- Lanzar php app/console doctrine:database:create
 
-11.- Lanzar php app/console doctrine:schema:create
+12.- Lanzar php app/console doctrine:schema:create
 
-12.- Lanzar php app/console assets:install --symlink
+13.- Lanzar php app/console assets:install --symlink
 
-13.- Lanzar php app/console cache:clear
+14.- Lanzar php app/console cache:clear
