@@ -6,21 +6,22 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class LibroType extends AbstractType{
+class LibroVisorType extends AbstractType{
 	public function buildForm(FormBuilderInterface $builder, array $options){
 		
 		$builder -> add('isbn', 'text', array(
-						'required' => true,
-						'disabled' => false,
+						'required' => false,
+						'disabled' => true,
 				))
 				
 				-> add('titulo', 'text', array(
-						'required' => true,
-						'disabled' => false,
+						'required' => false,
+						'disabled' => true,
 				))
 				
 						-> add('editorial', 'entity', array(
 								'required' => false,
+								'disabled' => true,
 								'class' => 'RGMELibreriaLibroBundle:Editorial',
 								'multiple' => false,
 								'expanded' => false,
@@ -28,6 +29,7 @@ class LibroType extends AbstractType{
 						))
 						-> add('autores', 'entity', array(
 								'required' => false,
+								'disabled' => true,
 								'class' => 'RGMELibreriaLibroBundle:Autor',
 								'attr' => array('class' => 'cajaEleccionEntidades'),
 								'multiple' => true,
@@ -35,6 +37,7 @@ class LibroType extends AbstractType{
 						))	
 						-> add('estilos', 'entity', array(
 								'required' => false,
+								'disabled' => true,
 								'class' => 'RGMELibreriaLibroBundle:Estilo',
 								'attr' => array('class' => 'cajaEleccionEntidades'),
 								'multiple' => true,
@@ -43,18 +46,18 @@ class LibroType extends AbstractType{
 				
 				-> add('numPaginas', 'text', array(
 						'required' => false,
-						'disabled' => false,
+						'disabled' => true,
 						'label' => 'Numero de Paginas'
 				))
 				
 				-> add('sinopsis', 'textarea', array(
 						'required' => false,
-						'disabled' => false,
+						'disabled' => true,
 				));
 	}
 
 	public function getName(){
-		return 'rgarcia_entrelineas_librobundle_librotype';
+		return 'rgarcia_entrelineas_librobundle_librovisortype';
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver){

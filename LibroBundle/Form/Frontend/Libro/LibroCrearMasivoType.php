@@ -6,10 +6,20 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class LibroType extends AbstractType{
+class LibroCrearMasivoType extends AbstractType{
 	public function buildForm(FormBuilderInterface $builder, array $options){
+		$opcionesCrearMasivo['required'] = false;
+		$opcionesCrearMasivo['disabled'] = false;
+		$opcionesCrearMasivo['mapped'] = false;
+		$opcionesCrearMasivo['label'] = 'Crear otro libro al finalizar';
 		
-		$builder -> add('isbn', 'text', array(
+		if($options['crearMasivo'] == 1){
+			$opcionesCrearMasivo['attr'] = array('checked' => 'checked');
+		}
+		
+		$builder -> add('crearMasivo', 'checkbox', $opcionesCrearMasivo)
+		
+				-> add('isbn', 'text', array(
 						'required' => true,
 						'disabled' => false,
 				))
@@ -54,13 +64,15 @@ class LibroType extends AbstractType{
 	}
 
 	public function getName(){
-		return 'rgarcia_entrelineas_librobundle_librotype';
+		return 'rgarcia_entrelineas_librobundle_librocrearmasivotype';
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver){
 		$resolver->setDefaults(array(
 				'data_class' => 'RGM\eLibreria\LibroBundle\Entity\Libro',
 		));
+		
+		$resolver -> setRequired(array('crearMasivo'));
 	}
 }
 ?>
