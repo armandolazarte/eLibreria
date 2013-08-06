@@ -18,6 +18,7 @@ eLibreria
 8.- Configurar parameters.yml
 
 9.- En config.yml:
+
     a. Descomentar:
         framework:
             esi:             ~
