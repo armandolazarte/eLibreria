@@ -44,6 +44,8 @@ eLibreria
 
 12.- Lanzar php app/console doctrine:schema:create
 
-13.- Lanzar php app/console assets:install --symlink
+13.- Lanzar php app/console doctrine:fixtures:load
 
-14.- Lanzar php app/console cache:clear
+14.- Lanzar php app/console assets:install --symlink
+
+15.- Lanzar php app/console cache:clear
