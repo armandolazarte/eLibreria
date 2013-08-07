@@ -32,7 +32,6 @@ eLibreria
 
 ```php
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-        	new MakerLabs\PagerBundle\MakerLabsPagerBundle(),
             new RGM\eLibreria\IndexBundle\RGMELibreriaIndexBundle(),
             new RGM\eLibreria\UsuarioBundle\RGMELibreriaUsuarioBundle(),
             new RGM\eLibreria\EmpresaBundle\RGMELibreriaEmpresaBundle(),
