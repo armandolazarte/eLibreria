@@ -1,44 +1,42 @@
-<?php
-
+<?php 
 namespace RGM\eLibreria\LibroBundle\Controller;
 
 use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
 
-class LibroController extends AsistenteController
-{
-	private $seccion = 'Gestor de Libros';
-	private $subseccion = 'Libros';
+class AutorController extends AsistenteController{
 	
-	private $entidad = 'Libro';
-	private $entidad_clase = 'RGM\eLibreria\LibroBundle\Entity\Libro';
-	private $alias = 'l';
+	private $seccion = 'Gestor de Libros';
+	private $subseccion = 'Autor';
+	
+	private $entidad = 'Autor';
+	private $entidad_clase = 'RGM\eLibreria\LibroBundle\Entity\Autor';
+	private $alias = 'a';
 	
 	private $nombreFormularios = array(
-			'creador' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Libro\LibroCrearMasivoType',
-			'editor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Libro\LibroType',
-			'visor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Libro\LibroVisorType'
-	);	
+			'editor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Autor\AutorType',
+			'visor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Autor\AutorVisorType'
+	);
 	
-	private $ruta_form_crear = 'rgarcia_entrelineas_libro_crear';
-	private $titulo_crear = 'Crear Libro';
+	private $ruta_form_crear = 'rgarcia_entrelineas_autor_crear';
+	private $titulo_crear = 'Crear Autor';
 	private $titulo_submit_crear = 'Crear';
-	private $flash_crear = 'Libro creado con exito';
+	private $flash_crear = 'Autor creado con exito';
 	
 	private $grid_boton_editar = 'Editar';
-	private $grid_ruta_editar = 'rgarcia_entrelineas_libro_editar';
-	private $titulo_editar = 'Editar Libro';
+	private $grid_ruta_editar = 'rgarcia_entrelineas_autor_editar';
+	private $titulo_editar = 'Editar Autor';
 	private $titulo_submit_editar = 'Actualizar';
-	private $flash_editar = 'Libro editado con exito';
-
+	private $flash_editar = 'Autor editado con exito';
+	
 	private $grid_boton_borrar = 'Borrar';
-	private $grid_ruta_borrar = 'rgarcia_entrelineas_libro_borrar';
+	private $grid_ruta_borrar = 'rgarcia_entrelineas_autor_borrar';
 	private $titulo_borrar = 'Confirmar Borrado';
 	private $msg_borrar = 'Se va a proceder a borrar los siguientes datos.';
-	private $titulo_form_borrar = 'Borrar Libro';
-	private $msg_confirmar_borrar = '¿Realmente desea borrar el libro?';
+	private $titulo_form_borrar = 'Borrar Autor';
+	private $msg_confirmar_borrar = '¿Realmente desea borrar el autor?';
 	private $titulo_submit_borrar = '¡Si, Estoy seguro!';
-	private $flash_borrar = 'Libro borrado con exito';
+	private $flash_borrar = 'Autor borrado con exito';
 	
 	public function __construct(){
 		parent::__construct(
@@ -86,7 +84,7 @@ class LibroController extends AsistenteController
 		return $res;
 	}
 	
-	public function verLibrosAction(){
+	public function verAutorAction(){
 		$peticion = $this -> getRequest();
 		$render = null;
 	
@@ -104,7 +102,7 @@ class LibroController extends AsistenteController
 		return $render;
 	}
 	
-	public function crearLibroAction($crearMasivo = null){
+	public function crearAutorAction(){
 		$peticion = $this -> getRequest();
 		if($peticion -> isXmlHttpRequest()){
 			return $this -> irInicio();
@@ -120,13 +118,7 @@ class LibroController extends AsistenteController
 		
 		$entidad = $this -> getNuevaInstancia($this -> entidad_clase);
 		
-		$opcionesFormulario['crearMasivo'] = 0;
-		
-		if($crearMasivo != null){
-			$opcionesFormulario['crearMasivo'] = 1;
-		}
-		
-		$opciones['form'] = $this -> createForm($this -> getFormulario('creador'), $entidad, $opcionesFormulario);
+		$opciones['form'] = $this -> createForm($this -> getFormulario('creador'), $entidad);
 		
 		if($peticion -> getMethod() == "POST"){
 			$opciones['form'] -> bind($peticion);
@@ -135,18 +127,8 @@ class LibroController extends AsistenteController
 				$em -> persist($entidad);
 				$em -> flush();				
 				
-				$crearMasivo = $opciones['form'] -> get('crearMasivo') -> getData();
-				
-				if($crearMasivo){
-					$salida = $this -> redirect($this -> generateUrl($this -> ruta_form_crear, array('crearMasivo' => 1)));
-				}
-				else{
-					$salida = $this -> irInicio();
-				}
-				
-				$this -> setFlash($this -> flash_crear);
-				
-				return $salida;
+				$this -> setFlash($this -> flash_crear);				
+				return $this -> getInicio();
 			}
 		}
 		
@@ -156,13 +138,13 @@ class LibroController extends AsistenteController
 		return $grid -> getRenderVentanaModal();
 	}
 	
-	public function editarLibroAction($isbn){		
+	public function editarAutorAction($id){		
 		$peticion = $this -> getRequest();
 		if($peticion -> isXmlHttpRequest()){
 			return $this -> irInicio();
 		}
 		
-		$idEntidad = $isbn;		
+		$idEntidad = $id;		
 		$em = $this -> getEm();
 		
 		$entidad = $em -> getRepository($this -> getNombreEntidad()) -> find($idEntidad);
@@ -174,7 +156,7 @@ class LibroController extends AsistenteController
 		$opciones = $this -> getOpcionesVista();
 			
 		$opciones['path_cierre'] = $this -> generateUrl($this -> getInicio());
-		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_editar, array('isbn' => $idEntidad));
+		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_editar, array('id' => $idEntidad));
 		$opciones['titulo_ventana'] = $this -> titulo_editar;
 		$opciones['titulo_submit'] = $this -> titulo_submit_editar;
 						
@@ -198,13 +180,13 @@ class LibroController extends AsistenteController
 		return $grid -> getRenderVentanaModal();
 	}
 	
-	public function borrarLibroAction($isbn){
+	public function borrarAutorAction($id){
 		$peticion = $this -> getRequest();
 		if($peticion -> isXmlHttpRequest()){
 			return $this -> irInicio();
 		}
 		
-		$idEntidad = $isbn;		
+		$idEntidad = $id;		
 		$em = $this -> getEm();
 			
 		$entidad = $em -> getRepository($this -> getNombreEntidad()) -> find($idEntidad);
@@ -216,7 +198,7 @@ class LibroController extends AsistenteController
 		$opciones = $this -> getOpcionesVista();
 		
 		$opciones['path_cierre'] = $this -> generateUrl($this -> getInicio());
-		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_borrar, array('isbn' => $idEntidad));
+		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_borrar, array('id' => $idEntidad));
 		$opciones['titulo_ventana'] = $this -> titulo_borrar;
 		$opciones['msg'] = $this -> msg_borrar;
 		$opciones['titulo_form'] = $this -> titulo_form_borrar;
@@ -243,3 +225,4 @@ class LibroController extends AsistenteController
 		return $grid -> getRenderVentanaModal();
 	}
 }
+?>

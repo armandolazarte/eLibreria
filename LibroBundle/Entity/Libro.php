@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  * @ORM\Entity
  * @DoctrineAssert\UniqueEntity(fields="titulo", message="El titulo ya esta en uso")
  * 
+ * 
  */
 class Libro
 {
@@ -45,7 +46,6 @@ class Libro
      * 			@ORM\JoinColumn(name="autor_id", referencedColumnName="id", nullable = false, onDelete="CASCADE")
      * 		}
      * )
-     * 
      */
     private $autores;
 

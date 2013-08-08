@@ -60,14 +60,15 @@ a
 	text-indent: -9999px;
 }
 
-@media screen and max-width 1180px {
+@media screen and (max-width: 1180px) {
+		
 	#barra:hover
 	{
 		padding-top:30px;
 	}
 	
-	#barra
+	header#barra
 	{
-		background:url(titulobarra2.png) center bottom no-repeat #FFF;
+		background:url('../../images/titulobarra2.png') center bottom no-repeat #FFF;
 	}
 }

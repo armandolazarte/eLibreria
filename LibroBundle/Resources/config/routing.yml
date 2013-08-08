@@ -1,3 +1,22 @@
+rgarcia_entrelineas_autor_crear:
+    pattern:  /autor/crear
+    defaults: { _controller: "RGMELibreriaLibroBundle:Autor:crearAutor" }
+    
+rgarcia_entrelineas_autor_editar:
+    pattern:  /autor/editar/{id}
+    defaults: { _controller: "RGMELibreriaLibroBundle:Autor:editarAutor" }
+    
+rgarcia_entrelineas_autor_borrar:
+    pattern:  /autor/borrar/{id}
+    defaults: { _controller: "RGMELibreriaLibroBundle:Autor:borrarAutor" }
+    
+rgarcia_entrelineas_autor_homepage:
+    pattern:  /autor
+    defaults: { _controller: "RGMELibreriaLibroBundle:Autor:verAutor" }
+    
+    
+    
+
 rgarcia_entrelineas_libro_crear:
     pattern:  /gestor/crear/{crearMasivo}
     defaults: 

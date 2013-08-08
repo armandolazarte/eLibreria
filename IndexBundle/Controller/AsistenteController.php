@@ -15,6 +15,8 @@ class AsistenteController extends Controller {
 	private $path = null;
 	private $seccion = null;
 	private $subseccion = null;
+	
+	private $nombreEntidad = null;
 
 	private $usuario = null;
 	private $empleado = null;
@@ -37,6 +39,8 @@ class AsistenteController extends Controller {
 		$this->seccion = $seccion;
 		$this->subseccion = $subseccion;
 	}
+	
+	
 
 	private function getOpcionGlobal($nombre) {
 		if (!array_key_exists($nombre, AsistenteController::$opcionesGlobales)) {
@@ -61,20 +65,30 @@ class AsistenteController extends Controller {
 	protected function getPath() {
 		return $this->path;
 	}
+	
+	protected function setEntidad($e){
+		$this->nombreEntidad = $this -> nombreLogico . ':' . $e;
+		
+		return $this;
+	}
+	
+	protected function getNombreEntidad(){
+		return $this->nombreEntidad;
+	}
 
-	public function getSeccion() {
+	protected function getSeccion() {
 		return $this->seccion;
 	}
 
-	public function setSeccion($seccion) {
+	protected function setSeccion($seccion) {
 		$this->seccion = $seccion;
 	}
 
-	public function getSubseccion() {
+	protected function getSubseccion() {
 		return $this->subseccion;
 	}
 
-	public function setSubseccion($subseccion) {
+	protected function setSubseccion($subseccion) {
 		$this->subseccion = $subseccion;
 	}
 
