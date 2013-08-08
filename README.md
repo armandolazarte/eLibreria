@@ -32,7 +32,6 @@ eLibreria
 
 ```php
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-        	new MakerLabs\PagerBundle\MakerLabsPagerBundle(),
             new RGM\eLibreria\IndexBundle\RGMELibreriaIndexBundle(),
             new RGM\eLibreria\UsuarioBundle\RGMELibreriaUsuarioBundle(),
             new RGM\eLibreria\EmpresaBundle\RGMELibreriaEmpresaBundle(),
@@ -44,6 +43,8 @@ eLibreria
 
 12.- Lanzar php app/console doctrine:schema:create
 
-13.- Lanzar php app/console assets:install --symlink
+13.- Lanzar php app/console doctrine:fixtures:load
 
-14.- Lanzar php app/console cache:clear
+14.- Lanzar php app/console assets:install --symlink
+
+15.- Lanzar php app/console cache:clear
