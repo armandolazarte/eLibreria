@@ -22,11 +22,13 @@ class LibroCrearMasivoType extends AbstractType{
 				-> add('isbn', 'text', array(
 						'required' => true,
 						'disabled' => false,
+						'attr' => array('class' => 'libro_isbn'),
 				))
 				
 				-> add('titulo', 'text', array(
 						'required' => true,
 						'disabled' => false,
+						'attr' => array('class' => 'libro_titulo'),
 				))
 				
 						-> add('editorial', 'entity', array(

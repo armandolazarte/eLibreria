@@ -4,45 +4,45 @@ namespace RGM\eLibreria\LibroBundle\Controller;
 use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
 
-class AutorController extends AsistenteController{
+class EstiloController extends AsistenteController{
 	
 	private $seccion = 'Gestor de Libros';
-	private $subseccion = 'Autores';
+	private $subseccion = 'Estilos';
 	
-	private $entidad = 'Autor';
-	private $entidad_clase = 'RGM\eLibreria\LibroBundle\Entity\Autor';
-	private $alias = 'a';
+	private $entidad = 'Estilo';
+	private $entidad_clase = 'RGM\eLibreria\LibroBundle\Entity\Estilo';
+	private $alias = 'e';
 	
 	private $nombreFormularios = array(
-			'editor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Autor\AutorType',
-			'visor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Autor\AutorVisorType'
+			'editor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Estilo\EstiloType',
+			'visor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Estilo\EstiloVisorType'
 	);
 	
-	private $ruta_form_crear = 'rgarcia_entrelineas_autor_crear';
-	private $titulo_crear = 'Crear Autor';
+	private $ruta_form_crear = 'rgarcia_entrelineas_estilo_crear';
+	private $titulo_crear = 'Crear Estilo';
 	private $titulo_submit_crear = 'Crear';
-	private $flash_crear = 'Autor creado con exito';
+	private $flash_crear = 'Estilo creado con exito';
 	
 	private $grid_boton_editar = 'Editar';
-	private $grid_ruta_editar = 'rgarcia_entrelineas_autor_editar';
-	private $titulo_editar = 'Editar Autor';
+	private $grid_ruta_editar = 'rgarcia_entrelineas_estilo_editar';
+	private $titulo_editar = 'Editar Estilo';
 	private $titulo_submit_editar = 'Actualizar';
-	private $flash_editar = 'Autor editado con exito';
+	private $flash_editar = 'Estilo editado con exito';
 	
 	private $grid_boton_borrar = 'Borrar';
-	private $grid_ruta_borrar = 'rgarcia_entrelineas_autor_borrar';
+	private $grid_ruta_borrar = 'rgarcia_entrelineas_estilo_borrar';
 	private $titulo_borrar = 'Confirmar Borrado';
 	private $msg_borrar = 'Se va a proceder a borrar los siguientes datos.';
-	private $titulo_form_borrar = 'Borrar Autor';
+	private $titulo_form_borrar = 'Borrar Estilo';
 	private $msg_confirmar_borrar = '¿Realmente desea borrar el autor?';
 	private $titulo_submit_borrar = '¡Si, Estoy seguro!';
-	private $flash_borrar = 'Autor borrado con exito';
+	private $flash_borrar = 'Estilo borrado con exito';
 	
 	public function __construct(){
 		parent::__construct(
-				'rgarcia_entrelineas_autor_homepage', 
+				'rgarcia_entrelineas_estilo_homepage', 
 				'RGMELibreriaLibroBundle', 
-				'Libro:', 
+				'Estilo:', 
 				$this->seccion,
 				$this->subseccion);
 		
@@ -84,7 +84,7 @@ class AutorController extends AsistenteController{
 		return $res;
 	}
 	
-	public function verAutorAction(){
+	public function verEstiloAction(){
 		$peticion = $this -> getRequest();
 		$render = null;
 	
@@ -102,7 +102,7 @@ class AutorController extends AsistenteController{
 		return $render;
 	}
 	
-	public function crearAutorAction(){
+	public function crearEstiloAction(){
 		$peticion = $this -> getRequest();
 		if($peticion -> isXmlHttpRequest()){
 			return $this -> irInicio();
@@ -138,7 +138,7 @@ class AutorController extends AsistenteController{
 		return $grid -> getRenderVentanaModal();
 	}
 	
-	public function editarAutorAction($id){		
+	public function editarEstiloAction($id){		
 		$peticion = $this -> getRequest();
 		if($peticion -> isXmlHttpRequest()){
 			return $this -> irInicio();
@@ -180,7 +180,7 @@ class AutorController extends AsistenteController{
 		return $grid -> getRenderVentanaModal();
 	}
 	
-	public function borrarAutorAction($id){
+	public function borrarEstiloAction($id){
 		$peticion = $this -> getRequest();
 		if($peticion -> isXmlHttpRequest()){
 			return $this -> irInicio();

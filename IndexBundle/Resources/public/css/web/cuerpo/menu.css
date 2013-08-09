@@ -3,7 +3,7 @@
 	position:fixed;
 	width:300px;
 	padding-right:30px;
-	top:167px;
+	top:164px;
 	left:-315px;
 	background:url(../../../images/menubarra.png) no-repeat center right #FFF;
 	background-size:25px;
@@ -13,6 +13,10 @@
 	border-top-right-radius:10px;
 	border-bottom-right-radius:10px;
 	z-index: 999;
+}
+
+.menu nav{
+	margin: 20px 0px 20px 20px;
 }
 
 .menu:active,.menu:hover
@@ -29,7 +33,9 @@
 {
 	border-bottom:1px solid #AAA;
 	margin-bottom:5px;
-	font:normal normal bold 12px Verdana;
+	font-weight: bold;
+	font-size: 12px;
+	color: #000;
 }
 
 .menu .menu_enlace

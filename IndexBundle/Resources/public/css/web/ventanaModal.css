@@ -1,3 +1,5 @@
+@import url('forms/forms.css');
+
 #ventanaModal
 {
 	position:fixed;
@@ -50,4 +52,5 @@
 	font:normal normal bold 15px Verdana;
 	border-bottom:1px solid #777;
 	padding:10px 0 10px 10px;
+	color: #000;
 }

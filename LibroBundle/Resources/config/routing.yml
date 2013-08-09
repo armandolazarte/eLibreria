@@ -1,3 +1,59 @@
+rgarcia_entrelineas_localizacion_crear:
+    pattern:  /localizacion/crear
+    defaults: { _controller: "RGMELibreriaLibroBundle:Localizacion:crearLocalizacion" }
+    
+rgarcia_entrelineas_localizacion_editar:
+    pattern:  /localizacion/editar/{id}
+    defaults: { _controller: "RGMELibreriaLibroBundle:Localizacion:editarLocalizacion" }
+    
+rgarcia_entrelineas_localizacion_borrar:
+    pattern:  /localizacion/borrar/{id}
+    defaults: { _controller: "RGMELibreriaLibroBundle:Localizacion:borrarLocalizacion" }
+    
+rgarcia_entrelineas_localizacion_homepage:
+    pattern:  /localizacion
+    defaults: { _controller: "RGMELibreriaLibroBundle:Localizacion:verLocalizacion" }
+    
+    
+    
+    
+rgarcia_entrelineas_estilo_crear:
+    pattern:  /estilo/crear
+    defaults: { _controller: "RGMELibreriaLibroBundle:Estilo:crearEstilo" }
+    
+rgarcia_entrelineas_estilo_editar:
+    pattern:  /estilo/editar/{id}
+    defaults: { _controller: "RGMELibreriaLibroBundle:Estilo:editarEstilo" }
+    
+rgarcia_entrelineas_estilo_borrar:
+    pattern:  /estilo/borrar/{id}
+    defaults: { _controller: "RGMELibreriaLibroBundle:Estilo:borrarEstilo" }
+    
+rgarcia_entrelineas_estilo_homepage:
+    pattern:  /estilo
+    defaults: { _controller: "RGMELibreriaLibroBundle:Estilo:verEstilo" }
+
+
+
+
+rgarcia_entrelineas_editorial_crear:
+    pattern:  /editorial/crear
+    defaults: { _controller: "RGMELibreriaLibroBundle:Editorial:crearEditorial" }
+    
+rgarcia_entrelineas_editorial_editar:
+    pattern:  /editorial/editar/{id}
+    defaults: { _controller: "RGMELibreriaLibroBundle:Editorial:editarEditorial" }
+    
+rgarcia_entrelineas_editorial_borrar:
+    pattern:  /editorial/borrar/{id}
+    defaults: { _controller: "RGMELibreriaLibroBundle:Editorial:borrarEditorial" }
+    
+rgarcia_entrelineas_editorial_homepage:
+    pattern:  /editorial
+    defaults: { _controller: "RGMELibreriaLibroBundle:Editorial:verEditorial" }
+
+
+
 rgarcia_entrelineas_autor_crear:
     pattern:  /autor/crear
     defaults: { _controller: "RGMELibreriaLibroBundle:Autor:crearAutor" }

@@ -4,7 +4,17 @@
 			<div onclick="cerrarInfo(flash)">{{ flashMessage }}</div>
 		</div>
 		<script>
-			waitCierre();
+			$flash = $('#flash');
+
+			jQuery(document).ready(function(){
+				$flash.css('top', '100%');
+				setTimeout(desaparece, 4500);
+				});
+
+
+			function desaparece(){
+				$flash.css('opacity', '0');
+				}
 		</script>
 	{% endfor %}
 {% endif %}

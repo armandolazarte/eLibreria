@@ -23,6 +23,7 @@
 {
 	display:block;
 	height:18px;
+	font-size: 11px;
 }
 
 #barra a:hover
@@ -41,13 +42,14 @@
 {
 	position:relative;
 	float:right;
-	margin:25px 0 0;
+	margin:30px 0 0;
 	padding:0;
 }
 
 #barra h1
 {
 	font-size:15px;
+	font-weight: bold;
 	margin:7px 0 0;
 	padding:0;
 }
@@ -55,6 +57,9 @@
 aside.conectado
 {
 	border-bottom:1px solid #525252;
+	
+	font-size: 11px;
+	margin-top: 6px;
 }
 
 #barra_nav ul

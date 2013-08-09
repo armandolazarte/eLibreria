@@ -1,10 +1,17 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	
+	font: normal 10px Verdana, Tahoma, sans-serif; 
+}
+
 body
 {
 	position:relative;
 	background:#DDD;
 	width:100%;
-	margin:0;
-	padding:0;
+	 
+	color: #999999;
 }
 
 #contenedor
@@ -60,7 +67,22 @@ a
 	text-indent: -9999px;
 }
 
-@media screen and (max-width: 1180px) {
+#flash{
+	position: absolute;
+	border: 1px solid;
+	
+	background: #FFF;
+	padding: 10px;
+	border-radius: 3px;
+	
+	top: -40px;
+	right: 15px;
+	transition: top 4s, opacity 1s;
+	
+	z-index: 99999999;
+}
+
+@media screen and (max-width: 1050px) {
 		
 	#barra:hover
 	{
