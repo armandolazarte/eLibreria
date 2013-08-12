@@ -4,6 +4,8 @@ namespace RGM\eLibreria\LibroBundle\Controller;
 
 use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
+use APY\DataGridBundle\Grid\Column\BlankColumn;
+//use APY\DataGridBundle\Grid\Action\RowAction;
 
 class LibroController extends AsistenteController
 {
@@ -54,7 +56,65 @@ class LibroController extends AsistenteController
 	
 	private function getGrid(){
 		$grid = new GridController($this->getNombreEntidad(), $this);
-			
+
+		// create a column
+		$autores = new BlankColumn(array('id' => 'autores', 'title' => 'Autores', 'size' => '100', 'safe' => false));
+		$estilos = new BlankColumn(array('id' => 'estilos', 'title' => 'Estilos', 'size' => '50', 'safe' => false));
+		$stock = new BlankColumn(array('id' => 'stock', 'title' => 'Stock/Totales', 'size' => '50'));
+		$pv = new BlankColumn(array('id' => 'p_venta', 'title' => 'Porcentaje de Venta', 'size' => '50'));
+		
+		$grid->getGrid()->addColumn($autores);
+		$grid->getGrid()->addColumn($estilos);
+		$grid->getGrid()->addColumn($stock);
+		$grid->getGrid()->addColumn($pv);
+		
+		$grid->getGrid()->setActionsColumnSize(50);
+		
+		$controlador = $this;
+		
+		$grid->getSource()->manipulateRow(
+				function ($row) use ($controlador)
+				{
+					$entidad = $row->getEntity();
+
+					$autores = $entidad->getAutores();
+					$estilos = $entidad->getEstilos();
+					$ejemplares = $entidad->getEjemplares();
+					
+					$salida_estilos = '-';
+					$salida_autores = '-';
+					$salida_ejemplares = $entidad->getStock() . '/' . $entidad->getTotalEjemplares();
+					$salida_porcentaje = '-';
+					
+					if(!$autores->isEmpty()){
+						$salida_autores = '<ul class="autores">';
+						
+						foreach($autores as $a){
+							$salida_autores .= '<li>' . $a . '</li>';
+						}
+						
+						$salida_autores .= '</ul>';
+					}
+					
+					if(!$estilos->isEmpty()){
+						$salida_estilos = '<ul class="autores">';
+						
+						foreach($estilos as $e){
+							$salida_estilos .= '<li>' . $e . '</li>';
+						}
+						
+						$salida_estilos .= '</ul>';
+					}
+
+					$row->setField('autores', $salida_autores);
+					$row->setField('estilos', $salida_estilos);
+					$row->setField('stock', $salida_ejemplares);
+					$row->setField('p_venta', ($entidad->getPorcentajeVenta() * 100) . '%' );
+						
+					return $row;
+				}
+		);
+		
 		return $grid;
 	}
 	

@@ -50,14 +50,14 @@ class Ejemplar {
 	/**
 	 * @var float
 	 *
-	 * @ORM\Column(name="precioSinIVA", type="float")
+	 * @ORM\Column(name="precioSinIVA", type="float", nullable=false)
 	 */
 	private $precioSinIVA;
 
 	/**
 	 * @var float
 	 *
-	 * @ORM\Column(name="IVA", type="float")
+	 * @ORM\Column(name="IVA", type="float", nullable=false)
 	 */
 	private $IVA;
 
@@ -110,6 +110,10 @@ class Ejemplar {
 	 */
 	public function getVendido() {
 		return $this->vendido;
+	}
+	
+	public function isVendido(){
+		return $this->vendido == 1;
 	}
 
 	public function getVendidoString() {

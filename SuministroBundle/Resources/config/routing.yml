@@ -1,0 +1,3 @@
+rgme_libreria_suministro_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: RGMELibreriaSuministroBundle:Default:index }

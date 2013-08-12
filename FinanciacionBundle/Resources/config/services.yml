@@ -1,0 +1,7 @@
+parameters:
+#    rgme_libreria_financiacion.example.class: RGM\eLibreria\FinanciacionBundle\Example
+
+services:
+#    rgme_libreria_financiacion.example:
+#        class: %rgme_libreria_financiacion.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

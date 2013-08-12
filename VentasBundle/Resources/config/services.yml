@@ -1,0 +1,7 @@
+parameters:
+#    rgme_libreria_ventas.example.class: RGM\eLibreria\VentasBundle\Example
+
+services:
+#    rgme_libreria_ventas.example:
+#        class: %rgme_libreria_ventas.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

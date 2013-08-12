@@ -14,13 +14,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  * @ORM\Entity
  * @DoctrineAssert\UniqueEntity(fields="titulo", message="El titulo ya esta en uso")
  * 
- * 
  */
 class Libro
 {
     /**
      * @ORM\Id
      * @ORM\Column(name="isbn", type="string", length=255)
+     * 
+     * @GRID\Column(title="ISBN", size="50")
      */
     private $isbn;
 
@@ -30,7 +31,7 @@ class Libro
      * @ORM\ManyToOne(targetEntity="RGM\eLibreria\LibroBundle\Entity\Editorial", inversedBy="libros")
      * @ORM\JoinColumn(nullable = true, onDelete = "SET NULL")
      * 
-     * @GRID\Column(field="editorial.nombre", title="Editorial")
+     * @GRID\Column(field="editorial.nombre", title="Editorial", size="50")
      */
     private $editorial;
 
@@ -46,6 +47,7 @@ class Libro
      * 			@ORM\JoinColumn(name="autor_id", referencedColumnName="id", nullable = false, onDelete="CASCADE")
      * 		}
      * )
+     * 
      */
     private $autores;
 
@@ -71,6 +73,8 @@ class Libro
      * @var string
      *
      * @ORM\Column(name="titulo", type="string", length=255, nullable = false)
+     * 
+     * @GRID\Column(title="Titulo")
      */
     private $titulo;
 
@@ -78,6 +82,8 @@ class Libro
      * @var integer
      *
      * @ORM\Column(name="numPaginas", type="integer", nullable = true)
+     * 
+     * @GRID\Column(visible=false)
      */
     private $numPaginas;
 
@@ -85,6 +91,8 @@ class Libro
      * @var string
      *
      * @ORM\Column(name="sinopsis", type="text", nullable = true)
+     * 
+     * @GRID\Column(visible=false)
      */
     private $sinopsis;
 
@@ -284,6 +292,34 @@ class Libro
     	    	return (strlen($clave1) > strlen($clave2)) ? True : False;
 			}
     	*/
+    }
+    
+    public function getStock(){
+    	$res = 0;
+    	
+    	foreach($this->ejemplares as $e){
+    		if(!$e->isVendido()){
+    			$res++;
+    		}	
+    	}
+    	
+    	return $res;
+    }
+    
+    public function getTotalEjemplares(){
+    	return count($this->ejemplares);
+    }
+    
+    public function getPorcentajeVenta(){
+    	$res = 0;
+    	
+    	$total = $this->getTotalEjemplares();
+    	
+    	if($total != 0){
+    		$res = (1 - $this->getStock()/$this->getTotalEjemplares());
+    	}
+    	
+    	return $res;
     }
     
     public function __toString(){

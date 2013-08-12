@@ -1,0 +1,3 @@
+rgme_libreria_financiacion_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: RGMELibreriaFinanciacionBundle:Default:index }
