@@ -9,10 +9,11 @@ class IndexController extends AsistenteController
 	public function __construct(){
 		parent::__construct(
 				'rgarcia_entrelineas_index_homepage', 
-				'RGMELibreriaIndexBundle', 
-				'Index:',
+				'RGMELibreriaIndexBundle',
 				'Libreria Entre Lineas',
 				'Inicio');
+		
+		$this->setPath('Index:');
 	}
 	
     public function indexAction()

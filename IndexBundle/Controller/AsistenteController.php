@@ -31,17 +31,15 @@ class AsistenteController extends Controller {
 	
 	private $plantilla_grid = 'RGMELibreriaIndexBundle::grid.html.twig';
 
-	protected function __construct($inicio, $nombreLogico, $path, $seccion = null,
-			$subseccion = null) {
+	protected function __construct($inicio, $nombreLogico, $seccion = null, $subseccion = null, $entidad = null, $formularios = null) {
 		$this->ruta_inicio = $inicio;
 		$this->nombreLogico = $nombreLogico;
-		$this->path = $nombreLogico . ':' . $path;
 		$this->seccion = $seccion;
 		$this->subseccion = $subseccion;
+		$this->setEntidad($entidad);
+		$this->setFormularios($formularios);
 	}
 	
-	
-
 	private function getOpcionGlobal($nombre) {
 		if (!array_key_exists($nombre, AsistenteController::$opcionesGlobales)) {
 			AsistenteController::$opcionesGlobales[$nombre] = $this->getEm()
@@ -66,8 +64,14 @@ class AsistenteController extends Controller {
 		return $this->path;
 	}
 	
+	protected function setPath($path){
+		$this->path = $this->nombreLogico . ':' . $path;
+		
+		return $this;
+	}
+	
 	protected function setEntidad($e){
-		$this->nombreEntidad = $this -> nombreLogico . ':' . $e;
+		$this->nombreEntidad = $this->nombreLogico . ':' . $e;
 		
 		return $this;
 	}
@@ -143,7 +147,7 @@ class AsistenteController extends Controller {
 
 	protected function getDatos($entity, $alias, $page) {
 		$em = $this->getEm();
-		$qb = $em->getRepository($this->getNombreLogico() . ':' . $entity)
+		$qb = $em->getRepository($this->getNombreEntidad())
 				->createQueryBuilder($alias);
 
 		$arrayEntidad = $this->getOrdenEntidades();
@@ -214,8 +218,32 @@ class AsistenteController extends Controller {
 		return $this->opciones_plantilla;
 	}
 	
-	public function getPlantillaGrid(){
-		return $this -> plantilla_grid;
+	protected function getArrayOpcionesGridAjax($gbe, $gre, $gbb, $grb, $mcb = null, $l = array(6,10,15,30,60,100)){
+		$res = array();
+	
+		$res['grid_boton_editar'] = $gbe;
+		$res['grid_ruta_editar'] = $gre;
+		$res['grid_boton_borrar'] = $gbb;
+		$res['grid_ruta_borrar'] = $grb;
+		$res['grid_confirmar_borrar'] = $mcb;
+		$res['grid_limites'] = $l;
+	
+		return $res;
+	}
+	
+	protected function getArrayOpcionesVista($rfc, $opcionesAjax){
+		$res = $opcionesAjax;
+		$opcionesPlantilla = $this->getOpcionesPlantilla();
+	
+		foreach($opcionesPlantilla as $clave => $valor){
+			$res[$clave] = $valor;
+		}
+	
+		$res['titulo_seccion'] = $this->seccion;
+		$res['titulo_subseccion'] = $this->subseccion;
+		$res['ruta_crear'] = $rfc;
+	
+		return $res;
 	}
 }
 ?>

@@ -2,12 +2,6 @@
 
 {% block title %}{{ titulo }}{% endblock %}
 
-{% if not app.request.get('page') %}
-	{% set paginacion = 1 %}
-{% else %}
-	{% set paginacion = app.request.get('page') %}
-{% endif %}
-
 {% block stylesheets %}
 	<link href="{{ asset('bundles/rgmelibreriaindex/css/estilo.css') }}" type="text/css" rel="stylesheet" />
 	

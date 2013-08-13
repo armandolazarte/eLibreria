@@ -1,16 +1,27 @@
-rgarcia_entrelineas_libro:
+rgme_libreria_ventas:
+    resource: "@RGMELibreriaVentasBundle/Resources/config/routing.yml"
+    prefix:   /ventas
+
+rgme_libreria_suministro:
+    resource: "@RGMELibreriaSuministroBundle/Resources/config/routing.yml"
+    prefix:   /suministro
+
+rgme_libreria_financiacion:
+    resource: "@RGMELibreriaFinanciacionBundle/Resources/config/routing.yml"
+    prefix:   /financiacion
+
+rgme_libreria_libro:
     resource: "@RGMELibreriaLibroBundle/Resources/config/routing.yml"
     prefix:   /libro
 
-rgarcia_entrelineas_empresa:
+rgme_libreria_empresa:
     resource: "@RGMELibreriaEmpresaBundle/Resources/config/routing.yml"
     prefix:   /empresa
 
-rgarcia_entrelineas_usuario:
+rgme_libreria_usuario:
     resource: "@RGMELibreriaUsuarioBundle/Resources/config/routing.yml"
     prefix:   /usuario
 
-rgarcia_entrelineas_index:
+rgme_libreria_index:
     resource: "@RGMELibreriaIndexBundle/Resources/config/routing.yml"
     prefix:   /
-

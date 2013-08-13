@@ -3,6 +3,7 @@
 namespace RGM\eLibreria\FinanciacionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Banco
@@ -27,14 +28,26 @@ class Banco
      * @ORM\Column(name="nombre", type="string", length=255)
      */
     private $nombre;
+    
+    /**
+     * @ORM\Column(name="cuenta", type="integer")
+     */
+    private $cuentaBancaria;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="RGM\eLibreria\FinanciacionBundle\Entity\GastoCorriente", mappedBy="banco")
+     */
+    private $gastosDomiciliados;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="avales", type="string", length=255)
+     * @ORM\OneToMany(targetEntity="RGM\eLibreria\FinanciacionBundle\Entity\Aval", mappedBy="banco")
      */
     private $avales;
 
+    public function __construct(){
+    	$this->gastosDomiciliados = new ArrayCollection();
+    	$this->avales = new ArrayCollection();
+    }
 
     /**
      * Get id

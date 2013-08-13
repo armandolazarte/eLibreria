@@ -9,6 +9,9 @@ class EstiloController extends AsistenteController{
 	private $seccion = 'Gestor de Libros';
 	private $subseccion = 'Estilos';
 	
+	private $logicoBundle = 'RGMELibreriaLibroBundle';
+	private $ruta_inicio = 'rgarcia_entrelineas_estilo_homepage';
+	
 	private $entidad = 'Estilo';
 	private $entidad_clase = 'RGM\eLibreria\LibroBundle\Entity\Estilo';
 	private $alias = 'e';
@@ -40,14 +43,12 @@ class EstiloController extends AsistenteController{
 	
 	public function __construct(){
 		parent::__construct(
-				'rgarcia_entrelineas_estilo_homepage', 
-				'RGMELibreriaLibroBundle', 
-				'Estilo:', 
+				$this->ruta_inicio, 
+				$this->logicoBundle,  
 				$this->seccion,
-				$this->subseccion);
-		
-		$this -> setEntidad($this->entidad);		
-		$this -> setFormularios($this -> nombreFormularios);
+				$this->subseccion,
+				$this->entidad,
+				$this->nombreFormularios);
 	}
 	
 	private function getGrid(){
@@ -56,32 +57,19 @@ class EstiloController extends AsistenteController{
 		return $grid;
 	}
 	
-	private function getOpcionesGridAjax(){
-		$res = array();
-	
-		$res['grid_boton_editar'] = $this -> grid_boton_editar;
-		$res['grid_ruta_editar'] = $this -> grid_ruta_editar;
-		$res['grid_boton_borrar'] = $this -> grid_boton_borrar;
-		$res['grid_ruta_borrar'] = $this -> grid_ruta_borrar;
-		$res['grid_confirmar_borrar'] = $this -> msg_confirmar_borrar;
-		$res['grid_limites'] = array(6,10,15,30,60,100);
-	
-		return $res;
+	private function getOpcionesGridAjax(){	
+		return $this->getArrayOpcionesGridAjax(
+				$this -> grid_boton_editar,
+				$this -> grid_ruta_editar,
+				$this -> grid_boton_borrar,
+				$this -> grid_ruta_borrar,
+				$this -> msg_confirmar_borrar);
 	}
 	
-	private function getOpcionesVista(){
-		$res = $this -> getOpcionesGridAjax();
-		$opcionesPlantilla = $this -> getOpcionesPlantilla();
-	
-		foreach($opcionesPlantilla as $clave => $valor){
-			$res[$clave] = $valor;
-		}
-	
-		$res['titulo_seccion'] = $this -> seccion;
-		$res['titulo_subseccion'] = $this -> subseccion;
-		$res['ruta_crear'] = $this -> ruta_form_crear;
-	
-		return $res;
+	private function getOpcionesVista(){	
+		return $this->getArrayOpcionesVista(
+				$this->ruta_form_crear,
+				$this->getOpcionesGridAjax());
 	}
 	
 	public function verEstiloAction(){

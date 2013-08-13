@@ -1,3 +1,53 @@
-rgme_libreria_financiacion_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: RGMELibreriaFinanciacionBundle:Default:index }
+rgm_e_libreria_financiacion_banco_crear:
+    pattern: /banco/nuevo
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Banco:crearBanco' }
+
+rgm_e_libreria_financiacion_banco_editar:
+    pattern: /banco/{id}/editar
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Banco:editarBanco' }
+
+rgm_e_libreria_financiacion_banco_borrar:
+    pattern: /banco/{id}/borrar
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Banco:borrarBanco' }
+
+rgm_e_libreria_financiacion_banco_homepage:
+    pattern: /banco
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Banco:verBancos' }
+    
+    
+
+    
+rgm_e_libreria_financiacion_aval_crear:
+    pattern: /aval/nuevo
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Aval:crearAval' }
+
+rgm_e_libreria_financiacion_aval_editar:
+    pattern: /aval/{id}/editar
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Aval:editarAval' }
+
+rgm_e_libreria_financiacion_aval_borrar:
+    pattern: /aval/{id}/borrar
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Aval:borrarAval' }
+
+rgm_e_libreria_financiacion_aval_homepage:
+    pattern: /aval
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Aval:verAvales' } 
+    
+    
+
+    
+rgm_e_libreria_financiacion_gastos_corrientes_crear:
+    pattern: /gastosCorrientes/nuevo
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:GastosCorrientes:crearGastosCorrientes' }
+
+rgm_e_libreria_financiacion_gastos_corrientes_editar:
+    pattern: /gastosCorrientes/{id}/editar
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:GastosCorrientes:editarGastosCorrientes' }
+
+rgm_e_libreria_financiacion_gastos_corrientes_borrar:
+    pattern: /gastosCorrientes/{id}/borrar
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:GastosCorrientes:borrarGastosCorrientes' }
+
+rgm_e_libreria_financiacion_gastos_corrientes_homepage:
+    pattern: /gastosCorrientes
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:GastosCorrientes:verGastosCorrientes' }    
