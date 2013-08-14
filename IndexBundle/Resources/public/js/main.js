@@ -29,3 +29,31 @@ function quienPulsa(e, element)
 	else
 		return false;
 }
+
+$('.dateJquery').datepicker({ 
+	dateFormat: 'dd-mm-yy',
+	beforeShow: function (textbox, instance) {
+        instance.dpDiv.css({
+                marginLeft: textbox.offsetWidth + 'px'
+        });
+	}
+});
+$('.timeJquery').timepicker({
+	addSliderAccess: true,
+	sliderAccessArgs: { touchonly: false },
+	beforeShow: function (textbox, instance) {
+        instance.dpDiv.css({
+                marginLeft: textbox.offsetWidth + 'px'
+        });
+	}
+});
+$('.dateTimeJquery').datetimepicker({
+	dateFormat: 'dd-mm-yy',
+	addSliderAccess: true,
+	sliderAccessArgs: { touchonly: false },
+	beforeShow: function (textbox, instance) {
+        instance.dpDiv.css({
+                marginLeft: textbox.offsetWidth + 'px'
+        });
+	}
+});

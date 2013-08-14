@@ -14,8 +14,9 @@ class UsuarioController extends AsistenteController
 	public function __construct(){
 		parent::__construct(
 				'rgarcia_entrelineas_usuario_homepage', 
-				'RGMELibreriaUsuarioBundle', 
-				'Usuario:');
+				'RGMELibreriaUsuarioBundle');
+		
+		$this->setPath('Usuario:');
 	}
 	
 	public function editarAction(){

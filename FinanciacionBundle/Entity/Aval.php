@@ -1,8 +1,10 @@
 <?php
 
 namespace RGM\eLibreria\FinanciacionBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 
 /**
  * Aval
@@ -17,12 +19,16 @@ class Aval {
 	 * @ORM\Column(name="id", type="integer")
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * 
+	 * @GRID\Column(visible=false)
 	 */
 	private $id;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="RGM\eLibreria\FinanciacionBundle\Entity\Banco", inversedBy="avales")
 	 * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+	 * 
+	 * @GRID\Column(field="banco.nombre", title="Banco")
 	 */
 	private $banco;
 
@@ -34,26 +40,22 @@ class Aval {
 	/**
 	 * @var float
 	 *
-	 * @ORM\Column(name="cantidad", type="float")
+	 * @ORM\Column(name="cantidad", type="float", nullable=false)
+	 * 
+	 * @GRID\Column(title="Cuantia")
 	 */
 	private $cantidad;
 
 	/**
 	 * @var \DateTime
 	 *
-	 * @ORM\Column(name="fechaAlta", type="date")
+	 * @ORM\Column(name="fechaAlta", type="date", nullable=false)
+	 * 
+	 * @GRID\Column(title="Fecha de Realizacion", format="d/m/Y")
 	 */
 	private $fechaAlta;
 
-	/**
-	 * @var \DateTime
-	 *
-	 * @ORM\Column(name="fechaBaja", type="date")
-	 */
-	private $fechaBaja;
-
-	public function __construct(Banco $b) {
-		$this->banco = $b;
+	public function __construct(){
 		$this->distribuidoras = new ArrayCollection();
 	}
 
@@ -128,26 +130,12 @@ class Aval {
 	public function getFechaAlta() {
 		return $this->fechaAlta;
 	}
-
-	/**
-	 * Set fechaBaja
-	 *
-	 * @param \DateTime $fechaBaja
-	 * @return Aval
-	 */
-	public function setFechaBaja($fechaBaja) {
-		$this->fechaBaja = $fechaBaja;
-
-		return $this;
-	}
-
-	/**
-	 * Get fechaBaja
-	 *
-	 * @return \DateTime 
-	 */
-	public function getFechaBaja() {
-		return $this->fechaBaja;
+	
+	public function getFechaDevolucion(){
+		$res = clone $this->fechaAlta;
+		$res->modify('+1 year');
+		
+		return $res->format('d/m/Y');
 	}
 
 	/**

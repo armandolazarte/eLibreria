@@ -92,6 +92,8 @@ class GridController extends Controller{
 		
 		$this -> grid -> addMassAction(new DeleteMassAction(true));
 		
+		$this->grid->setActionsColumnSize(50);
+		
 		$this -> grid -> setLimits($this -> opcionesGrid['grid_limites']);
 	}
 	

@@ -3,6 +3,7 @@
 namespace RGM\eLibreria\LibroBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 
 /**
  * Autor
@@ -18,6 +19,8 @@ class Autor
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @GRID\Column(visible=false)
      */
     private $id;
 
@@ -25,6 +28,8 @@ class Autor
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255, nullable = false)
+     * 
+     * @GRID\Column(title="Nombre")
      */
     private $nombre;
 
@@ -32,6 +37,8 @@ class Autor
      * @var string
      *
      * @ORM\Column(name="apellidos", type="string", length=255, nullable = false)
+     * 
+     * @GRID\Column(title="Apellidos")
      */
     private $apellidos;
     

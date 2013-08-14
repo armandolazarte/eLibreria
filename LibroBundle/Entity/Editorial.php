@@ -5,6 +5,7 @@ namespace RGM\eLibreria\LibroBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Doctrine\Common\Collections\ArrayCollection;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 
 /**
  * Editorial
@@ -21,6 +22,8 @@ class Editorial
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @GRID\Column(visible=false)
      */
     private $id;
 
@@ -28,6 +31,8 @@ class Editorial
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255, nullable = false)
+     * 
+     * @GRID\Column(title="Nombre")
      */
     private $nombre;
     

@@ -51,6 +51,7 @@
 .grid_body{
 	position: relative;
 	overflow-x: auto;
+	text-align: center;
 }
 
 .grid_body .sort_up{
@@ -144,6 +145,13 @@
 
 .grid_body td{
 	border: 1px solid #D0D7E5;
+}
+
+.grid_body ul{
+	list-style-type: none;
+	
+	margin: 0px;
+	padding: 0px;
 }
 
 .even{

@@ -69,8 +69,6 @@ class LibroController extends AsistenteController
 		$grid->getGrid()->addColumn($stock);
 		$grid->getGrid()->addColumn($pv);
 		
-		$grid->getGrid()->setActionsColumnSize(50);
-		
 		$controlador = $this;
 		
 		$grid->getSource()->manipulateRow(
@@ -221,7 +219,6 @@ class LibroController extends AsistenteController
 		
 		$opciones = $this -> getOpcionesVista();
 			
-		$opciones['path_cierre'] = $this -> generateUrl($this -> getInicio());
 		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_editar, array('isbn' => $idEntidad));
 		$opciones['titulo_ventana'] = $this -> titulo_editar;
 		$opciones['titulo_submit'] = $this -> titulo_submit_editar;
@@ -263,7 +260,6 @@ class LibroController extends AsistenteController
 			
 		$opciones = $this -> getOpcionesVista();
 		
-		$opciones['path_cierre'] = $this -> generateUrl($this -> getInicio());
 		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_borrar, array('isbn' => $idEntidad));
 		$opciones['titulo_ventana'] = $this -> titulo_borrar;
 		$opciones['msg'] = $this -> msg_borrar;

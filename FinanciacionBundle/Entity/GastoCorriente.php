@@ -1,8 +1,9 @@
 <?php
 
 namespace RGM\eLibreria\FinanciacionBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 
 /**
  * GastoCorriente
@@ -10,174 +11,126 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class GastoCorriente
-{
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+class GastoCorriente {
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * 
+	 * @GRID\Column(visible=false)
+	 */
+	private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RGM\eLibreria\FinanciacionBundle\Entity\Banco", inversedBy="gastosDomiciliados")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     */
-    private $banco;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="denominacion", type="string", length=255)
+	 * 
+	 * @GRID\Column(title="Denominacion")
+	 */
+	private $denominacion;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="denominacion", type="string", length=255)
-     */
-    private $denominacion;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="empresa", type="string", length=255)
+	 * 
+	 * @GRID\Column(title="Empresa contratada")
+	 */
+	private $empresa;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="costeMes", type="string", length=255)
-     */
-    private $costeMes;
+	/**
+	 * @ORM\ManyToOne(targetEntity="RGM\eLibreria\FinanciacionBundle\Entity\Banco", inversedBy="gastosDomiciliados")
+	 * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+	 * 
+	 * @GRID\Column(field="banco.nombre", title="Banco domiciliado")
+	 */
+	private $banco;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="periodicidad", type="date")
-     */
-    private $periodicidad;
+	/**
+	 * 
+	 */
+	private $pagos;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fechaAlta", type="date")
-     */
-    private $fechaAlta;
+	public function __construct() {
+		$this->pagos = new ArrayCollection();
+	}
 
+	/**
+	 * Get id
+	 *
+	 * @return integer 
+	 */
+	public function getId() {
+		return $this->id;
+	}
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Set banco
+	 *
+	 * @param string $banco
+	 * @return GastoCorriente
+	 */
+	public function setBanco($banco) {
+		$this->banco = $banco;
 
-    /**
-     * Set banco
-     *
-     * @param string $banco
-     * @return GastoCorriente
-     */
-    public function setBanco($banco)
-    {
-        $this->banco = $banco;
-    
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get banco
-     *
-     * @return string 
-     */
-    public function getBanco()
-    {
-        return $this->banco;
-    }
+	/**
+	 * Get banco
+	 *
+	 * @return string 
+	 */
+	public function getBanco() {
+		return $this->banco;
+	}
 
-    /**
-     * Set denominacion
-     *
-     * @param string $denominacion
-     * @return GastoCorriente
-     */
-    public function setDenominacion($denominacion)
-    {
-        $this->denominacion = $denominacion;
-    
-        return $this;
-    }
+	/**
+	 * Set denominacion
+	 *
+	 * @param string $denominacion
+	 * @return GastoCorriente
+	 */
+	public function setDenominacion($denominacion) {
+		$this->denominacion = $denominacion;
 
-    /**
-     * Get denominacion
-     *
-     * @return string 
-     */
-    public function getDenominacion()
-    {
-        return $this->denominacion;
-    }
+		return $this;
+	}
 
-    /**
-     * Set costeMes
-     *
-     * @param string $costeMes
-     * @return GastoCorriente
-     */
-    public function setCosteMes($costeMes)
-    {
-        $this->costeMes = $costeMes;
-    
-        return $this;
-    }
+	/**
+	 * Get denominacion
+	 *
+	 * @return string 
+	 */
+	public function getDenominacion() {
+		return $this->denominacion;
+	}
 
-    /**
-     * Get costeMes
-     *
-     * @return string 
-     */
-    public function getCosteMes()
-    {
-        return $this->costeMes;
-    }
+	public function getPagos() {
+		return $this->pagos;
+	}
 
-    /**
-     * Set periodicidad
-     *
-     * @param \DateTime $periodicidad
-     * @return GastoCorriente
-     */
-    public function setPeriodicidad($periodicidad)
-    {
-        $this->periodicidad = $periodicidad;
-    
-        return $this;
-    }
+	public function setPagos($pagos) {
+		$this->pagos = $pagos;
 
-    /**
-     * Get periodicidad
-     *
-     * @return \DateTime 
-     */
-    public function getPeriodicidad()
-    {
-        return $this->periodicidad;
-    }
+		return $this;
+	}
 
-    /**
-     * Set fechaAlta
-     *
-     * @param \DateTime $fechaAlta
-     * @return GastoCorriente
-     */
-    public function setFechaAlta($fechaAlta)
-    {
-        $this->fechaAlta = $fechaAlta;
-    
-        return $this;
-    }
+	public function getEmpresa() {
+		return $this->empresa;
+	}
 
-    /**
-     * Get fechaAlta
-     *
-     * @return \DateTime 
-     */
-    public function getFechaAlta()
-    {
-        return $this->fechaAlta;
-    }
+	public function setEmpresa($empresa) {
+		$this->empresa = $empresa;
+
+		return $this;
+	}
+	
+	public function __toString(){
+		return $this->denominacion;
+	}
+
 }

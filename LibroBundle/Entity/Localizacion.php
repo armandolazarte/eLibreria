@@ -4,6 +4,7 @@ namespace RGM\eLibreria\LibroBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 
 /**
  * Localizacion
@@ -20,6 +21,8 @@ class Localizacion
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @GRID\Column(visible=false)
      */
     private $id;
 
@@ -27,6 +30,8 @@ class Localizacion
      * @var string
      *
      * @ORM\Column(name="denominacion", type="string", length=255, nullable = false)
+     * 
+     * @GRID\Column(title="Denominacion")
      */
     private $denominacion;
 

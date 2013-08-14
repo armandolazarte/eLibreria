@@ -31,7 +31,7 @@ class AsistenteController extends Controller {
 	
 	private $plantilla_grid = 'RGMELibreriaIndexBundle::grid.html.twig';
 
-	protected function __construct($inicio, $nombreLogico, $seccion = null, $subseccion = null, $entidad = null, $formularios = null) {
+	protected function __construct($inicio, $nombreLogico, $seccion = null, $subseccion = null, $entidad = null, $formularios = array()) {
 		$this->ruta_inicio = $inicio;
 		$this->nombreLogico = $nombreLogico;
 		$this->seccion = $seccion;
