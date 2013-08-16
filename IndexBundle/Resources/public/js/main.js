@@ -57,3 +57,21 @@ $('.dateTimeJquery').datetimepicker({
         });
 	}
 });
+
+if($('.estable').val() == 0){
+	$('.mensualidad').parent().hide();
+}
+
+$('.estable').on('change', function(){
+	$elemento=$(this);
+	$mensualidad=$('.mensualidad');
+	
+	if($elemento.val() == 1){
+		$mensualidad.parent().show();
+	}
+	else{
+		$mensualidad.parent().hide();
+	}
+	
+	$mensualidad.val('');
+});

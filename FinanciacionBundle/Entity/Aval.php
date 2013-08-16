@@ -168,5 +168,9 @@ class Aval {
 
 		return $this;
 	}
+	
+	public function __toString(){
+		return $this->getCantidad() . ' ['.$this->banco.']';
+	}
 
 }

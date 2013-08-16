@@ -50,7 +50,7 @@ class Distribuidora
     private $aval;
 
     /**
-     * 
+     * @ORM\OneToMany(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ContratoSuministro", mappedBy="distribuidora")
      */
     private $contratos;
     
@@ -181,5 +181,9 @@ class Distribuidora
     public function getContratos()
     {
         return $this->contratos;
+    }
+    
+    public function __toString(){
+    	return $this->getNombre();
     }
 }

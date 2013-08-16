@@ -1,3 +1,34 @@
-rgme_libreria_suministro_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: RGMELibreriaSuministroBundle:Default:index }
+rgm_e_libreria_suministro_contratosuministro_crear:
+    pattern:  /contratosuministro/nuevo
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:ContratoSuministro:crearContratoSuministro' }
+    
+rgm_e_libreria_suministro_contratosuministro_editar:
+    pattern:  /contratosuministro/{id}/editar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:ContratoSuministro:editarContratoSuministro' }
+    
+rgm_e_libreria_suministro_contratosuministro_borrar:
+    pattern:  /contratosuministro/{id}/borrar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:ContratoSuministro:borrarContratoSuministro' }
+    
+rgm_e_libreria_suministro_contratosuministro_homepage:
+    pattern:  /contratosuministro
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:ContratoSuministro:verContratosSuministro' }
+    
+    
+    
+
+rgm_e_libreria_suministro_distribuidoras_crear:
+    pattern:  /distribuidoras/nueva
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Distribuidora:crearDistribuidora' }
+    
+rgm_e_libreria_suministro_distribuidoras_editar:
+    pattern:  /distribuidoras/{id}/editar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Distribuidora:editarDistribuidora' }
+    
+rgm_e_libreria_suministro_distribuidoras_borrar:
+    pattern:  /distribuidoras/{id}/borrar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Distribuidora:borrarDistribuidora' }
+    
+rgm_e_libreria_suministro_distribuidoras_homepage:
+    pattern:  /distribuidoras
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Distribuidora:verDistribuidoras' }

@@ -12,6 +12,8 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
  * @ORM\Entity
  */
 class GastoCorriente {
+	private $pagoEstableString = array('No', 'Si');
+	
 	/**
 	 * @var integer
 	 *
@@ -48,6 +50,20 @@ class GastoCorriente {
 	 * @GRID\Column(field="banco.nombre", title="Banco domiciliado")
 	 */
 	private $banco;
+	
+	/**
+	 * @ORM\Column(name="estable", type="integer")
+	 * 
+	 * @GRID\Column(visible=false)
+	 */
+	private $pagoEstable = 0;
+	
+	/**
+	 * @ORM\Column(name="mensualidad", type="float", nullable=true)
+	 * 
+	 * @GRID\Column(visible=false)
+	 */
+	private $mensualidad;
 
 	/**
 	 * 
@@ -126,6 +142,36 @@ class GastoCorriente {
 	public function setEmpresa($empresa) {
 		$this->empresa = $empresa;
 
+		return $this;
+	}
+	
+	public function setEstable($e){
+		$this->pagoEstable = $e;
+		
+		return $this;
+	}
+	
+	public function getEstableString(){
+		return $this->pagoEstableString[$this->pagoEstable];
+	}
+	
+	public function isEstable(){
+		return $this->pagoEstable == 1;
+	}
+	
+	public function getMensualidad(){
+		$res = '-';
+		
+		if($this->isEstable()){
+			$res = $this->mensualidad;
+		}
+		
+		return $res;
+	}
+	
+	public function setMensualidad($m){
+		$this->mensualidad = $m;
+		
 		return $this;
 	}
 	
