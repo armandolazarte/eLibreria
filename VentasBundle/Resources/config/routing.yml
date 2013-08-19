@@ -1,3 +1,3 @@
-rgme_libreria_ventas_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: RGMELibreriaVentasBundle:Default:index }
+rgm_e_libreria_ventas_ticket_ver:
+    pattern: /ticket/ver
+    defaults: { _controller: 'RGMELibreriaVentasBundle:Ticket:verTicket' }

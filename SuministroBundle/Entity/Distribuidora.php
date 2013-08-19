@@ -4,6 +4,7 @@ namespace RGM\eLibreria\SuministroBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 
 /**
  * Distribuidora
@@ -19,6 +20,8 @@ class Distribuidora
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @GRID\Column(visible=false)
      */
     private $id;
 
@@ -26,6 +29,8 @@ class Distribuidora
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255)
+     * 
+     * @GRID\Column(title="Distribuidora")
      */
     private $nombre;
 
@@ -33,6 +38,8 @@ class Distribuidora
      * @var string
      *
      * @ORM\Column(name="telefonoContacto", type="string", length=255)
+     * 
+     * @GRID\Column(title="Telefono de contacto")
      */
     private $telefonoContacto;
 
@@ -40,6 +47,8 @@ class Distribuidora
      * @var string
      *
      * @ORM\Column(name="direccion", type="text")
+     * 
+     * @GRID\Column(title="Direccion")
      */
     private $direccion;
 

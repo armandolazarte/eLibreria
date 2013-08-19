@@ -1,0 +1,70 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Albaran{% endblock %}
+
+{% block stylesheets %}
+	<link href="{{ asset('bundles/rgmelibreriaindex/css/albaran.css') }}" type="text/css" rel="stylesheet" />	
+{% endblock %}
+
+{% block body %}
+<div id="albaran_contenedor">
+	<header id="albaran_header">
+		Distribuidora: CAL
+		Nº Albaran: 036595
+		Fecha Realizacion: 20/07/2013
+		Fecha Factura: 10/2013
+	</header>
+	<section id="albaran_cuerpo">
+		<table>
+			<tr>
+				<th>ISBN/REF</th>
+				<th>Titulo</th>
+				<th>UDS.</th>
+				<th>P.V.c/i</th>
+				<th>P.V.s/i</th>
+				<th>%Descuento</th>
+				<th>Importe</th>
+				<th>%IVA</th>
+			</tr>
+			<tr>
+				<td>9780194316927</td>
+				<td>OXF-Dicc.Oxford Study + CD</td>
+				<td>1</td>
+				<td>28.55</td>
+				<td>27.45</td>
+				<td>25.00</td>
+				<td>20.59</td>
+				<td>4.00</td>
+			</tr>
+		</table>
+	</section>
+	<footer id="albaran_footer">
+		<section class="total_base">
+			Total Base: 32.47€
+			Total IVA: 1.30€
+			Total REC: 0.16€ 
+		</section>
+		<section class="total">
+			TOTAL €: 33.93€
+		</section>
+		<section class="impuestos">
+			<table>
+				<tr>
+					<th>I.V.A.</th>
+					<th>REC.</th>
+					<th>Base Imponible</th>
+					<th>IMP I.V.A.</th>
+					<th>IMP REC.</th>
+				</tr>
+				<tr>
+					<td>4.00%</td>
+					<td>0.50%</td>
+					<td>32.47€</td>
+					<td>1.30€</td>
+					<td>0.16€</td>
+				</tr>
+			</table>
+		</section>
+	</footer>
+</div>
+{% endblock %}

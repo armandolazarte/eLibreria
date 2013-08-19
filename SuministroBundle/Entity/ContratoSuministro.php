@@ -3,6 +3,7 @@
 namespace RGM\eLibreria\SuministroBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 
 /**
  * ContratoSuministro
@@ -19,12 +20,16 @@ class ContratoSuministro {
 	 * @ORM\Column(name="id", type="integer")
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * 
+	 * @GRID\Column(visible=false)
 	 */
 	private $id;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\Distribuidora", inversedBy="contratos")
 	 * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+	 * 
+	 * @GRID\Column(title="Distribuidora", field="distribuidora.nombre")
 	 */
 	private $distribuidora;
 
@@ -36,21 +41,27 @@ class ContratoSuministro {
 	/**
 	 * @var float
 	 *
-	 * @ORM\Column(name="precioTotal", type="float")
+	 * @ORM\Column(name="precioTotal", type="float", nullable=false)
+	 * 
+	 * @GRID\Column(title="Precio total valorado")
 	 */
 	private $precioTotal;
 
 	/**
 	 * @var \DateTime
 	 *
-	 * @ORM\Column(name="fechaAlta", type="date")
+	 * @ORM\Column(name="fechaAlta", type="date", nullable=false)
+	 * 
+	 * @GRID\Column(title="Fecha de Alta", format="d/m/Y")
 	 */
 	private $fechaAlta;
 
 	/**
 	 * @var \DateTime
 	 *
-	 * @ORM\Column(name="fechaBaja", type="date")
+	 * @ORM\Column(name="fechaBaja", type="date", nullable=true)
+	 * 
+	 * @GRID\Column(title="Fecha de Baja", format="d/m/Y")
 	 */
 	private $fechaBaja;
 
@@ -58,13 +69,17 @@ class ContratoSuministro {
 	 * @var integer
 	 *
 	 * @ORM\Column(name="tipoPago", type="integer")
+	 * 
+	 * @GRID\Column(title="Tipo de Pago", values={"0"="Deposito","1"="En Efectivo"})
 	 */
 	private $tipoPago = 0;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="observaciones", type="text")
+	 * @ORM\Column(name="observaciones", type="text", nullable=true)
+	 * 
+	 * @GRID\Column(visible=false)
 	 */
 	private $observaciones;
 

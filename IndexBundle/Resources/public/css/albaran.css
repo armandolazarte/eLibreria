@@ -1,0 +1,39 @@
+*{
+	margin: 0px;
+	padding: 0px;
+	
+	font: normal normal normal 11px Verdana, Tahoma, serif-sans;
+}
+
+#albaran_contenedor{
+	/*A4: 190mm*/
+	width: 718px;
+	
+	border: 1px solid #000;
+	
+	padding: 10px;
+}
+
+#albaran_header{
+	
+}
+
+#albaran_cuerpo{
+	
+}
+
+#albaran_footer{
+	
+}
+
+.impuestos{
+	
+}
+
+.total_base{
+	
+}
+
+.total{
+	
+}
