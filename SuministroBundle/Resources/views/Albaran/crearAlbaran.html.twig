@@ -3,9 +3,132 @@
 {% block contenido %}
 <div id="marco">
 	<div id="cuerpo_marco">
-		<div class="form_s">
-			
+		{% if salida %}<header>{{ salida }}</header>{% endif %}
+		<div class="form_s" autocomplete="off">
+			<form method="POST" action="{{ ruta_form }}">
+				{{ form_widget(form) }}
+				<input type="submit" value="Enviar">
+			</form>
 		</div>
 	</div>
 </div>
+
+<script>
+
+function recargarAjax(){
+	$('body').click(function(e){
+		$seleccion = $(e.target);
+			
+	       if( $seleccion.is('li')){
+		       $busquedaAjax = $('.busquedaAjax');
+		       $padre = $busquedaAjax.parent();
+		       $padre.children('input').val($seleccion.html());
+		   }
+		   
+	       $('.busquedaAjax').remove();
+	 });
+
+	$('.busquedaAjax').find('li').click(function(){
+		alert($(this).val());
+	});
+	
+    $(".refAjax").keydown(function(){
+		$padre = $(this).parent();
+        
+        var data = {
+            referencia: $(this).val()
+        };
+
+        $.ajax({
+            type: 'post',
+            url: '{{ path('rgm_e_libreria_suministrobundle_albaran_buscar_referencia_ajax') }}',
+            data: data,
+            success: function(data) {
+     	        $('.busquedaAjax').remove();
+     	       
+                if($(data).find('li').length > 0){
+                	$padre.find('.busquedaAjax').remove();
+					$padre.append(data);
+                }
+            }
+        });
+    });
+};
+
+
+	
+// Get the ul that holds the collection of tags
+	var collectionHolder = $('div#rgm_e_libreria_suministrobundle_crearalbarantype_lineas');
+	
+	// setup an "add a tag" link
+	var $addTagLink = $('<a title="Añadir Nueva entrada" class="add_new" href="#" class="add_tag_link">Añadir un elemento</a>');
+	var $newLinkLi = $('<div class="add_div"></div>').append($addTagLink);
+	
+	function crearBoton(){
+	    // add the "add a tag" anchor and li to the tags ul
+	    collectionHolder.prepend($newLinkLi);
+	    
+	    collectionHolder.children().not(":first-child").each(function() {
+	        addTagFormDeleteLink($(this));
+	    });
+
+	    // count the current form inputs we have (e.g. 2), use that as the new
+	    // index when inserting a new item (e.g. 2)
+	    collectionHolder.data('index', collectionHolder.find(':input').length);
+
+	    $addTagLink.on('click', function(e) {
+	        // prevent the link from creating a "#" on the URL
+	        e.preventDefault();
+
+	        // add a new tag form (see next code block)
+	        addTagForm(collectionHolder, $newLinkLi);
+	    });
+	}	
+
+	jQuery(document).ready(crearBoton);
+	
+	function addTagForm(collectionHolder, $newLinkLi) {
+	    // Get the data-prototype explained earlier
+	    var prototype = collectionHolder.data('prototype');
+	    var msg_confirmar = $('p#msg_confirmar');
+	    msg_confirmar.remove();
+
+	    // get the new index
+	    var index = collectionHolder.data('index');
+
+	    // Replace '$$name$$' in the prototype's HTML to
+	    // instead be a number based on how many items we have
+	    var newForm = prototype.replace(/__name__/g, index);
+	    newForm = newForm.replace(/label__/g, '');
+
+	    // increase the index with one for the next item
+	    collectionHolder.data('index', index + 1);
+
+	    // Display the form in the page in an li, before the "Add a tag" link li
+	    var $newFormLi = $(newForm);
+
+	    addTagFormDeleteLink($newFormLi);
+	    
+	    collectionHolder.append($newFormLi);
+	    
+	    $('.dateJquery').datepicker({ dateFormat: 'dd-mm-yy' });
+	    recargarAjax();
+	}
+
+	
+	function addTagFormDeleteLink($tagFormLi) {
+	    var $removeFormA = $('<a title="Borrar Elemento" class="delete_element" href="#">Borrar este elemento</a>');
+		    
+	    $tagFormLi.prepend($removeFormA);
+
+	    $removeFormA.on('click', function(e) {
+	        // prevent the link from creating a "#" on the URL
+	        e.preventDefault();
+
+	        // remove the li for the tag form
+	        $tagFormLi.remove();
+	        $removeFormA.remove();
+	    });
+	}
+</script>
 {% endblock %}

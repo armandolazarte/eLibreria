@@ -1,3 +1,7 @@
+rgm_e_libreria_suministrobundle_albaran_buscar_referencia_ajax:
+    pattern: /albaran/buscarAjax
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:buscarAjax' }
+
 rgm_e_libreria_suministro_albaran_ver:
     pattern: /albaran/{id}/ver
     defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:verAlbaran' }
@@ -37,6 +41,24 @@ rgm_e_libreria_suministro_contratosuministro_homepage:
     pattern:  /contratosuministro
     defaults: { _controller: 'RGMELibreriaSuministroBundle:ContratoSuministro:verContratosSuministro' }
     
+    
+    
+
+rgm_e_libreria_suministro_recargo_crear:
+    pattern:  /recargo/nueva
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Recargo:crearRecargo' }
+    
+rgm_e_libreria_suministro_recargo_editar:
+    pattern:  /recargo/{id}/editar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Recargo:editarRecargo' }
+    
+rgm_e_libreria_suministro_recargo_borrar:
+    pattern:  /recargo/{id}/borrar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Recargo:borrarRecargo' }
+    
+rgm_e_libreria_suministro_recargo_homepage:
+    pattern:  /recargo
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Recargo:verRecargos' }    
     
     
 

@@ -4,40 +4,41 @@ namespace RGM\eLibreria\SuministroBundle\Controller;
 use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
 
-class AlbaranController extends AsistenteController{
+class RecargoController extends AsistenteController{
 	private $seccion = 'Gestor de Suministros';
-	private $subseccion = 'Albaranes';
+	private $subseccion = 'Recargos de Equivalencia';
 	
 	private $logicoBundle = 'RGMELibreriaSuministroBundle';
-	private $ruta_inicio = 'rgm_e_libreria_suministro_albaran_homepage';
+	private $ruta_inicio = 'rgm_e_libreria_suministro_recargo_homepage';
 	
-	private $entidad = 'Albaran';
-	private $entidad_clase = 'RGM\eLibreria\SuministroBundle\Entity\Albaran';
-	private $alias = 'a';
+	private $entidad = 'Recargo';
+	private $entidad_clase = 'RGM\eLibreria\SuministroBundle\Entity\Recargo';
+	private $alias = 'r';
 	
 	private $nombreFormularios = array(
-			'creadorAlbaran' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\CrearAlbaranType',
-			'editor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\AlbaranType',
-			'visor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\AlbaranVisorType'
+			'editor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Recargo\RecargoType',
+			'visor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Recargo\RecargoVisorType'
 	);
-
-	private $plantilla_ver_albaran = 'RGMELibreriaSuministroBundle:Albaran:verAlbaran.html.twig';
-	private $plantilla_crear_albaran = 'RGMELibreriaSuministroBundle:Albaran:crearAlbaran.html.twig';
+	
+	private $ruta_form_crear = 'rgm_e_libreria_suministro_recargo_crear';
+	private $titulo_crear = 'Crear recargo';
+	private $titulo_submit_crear = 'Crear';
+	private $flash_crear = 'Recargo creado con exito';
 	
 	private $grid_boton_editar = 'Editar';
-	private $grid_ruta_editar = 'rgm_e_libreria_suministro_albaran_editar';
-	private $titulo_editar = 'Editar albaran';
+	private $grid_ruta_editar = 'rgm_e_libreria_suministro_recargo_editar';
+	private $titulo_editar = 'Editar recargo';
 	private $titulo_submit_editar = 'Actualizar';
-	private $flash_editar = 'Albaran editado con exito';
+	private $flash_editar = 'Recargo editado con exito';
 	
 	private $grid_boton_borrar = 'Borrar';
-	private $grid_ruta_borrar = 'rgm_e_libreria_suministro_albaran_borrar';
+	private $grid_ruta_borrar = 'rgm_e_libreria_suministro_recargo_borrar';
 	private $titulo_borrar = 'Confirmar Borrado';
 	private $msg_borrar = 'Se va a proceder a borrar los siguientes datos.';
-	private $titulo_form_borrar = 'Borrar albaran';
-	private $msg_confirmar_borrar = '¿Realmente desea borrar el albaran?';
+	private $titulo_form_borrar = 'Borrar recargo';
+	private $msg_confirmar_borrar = '¿Realmente desea borrar el recargo?';
 	private $titulo_submit_borrar = '¡Si, Estoy seguro!';
-	private $flash_borrar = 'Albaran borrado con exito';
+	private $flash_borrar = 'Recargo borrado con exito';
 	
 	public function __construct(){
 		parent::__construct(
@@ -51,7 +52,14 @@ class AlbaranController extends AsistenteController{
 	
 	private function getGrid(){
 		$grid = new GridController($this->getNombreEntidad(), $this);
+				
+		$grid->getSource()->manipulateRow(function($row){			
+			$row->setField('iva', ($row->getField('iva') * 100) . '%');
+			$row->setField('recargo', ($row->getField('recargo') * 100) . '%');
 			
+			return $row;
+		});
+		
 		return $grid;
 	}
 	
@@ -66,11 +74,11 @@ class AlbaranController extends AsistenteController{
 	
 	private function getOpcionesVista(){
 		return $this->getArrayOpcionesVista(
-				null,
+				$this->ruta_form_crear,
 				$this->getOpcionesGridAjax());
 	}
 	
-	public function verAlbaranesAction(){
+	public function verRecargosAction(){
 		$peticion = $this->getRequest();
 	
 		$grid = $this->getGrid();
@@ -88,43 +96,43 @@ class AlbaranController extends AsistenteController{
 		return $render;
 	}
 	
-	public function crearAlbaranAction(){
+	public function crearRecargoAction(){
 		$peticion = $this->getRequest();
-		$opciones = $this->getOpcionesPlantilla();
-		
-		$opciones['ruta_form'] = $this->generateUrl('rgm_e_libreria_suministro_albaran_crear');
-		$opciones['salida'] = null;
-						
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicio();
+		}
+	
+		$em = $this->getEm();
+	
+		$opciones = $this->getOpcionesVista();
+	
+		$opciones['titulo_ventana'] = $this->titulo_crear;
+		$opciones['titulo_submit'] = $this->titulo_submit_crear;
+		$opciones['path_form'] = $this->generateUrl($this->ruta_form_crear);
+	
 		$entidad = $this->getNuevaInstancia($this->entidad_clase);
-		
-		$opciones['form'] = $this->createForm($this->getFormulario('creadorAlbaran'), $entidad);
-		
+	
+		$opciones['form'] = $this->createForm($this->getFormulario('editor'), $entidad);
+	
 		if($peticion->getMethod() == "POST"){
 			$opciones['form']->bind($peticion);
-			
-			$opciones['salida'] = "Estas son las lineas generadas: ";
-			
-			$lineas = $opciones['form'] -> get('lineas') -> getData();
-			
-			foreach($lineas as $l){
-				$opciones['salida'] .= $l->getRef() . ' ';
+				
+			if($opciones['form']->isValid()){
+				$em->persist($entidad);
+				$em->flush();
+	
+				$this->setFlash($this->flash_crear);
+				return $this->irInicio();
 			}
 		}
-		
-		$opciones['form'] = $opciones['form']->createView();
-		
-		return $this->render($this->plantilla_crear_albaran, $opciones);
+	
+		$grid = $this->getGrid();
+		$grid->setOpciones($opciones);
+	
+		return $grid->getRenderVentanaModal();
 	}
 	
-	public function buscarAjaxAction(){
-		$ref = $this->getRequest()->request->get('referencia');
-		
-		//SELECT * FROM Tabla WHERE referencia LIKE 'F-*'
-		
-		return $this->render('RGMELibreriaSuministroBundle:Albaran:busquedaAjax.html.twig', array('ref' => $ref));
-	}
-	
-	public function editarAlbaranAction($id){
+	public function editarRecargoAction($id){
 		$peticion = $this->getRequest();
 		if($peticion->isXmlHttpRequest()){
 			return $this->irInicio();
@@ -163,7 +171,7 @@ class AlbaranController extends AsistenteController{
 		return $grid -> getRenderVentanaModal();
 	}
 	
-	public function borrarAlbaranAction($id){
+	public function borrarRecargoAction($id){
 		$peticion = $this->getRequest();
 		if($peticion->isXmlHttpRequest()){
 			return $this->irInicio();
@@ -203,10 +211,6 @@ class AlbaranController extends AsistenteController{
 		$grid->setOpciones($opciones);
 	
 		return $grid->getRenderVentanaModal();
-	}
-	
-	public function verAlbaranAction(){
-		return $this->render($this->plantilla_albaran, array());
 	}
 }
 ?>

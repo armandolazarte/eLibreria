@@ -1,8 +1,10 @@
 <?php
 
 namespace RGM\eLibreria\LibroBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Config\Definition\FloatNode;
+use RGM\eLibreria\SuministroBundle\Controller\ArticuloVendible;
 
 /**
  * Ejemplar
@@ -10,7 +12,7 @@ use Symfony\Component\Config\Definition\FloatNode;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Ejemplar {
+class Ejemplar implements ArticuloVendible {
 	/**
 	 * @var integer
 	 *
@@ -43,6 +45,9 @@ class Ejemplar {
 	 */
 	private $localizacion;
 
+	/**
+	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran", mappedBy="ejemplar")
+	 */
 	private $itemAlbaran;
 
 	private $vigente = 1;
@@ -50,9 +55,9 @@ class Ejemplar {
 	/**
 	 * @var float
 	 *
-	 * @ORM\Column(name="precioSinIVA", type="float", nullable=false)
+	 * @ORM\Column(name="precio", type="float", nullable=false)
 	 */
-	private $precioSinIVA;
+	private $precio;
 
 	/**
 	 * @var float
@@ -60,6 +65,15 @@ class Ejemplar {
 	 * @ORM\Column(name="IVA", type="float", nullable=false)
 	 */
 	private $IVA;
+	
+	/**
+	 * @ORM\Column(name="descuento", type="float", nullable=false)
+	 */
+	private $descuento;
+	
+	public function __construct(Libro $l){
+		$this->libro = $l;
+	}
 
 	/**
 	 * Get id
@@ -111,8 +125,8 @@ class Ejemplar {
 	public function getVendido() {
 		return $this->vendido;
 	}
-	
-	public function isVendido(){
+
+	public function isVendido() {
 		return $this->vendido == 1;
 	}
 
@@ -147,12 +161,12 @@ class Ejemplar {
 		return $this->localizacion;
 	}
 
-	public function getPrecioSinIVA() {
-		return $this->precioSinIVA;
+	public function getPrecio() {
+		return $this->precio;
 	}
 
-	public function setPrecioSinIVA($precioSinIVA) {
-		$this->precioSinIVA = $precioSinIVA;
+	public function setPrecio($precio) {
+		$this->precio = $precio;
 		return $this;
 	}
 
@@ -165,8 +179,8 @@ class Ejemplar {
 		return $this;
 	}
 
-	public function getPrecio() {
-		return $this->precioSinIVA * (1 + $this->IVA);
+	public function getPrecioTotal() {
+		return $this->getPrecio() * (1 + $this->getIVA());
 	}
 
 	public function getRecargoIVA() {
@@ -188,12 +202,13 @@ class Ejemplar {
 	}
 
 	public function getImporte() {
+		$precio = $this->getPrecio();
+		
+		$iva = $precio * $this->getIVA();
+		$rec = $precio * $this->getRecargoIVA();
+		$des = $precio * $this->getDescuento();
 
-		$iva = $this->precioSinIVA * $this->IVA;
-		$rec = $this->precioSinIVA * $this->getRecargoIVA();
-		$des = $this->precioSinIVA * $this->itemAlbaran->getDescuento();
-
-		$res = $this->precioSinIVA + $iva + $rec - $des;
+		$res = $precio + $iva + $rec - $des;
 
 		return $res;
 	}
@@ -204,22 +219,35 @@ class Ejemplar {
 
 	public function setItemAlbaran($itemAlbaran) {
 		$this->itemAlbaran = $itemAlbaran;
-		
+
 		return $this;
 	}
-	
-	public function getAlbaran(){		
-		return $this -> itemAlbaran -> getAlbaran();
+
+	public function getAlbaran() {
+		return $this->itemAlbaran->getAlbaran();
 	}
-	
+
 	public function getVigente() {
 		return $this->vigente;
 	}
 
 	public function setVigente($vigente) {
 		$this->vigente = $vigente;
+
+		return $this;
+	}
+	
+	public function getReferencia() {
+		return $this->getLibro()->getIsbn();
+	}
+	
+	public function getDescuento() {
+		return $this->descuento;
+	}
+	
+	public function setDescuento($d){
+		$this->descuento = $d;
 		
 		return $this;
 	}
-
 }

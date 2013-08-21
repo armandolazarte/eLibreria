@@ -2,7 +2,7 @@
 	margin: 0px;
 	padding: 0px;
 	
-	font: normal 10px Verdana, Tahoma, sans-serif; 
+	font: normal 11px Verdana, Tahoma, sans-serif; 
 }
 
 body
@@ -12,6 +12,38 @@ body
 	width:100%;
 	 
 	color: #999999;
+}
+
+input[type="submit"] {
+	width: auto;
+	padding: 9px 15px;
+	background: #617798;
+	border: 0;
+	font-size: 14px;
+	color: #FFFFFF;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	cursor: pointer;
+}
+
+input{
+	padding: 9px;
+	border: 1px solid #E5E5E5;
+	outline: 0;
+	font: normal 11px/100% Verdana, Tahoma, sans-serif;
+	
+	background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));
+	background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px);
+	box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+	
+}
+
+input:hover, textarea:hover,
+input:focus, textarea:focus { 
+	border-color: #C9C9C9; 
+	-webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
 }
 
 #contenedor

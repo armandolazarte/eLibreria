@@ -1,0 +1,25 @@
+.busquedaAjax{
+	position: fixed;
+	
+	border-bottom: 1px solid #000;
+	border-left: 1px solid #000;
+	border-right: 1px solid #000;
+	
+	width: 136px;
+	
+	padding: 5px;
+	
+	background: #FFF;
+}
+
+.busquedaAjax ul{
+	list-style-type: none;	
+}
+
+.busquedaAjax li{
+	margin: 5px;	
+}
+
+.busquedaAjax li:hover{
+	background: #EEE;
+}
