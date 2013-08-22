@@ -325,4 +325,8 @@ class Libro
     public function __toString(){
     	return $this -> getTitulo();
     }
+    
+    public function __toJSON(){
+    	return array('isbn' => $this->isbn);
+    }
 }

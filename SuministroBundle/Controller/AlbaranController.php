@@ -3,6 +3,11 @@ namespace RGM\eLibreria\SuministroBundle\Controller;
 
 use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class AlbaranController extends AsistenteController{
 	private $seccion = 'Gestor de Suministros';
@@ -94,6 +99,7 @@ class AlbaranController extends AsistenteController{
 		
 		$opciones['ruta_form'] = $this->generateUrl('rgm_e_libreria_suministro_albaran_crear');
 		$opciones['salida'] = null;
+		$opciones['path_ajax_autocompletar'] = $this->generateUrl('rgm_e_libreria_suministrobundle_albaran_buscar_referencia_ajax');
 						
 		$entidad = $this->getNuevaInstancia($this->entidad_clase);
 		
@@ -117,11 +123,42 @@ class AlbaranController extends AsistenteController{
 	}
 	
 	public function buscarAjaxAction(){
-		$ref = $this->getRequest()->request->get('referencia');
+		$isbn = $this->getRequest()->query->get('isbn');
 		
 		//SELECT * FROM Tabla WHERE referencia LIKE 'F-*'
 		
-		return $this->render('RGMELibreriaSuministroBundle:Albaran:busquedaAjax.html.twig', array('ref' => $ref));
+		$isbn .= '%';
+		
+		$em = $this->getEm();
+		$qb = $em->createQueryBuilder();
+		$qb->select('l')
+		->from('RGM\\eLibreria\LibroBundle\Entity\Libro', 'l')
+		->add('where', $qb->expr()->like('l.isbn', '?1'))
+		->setParameter(1, $isbn);
+		
+		$libros = $qb->getQuery()->getResult();
+		
+		$salida = array();
+		
+		foreach($libros as $l){
+			$array_libro = array();
+
+			$array_libro['isbn'] = $l->getISBN();
+			$array_libro['titulo'] = $l->getTitulo();
+			$array_libro['editorial'] = null;
+			
+			if($l->getEditorial()){
+				$array_libro['editorial'] = $l->getEditorial()->getNombre();
+			}
+			
+			$salida[] = $array_libro;
+		}
+		
+		$array_salida['sugerencias'] = $salida;
+		
+		$res = new Response(json_encode($array_salida));
+		
+		return $res;
 	}
 	
 	public function editarAlbaranAction($id){

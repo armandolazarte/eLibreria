@@ -4,7 +4,7 @@
 <div id="marco">
 	<div id="cuerpo_marco">
 		{% if salida %}<header>{{ salida }}</header>{% endif %}
-		<div class="form_s" autocomplete="off">
+		<div class="form_s">
 			<form method="POST" action="{{ ruta_form }}">
 				{{ form_widget(form) }}
 				<input type="submit" value="Enviar">
@@ -16,43 +16,32 @@
 <script>
 
 function recargarAjax(){
-	$('body').click(function(e){
-		$seleccion = $(e.target);
-			
-	       if( $seleccion.is('li')){
-		       $busquedaAjax = $('.busquedaAjax');
-		       $padre = $busquedaAjax.parent();
-		       $padre.children('input').val($seleccion.html());
-		   }
-		   
-	       $('.busquedaAjax').remove();
-	 });
+	$('.refAjax').each(function (){
+		$elemento=$(this);
 
-	$('.busquedaAjax').find('li').click(function(){
-		alert($(this).val());
+		a = $elemento.autocomplete({
+		      source: function( request, response ) {
+		          $.ajax({
+		            url: "{{ path('rgm_e_libreria_suministrobundle_albaran_buscar_referencia_ajax') }}",
+		            data: {
+		              isbn: request.term,
+		              maxRows: 12
+		            },
+		            success: function( data ) {
+
+			          $data = jQuery.parseJSON(data);
+		            	
+		              response( $.map( $data.sugerencias, function(item){
+			          		return {
+				          		label: item.isbn + " - " + item.titulo + (item.editorial ? " [ " + item.editorial + " ]" : ""),
+				          		value: item.isbn 
+				          	};    
+			          }));
+		            }
+		          });
+		        }
+		      });
 	});
-	
-    $(".refAjax").keydown(function(){
-		$padre = $(this).parent();
-        
-        var data = {
-            referencia: $(this).val()
-        };
-
-        $.ajax({
-            type: 'post',
-            url: '{{ path('rgm_e_libreria_suministrobundle_albaran_buscar_referencia_ajax') }}',
-            data: data,
-            success: function(data) {
-     	        $('.busquedaAjax').remove();
-     	       
-                if($(data).find('li').length > 0){
-                	$padre.find('.busquedaAjax').remove();
-					$padre.append(data);
-                }
-            }
-        });
-    });
 };
 
 
