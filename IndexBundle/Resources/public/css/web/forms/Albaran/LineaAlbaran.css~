@@ -1,0 +1,31 @@
+#rgm_e_libreria_suministrobundle_crearalbarantype_lineas .refAjax{
+	width: 85px;
+}
+
+#rgm_e_libreria_suministrobundle_crearalbarantype_lineas .titulo{
+	width: 250px;
+}
+
+#rgm_e_libreria_suministrobundle_crearalbarantype_lineas .editorial{
+	width: 150px;
+}
+
+#rgm_e_libreria_suministrobundle_crearalbarantype_lineas .numeroUnidades{
+	width: 25px;
+}
+
+#rgm_e_libreria_suministrobundle_crearalbarantype_lineas .precio{
+	width: 50px;
+}
+
+#rgm_e_libreria_suministrobundle_crearalbarantype_lineas .iva{
+	width: 40px;
+}
+
+#rgm_e_libreria_suministrobundle_crearalbarantype_lineas .descuento{
+	width: 40px;
+}
+
+#rgm_e_libreria_suministrobundle_crearalbarantype_lineas input{
+	margin: 0px 5px;
+}

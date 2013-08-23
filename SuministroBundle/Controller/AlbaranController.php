@@ -12,6 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 class AlbaranController extends AsistenteController{
 	private $seccion = 'Gestor de Suministros';
 	private $subseccion = 'Albaranes';
+
+	private $repositorio_libro = 'RGMELibreriaLibroBundle:Libro';
+	private $entidad_libro = 'RGM\eLibreria\LibroBundle\Entity\Libro';
+	
+	private $entidad_ejemplar = 'RGM\eLibreria\LibroBundle\Entity\Ejemplar';
+	
+	private $repositorio_editorial = 'RGMELibreriaLibroBundle:Editorial';
+	private $entidad_editorial = 'RGM\eLibreria\LibroBundle\Entity\Editorial';
 	
 	private $logicoBundle = 'RGMELibreriaSuministroBundle';
 	private $ruta_inicio = 'rgm_e_libreria_suministro_albaran_homepage';
@@ -96,6 +104,7 @@ class AlbaranController extends AsistenteController{
 	public function crearAlbaranAction(){
 		$peticion = $this->getRequest();
 		$opciones = $this->getOpcionesPlantilla();
+		$em = $this->getEm();
 		
 		$opciones['ruta_form'] = $this->generateUrl('rgm_e_libreria_suministro_albaran_crear');
 		$opciones['salida'] = null;
@@ -108,12 +117,47 @@ class AlbaranController extends AsistenteController{
 		if($peticion->getMethod() == "POST"){
 			$opciones['form']->bind($peticion);
 			
-			$opciones['salida'] = "Estas son las lineas generadas: ";
-			
-			$lineas = $opciones['form'] -> get('lineas') -> getData();
-			
-			foreach($lineas as $l){
-				$opciones['salida'] .= $l->getRef() . ' ';
+			if($opciones['form']->isValid()){
+				$lineas = $opciones['form'] -> get('lineas') -> getData();
+				
+				//Persisto el albaran
+				$em->persist($entidad);
+				$em->flush();
+				
+				//Recorro todas las lineas del albaran
+				foreach($lineas as $l){
+					//Busco si existe el libro
+					$libro = $em->getRepository($this->repositorio_libro)->find($l->getRef());
+					
+					if(!$libro){
+						//Si el libro no existe: Crearlo y persistirlo
+						
+						$libro = $this->getNuevaInstancia($this->entidad_libro);
+						
+						$libro->setISBN($l->getRef());
+						$libro->setTitulo($l->getTitulo());
+						
+						//Mirar si editorial existe, sino, crearla y vincularla al libro
+						$editorial = $em->getRepository($this->repositorio_editorial)->findOneBy(array(
+								'nombre' => $l->getEditorial()
+						));
+						
+						if(!$editorial){
+							$editorial = $this->getNuevaInstancia($this->entidad_editorial);
+							
+							$editorial->setNombre($l->getEditorial());
+							
+							$em->persist($editorial);
+							$em->flush();
+						}
+						
+						$libro->setEditorial($editorial);
+						
+						$em->persist($libro);
+						$em->flush();
+					}
+				}
+				
 			}
 		}
 		
@@ -124,9 +168,7 @@ class AlbaranController extends AsistenteController{
 	
 	public function buscarAjaxAction(){
 		$isbn = $this->getRequest()->query->get('isbn');
-		
-		//SELECT * FROM Tabla WHERE referencia LIKE 'F-*'
-		
+				
 		$isbn .= '%';
 		
 		$em = $this->getEm();

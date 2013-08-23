@@ -235,5 +235,8 @@ class ContratoSuministro {
 		
 		return $this;
 	}
-
+	
+	public function __toString(){
+		return $this->distribuidora->getNombre() . ' [' . $this->getPrecioTotal() . '] [' . $this->getTipoPagoString() . ']';
+	}
 }

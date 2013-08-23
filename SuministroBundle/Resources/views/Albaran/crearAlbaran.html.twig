@@ -14,33 +14,77 @@
 </div>
 
 <script>
+$('form').bind("keydown keyup", function(e) {
+	  var code = e.keyCode || e.which; 
+	  if (code  == 13) {               
+	    e.preventDefault();
+	    return false;
+	  }
+	});
 
+$('input').each( function(){
+	$elemento=$(this);
+	
+	$elemento.focus(function(e){
+		$e=$(e.target);
+		if($.inArray($e.val(), ['ISBN', 'Titulo', 'Editorial', 'Unid.', 'Precio', 'IVA', 'Desc']) > -1){
+			$e.val("");
+		}
+	});
+});
+	
 function recargarAjax(){
+	$('input').each( function(){
+		$elemento=$(this);
+		
+		$elemento.focus(function(e){
+			$e=$(e.target);
+			if($.inArray($e.val(), ['ISBN', 'Titulo', 'Editorial', 'Unid.', 'Precio', 'IVA', 'Desc']) > -1){
+				$e.val("");
+			}
+		});
+	});
+	
 	$('.refAjax').each(function (){
 		$elemento=$(this);
 
-		a = $elemento.autocomplete({
-		      source: function( request, response ) {
-		          $.ajax({
-		            url: "{{ path('rgm_e_libreria_suministrobundle_albaran_buscar_referencia_ajax') }}",
-		            data: {
-		              isbn: request.term,
-		              maxRows: 12
-		            },
-		            success: function( data ) {
+		if(! $elemento.is('.ui-autocomplete-input')){
+			a = $elemento.autocomplete({
+			      source: function( request, response ) {
+				      $.ajax({
+			            url: "{{ path('rgm_e_libreria_suministrobundle_albaran_buscar_referencia_ajax') }}",
+			            data: {
+			              isbn: request.term,
+			              maxRows: 12
+			            },
+			            success: function( data ) {
+	
+				          $data = jQuery.parseJSON(data);
+			            	
+			              response( $.map( $data.sugerencias, function(item){
+				          		return {
+					          		label: item.isbn + " - " + item.titulo + (item.editorial ? " [ " + item.editorial + " ]" : ""),
+					          		value: item.isbn,
+					          		isbn: item.isbn,
+					          		titulo: item.titulo,
+					          		editorial: item.editorial
+					          	};    
+				          }));
+			            }
+			          });
+			        },
+	
+		        select: function( event, ui ) {
 
-			          $data = jQuery.parseJSON(data);
-		            	
-		              response( $.map( $data.sugerencias, function(item){
-			          		return {
-				          		label: item.isbn + " - " + item.titulo + (item.editorial ? " [ " + item.editorial + " ]" : ""),
-				          		value: item.isbn 
-				          	};    
-			          }));
-		            }
-		          });
-		        }
-		      });
+					id=event.target.id;
+			        
+			        $abuelo = $('#'+id).parent().parent();
+			        
+		            $abuelo.find('.titulo').val(ui.item.titulo);
+		            $abuelo.find('.editorial').val(ui.item.editorial);
+		          }
+			 });
+		}
 	});
 };
 

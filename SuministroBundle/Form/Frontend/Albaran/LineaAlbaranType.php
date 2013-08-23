@@ -10,14 +10,40 @@ class LineaAlbaranType extends AbstractType{
 	public function buildForm(FormBuilderInterface $builder, array $options){
 		
 		$builder -> add('ref', 'text', array(
-							'attr' => array('class' => 'refAjax')
+							'required' => true,
+							'disabled' => false,
+							'attr' => array('class' => 'refAjax', 'value' => 'ISBN')
 					))
-					-> add('editorial', 'text')
-					-> add('titulo', 'text')
-					-> add('numeroUnidades', 'text')
-					-> add('precio', 'text')
-					-> add('iva', 'text')
-					-> add('descuento', 'text');
+					-> add('titulo', 'text', array(
+							'required' => true,
+							'disabled' => false,
+							'attr' => array('class' => 'titulo', 'value' => 'Titulo')
+					))
+					-> add('editorial', 'text', array(
+							'required' => true,
+							'disabled' => false,
+							'attr' => array('class' => 'editorial', 'value' => 'Editorial')
+					))
+					-> add('numeroUnidades', 'text', array(
+							'required' => true,
+							'disabled' => false,
+							'attr' => array('class' => 'numeroUnidades', 'value' => 'Unid.')
+					))
+					-> add('precio', 'text', array(
+							'required' => true,
+							'disabled' => false,
+							'attr' => array('class' => 'precio', 'value' => 'Precio')
+					))
+					-> add('iva', 'text', array(
+							'required' => true,
+							'disabled' => false,
+							'attr' => array('class' => 'iva', 'value' => 'IVA')
+					))
+					-> add('descuento', 'text', array(
+							'required' => true,
+							'disabled' => false,
+							'attr' => array('class' => 'descuento', 'value' => 'Desc')
+					));
 	}
 
 	public function getName(){

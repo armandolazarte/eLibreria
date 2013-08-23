@@ -16,7 +16,6 @@ class Albaran {
 	 *
 	 * @ORM\Column(name="id", type="integer")
 	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	private $id;
 
@@ -46,6 +45,7 @@ class Albaran {
 	private $fechaVencimiento;
 
 	public function __construct() {
+		$this->fechaRealizacion = new \DateTime();
 		$this->items = new ArrayCollection();
 	}
 
@@ -56,6 +56,12 @@ class Albaran {
 	 */
 	public function getId() {
 		return $this->id;
+	}
+	
+	public function setId($i){
+		$this->id = $i;
+		
+		return $this;
 	}
 
 	/**

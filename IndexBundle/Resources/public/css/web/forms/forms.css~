@@ -32,7 +32,7 @@
 }
 
 #rgm_e_libreria_suministrobundle_crearalbarantype_lineas{
-	margin: 10px 0px;
+	margin: 0px 10px;
 	
 	overflow: hidden;
 }
