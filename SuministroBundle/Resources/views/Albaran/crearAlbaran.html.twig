@@ -44,6 +44,33 @@ function recargarAjax(){
 			}
 		});
 	});
+
+	$('.editorial').each(function (){
+		$elemento=$(this);
+
+		if(! $elemento.is('.ui-autocomplete-input')){
+			$elemento.autocomplete({
+				source: function( request, response ){
+							$.ajax({
+								url: "{{ path('rgarcia_entrelineas_editorial_buscarAjax') }}",
+								data: {
+										editorial: request.term
+									},
+								success: function(data){
+										$data = $.parseJSON(data);
+
+										response( $.map($data.sugerencias, function(item){
+												return {
+														label: item.nombre,
+														value: item.nombre
+													};
+											}) );
+									}
+							});
+						}
+			});
+		}
+	});
 	
 	$('.refAjax').each(function (){
 		$elemento=$(this);
@@ -52,7 +79,7 @@ function recargarAjax(){
 			a = $elemento.autocomplete({
 			      source: function( request, response ) {
 				      $.ajax({
-			            url: "{{ path('rgm_e_libreria_suministrobundle_albaran_buscar_referencia_ajax') }}",
+			            url: "{{ path('rgm_e_libreria_librobundle_libro_buscar_referencia_ajax') }}",
 			            data: {
 			              isbn: request.term,
 			              maxRows: 12
@@ -65,7 +92,6 @@ function recargarAjax(){
 				          		return {
 					          		label: item.isbn + " - " + item.titulo + (item.editorial ? " [ " + item.editorial + " ]" : ""),
 					          		value: item.isbn,
-					          		isbn: item.isbn,
 					          		titulo: item.titulo,
 					          		editorial: item.editorial
 					          	};    

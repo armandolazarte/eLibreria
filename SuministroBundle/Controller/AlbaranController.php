@@ -26,6 +26,7 @@ class AlbaranController extends AsistenteController{
 	
 	private $entidad = 'Albaran';
 	private $entidad_clase = 'RGM\eLibreria\SuministroBundle\Entity\Albaran';
+	private $entidad_item_albaran = 'RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran';
 	private $alias = 'a';
 	
 	private $nombreFormularios = array(
@@ -36,6 +37,7 @@ class AlbaranController extends AsistenteController{
 
 	private $plantilla_ver_albaran = 'RGMELibreriaSuministroBundle:Albaran:verAlbaran.html.twig';
 	private $plantilla_crear_albaran = 'RGMELibreriaSuministroBundle:Albaran:crearAlbaran.html.twig';
+	private $flash_crear = 'Albaran creado con exito';
 	
 	private $grid_boton_editar = 'Editar';
 	private $grid_ruta_editar = 'rgm_e_libreria_suministro_albaran_editar';
@@ -142,65 +144,49 @@ class AlbaranController extends AsistenteController{
 								'nombre' => $l->getEditorial()
 						));
 						
-						if(!$editorial){
+						if(!$editorial && $l->getEditorial()){
 							$editorial = $this->getNuevaInstancia($this->entidad_editorial);
 							
 							$editorial->setNombre($l->getEditorial());
 							
 							$em->persist($editorial);
 							$em->flush();
+							
+							$libro->setEditorial($editorial);
 						}
-						
-						$libro->setEditorial($editorial);
-						
+												
 						$em->persist($libro);
 						$em->flush();
 					}
+					
+					//Crear tantos ejemplares con la informacion como numeroUnidades
+					for($i = 0; $i < $l->getNumeroUnidades(); $i++){
+						$ejemplar = $this->getNuevaInstancia($this->entidad_ejemplar, array($libro));
+						$item_albaran = $this->getNuevaInstancia($this->entidad_item_albaran);
+						
+						$ejemplar->setPrecio($l->getPrecio());
+						$ejemplar->setIVA($l->getIVA());
+						$ejemplar->setDescuento($l->getDescuento());
+						
+						$em->persist($ejemplar);
+						
+						$item_albaran->setAlbaran($entidad);
+						$item_albaran->setEjemplar($ejemplar);
+						
+						$em->persist($item_albaran);
+					}
+					
+					$em->flush();
 				}
 				
+				$this->setFlash($this->flash_crear);
+				return $this->irInicio();
 			}
 		}
 		
 		$opciones['form'] = $opciones['form']->createView();
 		
 		return $this->render($this->plantilla_crear_albaran, $opciones);
-	}
-	
-	public function buscarAjaxAction(){
-		$isbn = $this->getRequest()->query->get('isbn');
-				
-		$isbn .= '%';
-		
-		$em = $this->getEm();
-		$qb = $em->createQueryBuilder();
-		$qb->select('l')
-		->from('RGM\\eLibreria\LibroBundle\Entity\Libro', 'l')
-		->add('where', $qb->expr()->like('l.isbn', '?1'))
-		->setParameter(1, $isbn);
-		
-		$libros = $qb->getQuery()->getResult();
-		
-		$salida = array();
-		
-		foreach($libros as $l){
-			$array_libro = array();
-
-			$array_libro['isbn'] = $l->getISBN();
-			$array_libro['titulo'] = $l->getTitulo();
-			$array_libro['editorial'] = null;
-			
-			if($l->getEditorial()){
-				$array_libro['editorial'] = $l->getEditorial()->getNombre();
-			}
-			
-			$salida[] = $array_libro;
-		}
-		
-		$array_salida['sugerencias'] = $salida;
-		
-		$res = new Response(json_encode($array_salida));
-		
-		return $res;
 	}
 	
 	public function editarAlbaranAction($id){

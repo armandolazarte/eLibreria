@@ -5,6 +5,7 @@ namespace RGM\eLibreria\LibroBundle\Controller;
 use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
 use APY\DataGridBundle\Grid\Column\BlankColumn;
+use Symfony\Component\HttpFoundation\Response;
 //use APY\DataGridBundle\Grid\Action\RowAction;
 
 class LibroController extends AsistenteController
@@ -285,5 +286,42 @@ class LibroController extends AsistenteController
 		$grid -> setOpciones($opciones);
 		
 		return $grid -> getRenderVentanaModal();
+	}
+	
+	public function buscarLibroAjaxAction(){
+		$isbn = $this->getRequest()->query->get('isbn');
+				
+		$isbn .= '%';
+		
+		$em = $this->getEm();
+		$qb = $em->createQueryBuilder();
+		$qb->select('l')
+		->from('RGM\\eLibreria\LibroBundle\Entity\Libro', 'l')
+		->add('where', $qb->expr()->like('l.isbn', '?1'))
+		->setParameter(1, $isbn);
+		
+		$libros = $qb->getQuery()->getResult();
+		
+		$salida = array();
+		
+		foreach($libros as $l){
+			$array_libro = array();
+
+			$array_libro['isbn'] = $l->getISBN();
+			$array_libro['titulo'] = $l->getTitulo();
+			$array_libro['editorial'] = null;
+			
+			if($l->getEditorial()){
+				$array_libro['editorial'] = $l->getEditorial()->getNombre();
+			}
+			
+			$salida[] = $array_libro;
+		}
+		
+		$array_salida['sugerencias'] = $salida;
+		
+		$res = new Response(json_encode($array_salida));
+		
+		return $res;
 	}
 }

@@ -306,7 +306,7 @@ class Libro
     	return $res;
     }
     
-    public function getTotalEjemplares(){
+    public function getTotalEjemplares(){    	
     	return count($this->ejemplares);
     }
     

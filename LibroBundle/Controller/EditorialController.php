@@ -3,6 +3,7 @@ namespace RGM\eLibreria\LibroBundle\Controller;
 
 use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
+use Symfony\Component\HttpFoundation\Response;
 
 class EditorialController extends AsistenteController{
 	
@@ -211,6 +212,37 @@ class EditorialController extends AsistenteController{
 		$grid -> setOpciones($opciones);
 		
 		return $grid -> getRenderVentanaModal();
+	}
+	
+	public function buscar_Editorial_AjaxAction(){
+		$nombre = $this->getRequest()->query->get('editorial');
+		
+		$nombre .= '%';
+		
+		$em = $this->getEm();
+		$qb = $em->createQueryBuilder();
+		$qb->select('e')
+		->from('RGM\\eLibreria\LibroBundle\Entity\Editorial', 'e')
+		->add('where', $qb->expr()->like('e.nombre', '?1'))
+		->setParameter(1, $nombre);
+		
+		$editoriales = $qb->getQuery()->getResult();
+		
+		$salida = array();
+		
+		foreach($editoriales as $e){
+			$array_editorial = array();
+		
+			$array_editorial['nombre'] = $e->getNombre();
+				
+			$salida[] = $array_editorial;
+		}
+		
+		$array_salida['sugerencias'] = $salida;
+		
+		$res = new Response(json_encode($array_salida));
+		
+		return $res;
 	}
 }
 ?>

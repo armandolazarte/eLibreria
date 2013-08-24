@@ -36,6 +36,10 @@ rgarcia_entrelineas_estilo_homepage:
 
 
 
+rgarcia_entrelineas_editorial_buscarAjax:
+    pattern:  /editorial/buscar
+    defaults: { _controller: "RGMELibreriaLibroBundle:Editorial:buscar_Editorial_Ajax" }
+    
 rgarcia_entrelineas_editorial_crear:
     pattern:  /editorial/crear
     defaults: { _controller: "RGMELibreriaLibroBundle:Editorial:crearEditorial" }
@@ -72,6 +76,10 @@ rgarcia_entrelineas_autor_homepage:
     
     
     
+
+rgm_e_libreria_librobundle_libro_buscar_referencia_ajax:
+    pattern: /libro/buscarAjax
+    defaults: { _controller: 'RGMELibreriaLibroBundle:Libro:buscarLibroAjax' }
 
 rgarcia_entrelineas_libro_crear:
     pattern:  /gestor/crear/{crearMasivo}
