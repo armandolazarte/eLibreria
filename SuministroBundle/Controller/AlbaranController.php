@@ -124,7 +124,6 @@ class AlbaranController extends AsistenteController{
 				
 				//Persisto el albaran
 				$em->persist($entidad);
-				$em->flush();
 				
 				//Recorro todas las lineas del albaran
 				foreach($lineas as $l){
@@ -156,7 +155,6 @@ class AlbaranController extends AsistenteController{
 						}
 												
 						$em->persist($libro);
-						$em->flush();
 					}
 					
 					//Crear tantos ejemplares con la informacion como numeroUnidades

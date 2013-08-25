@@ -74,8 +74,6 @@ rgarcia_entrelineas_autor_homepage:
     pattern:  /autor
     defaults: { _controller: "RGMELibreriaLibroBundle:Autor:verAutor" }
     
-    
-    
 
 rgm_e_libreria_librobundle_libro_buscar_referencia_ajax:
     pattern: /libro/buscarAjax
