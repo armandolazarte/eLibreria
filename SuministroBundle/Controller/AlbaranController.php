@@ -8,6 +8,10 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Response;
+use RGM\eLibreria\LibroBundle\Entity\Ejemplar;
+use RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran;
+use RGM\eLibreria\LibroBundle\Entity\Libro;
+use RGM\eLibreria\LibroBundle\Entity\Editorial;
 
 class AlbaranController extends AsistenteController{
 	private $seccion = 'Gestor de Suministros';
@@ -29,14 +33,18 @@ class AlbaranController extends AsistenteController{
 	private $entidad_item_albaran = 'RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran';
 	private $alias = 'a';
 	
+	private $entidad_importar_albaran = 'RGM\eLibreria\SuministroBundle\Entity\ImportarAlbaran';
+	
 	private $nombreFormularios = array(
 			'creadorAlbaran' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\CrearAlbaranType',
 			'editor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\AlbaranType',
-			'visor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\AlbaranVisorType'
+			'visor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\AlbaranVisorType',
+			'importar' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\ImportarAlbaranesType'
 	);
 
 	private $plantilla_ver_albaran = 'RGMELibreriaSuministroBundle:Albaran:verAlbaran.html.twig';
 	private $plantilla_crear_albaran = 'RGMELibreriaSuministroBundle:Albaran:crearAlbaran.html.twig';
+	private $plantilla_importar_albaran = 'RGMELibreriaSuministroBundle:Albaran:importarAlbaran.html.twig';
 	private $flash_crear = 'Albaran creado con exito';
 	
 	private $grid_boton_editar = 'Editar';
@@ -101,6 +109,132 @@ class AlbaranController extends AsistenteController{
 		}
 	
 		return $render;
+	}
+	
+	public function importarAction(){
+		$peticion = $this->getRequest();
+		$opciones = $this->getOpcionesPlantilla();
+		
+		$importar = $this->getNuevaInstancia($this->entidad_importar_albaran);
+		
+		$opciones['formulario'] = $this->createForm($this->getFormulario('importar'), $importar);
+		
+		if($peticion->getMethod() == "POST"){
+			$opciones['formulario']->bind($peticion);
+			
+			if($opciones['formulario']->isValid()){
+				$fichero = $this->parsearFichero($importar->getFichero());
+				
+				foreach($fichero as $linea){
+					$em = $this->getEm();
+					
+					//Buscar/crear Libro
+					$libro = $em->getRepository('RGMELibreriaLibroBundle:Libro')->find($linea['isbn']);
+					
+					if(!$libro){
+						$libro = new Libro();
+						
+						$libro->setIsbn($linea['isbn']);
+						$libro->setTitulo($linea['titulo']);
+						
+						$editorial = $em->getRepository('RGMELibreriaLibroBundle:Editorial')->findOneBy(array(
+								"nombre" => $linea['editorial']
+						));
+						
+						if(!$editorial){
+							$editorial = new Editorial();
+							
+							$editorial->setNombre($linea['editorial']);
+							
+							$em->persist($editorial);
+						}
+						
+						$libro->setEditorial($editorial);
+						
+						$em->persist($libro);
+					}
+					
+					$albaran = $em->getRepository('RGMELibreriaSuministroBundle:Albaran')->find($linea['albaran']);
+					
+					if(!$albaran){
+						var_dump("Crear albaran: " . $linea['albaran']);
+						hola();
+					}
+					
+					$numEjemplar = $linea['num1'] + $linea['num2'];
+					
+					for($i = 0; $i < $numEjemplar; $i++){
+						$ejemplar = new Ejemplar($libro);
+						
+						$ejemplar->setPrecio($linea['precio']);
+						$ejemplar->setIVA($linea['iva']);
+						$ejemplar->setDescuento($linea['desc']);
+						
+						$em->persist($ejemplar);
+						
+						$itemAlbaran = new ItemAlbaran();
+						
+						$itemAlbaran->setAlbaran($albaran);
+						$itemAlbaran->setEjemplar($ejemplar);
+						
+						$em->persist($itemAlbaran);
+					}
+				}
+				
+				$em->flush();
+			}
+		}
+		
+		$opciones['formulario'] = $opciones['formulario']->createView();
+		
+		return $this->render($this->plantilla_importar_albaran, $opciones);
+	}
+	
+	private function parsearFichero($fichero){
+		$res = array();
+		$lectura = array();
+		$keys = array();
+		
+		if(($pF = fopen($fichero, 'r')) != false){
+			while(!feof($pF)){
+				$lectura[] = fgets($pF);	
+			}			
+			
+			fclose($pF);
+		}		
+		
+		$keys = explode(";", $lectura[0]);
+		$claves = array();
+		$lineas = array();
+
+		foreach($keys as $k){
+			$k = str_replace("\"", "", $k);
+			$k = str_replace("\n", "", $k);
+			$k = str_replace("\r", "", $k);
+			
+			$claves[] = $k;
+		}
+		
+		for($i = 1; $i < count($lectura) - 1; $i++){
+			$linea = explode(";", $lectura[$i]);
+			
+			$lineaAux = array();
+			$j = 0;
+			
+			foreach($claves as $c){				
+				$linea[$j] = str_replace("\"", "", $linea[$j]);
+				$linea[$j] = str_replace("\n", "", $linea[$j]);
+				$linea[$j] = str_replace("\r", "", $linea[$j]);
+				
+				$lineaAux[$c] = $linea[$j];
+				
+				$j++;
+			}
+			
+			$lineas[] = $lineaAux;
+		}
+		
+		return $lineas;
 	}
 	
 	public function crearAlbaranAction(){
@@ -173,9 +307,9 @@ class AlbaranController extends AsistenteController{
 						
 						$em->persist($item_albaran);
 					}
-					
-					$em->flush();
 				}
+					
+				$em->flush();
 				
 				$this->setFlash($this->flash_crear);
 				return $this->irInicio();

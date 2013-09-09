@@ -14,7 +14,7 @@ class Albaran {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Column(name="id", type="string", length=255)
 	 * @ORM\Id
 	 */
 	private $id;

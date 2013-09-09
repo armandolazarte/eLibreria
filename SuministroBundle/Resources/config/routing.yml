@@ -1,3 +1,7 @@
+rgm_e_libreria_suministro_albaran_importar:
+    pattern: /albaran/importar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:importar' }
+
 rgm_e_libreria_suministrobundle_albaran_buscar_referencia_ajax:
     pattern: /albaran/buscarAjax
     defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:buscarAjax' }

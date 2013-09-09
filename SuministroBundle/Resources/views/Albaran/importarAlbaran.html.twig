@@ -1,0 +1,14 @@
+{% extends 'RGMELibreriaIndexBundle::layout.html.twig' %}
+
+{% block contenido %}
+<div id="marco">
+	<div id="cuerpo_marco">
+		{% if formulario %}
+		<form method="POST" action="{{ path('rgm_e_libreria_suministro_albaran_importar') }}" {{ form_enctype(formulario) }}>
+		{{ form_widget(formulario) }}
+		<input type="submit">
+		</form>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
