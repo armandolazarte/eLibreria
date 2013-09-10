@@ -12,6 +12,7 @@ use RGM\eLibreria\LibroBundle\Entity\Ejemplar;
 use RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran;
 use RGM\eLibreria\LibroBundle\Entity\Libro;
 use RGM\eLibreria\LibroBundle\Entity\Editorial;
+use APY\DataGridBundle\Grid\Column\BlankColumn;
 
 class AlbaranController extends AsistenteController{
 	private $seccion = 'Gestor de Suministros';
@@ -38,7 +39,6 @@ class AlbaranController extends AsistenteController{
 	private $nombreFormularios = array(
 			'creadorAlbaran' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\CrearAlbaranType',
 			'editor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\AlbaranType',
-			'visor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\AlbaranVisorType',
 			'importar' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\ImportarAlbaranesType'
 	);
 
@@ -74,7 +74,24 @@ class AlbaranController extends AsistenteController{
 	
 	private function getGrid(){
 		$grid = new GridController($this->getNombreEntidad(), $this);
+		
+		$columnaContrato = new BlankColumn(array('id' => 'contrato', 'title' => 'Contrato'));
+		$columnaVer = new BlankColumn(array('id' => 'ver', 'title' => 'Ver Albaran', 'safe' => false));
+
+		$grid->getGrid()->addColumn($columnaContrato);
+		$grid->getGrid()->addColumn($columnaVer);
+		
+		$grid->getSource()->manipulateRow(function($row){
+			$entidad = $row->getEntity();
 			
+			$enlaceVer = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=950,height=500,toolbar=1,resizable=0"); return false;\' href="' . $this->generateUrl('rgm_e_libreria_suministro_albaran_ver', array('id' => $entidad->getId())) . '">Ver Albaran</a>';
+			
+			$row->setField('contrato', $entidad->getContrato());
+			$row->setField('ver', $enlaceVer);
+			
+			return $row;
+		});
+		
 		return $grid;
 	}
 	
@@ -82,9 +99,9 @@ class AlbaranController extends AsistenteController{
 		return $this->getArrayOpcionesGridAjax(
 				$this -> grid_boton_editar,
 				$this -> grid_ruta_editar,
-				$this -> grid_boton_borrar,
-				$this -> grid_ruta_borrar,
-				$this -> msg_confirmar_borrar);
+				null,
+				null,
+				null);
 	}
 	
 	private function getOpcionesVista(){
@@ -119,15 +136,17 @@ class AlbaranController extends AsistenteController{
 		
 		$opciones['formulario'] = $this->createForm($this->getFormulario('importar'), $importar);
 		
+		$albaranesSinCrear = array();
+		$numEjemplares = 0;
+		
 		if($peticion->getMethod() == "POST"){
 			$opciones['formulario']->bind($peticion);
 			
 			if($opciones['formulario']->isValid()){
 				$fichero = $this->parsearFichero($importar->getFichero());
+				$em = $this->getEm();
 				
-				foreach($fichero as $linea){
-					$em = $this->getEm();
-					
+				foreach($fichero as $linea){					
 					//Buscar/crear Libro
 					$libro = $em->getRepository('RGMELibreriaLibroBundle:Libro')->find($linea['isbn']);
 					
@@ -152,38 +171,50 @@ class AlbaranController extends AsistenteController{
 						$libro->setEditorial($editorial);
 						
 						$em->persist($libro);
-					}
-					
-					$albaran = $em->getRepository('RGMELibreriaSuministroBundle:Albaran')->find($linea['albaran']);
-					
-					if(!$albaran){
-						var_dump("Crear albaran: " . $linea['albaran']);
-						hola();
-					}
-					
-					$numEjemplar = $linea['num1'] + $linea['num2'];
-					
-					for($i = 0; $i < $numEjemplar; $i++){
-						$ejemplar = new Ejemplar($libro);
-						
-						$ejemplar->setPrecio($linea['precio']);
-						$ejemplar->setIVA($linea['iva']);
-						$ejemplar->setDescuento($linea['desc']);
-						
-						$em->persist($ejemplar);
-						
-						$itemAlbaran = new ItemAlbaran();
-						
-						$itemAlbaran->setAlbaran($albaran);
-						$itemAlbaran->setEjemplar($ejemplar);
-						
-						$em->persist($itemAlbaran);
+						$em->flush();
 					}
 				}
 				
-				$em->flush();
+				foreach($fichero as $linea){
+					$libro = $em->getRepository('RGMELibreriaLibroBundle:Libro')->find($linea['isbn']);
+						
+					$albaran = $em->getRepository('RGMELibreriaSuministroBundle:Albaran')->find($linea['albaran']);
+					
+					if($albaran){
+						$numEjemplar = $linea['num1'] + $linea['num2'];
+						
+						for($i = 0; $i < $numEjemplar ; $i++){
+							$ejemplar = new Ejemplar($libro);
+							
+							$ejemplar->setPrecio((float)preg_replace('/,/', '.', $linea['precio']));
+							$ejemplar->setIVA((float)preg_replace('/,/', '.', $linea['iva']));
+							
+							$em->persist($ejemplar);
+							
+							$itemAlbaran = new ItemAlbaran();
+							
+							$itemAlbaran->setAlbaran($albaran);
+							$itemAlbaran->setEjemplar($ejemplar);
+							$itemAlbaran->setDescuento((float)preg_replace('/,/', '.', $linea['iva']));
+							
+							$em->persist($itemAlbaran);
+							
+							$numEjemplares++;
+						}
+					}
+					else{
+						$albaranesSinCrear[] = $linea['albaran'];
+					}
+				}
+				
+				if(count($albaranesSinCrear) == 0){
+					$em->flush();
+				}
 			}
 		}
+		
+		$opciones['albaranesSinCrear'] = $albaranesSinCrear;
+		$opciones['numEjemplaresCreados'] = $numEjemplares;
 		
 		$opciones['formulario'] = $opciones['formulario']->createView();
 		
@@ -402,8 +433,59 @@ class AlbaranController extends AsistenteController{
 		return $grid->getRenderVentanaModal();
 	}
 	
-	public function verAlbaranAction(){
-		return $this->render($this->plantilla_albaran, array());
+	public function verAlbaranAction($id){
+		$em = $this->getEm();
+		
+		$albaran = $em->getRepository($this->getNombreEntidad())->find($id);
+		$opciones = array();
+		
+		$opciones['error'] = null;
+		
+		if(!$albaran){
+			$opciones['error'] = 'Albaran no encontrado';
+		}
+		else{
+			$opciones['albaran'] = $albaran;
+			
+			$lineasAlbaran = new ArrayCollection();
+			
+			foreach($albaran->getItems() as $item){
+				$elemento = $item->getElemento();
+								
+				$elemento->getReferencia();
+				
+				foreach($albaran->getItems() as $item2){
+					if($item->getId() == $item2->getId()){
+						break;
+					}
+					
+					$elemento2 = $item2->getElemento();
+					$ref = $elemento->getReferencia();
+					
+					if($lineasAlbaran->containsKey($elemento2->getReferencia())){
+						$linea = $lineasAlbaran->get($elemento2->getReferencia());
+						
+						$linea['numEjemplares']++;
+					}
+					else{
+						$linea = array();
+						
+						$linea['ref'] = $elemento2->getReferencia();
+						$linea['titulo'] = $elemento2->getTitulo();
+						$linea['numEjemplares'] = 1;
+						$linea['precio'] = $elemento2->getPrecio();
+						$linea['iva'] = $elemento2->getIVA();
+						$linea['desc'] = $item2->getDescuento();
+					}
+						
+					$lineasAlbaran->set($elemento2->getReferencia(), $linea);
+				}
+			}
+			
+			$opciones['lineas'] = $lineasAlbaran;
+		}
+		
+		return $this->render($this->plantilla_ver_albaran, $opciones);
 	}
 }
 ?>

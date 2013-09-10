@@ -27,6 +27,9 @@ class GridController extends Controller{
 	private $grid_ruta_borrar;
 	private $grid_confirmar_borrar;
 	
+	private $editar;
+	private $borrar;
+	
 	public function __construct($nombreEntidad, $controller){
 		$this->nombreEntidad = $nombreEntidad;
 		$this->controller = $controller;
@@ -80,16 +83,17 @@ class GridController extends Controller{
 	private function configGrid(){				
 		if($this->opcionesGrid['grid_ruta_editar'] != null){
 			$accionEditar = new RowAction($this -> opcionesGrid['grid_boton_editar'], $this -> opcionesGrid['grid_ruta_editar'], false, '_self', array('class' => 'editar'));
+		
+			$this -> grid -> addRowAction($accionEditar);
 		}
 		
 		if($this->opcionesGrid['grid_ruta_borrar'] != null){
 			$accionBorrar = new RowAction($this -> opcionesGrid['grid_boton_borrar'], $this -> opcionesGrid['grid_ruta_borrar'], true, '_self', array('class' => 'borrar'));
 			$accionBorrar -> setConfirmMessage($this -> opcionesGrid['grid_confirmar_borrar']);
+
+			$this -> grid -> addRowAction($accionBorrar);
 		}
-				
-		$this -> grid -> addRowAction($accionBorrar);
-		$this -> grid -> addRowAction($accionEditar);
-		
+						
 		$this -> grid -> addMassAction(new DeleteMassAction(true));
 		
 		$this->grid->setActionsColumnSize(50);

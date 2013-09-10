@@ -329,4 +329,10 @@ class Libro
     public function __toJSON(){
     	return array('isbn' => $this->isbn);
     }
+    
+    public function __equals($o){
+    	if($o instanceof Libro){
+    		return $o->getIsbn() === $this->isbn;
+    	}
+    }
 }

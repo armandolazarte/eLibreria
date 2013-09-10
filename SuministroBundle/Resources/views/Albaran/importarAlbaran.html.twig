@@ -9,6 +9,24 @@
 		<input type="submit">
 		</form>
 		{% endif %}
+		
+		{% if numEjemplaresCreados %}
+		<div>
+			<h1>Ejemplares creados: {{ numEjemplaresCreados }}</h1>
+		</div>
+		{% endif %}
+		
+		{% if albaranesSinCrear %}
+		<div>
+			<h1>Albaranes por crear:</h1>
+			<ul>
+			{% for albaran in albaranesSinCrear %}
+				<li>{{ albaran }}</li>
+			{% endfor %}
+			</ul>
+			(Ejecutar la importacion una vez creados)
+		</div>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

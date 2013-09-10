@@ -3,6 +3,7 @@
 namespace RGM\eLibreria\SuministroBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 
 /**
  * Albaran
@@ -16,12 +17,15 @@ class Albaran {
 	 *
 	 * @ORM\Column(name="id", type="string", length=255)
 	 * @ORM\Id
+	 * 
+	 * @GRID\Column(title="Numero Albaran")
 	 */
 	private $id;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ContratoSuministro", inversedBy="albaranes")
 	 * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+	 * 
 	 */
 	private $contrato;
 
@@ -34,6 +38,7 @@ class Albaran {
 	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="fechaRealizacion", type="date", nullable=false)
+	 * @GRID\Column(title="Fecha de Realizacion", format="d/m/Y")
 	 */
 	private $fechaRealizacion;
 
@@ -41,6 +46,7 @@ class Albaran {
 	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="fechaVencimiento", type="date", nullable=false)
+	 * @GRID\Column(title="Fecha de Vencimiento", format="d/m/Y")
 	 */
 	private $fechaVencimiento;
 
@@ -156,4 +162,21 @@ class Albaran {
 		return $res;
 	}
 
+	public function getItemPorLibro($libro){
+		$res = array();
+		
+		foreach($this->items as $i){
+			$ejemplar = $i->getEjemplar();
+			
+			if($ejemplar){
+				$libroEjemplar = $ejemplar->getLibro();
+				
+				if($libro->__equals($libroEjemplar)){
+					$res[] = $ejemplar;
+				}
+			}
+		}
+		
+		return $res;
+	}
 }

@@ -7,12 +7,15 @@
 {% endblock %}
 
 {% block body %}
+	{% if error %}
+	{{ error }}
+	{% else %}
 <div id="albaran_contenedor">
 	<header id="albaran_header">
-		Distribuidora: CAL
-		Nº Albaran: 036595
-		Fecha Realizacion: 20/07/2013
-		Fecha Factura: 10/2013
+		Distribuidora: {{ albaran.contrato.distribuidora.nombre }}
+		Nº Albaran: {{ albaran.id }}
+		Fecha Realizacion: {{ albaran.fechaRealizacion|date('Y-m-d') }}
+		Fecha Factura: {{ albaran.fechaVencimiento|date('Y-m-d') }}
 	</header>
 	<section id="albaran_cuerpo">
 		<table>
@@ -26,16 +29,18 @@
 				<th>Importe</th>
 				<th>%IVA</th>
 			</tr>
-			<tr>
-				<td>9780194316927</td>
-				<td>OXF-Dicc.Oxford Study + CD</td>
-				<td>1</td>
-				<td>28.55</td>
-				<td>27.45</td>
-				<td>25.00</td>
-				<td>20.59</td>
-				<td>4.00</td>
-			</tr>
+			{% for l in lineas %}
+				<tr>
+					<td>{{ l.ref }}</td>
+					<td>{{ l.titulo }}</td>
+					<td>{{ l.numEjemplares }}</td>
+					<td>28.55</td>
+					<td>{{ l.precio }}</td>
+					<td>{{ l.desc }}</td>
+					<td>20.59</td>
+					<td>{{ l.iva }}</td>
+				</tr>
+			{% endfor %}
 		</table>
 	</section>
 	<footer id="albaran_footer">
@@ -67,4 +72,5 @@
 		</section>
 	</footer>
 </div>
+{% endif %}
 {% endblock %}

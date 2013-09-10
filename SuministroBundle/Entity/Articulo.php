@@ -37,15 +37,6 @@ class Articulo implements ArticuloVendible {
 	 */
 	private $iva;
 
-	/**
-	 * @ORM\Column(name="descuento", type="float", nullable=false)
-	 */ 
-	private $descuento;
-
-	public function getDescuento() {
-		return $this->descuento;
-	}
-
 	public function getReferencia() {
 		return $this->ref;
 	}
@@ -82,9 +73,6 @@ class Articulo implements ArticuloVendible {
 		$this->iva = $iva;
 	}
 
-	public function setDescuento($descuento) {
-		$this->descuento = $descuento;
-	}
 	public function getPrecioTotal() {
 		return $this->getPrecio() * (1 + $this->getIVA());
 	}

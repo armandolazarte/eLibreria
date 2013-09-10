@@ -1,7 +1,6 @@
 <?php
 
 namespace RGM\eLibreria\LibroBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Config\Definition\FloatNode;
 use RGM\eLibreria\SuministroBundle\Controller\ArticuloVendible;
@@ -65,13 +64,8 @@ class Ejemplar implements ArticuloVendible {
 	 * @ORM\Column(name="IVA", type="float", nullable=false)
 	 */
 	private $IVA;
-	
-	/**
-	 * @ORM\Column(name="descuento", type="float", nullable=false)
-	 */
-	private $descuento;
-	
-	public function __construct(Libro $l){
+
+	public function __construct(Libro $l) {
 		$this->libro = $l;
 	}
 
@@ -203,7 +197,7 @@ class Ejemplar implements ArticuloVendible {
 
 	public function getImporte() {
 		$precio = $this->getPrecio();
-		
+
 		$iva = $precio * $this->getIVA();
 		$rec = $precio * $this->getRecargoIVA();
 		$des = $precio * $this->getDescuento();
@@ -236,18 +230,13 @@ class Ejemplar implements ArticuloVendible {
 
 		return $this;
 	}
-	
+
 	public function getReferencia() {
-		return $this->getLibro()->getIsbn();
+		return $this->libro->getIsbn();
 	}
 	
-	public function getDescuento() {
-		return $this->descuento;
+	public function getTitulo() {
+		return $this->getLibro()->getTitulo();
 	}
-	
-	public function setDescuento($d){
-		$this->descuento = $d;
-		
-		return $this;
-	}
+
 }
