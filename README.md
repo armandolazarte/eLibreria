@@ -50,4 +50,8 @@ eLibreria
 
 14.- Lanzar php app/console assets:install --symlink
 
-15.- Lanzar php app/console cache:clear
+15.-
+     a)sudo setfacl -R -m u:www-data:rwx -m u:\`whoami\`:rwx app/cache app/logs
+     b)sudo setfacl -dR -m u:www-data:rwx -m u:\`whoami\`:rwx app/cache app/logs
+
+16.- Lanzar php app/console cache:clear
