@@ -16,7 +16,7 @@ class Articulo implements ArticuloVendible {
 	 * @ORM\Id
 	 */
 	private $ref;
-	
+
 	/**
 	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran", mappedBy="articulo")
 	 */
@@ -36,6 +36,8 @@ class Articulo implements ArticuloVendible {
 	 * @ORM\Column(name="iva", type="float", nullable=false)
 	 */
 	private $iva;
+
+	private $vendido;
 
 	public function getReferencia() {
 		return $this->ref;
@@ -63,19 +65,36 @@ class Articulo implements ArticuloVendible {
 
 	public function setTitulo($titulo) {
 		$this->titulo = $titulo;
+
+		return $this;
 	}
 
 	public function setPrecio($precio) {
 		$this->precio = $precio;
+
+		return $this;
 	}
 
 	public function setIva($iva) {
 		$this->iva = $iva;
+
+		return $this;
 	}
 
 	public function getPrecioTotal() {
 		return $this->getPrecio() * (1 + $this->getIVA());
 	}
+
+	public function getVendido() {
+		return $this->vendido;
+	}
+
+	public function setVendido($vendido) {
+		$this->vendido = $vendido;
+
+		return $this;
+	}
+
 }
 
 ?>

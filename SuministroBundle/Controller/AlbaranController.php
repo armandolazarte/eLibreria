@@ -23,6 +23,8 @@ class AlbaranController extends AsistenteController{
 	
 	private $entidad_ejemplar = 'RGM\eLibreria\LibroBundle\Entity\Ejemplar';
 	
+	private $entidad_recargo = 'RGMELibreriaSuministroBundle:Recargo';
+	
 	private $repositorio_editorial = 'RGMELibreriaLibroBundle:Editorial';
 	private $entidad_editorial = 'RGM\eLibreria\LibroBundle\Entity\Editorial';
 	
@@ -195,7 +197,7 @@ class AlbaranController extends AsistenteController{
 							
 							$itemAlbaran->setAlbaran($albaran);
 							$itemAlbaran->setEjemplar($ejemplar);
-							$itemAlbaran->setDescuento((float)preg_replace('/,/', '.', $linea['iva']));
+							$itemAlbaran->setDescuento((float)preg_replace('/,/', '.', $linea['desc']));
 							
 							$em->persist($itemAlbaran);
 							
@@ -447,38 +449,38 @@ class AlbaranController extends AsistenteController{
 		else{
 			$opciones['albaran'] = $albaran;
 			
+			$recargos = $em->getRepository($this->entidad_recargo)->findAll();
+			
+			$mapaImpuestos = new ArrayCollection();
+			
+			
+			
 			$lineasAlbaran = new ArrayCollection();
 			
-			foreach($albaran->getItems() as $item){
+			$items = $albaran->getItems();
+			
+			foreach($items as $item){
 				$elemento = $item->getElemento();
-								
-				$elemento->getReferencia();
+				$referencia = $elemento->getReferencia();
 				
-				foreach($albaran->getItems() as $item2){
-					if($item->getId() == $item2->getId()){
-						break;
-					}
+				
+				if($lineasAlbaran->containsKey($referencia)){
+					$linea = $lineasAlbaran->get($referencia);
+					$linea['numEjemplares'] += 1;
+					$linea['vendidos'] += $elemento->getVendido();
 					
-					$elemento2 = $item2->getElemento();
-					$ref = $elemento->getReferencia();
+					$lineasAlbaran->set($referencia, $linea);					
+				}
+				else{
+					$linea['ref'] = $referencia;
+					$linea['titulo'] = $elemento->getTitulo();
+					$linea['iva'] = $elemento->getIVA();
+					$linea['precio'] = $elemento->getPrecio();
+					$linea['numEjemplares'] = 1;
+					$linea['vendidos'] = 0 + $elemento->getVendido();
+					$linea['desc'] = $item->getDescuento();
 					
-					if($lineasAlbaran->containsKey($elemento2->getReferencia())){
-						$linea = $lineasAlbaran->get($elemento2->getReferencia());
-						
-						$linea['numEjemplares']++;
-					}
-					else{
-						$linea = array();
-						
-						$linea['ref'] = $elemento2->getReferencia();
-						$linea['titulo'] = $elemento2->getTitulo();
-						$linea['numEjemplares'] = 1;
-						$linea['precio'] = $elemento2->getPrecio();
-						$linea['iva'] = $elemento2->getIVA();
-						$linea['desc'] = $item2->getDescuento();
-					}
-						
-					$lineasAlbaran->set($elemento2->getReferencia(), $linea);
+					$lineasAlbaran->set($referencia, $linea);
 				}
 			}
 			

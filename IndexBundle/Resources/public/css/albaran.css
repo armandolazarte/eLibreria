@@ -11,8 +11,12 @@
 	
 }
 
-#albaran_cuerpo{
-	
+#albaran_cuerpo table{
+	width: 100%;
+
+	margin: 20px 0px;
+
+	text-align: center;
 }
 
 #albaran_footer{

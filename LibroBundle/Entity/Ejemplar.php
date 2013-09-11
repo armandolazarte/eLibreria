@@ -32,7 +32,7 @@ class Ejemplar implements ArticuloVendible {
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="vendido", type="boolean")
+	 * @ORM\Column(name="vendido", type="integer")
 	 */
 	private $vendido = 0;
 
@@ -65,10 +65,10 @@ class Ejemplar implements ArticuloVendible {
 	 */
 	private $IVA;
 
-	public function __construct(Libro $l) {
+	public function __construct(Libro $l){
 		$this->libro = $l;
 	}
-
+	
 	/**
 	 * Get id
 	 *

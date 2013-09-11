@@ -12,10 +12,10 @@
 	{% else %}
 <div id="albaran_contenedor">
 	<header id="albaran_header">
-		Distribuidora: {{ albaran.contrato.distribuidora.nombre }}
-		Nº Albaran: {{ albaran.id }}
-		Fecha Realizacion: {{ albaran.fechaRealizacion|date('Y-m-d') }}
-		Fecha Factura: {{ albaran.fechaVencimiento|date('Y-m-d') }}
+		Distribuidora: {{ albaran.contrato.distribuidora.nombre }}<br>
+		Nº Albaran: {{ albaran.id }}<br>
+		Fecha Realizacion: {{ albaran.fechaRealizacion|date('Y-m-d') }}<br>
+		Fecha Factura: {{ albaran.fechaVencimiento|date('Y-m-d') }}<br>
 	</header>
 	<section id="albaran_cuerpo">
 		<table>
@@ -23,22 +23,24 @@
 				<th>ISBN/REF</th>
 				<th>Titulo</th>
 				<th>UDS.</th>
+				<th>Vend.</th>
 				<th>P.V.c/i</th>
 				<th>P.V.s/i</th>
-				<th>%Descuento</th>
+				<th>Desc</th>
 				<th>Importe</th>
-				<th>%IVA</th>
+				<th>Iva</th>
 			</tr>
 			{% for l in lineas %}
 				<tr>
 					<td>{{ l.ref }}</td>
 					<td>{{ l.titulo }}</td>
 					<td>{{ l.numEjemplares }}</td>
-					<td>28.55</td>
-					<td>{{ l.precio }}</td>
-					<td>{{ l.desc }}</td>
-					<td>20.59</td>
-					<td>{{ l.iva }}</td>
+					<td>{{ l.vendidos }}</td>
+					<td>{{ '%.2f'|format(l.precio * (1 + l.iva)) }}€</td>
+					<td>{{ '%.2f'|format(l.precio) }}€</td>
+					<td>{{ l.desc * 100 }}%</td>
+					<td>{{ '%.2f'|format(l.precio * (1 - l.desc)) }}€</td>
+					<td>{{ l.iva * 100 }}%</td>
 				</tr>
 			{% endfor %}
 		</table>

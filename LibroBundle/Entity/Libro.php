@@ -286,13 +286,13 @@ class Libro
         return $this->ejemplares;
     }
     
-    public function getEjemplaresOrdenado(Criterio $c){
-    	/*  usort($this -> ejemplares, "nombre_funcion_ordenacion"
-    	    function nombre_funcion_ordenacion( $clave1, $clave2 ){
-    	    	return (strlen($clave1) > strlen($clave2)) ? True : False;
-			}
-    	*/
-    }
+//     public function getEjemplaresOrdenado(Criterio $c){
+//     	  usort($this -> ejemplares, "nombre_funcion_ordenacion"
+//     	    function nombre_funcion_ordenacion( $clave1, $clave2 ){
+//     	    	return (strlen($clave1) > strlen($clave2)) ? True : False;
+// 			}
+    	
+//     }
     
     public function getStock(){
     	$res = 0;
