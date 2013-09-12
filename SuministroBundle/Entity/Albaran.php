@@ -43,6 +43,13 @@ class Albaran {
 	private $fechaRealizacion;
 
 	/**
+	 * @ORM\Column(name="total", type="float", nullable=true)
+	 * 
+	 * @GRID\Column(visible=false)
+	 */
+	private $total;
+
+	/**
 	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="fechaVencimiento", type="date", nullable=false)
@@ -63,10 +70,10 @@ class Albaran {
 	public function getId() {
 		return $this->id;
 	}
-	
-	public function setId($i){
+
+	public function setId($i) {
 		$this->id = $i;
-		
+
 		return $this;
 	}
 
@@ -139,44 +146,54 @@ class Albaran {
 
 	public function setItems($items) {
 		$this->items = $items;
-		
+
 		return $this;
 	}
-	
-	public function getBaseImponible(){
+
+	public function getBaseImponible() {
 		$res = new ArrayCollection();
-		
-		foreach($this->items as $i){
+
+		foreach ($this->items as $i) {
 			$elemento = $i->getElemento();
 			$iva = $elemento->getIVA();
 			$precio = $elemento->getPrecio();
-			
-			if($res->containsKey($iva)){
+
+			if ($res->containsKey($iva)) {
 				$res[$iva] += $precio;
-			}
-			else{
+			} else {
 				$res[$iva] = $precio;
 			}
 		}
-		
+
 		return $res;
 	}
 
-	public function getItemPorLibro($libro){
+	public function getItemPorLibro($libro) {
 		$res = array();
-		
-		foreach($this->items as $i){
+
+		foreach ($this->items as $i) {
 			$ejemplar = $i->getEjemplar();
-			
-			if($ejemplar){
+
+			if ($ejemplar) {
 				$libroEjemplar = $ejemplar->getLibro();
-				
-				if($libro->__equals($libroEjemplar)){
+
+				if ($libro->__equals($libroEjemplar)) {
 					$res[] = $ejemplar;
 				}
 			}
 		}
-		
+
 		return $res;
 	}
+
+	public function getTotal() {
+		return $this->total;
+	}
+
+	public function setTotal($total) {
+		$this->total = $total;
+		
+		return $this;
+	}
+
 }

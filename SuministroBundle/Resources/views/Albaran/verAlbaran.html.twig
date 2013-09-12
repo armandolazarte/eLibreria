@@ -47,12 +47,12 @@
 	</section>
 	<footer id="albaran_footer">
 		<section class="total_base">
-			Total Base: 32.47€
-			Total IVA: 1.30€
-			Total REC: 0.16€ 
+			Total Base: <span class="cantidad">{{ '%.2f'|format(bImp) }}€</span><br>
+			Total IVA: <span class="cantidad">{{ '%.2f'|format(bIva) }}€</span><br>
+			Total REC: <span class="cantidad">{{ '%.2f'|format(bRec) }}€</span><br>
 		</section>
 		<section class="total">
-			TOTAL €: 33.93€
+			TOTAL €: <span class="cantidad">{{ '%.2f'|format(bTotal) }}€</span>
 		</section>
 		<section class="impuestos">
 			<table>
@@ -63,13 +63,17 @@
 					<th>IMP I.V.A.</th>
 					<th>IMP REC.</th>
 				</tr>
-				<tr>
-					<td>4.00%</td>
-					<td>0.50%</td>
-					<td>32.47€</td>
-					<td>1.30€</td>
-					<td>0.16€</td>
-				</tr>
+				{% for base in bases %}
+					{% if base.baseImp > 0 %}
+						<tr>
+							<td>{{ base.iva * 100 }}%</td>
+							<td>{{ base.rec * 100 }}%</td>
+							<td>{{ '%.2f'|format(base.baseImp) }}€</td>
+							<td>{{ '%.2f'|format(base.ivaImp) }}€</td>
+							<td>{{ '%.2f'|format(base.recImp) }}€</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
 			</table>
 		</section>
 	</footer>
