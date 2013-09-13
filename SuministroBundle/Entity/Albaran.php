@@ -52,7 +52,7 @@ class Albaran {
 	/**
 	 * @var \DateTime
 	 *
-	 * @ORM\Column(name="fechaVencimiento", type="date", nullable=false)
+	 * @ORM\Column(name="fechaVencimiento", type="date", nullable=true)
 	 * @GRID\Column(title="Fecha de Vencimiento", format="d/m/Y")
 	 */
 	private $fechaVencimiento;

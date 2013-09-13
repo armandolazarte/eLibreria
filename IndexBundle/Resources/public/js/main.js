@@ -75,3 +75,41 @@ $('.estable').on('change', function(){
 	
 	$mensualidad.val('');
 });
+
+$(document).ready(function(){
+	$('#rgm_elibreria_suministro_contratosuministrotype_tipoPago').on('change', function(){
+		$precioTotal = $('#rgm_elibreria_suministro_contratosuministrotype_precioTotal');
+		$fechaR = $('#rgm_elibreria_suministro_contratosuministrotype_fechaAlta');
+		$fechaV = $('#rgm_elibreria_suministro_contratosuministrotype_fechaBaja');
+		
+		
+		if($(this).val() == 1){
+			$precioTotal.val('');
+			$precioTotal.parent().hide();
+			$fechaR.val('');
+			$fechaR.parent().hide();
+			$fechaV.val('');
+			$fechaV.parent().hide();
+		}
+		else{
+			$precioTotal.parent().show();
+			$fechaR.parent().show();
+			$fechaV.parent().show();
+		}
+	});
+	
+	$('#rgm_e_libreria_suministrobundle_crearalbarantype_contrato').on('change', function(){
+		$fechaV = $('#rgm_e_libreria_suministrobundle_crearalbarantype_fechaVencimiento');
+		
+		textoSeleccionado = $('#rgm_e_libreria_suministrobundle_crearalbarantype_contrato option:selected').text();
+		
+		if(textoSeleccionado.indexOf('En efectivo') != -1){
+			$fechaV.val('');
+			$fechaV.parent().hide();
+		}
+		else{
+			$fechaV.parent().show();
+		}
+	});
+});
+

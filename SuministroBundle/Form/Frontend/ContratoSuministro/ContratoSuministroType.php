@@ -17,10 +17,6 @@ class ContratoSuministroType extends AbstractType{
 						'expanded' => false,
                 		'empty_value' => "Elija una distribuidora"							
 				))
-				-> add('precioTotal', 'text', array(
-						'required' => true,
-						'disabled' => false,
-				))
 				-> add('tipoPago', 'choice', array(
 						'required' => false,
 						'disabled' => false,
@@ -30,6 +26,10 @@ class ContratoSuministroType extends AbstractType{
 						'attr' => array('class' => 'tipoPago'),
 						'label' => 'Tipo de pago',
 						'empty_value' => false
+				))
+				-> add('precioTotal', 'text', array(
+						'required' => false,
+						'disabled' => false,
 				))
 				-> add('fechaAlta', 'datetime', array(
 						'required' => false,

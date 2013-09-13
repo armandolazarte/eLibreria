@@ -338,12 +338,12 @@ class AlbaranController extends AsistenteController{
 						
 						$ejemplar->setPrecio($l->getPrecio());
 						$ejemplar->setIVA($l->getIVA());
-						$ejemplar->setDescuento($l->getDescuento());
 						
 						$em->persist($ejemplar);
 						
 						$item_albaran->setAlbaran($entidad);
 						$item_albaran->setEjemplar($ejemplar);
+						$item_albaran->setDescuento($l->getDescuento());
 						
 						$em->persist($item_albaran);
 					}
@@ -522,10 +522,12 @@ class AlbaranController extends AsistenteController{
 		
 			$iva = $linea['iva'];
 			$base = $bases->get((string) $iva);
+			
+			$baseImponible = $linea['precio'] * (1 - $linea['desc']);
 		
-			$base['baseImp'] += $linea['precio'];
-			$base['ivaImp'] += $linea['precio'] * $iva;
-			$base['recImp'] += $linea['precio'] * $base['rec'];
+			$base['baseImp'] += $baseImponible;
+			$base['ivaImp'] += $baseImponible * $iva;
+			$base['recImp'] += $baseImponible * $base['rec'];
 		
 			$bases->set((string) $iva, $base);
 		}

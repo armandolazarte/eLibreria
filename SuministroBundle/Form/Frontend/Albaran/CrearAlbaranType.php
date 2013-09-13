@@ -30,7 +30,7 @@ class CrearAlbaranType extends AbstractType{
 						'attr' => array('class' => 'dateJquery'),					
 				))
 				-> add('fechaVencimiento', 'datetime', array(
-						'required' => true,
+						'required' => false,
 						'disabled' => false,
 						'label' => 'Fecha de Vencimiento',						
 						'widget' => 'single_text',

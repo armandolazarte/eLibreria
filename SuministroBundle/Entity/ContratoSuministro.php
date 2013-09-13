@@ -41,7 +41,7 @@ class ContratoSuministro {
 	/**
 	 * @var float
 	 *
-	 * @ORM\Column(name="precioTotal", type="float", nullable=false)
+	 * @ORM\Column(name="precioTotal", type="float", nullable=true)
 	 * 
 	 * @GRID\Column(title="Precio total valorado")
 	 */
@@ -50,7 +50,7 @@ class ContratoSuministro {
 	/**
 	 * @var \DateTime
 	 *
-	 * @ORM\Column(name="fechaAlta", type="date", nullable=false)
+	 * @ORM\Column(name="fechaAlta", type="date", nullable=true)
 	 * 
 	 * @GRID\Column(title="Fecha de Alta", format="d/m/Y")
 	 */
