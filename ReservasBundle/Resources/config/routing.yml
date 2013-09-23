@@ -1,0 +1,15 @@
+rgm_e_libreria_reserva_reserva_crear:
+    pattern: /reservas/nuevo
+    defaults: { _controller: "RGMeLibreriaReservasBundle:Reserva:crearReserva" }
+    
+rgm_e_libreria_reserva_reserva_editar:
+    pattern: /reservas/editar/{id}
+    defaults: { _controller: "RGMeLibreriaReservasBundle:Reserva:editarReserva" }
+    
+rgm_e_libreria_reserva_reserva_borrar:
+    pattern: /reservas/borrar/{id}
+    defaults: { _controller: "RGMeLibreriaReservasBundle:Reserva:borrarReserva" }
+    
+rgm_e_libreria_reserva_reserva_index:
+    pattern: /reservas
+    defaults: { _controller: "RGMeLibreriaReservasBundle:Reserva:verReservas" }

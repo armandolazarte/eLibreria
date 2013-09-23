@@ -10,73 +10,86 @@
 	{% if error %}
 	{{ error }}
 	{% else %}
-<div id="albaran_contenedor">
-	<header id="albaran_header">
-		Distribuidora: {{ albaran.contrato.distribuidora.nombre }}<br>
-		Nº Albaran: {{ albaran.id }}<br>
-		Fecha Realizacion: {{ albaran.fechaRealizacion|date('Y-m-d') }}<br>
-		Fecha Factura: {{ albaran.fechaVencimiento|date('Y-m-d') }}<br>
-	</header>
-	<section id="albaran_cuerpo">
-		<table>
-			<tr>
-				<th>ISBN/REF</th>
-				<th>Titulo</th>
-				<th>UDS.</th>
-				<th>Vend.</th>
-				<th>P.V.c/i</th>
-				<th>P.V.s/i</th>
-				<th>Desc</th>
-				<th>Importe</th>
-				<th>Iva</th>
-			</tr>
-			{% for l in lineas %}
-				<tr>
-					<td>{{ l.ref }}</td>
-					<td>{{ l.titulo }}</td>
-					<td>{{ l.numEjemplares }}</td>
-					<td>{{ l.vendidos }}</td>
-					<td>{{ '%.2f'|format(l.precio * (1 + l.iva)) }}€</td>
-					<td>{{ '%.2f'|format(l.precio) }}€</td>
-					<td>{{ l.desc * 100 }}%</td>
-					<td>{{ '%.2f'|format(l.precio * (1 - l.desc)) }}€</td>
-					<td>{{ l.iva * 100 }}%</td>
-				</tr>
-			{% endfor %}
-		</table>
-	</section>
-	<footer id="albaran_footer">
-		<section class="total_base">
-			Total Base: <span class="cantidad">{{ '%.2f'|format(bImp) }}€</span><br>
-			Total IVA: <span class="cantidad">{{ '%.2f'|format(bIva) }}€</span><br>
-			Total REC: <span class="cantidad">{{ '%.2f'|format(bRec) }}€</span><br>
-		</section>
-		<section class="total">
-			TOTAL €: <span class="cantidad">{{ '%.2f'|format(bTotal) }}€</span>
-		</section>
-		<section class="impuestos">
-			<table>
-				<tr>
-					<th>I.V.A.</th>
-					<th>REC.</th>
-					<th>Base Imponible</th>
-					<th>IMP I.V.A.</th>
-					<th>IMP REC.</th>
-				</tr>
-				{% for base in bases %}
-					{% if base.baseImp > 0 %}
+	{% set longitudLineas = lineas | length %}
+	
+	{% for i in range(1, numPaginas) %}
+		{% set inicio = (i - 1) * 33 %}
+		{% set fin = (i * 33) - 1 %}				
+		<div id="albaran_contenedor">
+			<header id="albaran_header">
+				Distribuidora: {{ albaran.contrato.distribuidora.nombre }}<br>
+				Nº Albaran: {{ albaran.numeroAlbaran }}<br>
+				Fecha Realizacion: {{ albaran.fechaRealizacion|date('Y-m-d') }}<br>
+				Fecha Factura: {{ albaran.fechaVencimiento|date('Y-m-d') }}<br>
+				Pagina: {{ i }}<br>
+			</header>
+			<section id="albaran_cuerpo">
+				<table>
+					<tr>
+						<th>ISBN/REF</th>
+						<th>Titulo</th>
+						<th>UDS.</th>
+						<th>Vend.</th>
+						<th>P.V.c/i</th>
+						<th>P.V.s/i</th>
+						<th>Desc</th>
+						<th>Importe</th>
+						<th>Iva</th>
+					</tr>	
+		
+					
+		{% if fin > longitudLineas %}
+			{% set fin = longitudLineas %}
+		{% endif %}			
+			
+		{% for l in lineas|slice(inicio, 33) %}
+					<tr>
+						<td><div class="envoltura">{{ l.ref }}</div></td>
+						<td><div class="envoltura">{{ l.titulo }}</div></td>
+						<td><div class="envoltura">{{ l.numEjemplares }}</div></td>
+						<td><div class="envoltura">{{ l.vendidos }}</div></td>
+						<td><div class="envoltura">{{ '%.2f'|format(l.precio * (1 + l.iva)) }}€</div></td>
+						<td><div class="envoltura">{{ '%.2f'|format(l.precio) }}€</div></td>
+						<td><div class="envoltura">{{ l.desc * 100 }}%</div></td>
+						<td><div class="envoltura">{{ '%.2f'|format(l.precio * (1 - l.desc)) }}€</div></td>
+						<td><div class="envoltura">{{ l.iva * 100 }}%</div></td>
+					</tr>
+		{% endfor %}		
+				</table>
+			</section>
+			<footer id="albaran_footer">
+				<section class="total_base">
+					Total Base: <span class="cantidad">{{ '%.2f'|format(bImp) }}€</span><br>
+					Total IVA: <span class="cantidad">{{ '%.2f'|format(bIva) }}€</span><br>
+					Total REC: <span class="cantidad">{{ '%.2f'|format(bRec) }}€</span><br>
+				</section>
+				<section class="total">
+					TOTAL €: <span class="cantidad">{{ '%.2f'|format(bTotal) }}€</span>
+				</section>
+				<section class="impuestos">
+					<table>
 						<tr>
-							<td>{{ base.iva * 100 }}%</td>
-							<td>{{ base.rec * 100 }}%</td>
-							<td>{{ '%.2f'|format(base.baseImp) }}€</td>
-							<td>{{ '%.2f'|format(base.ivaImp) }}€</td>
-							<td>{{ '%.2f'|format(base.recImp) }}€</td>
+							<th>I.V.A.</th>
+							<th>REC.</th>
+							<th>Base Imponible</th>
+							<th>IMP I.V.A.</th>
+							<th>IMP REC.</th>
 						</tr>
-					{% endif %}
-				{% endfor %}
-			</table>
-		</section>
-	</footer>
-</div>
+						{% for base in bases %}
+							{% if base.baseImp > 0 %}
+								<tr>
+									<td>{{ base.iva * 100 }}%</td>
+									<td>{{ base.rec * 100 }}%</td>
+									<td>{{ '%.2f'|format(base.baseImp) }}€</td>
+									<td>{{ '%.2f'|format(base.ivaImp) }}€</td>
+									<td>{{ '%.2f'|format(base.recImp) }}€</td>
+								</tr>
+							{% endif %}
+						{% endfor %}
+					</table>
+				</section>
+			</footer>
+		</div>
+	{% endfor %}			
 {% endif %}
 {% endblock %}

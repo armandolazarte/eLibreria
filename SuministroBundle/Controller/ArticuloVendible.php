@@ -6,7 +6,7 @@ interface ArticuloVendible{
 	public function getTitulo();
 	public function getVendido();
 	public function getPrecio();
-	public function getIVA();
+	public function getIva();
 	public function getPrecioTotal();
 }
 ?>

@@ -15,12 +15,21 @@ class Albaran {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="id", type="string", length=255)
+	 * @ORM\Column(name="id", type="integer")
 	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * 
+	 * @GRID\Column(visible=false)
+	 */
+	private $id;
+
+	/**
+	 *
+	 * @ORM\Column(name="numeroAlbaran", type="string", length=255)
 	 * 
 	 * @GRID\Column(title="Numero Albaran")
 	 */
-	private $id;
+	private $numeroAlbaran;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ContratoSuministro", inversedBy="albaranes")
@@ -150,6 +159,12 @@ class Albaran {
 		return $this;
 	}
 
+	public function addItem(ItemAlbaran $item) {
+		$item->setAlbaran($this);
+
+		return $this->items->add($item);
+	}
+
 	public function getBaseImponible() {
 		$res = new ArrayCollection();
 
@@ -192,7 +207,17 @@ class Albaran {
 
 	public function setTotal($total) {
 		$this->total = $total;
-		
+
+		return $this;
+	}
+
+	public function getNumeroAlbaran() {
+		return $this->numeroAlbaran;
+	}
+
+	public function setNumeroAlbaran($numeroAlbaran) {
+		$this->numeroAlbaran = $numeroAlbaran;
+
 		return $this;
 	}
 

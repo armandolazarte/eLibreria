@@ -15,6 +15,7 @@ class AsistenteController extends Controller {
 	private $path = null;
 	private $seccion = null;
 	private $subseccion = null;
+	private $menu_seccion = null;
 	
 	private $nombreEntidad = null;
 
@@ -31,11 +32,12 @@ class AsistenteController extends Controller {
 	
 	private $plantilla_grid = 'RGMELibreriaIndexBundle::grid.html.twig';
 
-	protected function __construct($inicio, $nombreLogico, $seccion = null, $subseccion = null, $entidad = null, $formularios = array()) {
+	protected function __construct($inicio, $nombreLogico, $seccion = null, $subseccion = null, $entidad = null, $formularios = array(), $menu = null) {
 		$this->ruta_inicio = $inicio;
 		$this->nombreLogico = $nombreLogico;
 		$this->seccion = $seccion;
 		$this->subseccion = $subseccion;
+		$this->menu_seccion = $menu;
 		$this->setEntidad($entidad);
 		$this->setFormularios($formularios);
 	}
@@ -86,6 +88,8 @@ class AsistenteController extends Controller {
 
 	protected function setSeccion($seccion) {
 		$this->seccion = $seccion;
+		
+		return $this;
 	}
 
 	protected function getSubseccion() {
@@ -94,6 +98,18 @@ class AsistenteController extends Controller {
 
 	protected function setSubseccion($subseccion) {
 		$this->subseccion = $subseccion;
+		
+		return $this;
+	}
+	
+	protected function getMenu(){
+		return $this->menu_seccion;
+	}
+	
+	protected function setMenu($menu){
+		$this->menu_seccion = $menu;
+		
+		return $menu;
 	}
 
 	protected function getLimitePaginado() {
@@ -213,6 +229,7 @@ class AsistenteController extends Controller {
 			$this->opciones_plantilla['empleado'] = $this->getEmpleado();
 			$this->opciones_plantilla['seccion'] = $this->getSeccion();
 			$this->opciones_plantilla['subseccion'] = $this->getSubseccion();
+			$this->opciones_plantilla['menu_seccion'] = $this->getMenu();
 		}
 
 		return $this->opciones_plantilla;

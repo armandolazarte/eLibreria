@@ -20,7 +20,7 @@ class LineaAlbaranType extends AbstractType{
 							'attr' => array('class' => 'titulo', 'value' => 'Titulo')
 					))
 					-> add('editorial', 'text', array(
-							'required' => true,
+							'required' => false,
 							'disabled' => false,
 							'attr' => array('class' => 'editorial', 'value' => 'Editorial')
 					))

@@ -43,7 +43,11 @@
 		{% block seccion_menu %}
 		<aside class="menu">
 			{% block seccion_menu_include %}
-			{% include 'RGMELibreriaIndexBundle::menu_izq.html.twig' %}
+				{% if menu_seccion %}
+					{% include menu_seccion %}
+				{% else %}
+					{% include 'RGMELibreriaIndexBundle::menu_izq.html.twig' %}
+				{% endif %}
 			{% endblock %}
 		</aside>
 		{% endblock %}

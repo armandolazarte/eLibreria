@@ -1,0 +1,7 @@
+parameters:
+#    rg_me_libreria_reservas.example.class: RGM\eLibreria\ReservasBundle\Example
+
+services:
+#    rg_me_libreria_reservas.example:
+#        class: %rg_me_libreria_reservas.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

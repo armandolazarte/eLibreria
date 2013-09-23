@@ -1,3 +1,7 @@
 rgm_e_libreria_ventas_ticket_ver:
     pattern: /ticket/ver
     defaults: { _controller: 'RGMELibreriaVentasBundle:Ticket:verTicket' }
+    
+rgm_e_libreria_ventas_homepage:
+    pattern: /ventas
+    defaults: { _controller: 'RGMELibreriaVentasBundle:Venta:index' }

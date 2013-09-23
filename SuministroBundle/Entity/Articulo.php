@@ -12,7 +12,7 @@ use RGM\eLibreria\SuministroBundle\Controller\ArticuloVendible;
 class Articulo implements ArticuloVendible {
 
 	/**
-	 * @ORM\Column(name="ref", type="integer")
+	 * @ORM\Column(name="ref", type="string", length=255)
 	 * @ORM\Id
 	 */
 	private $ref;
@@ -37,7 +37,10 @@ class Articulo implements ArticuloVendible {
 	 */
 	private $iva;
 
-	private $vendido;
+	/**
+	 * @ORM\Column(name="vendido", type="integer")
+	 */
+	private $vendido = 0;
 
 	public function getReferencia() {
 		return $this->ref;
@@ -45,7 +48,7 @@ class Articulo implements ArticuloVendible {
 	public function getPrecio() {
 		return $this->precio;
 	}
-	public function getIVA() {
+	public function getIva() {
 		return $this->iva;
 	}
 

@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class CrearAlbaranType extends AbstractType{
 	public function buildForm(FormBuilderInterface $builder, array $options){
-		$builder -> add('id', 'text', array(
+		$builder -> add('numeroAlbaran', 'text', array(
 						'required' => true,
 						'disabled' => false,
 						'label' => 'Numero de Albaran'							

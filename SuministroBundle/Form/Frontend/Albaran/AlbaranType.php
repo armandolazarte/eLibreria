@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class AlbaranType extends AbstractType{
 	public function buildForm(FormBuilderInterface $builder, array $options){
 		
-		$builder -> add('id', 'text', array(
+		$builder -> add('numeroAlbaran', 'text', array(
 						'required' => false,
 						'disabled' => true,
 						'label' => 'Numero de Albaran'							
@@ -31,7 +31,7 @@ class AlbaranType extends AbstractType{
 						'attr' => array('class' => 'dateJquery'),					
 				))
 				-> add('fechaVencimiento', 'datetime', array(
-						'required' => true,
+						'required' => false,
 						'disabled' => false,
 						'label' => 'Fecha de Vencimiento',						
 						'widget' => 'single_text',

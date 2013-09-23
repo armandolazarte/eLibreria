@@ -61,9 +61,9 @@ class Ejemplar implements ArticuloVendible {
 	/**
 	 * @var float
 	 *
-	 * @ORM\Column(name="IVA", type="float", nullable=false)
+	 * @ORM\Column(name="iva", type="float", nullable=false)
 	 */
-	private $IVA;
+	private $iva;
 
 	public function __construct(Libro $l){
 		$this->libro = $l;
@@ -164,47 +164,18 @@ class Ejemplar implements ArticuloVendible {
 		return $this;
 	}
 
-	public function getIVA() {
-		return $this->IVA;
+	public function getIva() {
+		return $this->iva;
 	}
 
-	public function setIVA($IVA) {
-		$this->IVA = $IVA;
+	public function setIva($IVA) {
+		$this->iva = $IVA;
+		
 		return $this;
 	}
 
 	public function getPrecioTotal() {
-		return $this->getPrecio() * (1 + $this->getIVA());
-	}
-
-	public function getRecargoIVA() {
-		$res = 0;
-
-		if ($this->IVA <= 0.04) {
-			$res = 0.005;
-		}
-
-		if ($this->IVA > 0.04 && $this->IVA <= 0.1) {
-			$res = 0.014;
-		}
-
-		if ($this->IVA >= 0.21) {
-			$res = 0.052;
-		}
-
-		return $res;
-	}
-
-	public function getImporte() {
-		$precio = $this->getPrecio();
-
-		$iva = $precio * $this->getIVA();
-		$rec = $precio * $this->getRecargoIVA();
-		$des = $precio * $this->getDescuento();
-
-		$res = $precio + $iva + $rec - $des;
-
-		return $res;
+		return $this->getPrecio() * (1 + $this->getIva());
 	}
 
 	public function getItemAlbaran() {

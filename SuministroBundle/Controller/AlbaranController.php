@@ -17,6 +17,8 @@ use APY\DataGridBundle\Grid\Column\BlankColumn;
 class AlbaranController extends AsistenteController{
 	private $seccion = 'Gestor de Suministros';
 	private $subseccion = 'Albaranes';
+	
+	private $numElementosPagina = 33;
 
 	private $repositorio_libro = 'RGMELibreriaLibroBundle:Libro';
 	private $entidad_libro = 'RGM\eLibreria\LibroBundle\Entity\Libro';
@@ -117,6 +119,10 @@ class AlbaranController extends AsistenteController{
 		return $this->getArrayOpcionesVista(
 				null,
 				$this->getOpcionesGridAjax());
+	}
+	
+	private function registrarLineaAlbaran($linea){
+		
 	}
 	
 	public function verAlbaranesAction(){
@@ -298,58 +304,12 @@ class AlbaranController extends AsistenteController{
 				
 				//Persisto el albaran
 				$em->persist($entidad);
+				$em->flush();
 				
 				//Recorro todas las lineas del albaran
 				foreach($lineas as $l){
-					//Busco si existe el libro
-					$libro = $em->getRepository($this->repositorio_libro)->find($l->getRef());
-					
-					if(!$libro){
-						//Si el libro no existe: Crearlo y persistirlo
-						
-						$libro = $this->getNuevaInstancia($this->entidad_libro);
-						
-						$libro->setISBN($l->getRef());
-						$libro->setTitulo($l->getTitulo());
-						
-						//Mirar si editorial existe, sino, crearla y vincularla al libro
-						$editorial = $em->getRepository($this->repositorio_editorial)->findOneBy(array(
-								'nombre' => $l->getEditorial()
-						));
-						
-						if(!$editorial && $l->getEditorial()){
-							$editorial = $this->getNuevaInstancia($this->entidad_editorial);
-							
-							$editorial->setNombre($l->getEditorial());
-							
-							$em->persist($editorial);
-							$em->flush();
-							
-							$libro->setEditorial($editorial);
-						}
-												
-						$em->persist($libro);
-					}
-					
-					//Crear tantos ejemplares con la informacion como numeroUnidades
-					for($i = 0; $i < $l->getNumeroUnidades(); $i++){
-						$ejemplar = $this->getNuevaInstancia($this->entidad_ejemplar, array($libro));
-						$item_albaran = $this->getNuevaInstancia($this->entidad_item_albaran);
-						
-						$ejemplar->setPrecio($l->getPrecio());
-						$ejemplar->setIVA($l->getIVA());
-						
-						$em->persist($ejemplar);
-						
-						$item_albaran->setAlbaran($entidad);
-						$item_albaran->setEjemplar($ejemplar);
-						$item_albaran->setDescuento($l->getDescuento());
-						
-						$em->persist($item_albaran);
-					}
-				}
-					
-				$em->flush();
+					RegistroLineaAlbaran::registrarLineaAlbaran($l, $entidad, $em);
+				}					
 				
 				$this->setFlash($this->flash_crear);
 				return $this->irInicio();
@@ -466,6 +426,7 @@ class AlbaranController extends AsistenteController{
 			$opciones['bTotal'] = $calculoAlbaran['bTotal'];
 				
 			$opciones['lineas'] = $calculoAlbaran['lineas'];
+			$opciones['numPaginas'] = $calculoAlbaran['numPaginas'];
 		}
 		
 		return $this->render($this->plantilla_ver_albaran, $opciones);
@@ -557,8 +518,10 @@ class AlbaranController extends AsistenteController{
 		$em->persist($albaran);
 		$em->flush();
 		
-		$salida['lineas'] = $lineasAlbaran;
+		$salida['lineas'] = $lineasAlbaran->getValues();
 		
+		$salida['numPaginas'] = ceil(count($lineasAlbaran) / $this->numElementosPagina);
+				
 		return $salida;
 	}
 }

@@ -111,5 +111,19 @@ $(document).ready(function(){
 			$fechaV.parent().show();
 		}
 	});
+	
+	$('#rgm_elibreria_suministro_albarantype_contrato').on('change', function(){
+		$fechaV = $('#rgm_elibreria_suministro_albarantype_fechaVencimiento');
+		
+		textoSeleccionado = $('#rgm_elibreria_suministro_albarantype_contrato option:selected').text();
+		
+		if(textoSeleccionado.indexOf('En efectivo') != -1){
+			$fechaV.val('');
+			$fechaV.parent().hide();
+		}
+		else{
+			$fechaV.parent().show();
+		}
+	});
 });
 
