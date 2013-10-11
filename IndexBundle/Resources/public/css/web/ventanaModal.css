@@ -1,6 +1,6 @@
 @import url('forms/forms.css');
 
-#ventanaModal
+.ventanaModal
 {
 	position:fixed;
 	top:0;
@@ -13,7 +13,7 @@
 	z-index:1000000;
 }
 
-.ventanaModal_contenedor
+.vm_contenedor
 {
 	width:800px;
 	max-height:85%;
@@ -27,27 +27,28 @@
 	padding-bottom: 15px;
 }
 
-#ventanaModal .cerrar
+.vm_cierre
 {
 	float:right;
 	display:block;
 	border-radius:10px;
 	background:#444;
 	transition:all 1s;
+	cursor: pointer;
 	color:#DDD;
 	font:normal normal bold 10px Verdana;
 	margin:-4px 10px 5px;
 	padding:5px 10px;
 }
 
-#ventanaModal .cerrar:hover
+.vm_cierre:hover
 {
 	font-size:15px;
 	margin-top:-6.5px;
 	margin-right:8.5px;
 }
 
-#ventanaModal header
+.vm_header
 {
 	font:normal normal bold 15px Verdana;
 	border-bottom:1px solid #777;

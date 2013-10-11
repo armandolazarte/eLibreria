@@ -2,21 +2,17 @@
 
 namespace RGM\eLibreria\UsuarioBundle\Controller;
 
-use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
+use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use Symfony\Component\Security\Core\SecurityContext;
 
-class UsuarioController extends AsistenteController
-{
-	private $plantilla_login = 'login.html.twig';
-	private $plantilla_editar = 'index.html.twig';
-	private $plantilla_cambiar_password = 'password.html.twig';
-	
+class UsuarioController extends Asistente{
+	private $bundle = "usuariobundle";
+	private $controlador = "usuario";
+		
 	public function __construct(){
 		parent::__construct(
-				'rgarcia_entrelineas_usuario_homepage', 
-				'RGMELibreriaUsuarioBundle');
-		
-		$this->setPath('Usuario:');
+				$this->bundle,
+				$this->controlador);
 	}
 	
 	public function editarAction(){
@@ -36,13 +32,17 @@ class UsuarioController extends AsistenteController
 		);
 		
 		$opciones = array();
-
-		$opciones['titulo'] = $this -> getTitulo();
-		$opciones['titulo_ventana'] = 'Login';
-		$opciones['last_username'] = $sesion->get(SecurityContext::LAST_USERNAME);
-		$opciones['error'] = $error;
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_login');
+		$opciones['vm']['plantilla'] = $this->getRecurso($this->getPlantilla('vm_login'));
 		
-		return $this->render($this -> getPath() . $this -> plantilla_login, $opciones);
+		$opcionesVM = array();
+		$opcionesVM['ruta_login'] = $this->generateUrl($this->getParametro('ruta_login'));
+		$opcionesVM['last_username'] = $sesion->get(SecurityContext::LAST_USERNAME);
+		$opcionesVM['error'] = $error;
+		
+		$opciones['vm']['opciones'] = $opcionesVM;
+		
+		return $this->render($this->getRecurso($this->getPlantilla('login')), $opciones);
 	}
 }
 ?>

@@ -1,0 +1,16 @@
+parameters:
+    usuariobundle.usuario:
+        inicio: 'rgarcia_entrelineas_usuario_homepage'
+        seccion: 'Gestión de Usuarios'
+        subseccion: 'Usuario'
+        nombrelogicobundle: 'RGMELibreriaUsuarioBundle'
+        path: 'Usuario'
+        plantillas:
+            login: 'login.html.twig'
+            editar: 'editar.html.twig'
+            password: 'password.html.twig'
+            vm_login: 'plantilla_vm_login.html.twig'
+        
+        ruta_login: 'rgarcia_entrelineas_usuario_login_check'
+        titulo_login: 'Login'
+        titulo_submit_login: 'Acceder'

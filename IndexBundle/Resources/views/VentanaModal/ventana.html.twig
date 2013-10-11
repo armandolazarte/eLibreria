@@ -1,0 +1,11 @@
+<div id="ventanaModal" class="ventanaModal" onclick="vm_cerrar(event, this);">
+	<div class="vm_contenedor">
+		<header class="vm_header">
+			<a class="vm_cierre" onclick="vm_cerrar(event, this);">X</a>
+			<h2 class="vm_titulo">{{ vm.titulo }}</h2>
+		</header>
+		<section class="vm_cuerpo">
+			{% include vm.plantilla %}
+		</section>
+	</div>
+</div>

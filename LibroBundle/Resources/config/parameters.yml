@@ -1,0 +1,35 @@
+parameters:
+    librobundle.libro:
+        inicio: 'rgarcia_entrelineas_libro_homepage'
+        seccion: 'Gestión de Libros'
+        subseccion: 'Libros'
+        nombrelogicobundle: 'RGMELibreriaLibroBundle'
+        path: 'Libro'
+        formularios:
+            creador: 'RGM\eLibreria\LibroBundle\Form\Frontend\Libro\LibroCrearMasivoType'
+            editor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Libro\LibroType'
+            visor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Libro\LibroVisorType'
+        entidad: 'Libro'
+        clase_entidad: 'RGM\eLibreria\LibroBundle\Entity\Libro'
+        plantillas:
+            principal: 'verLibros.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgarcia_entrelineas_libro_crear'
+        titulo_crear: 'Crear nuevo libro'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Libro creada con exito'
+        
+        grid_ruta_editar: 'rgarcia_entrelineas_libro_editar'
+        titulo_editar: 'Editar libro'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Libro editado con exito'
+        
+        grid_ruta_borrar: 'rgarcia_entrelineas_libro_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar libro'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Libro borrado con exito'

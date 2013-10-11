@@ -10,6 +10,8 @@ class AsistenteController extends Controller {
 	private $entidad_configBasica = 'ConfigBasica';
 	private $alias_configBasica = 'a';
 
+	private static $opcionesGlobales = array();
+
 	private $ruta_inicio = null;
 	private $nombreLogico = null;
 	private $path = null;
@@ -27,8 +29,6 @@ class AsistenteController extends Controller {
 	private $opciones_plantilla = null;
 
 	private $nombreFormularios = array();
-
-	private static $opcionesGlobales = array();
 	
 	private $plantilla_grid = 'RGMELibreriaIndexBundle::grid.html.twig';
 

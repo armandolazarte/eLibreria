@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class GridController extends Controller{
 	private $path = 'RGMELibreriaIndexBundle:Grid:';
 	private $plantilla_grid = 'grid.html.twig';
-	private $plantilla_verGrid = 'verGrid.html.twig';
 	
 	private $controller;
 	
@@ -27,15 +26,17 @@ class GridController extends Controller{
 	private $grid_ruta_borrar;
 	private $grid_confirmar_borrar;
 	
-	private $editar;
-	private $borrar;
-	
 	public function __construct($nombreEntidad, $controller){
 		$this->nombreEntidad = $nombreEntidad;
 		$this->controller = $controller;
 		
+		$matches = array();
+		$infoController = $controller->getRequest()->attributes->get('_controller');				
+		preg_match('/Controller\\\(.*)::/', $infoController, $matches);
+		
 		$this->source = new Entity($nombreEntidad);
 		$this->grid = $controller->get('grid');
+		$this->grid->setId($matches[1]);
 		$this->grid->setSource($this -> source);
 	}
 	
@@ -74,7 +75,7 @@ class GridController extends Controller{
 		}
 		
 		if(!isset($opciones['grid_limites'])){
-			$res['grid_limites'] = array(6,10,15);
+			$res['grid_limites'] = array(5,10,15);
 		}
 		
 		return $res;
@@ -83,20 +84,19 @@ class GridController extends Controller{
 	private function configGrid(){				
 		if($this->opcionesGrid['grid_ruta_editar'] != null){
 			$accionEditar = new RowAction($this -> opcionesGrid['grid_boton_editar'], $this -> opcionesGrid['grid_ruta_editar'], false, '_self', array('class' => 'editar'));
-		
 			$this -> grid -> addRowAction($accionEditar);
 		}
 		
 		if($this->opcionesGrid['grid_ruta_borrar'] != null){
 			$accionBorrar = new RowAction($this -> opcionesGrid['grid_boton_borrar'], $this -> opcionesGrid['grid_ruta_borrar'], true, '_self', array('class' => 'borrar'));
 			$accionBorrar -> setConfirmMessage($this -> opcionesGrid['grid_confirmar_borrar']);
-
 			$this -> grid -> addRowAction($accionBorrar);
 		}
-						
+				
+		
 		$this -> grid -> addMassAction(new DeleteMassAction(true));
 		
-		$this->grid->setActionsColumnSize(50);
+		$this -> grid -> setActionsColumnSize(50);
 		
 		$this -> grid -> setLimits($this -> opcionesGrid['grid_limites']);
 	}
@@ -114,24 +114,40 @@ class GridController extends Controller{
 		$this->grid->addColumn($columnaEstado, $pos);
 	}
 	
-	public function getRender(){		
-		return $this->grid->getGridResponse($this -> path . $this -> plantilla_verGrid, $this->opcionesGrid);;
+	private function setVista(){
+		$sesion = $this->controller->getRequest()->getSession()->get('vistas_grid');
+		
+		if($sesion != null){
+			if(array_key_exists($this->grid->getHash(), $sesion)){
+				$this->grid->setDefaultPage($sesion[$this->grid->getHash()]['page'] + 1);
+				$this->grid->setDefaultLimit($sesion[$this->grid->getHash()]['limit']);
+			}
+		}
 	}
 	
-	public function getRenderAjax(){
-		return $this->grid->getGridResponse($this -> path . $this -> plantilla_grid, $this->opcionesGrid);
+	private function guardarVista($page, $limit){
+		$sesion = $this->controller->getRequest()->getSession()->get('vistas_grid');
+		
+		$sesion[$this->grid->getHash()] = array(
+				'page' => $page,
+				'limit' => $limit
+		); 
+		
+		$this->controller->getRequest()->getSession()->set('vistas_grid', $sesion);
 	}
 	
-	public function getRenderVentanaModal(){
-		$this->grid->isReadyForRedirect();
+	public function getRender($plantilla){	
+		$this->setVista();
 		
-		$this->opcionesGrid['grid'] = $this->grid;
+		$render = $this->grid->getGridResponse($plantilla, $this->opcionesGrid);
 		
-		$ventanaModal = new VentanaModal(
-				$this -> path,
-				$this -> opcionesGrid);
-		
-		return $ventanaModal -> renderVentanaModal($this -> controller);
+		$this->guardarVista($this->grid->getPage(), $this->grid->getLimit());
+				
+		return $render;
+	}
+	
+	public function getRenderAjax(){		
+		return $this->getRender($this->path . $this->plantilla_grid);
 	}
 }
 ?>

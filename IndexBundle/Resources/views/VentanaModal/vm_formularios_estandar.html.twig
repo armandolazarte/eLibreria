@@ -1,0 +1,9 @@
+{% if vm.opciones.path_form is defined %}<form method="POST" action="{{ vm.opciones.path_form }}" {% if vm.opciones.form %}{{ form_enctype(vm.opciones.form) }}{% endif %}>{% endif %}				
+	{% if vm.opciones.titulo_form is defined %}<p class="titulo_form">{{ vm.opciones.titulo_form }}</p>{% endif %}
+	{% if vm.opciones.msg is defined %}<p class="msg">{{ vm.opciones.msg }}</p>{% endif %}	
+	{% if vm.opciones.form is defined %}<div class="form">{{ form_widget(vm.opciones.form) }}</div>{% endif %}
+	{% if vm.opciones.msg_confirmar is defined %}<p class="msg_confirmar">{{ vm.opciones.msg_confirmar }}</p>{% endif %}
+	{% if vm.opciones.msg_confirmar2 is defined %}<p class="msg_confirmar">{{ vm.opciones.msg_confirmar2 }}</p>{% endif %}
+	{% if vm.opciones.opcion_salto_msg is defined %}<p class="opcion_salto_msg">{{ vm.opciones.opcion_salto_msg }} haga click <a href="{{ vm.opciones.opcion_salto_dir }}">aquí</a>{% endif %}
+	{% if vm.opciones.titulo_submit is defined %}<input class="submit" type="submit" value="{{ vm.opciones.titulo_submit }}">{% endif %}
+{% if vm.opciones.path_form is defined %}</form>{% endif %}

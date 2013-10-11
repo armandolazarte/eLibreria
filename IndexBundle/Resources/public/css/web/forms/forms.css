@@ -31,6 +31,19 @@
 	overflow-y: auto;
 }
 
+.cajaEleccionEntidades input, .cajaEleccionEntidades label{
+	margin: 10px 10px;
+}
+
+.cajaEleccionEntidades input{
+	float: left;
+	clear: both;
+}
+
+.cajaEleccionEntidades label{
+	float: left;
+}
+
 #rgm_e_libreria_suministrobundle_crearalbarantype_lineas{
 	margin: 10px 0px;
 	

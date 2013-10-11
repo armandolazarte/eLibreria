@@ -1,70 +1,52 @@
-{% extends '::base.html.twig' %}
+{% extends 'RGMELibreriaIndexBundle::base.html.twig' %}
 
 {% block title %}{{ titulo }}{% endblock %}
 
-{% block stylesheets %}
-	<link href="{{ asset('bundles/rgmelibreriaindex/css/estilo.css') }}" type="text/css" rel="stylesheet" />
-	<link href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.css" type="text/css" rel="stylesheet" />
-	
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-	<script src="{{ asset('bundles/rgmelibreriaindex/js/timepicker.js') }}"></script>
-{% endblock %}
-
-{% block body %}
-<div id="contenedor">
-	{% block cabecera %}
-	<header id="barra">
-		<nav id="barra_nav" class="desaparece">
-			{% include 'RGMELibreriaIndexBundle::menu_cabecera.html.twig' %}
-		</nav>		
-		
-		<h1 class="desaparece">{{ titulo }}</h1>
-		
-		<aside class="conectado desaparece">
-			Conectado como: {{ empleado }}
-		</aside>
-	</header>
-	{% endblock %}
-	
-	{% block cuerpo %}
-	<section id="cuerpo">
-		{% block buscar %}
-		<input type="text" class="busqueda" id="busqueda" placeholder="Buscar">
+{% block contenedor %}
+		{% block cabecera %}
+		<header id="barra">
+			<nav id="barra_nav" class="desaparece">
+				{% include 'RGMELibreriaIndexBundle::menu_cabecera.html.twig' %}
+			</nav>		
+			
+			<h1 class="desaparece">{{ titulo }}</h1>
+			
+			<aside class="conectado desaparece">
+				Conectado como: 
+			</aside>
+		</header>
 		{% endblock %}
 		
-		{% block seccion_titulo %}
-		<hgroup>
-			<h1 class="seccion">{% block sec_tit_titulo %}{{ seccion }}{% endblock %}</h1>
-			<h2 class="subseccion">{% block sec_tit_subtitulo %}{{ subseccion }}{% endblock %}</h2>
-		</hgroup>
-		{% endblock %}
-		
-		{% block seccion_menu %}
-		<aside class="menu">
-			{% block seccion_menu_include %}
-				{% if menu_seccion %}
-					{% include menu_seccion %}
-				{% else %}
-					{% include 'RGMELibreriaIndexBundle::menu_izq.html.twig' %}
-				{% endif %}
+		{% block cuerpo %}
+		<section id="cuerpo">
+			{% block buscar %}
+			<input type="text" class="busqueda" id="busqueda" placeholder="Buscar">
 			{% endblock %}
-		</aside>
+			
+			{% block seccion_titulo %}
+			<hgroup>
+				<h1 class="seccion">{% block sec_tit_titulo %}{{ seccion }}{% endblock %}</h1>
+				<h2 class="subseccion">{% block sec_tit_subtitulo %}{{ subseccion }}{% endblock %}</h2>
+			</hgroup>
+			{% endblock %}
+			
+			{% block seccion_menu %}
+			<aside class="menu">
+				{% block seccion_menu_include %}
+					{% if menu_seccion %}
+						{% include menu_seccion %}
+					{% else %}
+						{% include 'RGMELibreriaIndexBundle::menu_izq.html.twig' %}
+					{% endif %}
+				{% endblock %}
+			</aside>
+			{% endblock %}
+			
+			{% block article_contenido %}
+				<article id="contenido">
+					{% block contenido %}{% endblock %}
+				</article>
+			{% endblock %}
+		</section>
 		{% endblock %}
-		
-		{% block article_contenido %}
-			<article id="contenido">
-				{% block contenido %}{% endblock %}
-			</article>
-		{% endblock %}
-	</section>
-	{% endblock %}
-</div>
-{% include 'RGMELibreriaIndexBundle::flashes.html.twig' %}
-{% endblock %}
-
-{% block javascripts %}			
-	{% javascripts '@RGMELibreriaIndexBundle/Resources/public/js/main.js' %}
-	    <script type="text/javascript" src="{{ asset_url }}"></script>
-	{% endjavascripts %}
 {% endblock %}

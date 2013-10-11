@@ -1,63 +1,23 @@
 <?php
-
 namespace RGM\eLibreria\LibroBundle\Controller;
 
-use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
+use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
 use APY\DataGridBundle\Grid\Column\BlankColumn;
-use Symfony\Component\HttpFoundation\Response;
-//use APY\DataGridBundle\Grid\Action\RowAction;
+use Symfony\Component\HttpFoundation\Request;
 
-class LibroController extends AsistenteController
-{
-	private $seccion = 'Gestor de Libros';
-	private $subseccion = 'Libros';
-	
-	private $logicoBundle = 'RGMELibreriaLibroBundle';
-	private $ruta_inicio = 'rgarcia_entrelineas_libro_homepage';
-	
-	private $entidad = 'Libro';
-	private $entidad_clase = 'RGM\eLibreria\LibroBundle\Entity\Libro';
-	private $alias = 'l';
-	
-	private $nombreFormularios = array(
-			'creador' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Libro\LibroCrearMasivoType',
-			'editor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Libro\LibroType',
-			'visor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Libro\LibroVisorType'
-	);	
-	
-	private $ruta_form_crear = 'rgarcia_entrelineas_libro_crear';
-	private $titulo_crear = 'Crear Libro';
-	private $titulo_submit_crear = 'Crear';
-	private $flash_crear = 'Libro creado con exito';
-	
-	private $grid_boton_editar = 'Editar';
-	private $grid_ruta_editar = 'rgarcia_entrelineas_libro_editar';
-	private $titulo_editar = 'Editar Libro';
-	private $titulo_submit_editar = 'Actualizar';
-	private $flash_editar = 'Libro editado con exito';
-
-	private $grid_boton_borrar = 'Borrar';
-	private $grid_ruta_borrar = 'rgarcia_entrelineas_libro_borrar';
-	private $titulo_borrar = 'Confirmar Borrado';
-	private $msg_borrar = 'Se va a proceder a borrar los siguientes datos.';
-	private $titulo_form_borrar = 'Borrar Libro';
-	private $msg_confirmar_borrar = '¿Realmente desea borrar el libro?';
-	private $titulo_submit_borrar = '¡Si, Estoy seguro!';
-	private $flash_borrar = 'Libro borrado con exito';
+class LibroController extends Asistente{
+	private $bundle = 'librobundle';
+	private $controller = 'libro';
 	
 	public function __construct(){
 		parent::__construct(
-				$this->ruta_inicio, 
-				$this->logicoBundle,  
-				$this->seccion,
-				$this->subseccion,
-				$this->entidad,
-				$this->nombreFormularios);
+				$this->bundle,
+				$this->controller);
 	}
 	
 	private function getGrid(){
-		$grid = new GridController($this->getNombreEntidad(), $this);
+		$grid = new GridController($this->getEntidadLogico($this->getParametro('entidad')), $this);
 
 		// create a column
 		$autores = new BlankColumn(array('id' => 'autores', 'title' => 'Autores', 'size' => '100', 'safe' => false));
@@ -70,222 +30,226 @@ class LibroController extends AsistenteController
 		$grid->getGrid()->addColumn($stock);
 		$grid->getGrid()->addColumn($pv);
 		
-		$controlador = $this;
-		
-		$grid->getSource()->manipulateRow(
-				function ($row) use ($controlador)
-				{
-					$entidad = $row->getEntity();
+		$controlador = $this;		
+		$grid->getSource()->manipulateRow(function($row) use($controlador){
+			$entidad = $row->getEntity();
 
-					$autores = $entidad->getAutores();
-					$estilos = $entidad->getEstilos();
-					$ejemplares = $entidad->getEjemplares();
-					
-					$salida_estilos = '-';
-					$salida_autores = '-';
-					$salida_ejemplares = $entidad->getStock() . '/' . $entidad->getTotalEjemplares();
-					$salida_porcentaje = '-';
-					
-					if(!$autores->isEmpty()){
-						$salida_autores = '<ul class="autores">';
-						
-						foreach($autores as $a){
-							$salida_autores .= '<li>' . $a . '</li>';
-						}
-						
-						$salida_autores .= '</ul>';
-					}
-					
-					if(!$estilos->isEmpty()){
-						$salida_estilos = '<ul class="autores">';
-						
-						foreach($estilos as $e){
-							$salida_estilos .= '<li>' . $e . '</li>';
-						}
-						
-						$salida_estilos .= '</ul>';
-					}
-
-					$row->setField('autores', $salida_autores);
-					$row->setField('estilos', $salida_estilos);
-					$row->setField('stock', $salida_ejemplares);
-					$row->setField('p_venta', ($entidad->getPorcentajeVenta() * 100) . '%' );
-						
-					return $row;
+			$autores = $entidad->getAutores();
+			$estilos = $entidad->getEstilos();
+			$ejemplares = $entidad->getEjemplares();
+			
+			$salida_estilos = '-';
+			$salida_autores = '-';
+			$salida_ejemplares = $entidad->getStock() . '/' . $entidad->getTotalEjemplares();
+			$salida_porcentaje = '-';
+			
+			if(!$autores->isEmpty()){
+				$salida_autores = '<ul class="autores">';
+				
+				foreach($autores as $a){
+					$salida_autores .= '<li>' . $a . '</li>';
 				}
-		);
+				
+				$salida_autores .= '</ul>';
+			}
+			
+			if(!$estilos->isEmpty()){
+				$salida_estilos = '<ul class="estilos">';
+				
+				foreach($estilos as $e){
+					$salida_estilos .= '<li>' . $e . '</li>';
+				}
+				
+				$salida_estilos .= '</ul>';
+			}
+
+			$row->setField('autores', $salida_autores);
+			$row->setField('estilos', $salida_estilos);
+			$row->setField('stock', $salida_ejemplares);
+			$row->setField('p_venta', ($entidad->getPorcentajeVenta() * 100) . '%' );
+				
+			return $row;
+		});
 		
 		return $grid;
 	}
 	
 	private function getOpcionesGridAjax(){	
 		return $this->getArrayOpcionesGridAjax(
-				$this -> grid_boton_editar,
-				$this -> grid_ruta_editar,
-				$this -> grid_boton_borrar,
-				$this -> grid_ruta_borrar,
-				$this -> msg_confirmar_borrar);
+				$this->getParametro('grid_boton_editar'),
+				$this->getParametro('grid_ruta_editar'),
+				$this->getParametro('grid_boton_borrar'),
+				$this->getParametro('grid_ruta_borrar'),
+				$this->getParametro('msg_confirmar_borrar'));
 	}
 	
 	private function getOpcionesVista(){	
-		return $this->getArrayOpcionesVista(
-				$this->ruta_form_crear,
-				$this->getOpcionesGridAjax());
+		$opciones = $this->getArrayOpcionesVista($this->getOpcionesGridAjax());
+		$opciones['ruta_form_crear'] = $this->getParametro('ruta_form_crear');
+	
+		return $opciones;
 	}
 	
-	public function verLibrosAction(){
-		$peticion = $this -> getRequest();
+	public function verLibrosAction(Request $peticion){
 		$render = null;
-	
-		$grid = $this -> getGrid();
-	
-		if($peticion -> isXmlHttpRequest()){
-			$grid -> setOpciones($this -> getOpcionesGridAjax());
-			$render = $grid -> getRenderAjax();
+		$grid = $this->getGrid();
+		
+		if($peticion->isXmlHttpRequest()){
+			$grid->setOpciones($this->getOpcionesGridAjax());
+			$render = $grid->getRenderAjax();
 		}
 		else{
-			$grid -> setOpciones($this -> getOpcionesVista());
-			$render = $grid -> getRender();
+			$grid->setOpciones($this->getOpcionesVista());
+			$render = $grid->getRender($this->getRecurso($this->getPlantilla('principal')));
 		}
-	
+		
 		return $render;
 	}
 	
-	public function crearLibroAction($crearMasivo = null){
-		$peticion = $this -> getRequest();
-		if($peticion -> isXmlHttpRequest()){
-			return $this -> irInicio();
+	public function crearLibroAction($crearMasivo = null, Request $peticion){
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicio();
 		}
-		
-		$em = $this -> getEm();
-		
-		$opciones = $this -> getOpcionesVista();
-		
-		$opciones['titulo_ventana'] = $this -> titulo_crear;
-		$opciones['path_form'] = $this -> generateUrl($this -> ruta_form_crear);
-		$opciones['titulo_submit'] = $this -> titulo_submit_crear;
-		
-		$entidad = $this -> getNuevaInstancia($this -> entidad_clase);
+	
+		$em = $this->getEm();
+	
+		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_crear');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
+	
+		$entidad = $this->getNuevaInstancia($this->getParametro('clase_entidad'));
 		
 		$opcionesFormulario['crearMasivo'] = 0;
 		
 		if($crearMasivo != null){
 			$opcionesFormulario['crearMasivo'] = 1;
 		}
-		
-		$opciones['form'] = $this -> createForm($this -> getFormulario('creador'), $entidad, $opcionesFormulario);
-		
-		if($peticion -> getMethod() == "POST"){
-			$opciones['form'] -> bind($peticion);
-			
-			if($opciones['form'] -> isValid()){
-				$em -> persist($entidad);
-				$em -> flush();				
+	
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('ruta_form_crear'));
+		$opcionesVM['titulo_submit'] = $this->getParametro('titulo_submit_crear');
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('creador'), $entidad, $opcionesFormulario);
+	
+		if($peticion->getMethod() == "POST"){
+			$opcionesVM['form']->bind($peticion);
 				
-				$crearMasivo = $opciones['form'] -> get('crearMasivo') -> getData();
+			if($opcionesVM['form']->isValid()){
+				$em->persist($entidad);
+				$em->flush();
+				
+				$crearMasivo = $opcionesVM['form']->get('crearMasivo')->getData();
 				
 				if($crearMasivo){
-					$salida = $this -> redirect($this -> generateUrl($this -> ruta_form_crear, array('crearMasivo' => 1)));
+					$salida = $this->redirect($this->generateUrl($this->getParametro('ruta_form_crear'), array('crearMasivo' => 1)));
 				}
 				else{
-					$salida = $this -> irInicio();
+					$salida = $this->irInicio();
 				}
-				
-				$this -> setFlash($this -> flash_crear);
-				
+	
+				$this->setFlash($this->getParametro('flash_crear'));
 				return $salida;
 			}
 		}
-		
-		$grid = $this -> getGrid();
-		$grid -> setOpciones($opciones);
-		
-		return $grid -> getRenderVentanaModal();
+	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
+		$grid = $this->getGrid();
+		$grid->setOpciones($opciones);
+	
+		return $grid->getRender($this->getRecurso($this->getPlantilla('principal')));
 	}
 	
-	public function editarLibroAction($isbn){		
-		$peticion = $this -> getRequest();
-		if($peticion -> isXmlHttpRequest()){
-			return $this -> irInicio();
+	public function editarLibroAction($isbn, Request $peticion){
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicio();
 		}
-		
-		$idEntidad = $isbn;		
-		$em = $this -> getEm();
-		
-		$entidad = $em -> getRepository($this -> getNombreEntidad()) -> find($idEntidad);
-		
+	
+		$em = $this->getEm();
+	
+		$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($isbn);
+	
 		if(!$entidad){
-			return $this -> irInicio();
+			return $this->irInicio();
 		}
-		
-		$opciones = $this -> getOpcionesVista();
-			
-		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_editar, array('isbn' => $idEntidad));
-		$opciones['titulo_ventana'] = $this -> titulo_editar;
-		$opciones['titulo_submit'] = $this -> titulo_submit_editar;
-						
-		$opciones['form'] = $this -> createForm($this -> getFormulario('editor'), $entidad);
-					
-		if($peticion -> getMethod() == "POST"){
-			$opciones['form'] -> bind($peticion);
-		
-			if($opciones['form'] -> isValid()){
-				$em -> persist($entidad);
-				$em -> flush();
-					
-				$this -> setFlash($this -> flash_editar);
-				return $this -> irInicio();
+	
+		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_editar');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
+	
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('grid_ruta_editar'), array("isbn"=>$isbn));
+		$opcionesVM['titulo_submit'] = $this->getParametro('grid_boton_editar');
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('editor'), $entidad);
+	
+		if($peticion->getMethod() == "POST"){
+			$opcionesVM['form']->bind($peticion);
+	
+			if($opcionesVM['form']->isValid()){
+				$em->persist($entidad);
+				$em->flush();
+	
+				$this->setFlash($this->getParametro('flash_editar'));
+				return $this->irInicio();
 			}
 		}
-			
-		$grid = $this -> getGrid();
-		$grid -> setOpciones($opciones);
-		
-		return $grid -> getRenderVentanaModal();
+	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
+		$grid = $this->getGrid();
+		$grid->setOpciones($opciones);
+	
+		return $grid->getRender($this->getRecurso($this->getPlantilla('principal')));
 	}
 	
-	public function borrarLibroAction($isbn){
-		$peticion = $this -> getRequest();
-		if($peticion -> isXmlHttpRequest()){
-			return $this -> irInicio();
+	public function borrarLibroAction($isbn, Request $peticion){
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicio();
 		}
-		
-		$idEntidad = $isbn;		
-		$em = $this -> getEm();
-			
-		$entidad = $em -> getRepository($this -> getNombreEntidad()) -> find($idEntidad);
-			
+	
+		$em = $this->getEm();
+	
+		$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($isbn);
+	
 		if(!$entidad){
-			return $this -> irInicio();
+			return $this->irInicio();
 		}
-			
-		$opciones = $this -> getOpcionesVista();
-		
-		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_borrar, array('isbn' => $idEntidad));
-		$opciones['titulo_ventana'] = $this -> titulo_borrar;
-		$opciones['msg'] = $this -> msg_borrar;
-		$opciones['titulo_form'] = $this -> titulo_form_borrar;
-		$opciones['msg_confirmar'] = $this -> msg_confirmar_borrar;
-		$opciones['titulo_submit'] = $this -> titulo_submit_borrar;
-			
-		$opciones['form'] = $this -> createForm($this -> getFormulario('visor'), $entidad);
-		
-		if($peticion -> getMethod() == "POST"){
-			$opciones['form'] -> bind($peticion);
-		
-			if($opciones['form'] -> isValid()){
-				$em -> remove($entidad);
-				$em -> flush();
-		
-				$this -> setFlash($this -> flash_borrar);
-				return $this -> irInicio();
+	
+		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_borrar');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
+	
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('grid_ruta_borrar'), array("isbn"=>$isbn));
+		$opcionesVM['titulo_submit'] = $this->getParametro('titulo_submit_borrar');
+		$opcionesVM['msg'] = $this->getParametro('msg_borrar');
+		$opcionesVM['msg_confirmar'] = $this->getParametro('msg_confirmar_borrar');
+	
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('visor'), $entidad);
+	
+		if($peticion->getMethod() == "POST"){
+			$opcionesVM['form']->bind($peticion);
+	
+			if($opcionesVM['form']->isValid()){
+				$em->remove($entidad);
+				$em->flush();
+	
+				$this->setFlash($this->getParametro('flash_borrar'));
+				return $this->irInicio();
 			}
 		}
-		
-		$grid = $this -> getGrid();
-		$grid -> setOpciones($opciones);
-		
-		return $grid -> getRenderVentanaModal();
+	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
+		$grid = $this->getGrid();
+		$grid->setOpciones($opciones);
+	
+		return $grid->getRender($this->getRecurso($this->getPlantilla('principal')));
 	}
 	
 	public function buscarLibroAjaxAction(){
