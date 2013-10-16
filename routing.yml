@@ -1,3 +1,7 @@
+rgme_libreria_reservas:
+    resource: "@RGMeLibreriaReservasBundle/Resources/config/routing.yml"
+    prefix:   /reservas
+    
 rgme_libreria_ventas:
     resource: "@RGMELibreriaVentasBundle/Resources/config/routing.yml"
     prefix:   /ventas
