@@ -40,6 +40,7 @@ eLibreria
             new RGM\eLibreria\FinanciacionBundle\RGMELibreriaFinanciacionBundle(),
             new RGM\eLibreria\SuministroBundle\RGMELibreriaSuministroBundle(),
             new RGM\eLibreria\VentasBundle\RGMELibreriaVentasBundle(),
+            new RGM\eLibreria\ReservasBundle\RGMeLibreriaReservasBundle(),
 ```
         
 11.- Lanzar php app/console doctrine:database:create
