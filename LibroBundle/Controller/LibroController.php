@@ -86,6 +86,7 @@ class LibroController extends Asistente{
 	private function getOpcionesVista(){	
 		$opciones = $this->getArrayOpcionesVista($this->getOpcionesGridAjax());
 		$opciones['ruta_form_crear'] = $this->getParametro('ruta_form_crear');
+		$opciones['titulo_crear'] = $this->getParametro('titulo_crear');
 	
 		return $opciones;
 	}
@@ -100,7 +101,7 @@ class LibroController extends Asistente{
 		}
 		else{
 			$grid->setOpciones($this->getOpcionesVista());
-			$render = $grid->getRender($this->getRecurso($this->getPlantilla('principal')));
+			$render = $grid->getRender($this->getPlantilla('principal'));
 		}
 		
 		return $render;
@@ -158,7 +159,7 @@ class LibroController extends Asistente{
 		$grid = $this->getGrid();
 		$grid->setOpciones($opciones);
 	
-		return $grid->getRender($this->getRecurso($this->getPlantilla('principal')));
+		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
 	public function editarLibroAction($isbn, Request $peticion){
@@ -202,7 +203,7 @@ class LibroController extends Asistente{
 		$grid = $this->getGrid();
 		$grid->setOpciones($opciones);
 	
-		return $grid->getRender($this->getRecurso($this->getPlantilla('principal')));
+		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
 	public function borrarLibroAction($isbn, Request $peticion){
@@ -249,7 +250,7 @@ class LibroController extends Asistente{
 		$grid = $this->getGrid();
 		$grid->setOpciones($opciones);
 	
-		return $grid->getRender($this->getRecurso($this->getPlantilla('principal')));
+		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
 	public function buscarLibroAjaxAction(){

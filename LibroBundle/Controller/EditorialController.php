@@ -1,217 +1,189 @@
 <?php 
 namespace RGM\eLibreria\LibroBundle\Controller;
 
-use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
+use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EditorialController extends AsistenteController{
-	
-	private $seccion = 'Gestor de Libros';
-	private $subseccion = 'Editoriales';
-	
-	private $logicoBundle = 'RGMELibreriaLibroBundle';
-	private $ruta_inicio = 'rgarcia_entrelineas_editorial_homepage';
-	
-	private $entidad = 'Editorial';
-	private $entidad_clase = 'RGM\eLibreria\LibroBundle\Entity\Editorial';
-	private $alias = 'e';
-	
-	private $nombreFormularios = array(
-			'editor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Editorial\EditorialType',
-			'visor' => 'RGM\eLibreria\LibroBundle\Form\Frontend\Editorial\EditorialVisorType'
-	);
-	
-	private $ruta_form_crear = 'rgarcia_entrelineas_editorial_crear';
-	private $titulo_crear = 'Crear Editorial';
-	private $titulo_submit_crear = 'Crear';
-	private $flash_crear = 'Editorial creada con exito';
-	
-	private $grid_boton_editar = 'Editar';
-	private $grid_ruta_editar = 'rgarcia_entrelineas_editorial_editar';
-	private $titulo_editar = 'Editar Editorial';
-	private $titulo_submit_editar = 'Actualizar';
-	private $flash_editar = 'Editorial editada con exito';
-	
-	private $grid_boton_borrar = 'Borrar';
-	private $grid_ruta_borrar = 'rgarcia_entrelineas_editorial_borrar';
-	private $titulo_borrar = 'Confirmar Borrado';
-	private $msg_borrar = 'Se va a proceder a borrar los siguientes datos.';
-	private $titulo_form_borrar = 'Borrar Editorial';
-	private $msg_confirmar_borrar = '¿Realmente desea borrar el autor?';
-	private $titulo_submit_borrar = '¡Si, Estoy seguro!';
-	private $flash_borrar = 'Editorial borrada con exito';
+class EditorialController extends Asistente{
+	private $bundle = 'librobundle';
+	private $controller = 'editorial';
 	
 	public function __construct(){
 		parent::__construct(
-				$this->ruta_inicio, 
-				$this->logicoBundle,  
-				$this->seccion,
-				$this->subseccion,
-				$this->entidad,
-				$this->nombreFormularios);
+				$this->bundle,
+				$this->controller);
 	}
 	
 	private function getGrid(){
-		$grid = new GridController($this->getNombreEntidad(), $this);
-			
+		$grid = new GridController($this->getEntidadLogico($this->getParametro('entidad')), $this);
+		
 		return $grid;
 	}
 	
 	private function getOpcionesGridAjax(){	
 		return $this->getArrayOpcionesGridAjax(
-				$this -> grid_boton_editar,
-				$this -> grid_ruta_editar,
-				$this -> grid_boton_borrar,
-				$this -> grid_ruta_borrar,
-				$this -> msg_confirmar_borrar);
+				$this->getParametro('grid_boton_editar'),
+				$this->getParametro('grid_ruta_editar'),
+				$this->getParametro('grid_boton_borrar'),
+				$this->getParametro('grid_ruta_borrar'),
+				$this->getParametro('msg_confirmar_borrar'));
 	}
 	
 	private function getOpcionesVista(){	
-		return $this->getArrayOpcionesVista(
-				$this->ruta_form_crear,
-				$this->getOpcionesGridAjax());
+		$opciones = $this->getArrayOpcionesVista($this->getOpcionesGridAjax());
+		$opciones['ruta_form_crear'] = $this->getParametro('ruta_form_crear');
+		$opciones['titulo_crear'] = $this->getParametro('titulo_crear');
+	
+		return $opciones;
 	}
 	
-	public function verEditorialAction(){
-		$peticion = $this -> getRequest();
+	public function verEditorialesAction(Request $peticion){
 		$render = null;
-	
-		$grid = $this -> getGrid();
-	
-		if($peticion -> isXmlHttpRequest()){
-			$grid -> setOpciones($this -> getOpcionesGridAjax());
-			$render = $grid -> getRenderAjax();
+		$grid = $this->getGrid();
+		
+		if($peticion->isXmlHttpRequest()){
+			$grid->setOpciones($this->getOpcionesGridAjax());
+			$render = $grid->getRenderAjax();
 		}
 		else{
-			$grid -> setOpciones($this -> getOpcionesVista());
-			$render = $grid -> getRender();
+			$grid->setOpciones($this->getOpcionesVista());
+			$render = $grid->getRender($this->getPlantilla('principal'));
 		}
-	
+		
 		return $render;
 	}
 	
-	public function crearEditorialAction(){
-		$peticion = $this -> getRequest();
-		if($peticion -> isXmlHttpRequest()){
-			return $this -> irInicio();
+	public function crearEditorialAction(Request $peticion){
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicio();
 		}
-		
-		$em = $this -> getEm();
-		
-		$opciones = $this -> getOpcionesVista();
-		
-		$opciones['titulo_ventana'] = $this -> titulo_crear;
-		$opciones['path_form'] = $this -> generateUrl($this -> ruta_form_crear);
-		$opciones['titulo_submit'] = $this -> titulo_submit_crear;
-		
-		$entidad = $this -> getNuevaInstancia($this -> entidad_clase);
-		
-		$opciones['form'] = $this -> createForm($this -> getFormulario('editor'), $entidad);
-		
-		if($peticion -> getMethod() == "POST"){
-			$opciones['form'] -> bind($peticion);
-			
-			if($opciones['form'] -> isValid()){
-				$em -> persist($entidad);
-				$em -> flush();				
+	
+		$em = $this->getEm();
+	
+		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_crear');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
+	
+		$entidad = $this->getNuevaInstancia($this->getParametro('clase_entidad'));
+	
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('ruta_form_crear'));
+		$opcionesVM['titulo_submit'] = $this->getParametro('titulo_submit_crear');
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('editor'), $entidad);
+	
+		if($peticion->getMethod() == "POST"){
+			$opcionesVM['form']->bind($peticion);
 				
-				$this -> setFlash($this -> flash_crear);				
-				return $this -> irInicio();
+			if($opcionesVM['form']->isValid()){
+				$em->persist($entidad);
+				$em->flush();
+	
+				$this->setFlash($this->getParametro('flash_crear'));
+				return $this->irInicio();
 			}
 		}
-		
-		$grid = $this -> getGrid();
-		$grid -> setOpciones($opciones);
-		
-		return $grid -> getRenderVentanaModal();
+	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
+		$grid = $this->getGrid();
+		$grid->setOpciones($opciones);
+	
+		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
-	public function editarEditorialAction($id){		
-		$peticion = $this -> getRequest();
-		if($peticion -> isXmlHttpRequest()){
-			return $this -> irInicio();
+	public function editarEditorialAction($id, Request $peticion){
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicio();
 		}
-		
-		$idEntidad = $id;		
-		$em = $this -> getEm();
-		
-		$entidad = $em -> getRepository($this -> getNombreEntidad()) -> find($idEntidad);
-		
+	
+		$em = $this->getEm();
+	
+		$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
+	
 		if(!$entidad){
-			return $this -> irInicio();
+			return $this->irInicio();
 		}
-		
-		$opciones = $this -> getOpcionesVista();
-			
-		$opciones['path_cierre'] = $this -> generateUrl($this -> getInicio());
-		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_editar, array('id' => $idEntidad));
-		$opciones['titulo_ventana'] = $this -> titulo_editar;
-		$opciones['titulo_submit'] = $this -> titulo_submit_editar;
-						
-		$opciones['form'] = $this -> createForm($this -> getFormulario('editor'), $entidad);
-					
-		if($peticion -> getMethod() == "POST"){
-			$opciones['form'] -> bind($peticion);
-		
-			if($opciones['form'] -> isValid()){
-				$em -> persist($entidad);
-				$em -> flush();
-					
-				$this -> setFlash($this -> flash_editar);
-				return $this -> irInicio();
+	
+		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_editar');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
+	
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('grid_ruta_editar'), array("id"=>$id));
+		$opcionesVM['titulo_submit'] = $this->getParametro('grid_boton_editar');
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('editor'), $entidad);
+	
+		if($peticion->getMethod() == "POST"){
+			$opcionesVM['form']->bind($peticion);
+	
+			if($opcionesVM['form']->isValid()){
+				$em->persist($entidad);
+				$em->flush();
+	
+				$this->setFlash($this->getParametro('flash_editar'));
+				return $this->irInicio();
 			}
 		}
-			
-		$grid = $this -> getGrid();
-		$grid -> setOpciones($opciones);
-		
-		return $grid -> getRenderVentanaModal();
+	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
+		$grid = $this->getGrid();
+		$grid->setOpciones($opciones);
+	
+		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
-	public function borrarEditorialAction($id){
-		$peticion = $this -> getRequest();
-		if($peticion -> isXmlHttpRequest()){
-			return $this -> irInicio();
+	public function borrarEditorialAction($id, Request $peticion){
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicio();
 		}
-		
-		$idEntidad = $id;		
-		$em = $this -> getEm();
-			
-		$entidad = $em -> getRepository($this -> getNombreEntidad()) -> find($idEntidad);
-			
+	
+		$em = $this->getEm();
+	
+		$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
+	
 		if(!$entidad){
-			return $this -> irInicio();
+			return $this->irInicio();
 		}
-			
-		$opciones = $this -> getOpcionesVista();
-		
-		$opciones['path_cierre'] = $this -> generateUrl($this -> getInicio());
-		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_borrar, array('id' => $idEntidad));
-		$opciones['titulo_ventana'] = $this -> titulo_borrar;
-		$opciones['msg'] = $this -> msg_borrar;
-		$opciones['titulo_form'] = $this -> titulo_form_borrar;
-		$opciones['msg_confirmar'] = $this -> msg_confirmar_borrar;
-		$opciones['titulo_submit'] = $this -> titulo_submit_borrar;
-			
-		$opciones['form'] = $this -> createForm($this -> getFormulario('visor'), $entidad);
-		
-		if($peticion -> getMethod() == "POST"){
-			$opciones['form'] -> bind($peticion);
-		
-			if($opciones['form'] -> isValid()){
-				$em -> remove($entidad);
-				$em -> flush();
-		
-				$this -> setFlash($this -> flash_borrar);
-				return $this -> irInicio();
+	
+		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_borrar');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
+	
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('grid_ruta_borrar'), array("id"=>$id));
+		$opcionesVM['titulo_submit'] = $this->getParametro('titulo_submit_borrar');
+		$opcionesVM['msg'] = $this->getParametro('msg_borrar');
+		$opcionesVM['msg_confirmar'] = $this->getParametro('msg_confirmar_borrar');
+	
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('visor'), $entidad);
+	
+		if($peticion->getMethod() == "POST"){
+			$opcionesVM['form']->bind($peticion);
+	
+			if($opcionesVM['form']->isValid()){
+				$em->remove($entidad);
+				$em->flush();
+	
+				$this->setFlash($this->getParametro('flash_borrar'));
+				return $this->irInicio();
 			}
 		}
-		
-		$grid = $this -> getGrid();
-		$grid -> setOpciones($opciones);
-		
-		return $grid -> getRenderVentanaModal();
+	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
+		$grid = $this->getGrid();
+		$grid->setOpciones($opciones);
+	
+		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
 	public function buscar_Editorial_AjaxAction(){

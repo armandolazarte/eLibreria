@@ -10,9 +10,9 @@ rgarcia_entrelineas_localizacion_borrar:
     pattern:  /localizacion/borrar/{id}
     defaults: { _controller: "RGMELibreriaLibroBundle:Localizacion:borrarLocalizacion" }
     
-rgarcia_entrelineas_localizacion_homepage:
+rgarcia_entrelineas_localizacion_index:
     pattern:  /localizacion
-    defaults: { _controller: "RGMELibreriaLibroBundle:Localizacion:verLocalizacion" }
+    defaults: { _controller: "RGMELibreriaLibroBundle:Localizacion:verLocalizaciones" }
     
     
     
@@ -29,9 +29,9 @@ rgarcia_entrelineas_estilo_borrar:
     pattern:  /estilo/borrar/{id}
     defaults: { _controller: "RGMELibreriaLibroBundle:Estilo:borrarEstilo" }
     
-rgarcia_entrelineas_estilo_homepage:
+rgarcia_entrelineas_estilo_index:
     pattern:  /estilo
-    defaults: { _controller: "RGMELibreriaLibroBundle:Estilo:verEstilo" }
+    defaults: { _controller: "RGMELibreriaLibroBundle:Estilo:verEstilos" }
 
 
 
@@ -52,9 +52,9 @@ rgarcia_entrelineas_editorial_borrar:
     pattern:  /editorial/borrar/{id}
     defaults: { _controller: "RGMELibreriaLibroBundle:Editorial:borrarEditorial" }
     
-rgarcia_entrelineas_editorial_homepage:
+rgarcia_entrelineas_editorial_index:
     pattern:  /editorial
-    defaults: { _controller: "RGMELibreriaLibroBundle:Editorial:verEditorial" }
+    defaults: { _controller: "RGMELibreriaLibroBundle:Editorial:verEditoriales" }
 
 
 
@@ -70,9 +70,11 @@ rgarcia_entrelineas_autor_borrar:
     pattern:  /autor/borrar/{id}
     defaults: { _controller: "RGMELibreriaLibroBundle:Autor:borrarAutor" }
     
-rgarcia_entrelineas_autor_homepage:
+rgarcia_entrelineas_autor_index:
     pattern:  /autor
-    defaults: { _controller: "RGMELibreriaLibroBundle:Autor:verAutor" }
+    defaults: { _controller: "RGMELibreriaLibroBundle:Autor:verAutores" }
+    
+    
     
 
 rgm_e_libreria_librobundle_libro_buscar_referencia_ajax:
@@ -93,6 +95,6 @@ rgarcia_entrelineas_libro_borrar:
     pattern:  /gestor/borrar/{isbn}
     defaults: { _controller: "RGMELibreriaLibroBundle:Libro:borrarLibro" }
     
-rgarcia_entrelineas_libro_homepage:
+rgarcia_entrelineas_libro_index:
     pattern:  /gestor
     defaults: { _controller: "RGMELibreriaLibroBundle:Libro:verLibros" }

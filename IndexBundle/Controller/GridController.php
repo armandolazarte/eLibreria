@@ -26,18 +26,24 @@ class GridController extends Controller{
 	private $grid_ruta_borrar;
 	private $grid_confirmar_borrar;
 	
-	public function __construct($nombreEntidad, $controller){
+	private $massActions;
+	
+	public function __construct($nombreEntidad, $controller, $massAactions = true, $setSource = true){
 		$this->nombreEntidad = $nombreEntidad;
 		$this->controller = $controller;
 		
-		$matches = array();
-		$infoController = $controller->getRequest()->attributes->get('_controller');				
-		preg_match('/Controller\\\(.*)::/', $infoController, $matches);
+		$this->massActions = $massAactions;
 		
-		$this->source = new Entity($nombreEntidad);
+		$infoController = $controller->getRequest()->attributes->get('_controller');
+		
 		$this->grid = $controller->get('grid');
-		$this->grid->setId($matches[1]);
-		$this->grid->setSource($this -> source);
+		$this->grid->setId(md5($infoController));
+
+		$this->source = new Entity($nombreEntidad);
+		
+		if($setSource){
+			$this->grid->setSource($this->source);
+		}
 	}
 	
 	public function setOpciones($opciones){
@@ -93,20 +99,21 @@ class GridController extends Controller{
 			$this -> grid -> addRowAction($accionBorrar);
 		}
 				
-		
-		$this -> grid -> addMassAction(new DeleteMassAction(true));
+		if($this->massActions){
+			$this -> grid -> addMassAction(new DeleteMassAction(true));
+		}
 		
 		$this -> grid -> setActionsColumnSize(50);
 		
-		$this -> grid -> setLimits($this -> opcionesGrid['grid_limites']);
+		$this -> grid -> setLimits($this->opcionesGrid['grid_limites']);
 	}
 	
 	public function getGrid(){
-		return $this -> grid;
+		return $this->grid;
 	}
 	
 	public function getSource(){
-		return $this -> source;
+		return $this->source;
 	}
 	
 	public function addColumn($id, $titulo, $pos = 0){
@@ -118,9 +125,9 @@ class GridController extends Controller{
 		$sesion = $this->controller->getRequest()->getSession()->get('vistas_grid');
 		
 		if($sesion != null){
-			if(array_key_exists($this->grid->getHash(), $sesion)){
-				$this->grid->setDefaultPage($sesion[$this->grid->getHash()]['page'] + 1);
-				$this->grid->setDefaultLimit($sesion[$this->grid->getHash()]['limit']);
+			if(array_key_exists($this->grid->getId(), $sesion)){
+				$this->grid->setDefaultPage($sesion[$this->grid->getId()]['page'] + 1);
+				$this->grid->setDefaultLimit($sesion[$this->grid->getId()]['limit']);
 			}
 		}
 	}
@@ -128,7 +135,7 @@ class GridController extends Controller{
 	private function guardarVista($page, $limit){
 		$sesion = $this->controller->getRequest()->getSession()->get('vistas_grid');
 		
-		$sesion[$this->grid->getHash()] = array(
+		$sesion[$this->grid->getId()] = array(
 				'page' => $page,
 				'limit' => $limit
 		); 

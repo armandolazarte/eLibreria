@@ -151,8 +151,13 @@ class Asistente extends Controller{
 	
 	protected function getPlantilla($nombre){
 		$plantillas = $this->getParametro('plantillas');
+		$res = $plantillas[$nombre];
 		
-		return $plantillas[$nombre];
+		if(count(explode(':', $plantillas[$nombre])) == 1){
+			$res = $this->getRecurso($plantillas[$nombre]);
+		}
+		
+		return $res;
 	}
 	
 	protected function getOpcionesPlantilla(){
@@ -188,8 +193,6 @@ class Asistente extends Controller{
 			$res[$clave] = $valor;
 		}
 	
-		$res['titulo_seccion'] = $this->getParametro('seccion');
-		$res['titulo_subseccion'] = $this->getParametro('subseccion');
 		$res['menu_seccion'] = $menu_subseccion;
 		$res['menu_izquierda'] = $menu_izq;
 	

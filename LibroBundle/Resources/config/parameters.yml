@@ -1,6 +1,6 @@
 parameters:
     librobundle.libro:
-        inicio: 'rgarcia_entrelineas_libro_homepage'
+        inicio: 'rgarcia_entrelineas_libro_index'
         seccion: 'Gestión de Libros'
         subseccion: 'Libros'
         nombrelogicobundle: 'RGMELibreriaLibroBundle'
@@ -12,18 +12,18 @@ parameters:
         entidad: 'Libro'
         clase_entidad: 'RGM\eLibreria\LibroBundle\Entity\Libro'
         plantillas:
-            principal: 'verLibros.html.twig'
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
             vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
         
         ruta_form_crear: 'rgarcia_entrelineas_libro_crear'
         titulo_crear: 'Crear nuevo libro'
         titulo_submit_crear: 'Crear'
-        flash_crear: 'Libro creada con exito'
+        flash_crear: 'Libro creado con éxito'
         
         grid_ruta_editar: 'rgarcia_entrelineas_libro_editar'
         titulo_editar: 'Editar libro'
         grid_boton_editar: 'Editar'
-        flash_editar: 'Libro editado con exito'
+        flash_editar: 'Libro editado con éxito'
         
         grid_ruta_borrar: 'rgarcia_entrelineas_libro_borrar'
         titulo_borrar: 'Confirmar Borrado'
@@ -32,4 +32,140 @@ parameters:
         msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
         grid_boton_borrar: 'Borrar'
         titulo_submit_borrar: '¡Si, Estoy seguro!'
-        flash_borrar: 'Libro borrado con exito'
+        flash_borrar: 'Libro borrado con éxito'
+        
+    librobundle.autor:
+        inicio: 'rgarcia_entrelineas_autor_index'
+        seccion: 'Gestión de Libros'
+        subseccion: 'Autores'
+        nombrelogicobundle: 'RGMELibreriaLibroBundle'
+        path: 'Autor'
+        formularios:
+            editor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Autor\AutorType'
+            visor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Autor\AutorVisorType'
+        entidad: 'Autor'
+        clase_entidad: 'RGM\eLibreria\LibroBundle\Entity\Autor'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgarcia_entrelineas_autor_crear'
+        titulo_crear: 'Crear nuevo autor'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Autor creado con éxito'
+        
+        grid_ruta_editar: 'rgarcia_entrelineas_autor_editar'
+        titulo_editar: 'Editar autor'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Autor editado con éxito'
+        
+        grid_ruta_borrar: 'rgarcia_entrelineas_autor_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar autor'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Autor borrado con éxito'
+        
+    librobundle.editorial:
+        inicio: 'rgarcia_entrelineas_editorial_index'
+        seccion: 'Gestión de Libros'
+        subseccion: 'Editoriales'
+        nombrelogicobundle: 'RGMELibreriaLibroBundle'
+        path: 'Editorial'
+        formularios:
+            editor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Editorial\EditorialType'
+            visor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Editorial\EditorialVisorType'
+        entidad: 'Editorial'
+        clase_entidad: 'RGM\eLibreria\LibroBundle\Entity\Editorial'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgarcia_entrelineas_editorial_crear'
+        titulo_crear: 'Crear nueva editorial'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Editorial creada con éxito'
+        
+        grid_ruta_editar: 'rgarcia_entrelineas_editorial_editar'
+        titulo_editar: 'Editar editorial'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Editorial editada con éxito'
+        
+        grid_ruta_borrar: 'rgarcia_entrelineas_editorial_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar editorial'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Editorial borrada con éxito'
+        
+    librobundle.estilo:
+        inicio: 'rgarcia_entrelineas_estilo_index'
+        seccion: 'Gestión de Libros'
+        subseccion: 'Estilos'
+        nombrelogicobundle: 'RGMELibreriaLibroBundle'
+        path: 'Estilo'
+        formularios:
+            editor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Estilo\EstiloType'
+            visor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Estilo\EstiloVisorType'
+        entidad: 'Estilo'
+        clase_entidad: 'RGM\eLibreria\LibroBundle\Entity\Estilo'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgarcia_entrelineas_estilo_crear'
+        titulo_crear: 'Crear nuevo estilo'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Estilo creado con éxito'
+        
+        grid_ruta_editar: 'rgarcia_entrelineas_estilo_editar'
+        titulo_editar: 'Editar estilo'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Estilo editado con éxito'
+        
+        grid_ruta_borrar: 'rgarcia_entrelineas_estilo_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar estilo'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Estilo borrado con éxito'
+        
+    librobundle.localizacion:
+        inicio: 'rgarcia_entrelineas_localizacion_index'
+        seccion: 'Gestión de Libros'
+        subseccion: 'Localizaciones'
+        nombrelogicobundle: 'RGMELibreriaLibroBundle'
+        path: 'Localizacion'
+        formularios:
+            editor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Localizacion\LocalizacionType'
+            visor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Localizacion\LocalizacionVisorType'
+        entidad: 'Localizacion'
+        clase_entidad: 'RGM\eLibreria\LibroBundle\Entity\Localizacion'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgarcia_entrelineas_localizacion_crear'
+        titulo_crear: 'Crear nueva localización'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Localización creada con éxito'
+        
+        grid_ruta_editar: 'rgarcia_entrelineas_localizacion_editar'
+        titulo_editar: 'Editar localización'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Localización editada con éxito'
+        
+        grid_ruta_borrar: 'rgarcia_entrelineas_localizacion_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar localización'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Localización borrada con éxito'

@@ -33,7 +33,7 @@ class UsuarioController extends Asistente{
 		
 		$opciones = array();
 		$opciones['vm']['titulo'] = $this->getParametro('titulo_login');
-		$opciones['vm']['plantilla'] = $this->getRecurso($this->getPlantilla('vm_login'));
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_login');
 		
 		$opcionesVM = array();
 		$opcionesVM['ruta_login'] = $this->generateUrl($this->getParametro('ruta_login'));
@@ -42,7 +42,7 @@ class UsuarioController extends Asistente{
 		
 		$opciones['vm']['opciones'] = $opcionesVM;
 		
-		return $this->render($this->getRecurso($this->getPlantilla('login')), $opciones);
+		return $this->render($this->getPlantilla('login'), $opciones);
 	}
 }
 ?>
