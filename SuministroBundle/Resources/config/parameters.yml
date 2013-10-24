@@ -1,0 +1,102 @@
+parameters:
+    suministrobundle.distribuidora:
+        inicio: 'rgm_e_libreria_suministro_distribuidoras_homepage'
+        seccion: 'Gestión de suministros'
+        subseccion: 'Distribuidoras'
+        nombrelogicobundle: 'RGMELibreriaSuministroBundle'
+        path: 'Distribuidoras'
+        formularios:
+            editor: 'RGM\eLibreria\SuministroBundle\Form\Frontend\Distribuidora\DistribuidoraType'
+            visor: 'RGM\eLibreria\SuministroBundle\Form\Frontend\Distribuidora\DistribuidoraVisorType'
+        entidad: 'Distribuidora'
+        clase_entidad: 'RGM\eLibreria\SuministroBundle\Entity\Distribuidora'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgm_e_libreria_suministro_distribuidoras_crear'
+        titulo_crear: 'Crear nueva distribuidora'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Distribuidora creada con éxito'
+        
+        grid_ruta_editar: 'rgm_e_libreria_suministro_distribuidoras_editar'
+        titulo_editar: 'Editar distribuidora'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Distribuidora editada con éxito'
+        
+        grid_ruta_borrar: 'rgm_e_libreria_suministro_distribuidoras_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar distribuidora'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Distribuidora borrada con éxito'
+        
+    suministrobundle.recargo:
+        inicio: 'rgm_e_libreria_suministro_recargo_homepage'
+        seccion: 'Gestión de suministros'
+        subseccion: 'Recargos de equivalencia'
+        nombrelogicobundle: 'RGMELibreriaSuministroBundle'
+        path: 'Recargo'
+        formularios:
+            editor: 'RGM\eLibreria\SuministroBundle\Form\Frontend\Recargo\RecargoType'
+            visor: 'RGM\eLibreria\SuministroBundle\Form\Frontend\Recargo\RecargoVisorType'
+        entidad: 'Recargo'
+        clase_entidad: 'RGM\eLibreria\SuministroBundle\Entity\Recargo'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgm_e_libreria_suministro_distribuidoras_crear'
+        titulo_crear: 'Crear nuevo recargo'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Recargo creado con éxito'
+        
+        grid_ruta_editar: 'rgm_e_libreria_suministro_distribuidoras_editar'
+        titulo_editar: 'Editar recargo'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Recargo editado con éxito'
+        
+        grid_ruta_borrar: 'rgm_e_libreria_suministro_distribuidoras_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar recargo'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Recargo borrado con éxito'
+        
+    suministrobundle.contrato:
+        inicio: 'rgm_e_libreria_suministro_contratosuministro_homepage'
+        seccion: 'Gestión de suministros'
+        subseccion: 'Contratos de suministro'
+        nombrelogicobundle: 'RGMELibreriaSuministroBundle'
+        path: 'ContratoSuministro'
+        formularios:
+            editor: 'RGM\eLibreria\SuministroBundle\Form\Frontend\ContratoSuministro\ContratoSuministroType'
+            visor: 'RGM\eLibreria\SuministroBundle\Form\Frontend\ContratoSuministro\ContratoSuministroVisorType'
+        entidad: 'ContratoSuministro'
+        clase_entidad: 'RGM\eLibreria\SuministroBundle\Entity\ContratoSuministro'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgm_e_libreria_suministro_contratosuministro_crear'
+        titulo_crear: 'Crear nuevo contrato'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Contrato de suministro creado con éxito'
+        
+        grid_ruta_editar: 'rgm_e_libreria_suministro_contratosuministro_editar'
+        titulo_editar: 'Editar contrato'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Contrato de suministro editado con éxito'
+        
+        grid_ruta_borrar: 'rgm_e_libreria_suministro_contratosuministro_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar contrato'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Contrato de suministro borrado con éxito'

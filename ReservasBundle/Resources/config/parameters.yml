@@ -1,0 +1,34 @@
+parameters:
+    reservabundle.reserva:
+        inicio: 'rgm_e_libreria_reserva_reserva_index'
+        seccion: 'Gestión de reservas'
+        subseccion: 'Reservas'
+        nombrelogicobundle: 'RGMeLibreriaReservasBundle'
+        path: 'Reserva'
+        formularios:
+            editor: 'RGM\eLibreria\ReservasBundle\Form\Frontend\Reserva\ReservaType'
+            visor: 'RGM\eLibreria\ReservasBundle\Form\Frontend\Reserva\ReservaVisorType'
+        entidad: 'Reserva'
+        clase_entidad: 'RGM\eLibreria\ReservasBundle\Entity\Reserva'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgm_e_libreria_reserva_reserva_crear'
+        titulo_crear: 'Crear nueva reserva'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Reserva creada con éxito'
+        
+        grid_ruta_editar: 'rgm_e_libreria_reserva_reserva_editar'
+        titulo_editar: 'Editar reserva'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Reserva editada con éxito'
+        
+        grid_ruta_borrar: 'rgm_e_libreria_reserva_reserva_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar reserva'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Reserva borrada con éxito'

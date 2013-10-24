@@ -24,6 +24,11 @@ class GastoCorriente {
 	 * @GRID\Column(visible=false)
 	 */
 	private $id;
+	
+	/**
+	 * @ORM\OneToMany(targetEntity="RGM\eLibreria\FinanciacionBundle\Entity\Pago", mappedBy="gasto")
+	 */
+	private $pagos;
 
 	/**
 	 * @var string
@@ -64,11 +69,6 @@ class GastoCorriente {
 	 * @GRID\Column(visible=false)
 	 */
 	private $mensualidad;
-
-	/**
-	 * 
-	 */
-	private $pagos;
 
 	public function __construct() {
 		$this->pagos = new ArrayCollection();

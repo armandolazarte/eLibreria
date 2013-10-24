@@ -1,0 +1,141 @@
+parameters:
+    financiacionbundle.banco:
+        inicio: 'rgm_e_libreria_financiacion_banco_homepage'
+        seccion: 'Gestión financiera'
+        subseccion: 'Bancos'
+        nombrelogicobundle: 'RGMELibreriaFinanciacionBundle'
+        path: 'Banco'
+        formularios:
+            editor: 'RGM\eLibreria\FinanciacionBundle\Form\Frontend\Banco\BancoType'
+            visor: 'RGM\eLibreria\FinanciacionBundle\Form\Frontend\Banco\BancoVisorType'
+        entidad: 'Banco'
+        clase_entidad: 'RGM\eLibreria\FinanciacionBundle\Entity\Banco'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgm_e_libreria_financiacion_banco_crear'
+        titulo_crear: 'Crear nuevo banco'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Banco creado con éxito'
+        
+        grid_ruta_editar: 'rgm_e_libreria_financiacion_banco_editar'
+        titulo_editar: 'Editar banco'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Banco editado con éxito'
+        
+        grid_ruta_borrar: 'rgm_e_libreria_financiacion_banco_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar banco'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Banco borrado con éxito'
+        
+    financiacionbundle.aval:
+        inicio: 'rgm_e_libreria_financiacion_aval_homepage'
+        seccion: 'Gestión financiera'
+        subseccion: 'Avales'
+        nombrelogicobundle: 'RGMELibreriaFinanciacionBundle'
+        path: 'Aval'
+        formularios:
+            editor: 'RGM\eLibreria\FinanciacionBundle\Form\Frontend\Aval\AvalType'
+            visor: 'RGM\eLibreria\FinanciacionBundle\Form\Frontend\Aval\AvalVisorType'
+        entidad: 'Aval'
+        clase_entidad: 'RGM\eLibreria\FinanciacionBundle\Entity\Aval'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgm_e_libreria_financiacion_aval_crear'
+        titulo_crear: 'Crear nuevo aval'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Aval creado con éxito'
+        
+        grid_ruta_editar: 'rgm_e_libreria_financiacion_aval_editar'
+        titulo_editar: 'Editar aval'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Aval editado con éxito'
+        
+        grid_ruta_borrar: 'rgm_e_libreria_financiacion_aval_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar aval'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Aval borrado con éxito'
+        
+    financiacionbundle.gastos:
+        inicio: 'rgm_e_libreria_financiacion_gastos_corrientes_homepage'
+        seccion: 'Gestión financiera'
+        subseccion: 'Gastos corrientes'
+        nombrelogicobundle: 'RGMELibreriaFinanciacionBundle'
+        path: 'GastoCorriente'
+        formularios:
+            editor: 'RGM\eLibreria\FinanciacionBundle\Form\Frontend\GastoCorriente\GastoCorrienteType'
+            visor: 'RGM\eLibreria\FinanciacionBundle\Form\Frontend\GastoCorriente\GastoCorrienteVisorType'
+        entidad: 'GastoCorriente'
+        clase_entidad: 'RGM\eLibreria\FinanciacionBundle\Entity\GastoCorriente'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+            
+        ruta_pagos: 'rgm_e_libreria_financiacion_gastos_pagos_ver'
+        ruta_form_pagos_crear: 'rgm_e_libreria_financiacion_gastos_pagos_crear'
+        
+        ruta_form_crear: 'rgm_e_libreria_financiacion_gastos_corrientes_crear'
+        titulo_crear: 'Crear nuevo gasto corriente'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Gasto corriente creado con éxito'
+        
+        grid_ruta_editar: 'rgm_e_libreria_financiacion_gastos_corrientes_editar'
+        titulo_editar: 'Editar gasto corriente'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Gasto corriente editado con éxito'
+        
+        grid_ruta_borrar: 'rgm_e_libreria_financiacion_gastos_corrientes_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar gasto corriente'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Gasto corriente borrado con éxito'
+        
+    financiacionbundle.pagos:
+        inicio_pago: 'rgm_e_libreria_financiacion_gastos_pagos_ver'
+        inicio: 'rgm_e_libreria_financiacion_gastos_corrientes_homepage'
+        seccion: 'Gestión financiera'
+        subseccion: 'Pagos'
+        nombrelogicobundle: 'RGMELibreriaFinanciacionBundle'
+        path: 'Pago'
+        formularios:
+            editor: 'RGM\eLibreria\FinanciacionBundle\Form\Frontend\Pago\PagoType'
+            visor: 'RGM\eLibreria\FinanciacionBundle\Form\Frontend\Pago\PagoVisorType'
+        entidad: 'Pago'
+        entidad_gasto: 'GastoCorriente'
+        clase_entidad: 'RGM\eLibreria\FinanciacionBundle\Entity\Pago'
+        plantillas:
+            principal: 'verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+        
+        ruta_form_crear: 'rgm_e_libreria_financiacion_gastos_pagos_crear'
+        titulo_crear: 'Crear nuevo pago'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Pago creado con éxito'
+        
+        grid_ruta_editar: 'rgm_e_libreria_financiacion_gastos_pagos_editar'
+        titulo_editar: 'Editar pago'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Pago editado con éxito'
+        
+        grid_ruta_borrar: 'rgm_e_libreria_financiacion_gastos_pagos_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar pago'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Pago borrado con éxito'

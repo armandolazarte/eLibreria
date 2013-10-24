@@ -6,9 +6,9 @@ use RGM\eLibreria\IndexBundle\Controller\GridController;
 use APY\DataGridBundle\Grid\Column\BlankColumn;
 use Symfony\Component\HttpFoundation\Request;
 
-class BancoController extends Asistente{
+class PagosController extends Asistente{
 	private $bundle = 'financiacionbundle';
-	private $controller = 'banco';
+	private $controller = 'pagos';
 	
 	public function __construct(){
 		parent::__construct(
@@ -16,37 +16,21 @@ class BancoController extends Asistente{
 				$this->controller);
 	}
 	
-	private function getGrid(){
-		$grid = new GridController($this->getEntidadLogico($this->getParametro('entidad')), $this);
-			
-		//Configuracion grid
+	private function getGrid($idGasto){
+		$grid = new GridController($this->getEntidadLogico($this->getParametro('entidad')), $this, true, false);
+
+		$grid->getGrid()->setDefaultOrder('fecha', 'desc');
 		
-		$columnaGastos = new BlankColumn(array('id' => 'gastos', 'title' => 'Gastos Corrientes', 'safe' => false));
+		$tableAlias = $grid->getSource()->getTableAlias();
 		
-		$grid->getGrid()->addColumn($columnaGastos);
-		
-		$grid->getSource()->manipulateRow(
-				function($row)
+		$grid->getSource()->manipulateQuery(
+				function ($query) use ($tableAlias, $idGasto)
 				{
-					$entidad = $row->getEntity();
-					
-					$salida_gastos = '-';
-					$gastos = $entidad->getGastosDomiciliados();
-					
-					if(!$gastos->isEmpty()){
-						$salida_gastos = '<ul class="gastos">';
-						
-						foreach($gastos as $g){
-							$salida_gastos .= '<li>' . $g . '</li>';
-						}
-						
-						$salida_gastos .= '</ul>';
-					}
-					
-					$row->setField('gastos', $salida_gastos);
-					
-					return $row;
-				});
+					$query->andWhere($tableAlias . '.gasto = ' . $idGasto);
+				}
+		);
+
+		$grid->getGrid()->setSource($grid->getSource());
 		
 		return $grid;
 	}
@@ -62,15 +46,17 @@ class BancoController extends Asistente{
 	
 	private function getOpcionesVista(){	
 		$opciones = $this->getArrayOpcionesVista($this->getOpcionesGridAjax());
-		$opciones['ruta_form_crear'] = $this->getParametro('ruta_form_crear');
-		$opciones['titulo_crear'] = $this->getParametro('titulo_crear');
 	
 		return $opciones;
 	}
 	
-	public function verBancosAction(Request $peticion){
+	private function irInicioPago($idGasto){
+		return $this->redirect($this->generateUrl($this->getParametro('inicio_pago'), array('idGasto' => $idGasto)));
+	}
+	
+	public function verPagosAction($idGasto, Request $peticion){
 		$render = null;
-		$grid = $this->getGrid();
+		$grid = $this->getGrid($idGasto);
 		
 		if($peticion->isXmlHttpRequest()){
 			$grid->setOpciones($this->getOpcionesGridAjax());
@@ -84,21 +70,27 @@ class BancoController extends Asistente{
 		return $render;
 	}
 	
-	public function crearBancoAction(Request $peticion){
+	public function crearPagoAction($idGasto, Request $peticion){
 		if($peticion->isXmlHttpRequest()){
-			return $this->irInicio();
+			return $this->irInicioPago($idGasto);
 		}
 	
 		$em = $this->getEm();
+
+		$entidad_gasto = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad_gasto')))->find($idGasto);
+		
+		if(!$entidad_gasto){
+			return $this->irInicio();
+		}
 	
 		$opciones = $this->getOpcionesVista();
 		$opciones['vm']['titulo'] = $this->getParametro('titulo_crear');
 		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
 	
-		$entidad = $this->getNuevaInstancia($this->getParametro('clase_entidad'));
+		$entidad = $this->getNuevaInstancia($this->getParametro('clase_entidad'), array($entidad_gasto));
 	
 		$opcionesVM = array();
-		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('ruta_form_crear'));
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('ruta_form_crear'), array("idGasto"=>$idGasto));
 		$opcionesVM['titulo_submit'] = $this->getParametro('titulo_submit_crear');
 		$opcionesVM['form'] = $this->createForm($this->getFormulario('editor'), $entidad);
 	
@@ -110,7 +102,7 @@ class BancoController extends Asistente{
 				$em->flush();
 	
 				$this->setFlash($this->getParametro('flash_crear'));
-				return $this->irInicio();
+				return $this->irInicioPago($idGasto);
 			}
 		}
 	
@@ -118,23 +110,26 @@ class BancoController extends Asistente{
 	
 		$opciones['vm']['opciones'] = $opcionesVM;
 	
-		$grid = $this->getGrid();
+		$grid = $this->getGrid($idGasto);
 		$grid->setOpciones($opciones);
 	
 		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
-	public function editarBancoAction($id, Request $peticion){
-		if($peticion->isXmlHttpRequest()){
-			return $this->irInicio();
-		}
-	
+	public function editarPagoAction($id, Request $peticion){
 		$em = $this->getEm();
 	
 		$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
 	
+		$gasto = $entidad->getGasto();
+		$gastoId = $gasto->getId();
+		
 		if(!$entidad){
 			return $this->irInicio();
+		}
+		
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicioPago($gastoId);
 		}
 	
 		$opciones = $this->getOpcionesVista();
@@ -154,7 +149,7 @@ class BancoController extends Asistente{
 				$em->flush();
 	
 				$this->setFlash($this->getParametro('flash_editar'));
-				return $this->irInicio();
+				return $this->irInicioPago($gastoId);
 			}
 		}
 	
@@ -162,23 +157,26 @@ class BancoController extends Asistente{
 	
 		$opciones['vm']['opciones'] = $opcionesVM;
 	
-		$grid = $this->getGrid();
+		$grid = $this->getGrid($gastoId);
 		$grid->setOpciones($opciones);
 	
-		return $grid->getRender($this->getPlantilla('principal'));	
+		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
-	public function borrarBancoAction($id, Request $peticion){
-		if($peticion->isXmlHttpRequest()){
-			return $this->irInicio();
-		}
-	
+	public function borrarPagoAction($id, Request $peticion){
 		$em = $this->getEm();
 	
 		$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
 	
+		$gasto = $entidad->getGasto();
+		$gastoId = $gasto->getId();
+		
 		if(!$entidad){
 			return $this->irInicio();
+		}
+		
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicioPago($gastoId);
 		}
 	
 		$opciones = $this->getOpcionesVista();
@@ -201,7 +199,7 @@ class BancoController extends Asistente{
 				$em->flush();
 	
 				$this->setFlash($this->getParametro('flash_borrar'));
-				return $this->irInicio();
+				return $this->irInicioPago($gastoId);
 			}
 		}
 	
@@ -209,10 +207,11 @@ class BancoController extends Asistente{
 	
 		$opciones['vm']['opciones'] = $opcionesVM;
 	
-		$grid = $this->getGrid();
+		$grid = $this->getGrid($gastoId);
 		$grid->setOpciones($opciones);
 	
 		return $grid->getRender($this->getPlantilla('principal'));
 	}
+	
 }
 ?>

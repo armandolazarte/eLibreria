@@ -36,6 +36,22 @@ rgm_e_libreria_financiacion_aval_homepage:
     
 
     
+rgm_e_libreria_financiacion_gastos_pagos_ver:
+    pattern: /gastosCorrientes/pagos/ver/{idGasto}
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Pagos:verPagos' }
+    
+rgm_e_libreria_financiacion_gastos_pagos_crear:
+    pattern: /gastosCorrientes/pagos/nuevo/{idGasto}
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Pagos:crearPago' }
+    
+rgm_e_libreria_financiacion_gastos_pagos_editar:
+    pattern: /gastosCorrientes/pagos/editar/{id}
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Pagos:editarPago' }
+    
+rgm_e_libreria_financiacion_gastos_pagos_borrar:
+    pattern: /gastosCorrientes/pagos/borrar/{id}
+    defaults: { _controller: 'RGMELibreriaFinanciacionBundle:Pagos:borrarPago' }
+    
 rgm_e_libreria_financiacion_gastos_corrientes_crear:
     pattern: /gastosCorrientes/nuevo
     defaults: { _controller: 'RGMELibreriaFinanciacionBundle:GastosCorrientes:crearGastosCorrientes' }

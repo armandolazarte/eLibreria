@@ -1,98 +1,60 @@
 <?php 
 namespace RGM\eLibreria\SuministroBundle\Controller;
 
-use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
+use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
+use Symfony\Component\HttpFoundation\Request;
 
-class ContratoSuministroController extends AsistenteController{
-	private $seccion = 'Gestor de Suministros';
-	private $subseccion = 'Contratos de Suministro';
-	
-	private $logicoBundle = 'RGMELibreriaSuministroBundle';
-	private $ruta_inicio = 'rgm_e_libreria_suministro_contratosuministro_homepage';
-	
-	private $entidad = 'ContratoSuministro';
-	private $entidad_clase = 'RGM\eLibreria\SuministroBundle\Entity\ContratoSuministro';
-	private $alias = 'cs';
-	
-	private $nombreFormularios = array(
-			'editor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\ContratoSuministro\ContratoSuministroType',
-			'visor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\ContratoSuministro\ContratoSuministroVisorType'
-	);
-	
-	private $ruta_form_crear = 'rgm_e_libreria_suministro_contratosuministro_crear';
-	private $titulo_crear = 'Crear Contrato de suministro';
-	private $titulo_submit_crear = 'Crear';
-	private $flash_crear = 'Contrato de suministro creado con exito';
-	
-	private $grid_boton_editar = 'Editar';
-	private $grid_ruta_editar = 'rgm_e_libreria_suministro_contratosuministro_editar';
-	private $titulo_editar = 'Editar Contrato de suministro';
-	private $titulo_submit_editar = 'Actualizar';
-	private $flash_editar = 'Contrato de suministro editado con exito';
-	
-	private $grid_boton_borrar = 'Borrar';
-	private $grid_ruta_borrar = 'rgm_e_libreria_suministro_contratosuministro_borrar';
-	private $titulo_borrar = 'Confirmar Borrado';
-	private $msg_borrar = 'Se va a proceder a borrar los siguientes datos.';
-	private $titulo_form_borrar = 'Borrar Contrato de suministro';
-	private $msg_confirmar_borrar = '¿Realmente desea borrar el contrato de suministro?';
-	private $titulo_submit_borrar = '¡Si, Estoy seguro!';
-	private $flash_borrar = 'Contrato de suministro borrado con exito';
+class ContratoSuministroController extends Asistente{
+	private $bundle = 'suministrobundle';
+	private $controller = 'contrato';
 	
 	public function __construct(){
 		parent::__construct(
-				$this->ruta_inicio,
-				$this->logicoBundle,
-				$this->seccion,
-				$this->subseccion,
-				$this->entidad,
-				$this->nombreFormularios);
+				$this->bundle,
+				$this->controller);
 	}
 	
 	private function getGrid(){
-		$grid = new GridController($this->getNombreEntidad(), $this);
-			
+		$grid = new GridController($this->getEntidadLogico($this->getParametro('entidad')), $this);
 		
-	
 		return $grid;
 	}
 	
-	private function getOpcionesGridAjax(){
+	private function getOpcionesGridAjax(){	
 		return $this->getArrayOpcionesGridAjax(
-				$this -> grid_boton_editar,
-				$this -> grid_ruta_editar,
-				$this -> grid_boton_borrar,
-				$this -> grid_ruta_borrar,
-				$this -> msg_confirmar_borrar);
+				$this->getParametro('grid_boton_editar'),
+				$this->getParametro('grid_ruta_editar'),
+				$this->getParametro('grid_boton_borrar'),
+				$this->getParametro('grid_ruta_borrar'),
+				$this->getParametro('msg_confirmar_borrar'));
 	}
 	
-	private function getOpcionesVista(){
-		return $this->getArrayOpcionesVista(
-				$this->ruta_form_crear,
-				$this->getOpcionesGridAjax());
+	private function getOpcionesVista(){	
+		$opciones = $this->getArrayOpcionesVista($this->getOpcionesGridAjax());
+		$opciones['ruta_form_crear'] = $this->getParametro('ruta_form_crear');
+		$opciones['titulo_crear'] = $this->getParametro('titulo_crear');
+	
+		return $opciones;
 	}
 	
-	public function verContratosSuministroAction(){
-		$peticion = $this->getRequest();
-	
-		$grid = $this->getGrid();
+	public function verContratosSuministroAction(Request $peticion){
 		$render = null;
-	
+		$grid = $this->getGrid();
+		
 		if($peticion->isXmlHttpRequest()){
 			$grid->setOpciones($this->getOpcionesGridAjax());
 			$render = $grid->getRenderAjax();
 		}
 		else{
 			$grid->setOpciones($this->getOpcionesVista());
-			$render = $grid->getRender();
+			$render = $grid->getRender($this->getPlantilla('principal'));
 		}
-	
+		
 		return $render;
 	}
 	
-	public function crearContratoSuministroAction(){
-		$peticion = $this->getRequest();
+	public function crearContratoSuministroAction(Request $peticion){
 		if($peticion->isXmlHttpRequest()){
 			return $this->irInicio();
 		}
@@ -100,112 +62,127 @@ class ContratoSuministroController extends AsistenteController{
 		$em = $this->getEm();
 	
 		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_crear');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
 	
-		$opciones['titulo_ventana'] = $this->titulo_crear;
-		$opciones['titulo_submit'] = $this->titulo_submit_crear;
-		$opciones['path_form'] = $this->generateUrl($this->ruta_form_crear);
+		$entidad = $this->getNuevaInstancia($this->getParametro('clase_entidad'));
 	
-		$entidad = $this->getNuevaInstancia($this->entidad_clase);
-	
-		$opciones['form'] = $this->createForm($this->getFormulario('editor'), $entidad);
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('ruta_form_crear'));
+		$opcionesVM['titulo_submit'] = $this->getParametro('titulo_submit_crear');
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('editor'), $entidad);
 	
 		if($peticion->getMethod() == "POST"){
-			$opciones['form']->bind($peticion);
+			$opcionesVM['form']->bind($peticion);
 				
-			if($opciones['form']->isValid()){
+			if($opcionesVM['form']->isValid()){
 				$em->persist($entidad);
 				$em->flush();
 	
-				$this->setFlash($this->flash_crear);
+				$this->setFlash($this->getParametro('flash_crear'));
 				return $this->irInicio();
 			}
 		}
 	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
 		$grid = $this->getGrid();
 		$grid->setOpciones($opciones);
 	
-		return $grid->getRenderVentanaModal();
+		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
-	public function editarContratoSuministroAction($id){
-		$peticion = $this->getRequest();
+	public function editarContratoSuministroAction($id, Request $peticion){
 		if($peticion->isXmlHttpRequest()){
 			return $this->irInicio();
 		}
 	
 		$em = $this->getEm();
-		$entidad = $em->getRepository($this->getNombreEntidad())->find($id);
+	
+		$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
 	
 		if(!$entidad){
 			return $this->irInicio();
 		}
 	
 		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_editar');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
 	
-		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_editar, array('id' => $id));
-		$opciones['titulo_ventana'] = $this -> titulo_editar;
-		$opciones['titulo_submit'] = $this -> titulo_submit_editar;
-	
-		$opciones['form'] = $this -> createForm($this -> getFormulario('editor'), $entidad);
-			
-		if($peticion -> getMethod() == "POST"){
-			$opciones['form'] -> bind($peticion);
-	
-			if($opciones['form'] -> isValid()){
-				$em -> persist($entidad);
-				$em -> flush();
-					
-				$this -> setFlash($this -> flash_editar);
-				return $this -> irInicio();
-			}
-		}
-			
-		$grid = $this -> getGrid();
-		$grid -> setOpciones($opciones);
-	
-		return $grid -> getRenderVentanaModal();
-	}
-	
-	public function borrarContratoSuministroAction($id){
-		$peticion = $this->getRequest();
-		if($peticion->isXmlHttpRequest()){
-			return $this->irInicio();
-		}
-	
-		$em = $this->getEm();
-		$entidad = $em->getRepository($this->getNombreEntidad())->find($id);
-	
-		if(!$entidad){
-			return $this->irInicio();
-		}
-	
-		$opciones = $this->getOpcionesVista();
-	
-		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_borrar, array('id' => $id));
-		$opciones['titulo_ventana'] = $this -> titulo_borrar;
-		$opciones['msg'] = $this -> msg_borrar;
-		$opciones['titulo_form'] = $this -> titulo_form_borrar;
-		$opciones['msg_confirmar'] = $this -> msg_confirmar_borrar;
-		$opciones['titulo_submit'] = $this -> titulo_submit_borrar;
-	
-		$opciones['form'] = $this->createForm($this->getFormulario('visor'), $entidad);
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('grid_ruta_editar'), array("id"=>$id));
+		$opcionesVM['titulo_submit'] = $this->getParametro('grid_boton_editar');
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('editor'), $entidad);
 	
 		if($peticion->getMethod() == "POST"){
-			$opciones['form']->bind($peticion);
-				
-			if($opciones['form']->isValid()){
+			$opcionesVM['form']->bind($peticion);
+	
+			if($opcionesVM['form']->isValid()){
+				$em->persist($entidad);
+				$em->flush();
+	
+				$this->setFlash($this->getParametro('flash_editar'));
+				return $this->irInicio();
+			}
+		}
+	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
+		$grid = $this->getGrid();
+		$grid->setOpciones($opciones);
+	
+		return $grid->getRender($this->getPlantilla('principal'));
+	}
+	
+	public function borrarContratoSuministroAction($id, Request $peticion){
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicio();
+		}
+	
+		$em = $this->getEm();
+	
+		$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
+	
+		if(!$entidad){
+			return $this->irInicio();
+		}
+	
+		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_borrar');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
+	
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('grid_ruta_borrar'), array("id"=>$id));
+		$opcionesVM['titulo_submit'] = $this->getParametro('titulo_submit_borrar');
+		$opcionesVM['msg'] = $this->getParametro('msg_borrar');
+		$opcionesVM['msg_confirmar'] = $this->getParametro('msg_confirmar_borrar');
+	
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('visor'), $entidad);
+	
+		if($peticion->getMethod() == "POST"){
+			$opcionesVM['form']->bind($peticion);
+	
+			if($opcionesVM['form']->isValid()){
 				$em->remove($entidad);
 				$em->flush();
 	
-				$this->setFlash($this->flash_borrar);
+				$this->setFlash($this->getParametro('flash_borrar'));
 				return $this->irInicio();
 			}
 		}
 	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
 		$grid = $this->getGrid();
 		$grid->setOpciones($opciones);
 	
-		return $grid->getRenderVentanaModal();
+		return $grid->getRender($this->getPlantilla('principal'));
 	}
 }
 ?>

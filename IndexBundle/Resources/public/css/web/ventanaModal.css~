@@ -58,7 +58,7 @@
 
 .vm_cuerpo .submit{
 	margin: 0 auto;
-	margin-top: 40px;
+	margin-top: 20px;
 	display: block;
 }
 

@@ -141,7 +141,7 @@ a
 }
 
 .nuevo{
-	background: url(../../images/iconos.jpg) -435px -249px no-repeat;
+	background: url(../../images/iconos.jpg) -331px -249px no-repeat;
 	float: right;
 
 }

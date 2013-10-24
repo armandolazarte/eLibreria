@@ -94,7 +94,7 @@ $(document).ready(function(){
 
 			if(aux < 0){
 				$label.hide();
-				$input.hide();
+				$label.prev(':first').hide();
 			}
 		});
 	});
