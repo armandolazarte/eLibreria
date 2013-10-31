@@ -100,3 +100,60 @@ parameters:
         grid_boton_borrar: 'Borrar'
         titulo_submit_borrar: '¡Si, Estoy seguro!'
         flash_borrar: 'Contrato de suministro borrado con éxito'
+        
+    suministrobundle.albaran:
+        inicio: 'rgm_e_libreria_suministro_albaran_homepage'
+        seccion: 'Gestión de suministros'
+        subseccion: 'Albaranes'
+        nombrelogicobundle: 'RGMELibreriaSuministroBundle'
+        path: 'Albaran'
+        formularios:
+            editor: 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\AlbaranType'
+            visor: 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\AlbaranVisorType'
+        entidad: 'Albaran'
+        clase_entidad: 'RGM\eLibreria\SuministroBundle\Entity\Albaran'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            crearAlbaran: 'crearAlbaranNuevo.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+            
+        impresion:
+            numElementosPagina: 33
+            
+        libro:
+            repositorio: 'RGMELibreriaLibroBundle:Libro'
+            entidad: 'RGM\eLibreria\LibroBundle\Entity\Libro'
+            
+        ejemplar:
+            entidad: 'RGM\eLibreria\LibroBundle\Entity\Ejemplar'
+            
+        recargo:
+            repositorio: 'RGMELibreriaSuministroBundle:Recargo'
+            
+        editorial:
+            repositorio: 'RGMELibreriaLibroBundle:Editorial'
+            entidad: 'RGM\eLibreria\LibroBundle\Entity\Editorial'
+            
+        ajax:
+            ruta_registrar: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro'
+            ruta_get_libros_albaran: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_libros_albaran'
+            ruta_get_datos_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro' 
+                    
+        ruta_form_crear: 'rgm_e_libreria_suministro_contratosuministro_crear'
+        titulo_crear: 'Crear nuevo contrato'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Contrato de suministro creado con éxito'
+        
+        grid_ruta_editar: 'rgm_e_libreria_suministro_contratosuministro_editar'
+        titulo_editar: 'Editar contrato'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Contrato de suministro editado con éxito'
+        
+        grid_ruta_borrar: 'rgm_e_libreria_suministro_contratosuministro_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar contrato'
+        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Contrato de suministro borrado con éxito'

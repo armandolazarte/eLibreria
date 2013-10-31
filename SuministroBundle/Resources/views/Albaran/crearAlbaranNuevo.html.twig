@@ -1,0 +1,62 @@
+{% extends 'RGMELibreriaIndexBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('bundles/rgmelibreriasuministro/css/estilo.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block contenido %}
+<h1>Registrar nuevo albaran</h1>
+<div class="datos-albaran">
+	<form id="form-datos-albaran">
+		<h2>Datos del albaran</h2>
+		<div id="formulario-datos-albaran">
+			<input id="albaran-id" type="hidden" name="albaran-id">
+			
+			<div class="numero">
+				<label for="albaran-numero">Numero de Identificación</label>
+				<input type="text" id="albaran-numero" name="albaran-numero">
+			</div>
+			<div class="fecha-realizacion">
+				<label for="albaran-fecha-realizacion">Fecha de realización</label>
+				<input type="text" id="albaran-fecha-realizacion" class="dateJquery" name="albaran-fecha-realizacion">
+			</div>
+			<div class="contrato clear">
+				<label for="albaran-contrato">Contrato de suministro</label>
+				<select id="albaran-contrato" name="albaran-contrato">
+					<option value="1">1</option>
+				</select>
+			</div>
+			<div class="fecha-vencimiento">
+				<label for="albaran-fecha-vencimiento">Fecha de vencimiento</label>
+				<input type="text" id="albaran-fecha-vencimiento" class="dateJquery" name="albaran-fecha-vencimiento">
+			</div>
+			
+			<div class="separador clear"></div>
+			
+			<input class="botonActualizar" type="submit" value="Actualizar" id="actualizar-datos-albaran">
+			<div class="estado sinActualizar">-</div>
+		</div>
+	</form>
+</div>
+
+<div id="visor"></div>
+
+<div class="jaula-libros">
+	<div class="nuevo-libro">
+		<div id="botonAnadir" class="botonAnadir">+</div>
+		<h2>Libros contenidos en el albaran</h2>
+	</div>
+	<div class="libros-albaran"></div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+		var ruta_ajax_registro_albaran = '{{ path(ajax.ruta_registrar) }}',
+			ruta_ajax_get_libros_albaran = '{{ path(ajax.ruta_get_libros_albaran) }}',
+			ruta_ajax_get_datos_libro = '{{ path(ajax.ruta_get_datos_libro) }}';
+	</script>
+
+	<script type="text/javascript" src="{{ asset('bundles/rgmelibreriasuministro/js/crearalbaran.js') }}"></script>
+{% endblock %}

@@ -185,7 +185,7 @@ class Asistente extends Controller{
 		return $res;
 	}
 	
-	protected function getArrayOpcionesVista($opcionesAjax, $menu_subseccion = null, $menu_izq = null){
+	protected function getArrayOpcionesVista($opcionesAjax = array(), $menu_subseccion = null, $menu_izq = null){
 		$res = $opcionesAjax;
 		$opcionesPlantilla = $this->getOpcionesPlantilla();
 	

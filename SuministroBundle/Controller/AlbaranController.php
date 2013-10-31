@@ -1,7 +1,7 @@
 <?php 
 namespace RGM\eLibreria\SuministroBundle\Controller;
 
-use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
+use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
@@ -13,13 +13,17 @@ use RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran;
 use RGM\eLibreria\LibroBundle\Entity\Libro;
 use RGM\eLibreria\LibroBundle\Entity\Editorial;
 use APY\DataGridBundle\Grid\Column\BlankColumn;
+use Symfony\Component\HttpFoundation\Request;
 
-class AlbaranController extends AsistenteController{
+class AlbaranController extends Asistente{
+	private $bundle = 'suministrobundle';
+	private $controller = 'albaran';	
+
 	private $seccion = 'Gestor de Suministros';
 	private $subseccion = 'Albaranes';
 	
 	private $numElementosPagina = 33;
-
+	
 	private $repositorio_libro = 'RGMELibreriaLibroBundle:Libro';
 	private $entidad_libro = 'RGM\eLibreria\LibroBundle\Entity\Libro';
 	
@@ -45,7 +49,7 @@ class AlbaranController extends AsistenteController{
 			'editor' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\AlbaranType',
 			'importar' => 'RGM\eLibreria\SuministroBundle\Form\Frontend\Albaran\ImportarAlbaranesType'
 	);
-
+	
 	private $plantilla_ver_albaran = 'RGMELibreriaSuministroBundle:Albaran:verAlbaran.html.twig';
 	private $plantilla_crear_albaran = 'RGMELibreriaSuministroBundle:Albaran:crearAlbaran.html.twig';
 	private $plantilla_importar_albaran = 'RGMELibreriaSuministroBundle:Albaran:importarAlbaran.html.twig';
@@ -68,78 +72,72 @@ class AlbaranController extends AsistenteController{
 	
 	public function __construct(){
 		parent::__construct(
-				$this->ruta_inicio,
-				$this->logicoBundle,
-				$this->seccion,
-				$this->subseccion,
-				$this->entidad,
-				$this->nombreFormularios);
+				$this->bundle,
+				$this->controller);
 	}
 	
 	private function getGrid(){
-		$grid = new GridController($this->getNombreEntidad(), $this);
+		$grid = new GridController($this->getEntidadLogico($this->getParametro('entidad')), $this);
 		
 		$columnaContrato = new BlankColumn(array('id' => 'contrato', 'title' => 'Contrato'));
 		$columnaTotal = new BlankColumn(array('id' => 'total', 'title' => 'Total'));
 		$columnaVer = new BlankColumn(array('id' => 'ver', 'title' => 'Ver Albaran', 'safe' => false));
-
+		
 		$grid->getGrid()->addColumn($columnaContrato);
 		$grid->getGrid()->addColumn($columnaTotal);
 		$grid->getGrid()->addColumn($columnaVer);
 		
 		$grid->getSource()->manipulateRow(function($row){
 			$entidad = $row->getEntity();
-			
+				
 			$enlaceVer = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=960,height=500,toolbar=1,resizable=0"); return false;\' href="' . $this->generateUrl('rgm_e_libreria_suministro_albaran_ver', array('id' => $entidad->getId())) . '">Ver Albaran</a>';
-			
+				
 			$row->setField('contrato', $entidad->getContrato());
 			$row->setField('ver', $enlaceVer);
-			
+				
 			if(!$entidad->getTotal()){
 				$this->calcularValorAlbaran($entidad);
 			}
 			$row->setField('total', round($entidad->getTotal(), 2) . '€');
-			
+				
 			return $row;
 		});
 		
 		return $grid;
 	}
 	
-	private function getOpcionesGridAjax(){
+	private function getOpcionesGridAjax(){	
 		return $this->getArrayOpcionesGridAjax(
-				$this -> grid_boton_editar,
-				$this -> grid_ruta_editar,
+				$this->getParametro('grid_boton_editar'),
+				$this->getParametro('grid_ruta_editar'),
 				null,
 				null,
 				null);
 	}
 	
-	private function getOpcionesVista(){
-		return $this->getArrayOpcionesVista(
-				null,
-				$this->getOpcionesGridAjax());
+	private function getOpcionesVista(){	
+		$opciones = $this->getArrayOpcionesVista($this->getOpcionesGridAjax());
+	
+		return $opciones;
 	}
 	
 	private function registrarLineaAlbaran($linea){
 		
 	}
 	
-	public function verAlbaranesAction(){
-		$peticion = $this->getRequest();
-	
-		$grid = $this->getGrid();
+	public function verAlbaranesAction(Request $peticion){
 		$render = null;
-	
+		$grid = $this->getGrid();
+		
 		if($peticion->isXmlHttpRequest()){
 			$grid->setOpciones($this->getOpcionesGridAjax());
 			$render = $grid->getRenderAjax();
 		}
 		else{
 			$grid->setOpciones($this->getOpcionesVista());
-			$render = $grid->getRender();
+			$render = $grid->getRender($this->getPlantilla('principal'));
 		}
-	
+		
 		return $render;
 	}
 	
@@ -319,6 +317,14 @@ class AlbaranController extends AsistenteController{
 		$opciones['form'] = $opciones['form']->createView();
 		
 		return $this->render($this->plantilla_crear_albaran, $opciones);
+	}
+	
+	public function crearAlbaranNuevoAction(Request $peticion){
+		$opciones = $this->getArrayOpcionesVista();
+		
+		$opciones['ajax'] = $this->getParametro('ajax');
+		
+		return $this->render($this->getPlantilla('crearAlbaran'), $opciones);
 	}
 	
 	public function editarAlbaranAction($id){
