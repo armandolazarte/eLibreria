@@ -186,33 +186,38 @@ class EditorialController extends Asistente{
 		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
-	public function buscar_Editorial_AjaxAction(){
-		$nombre = $this->getRequest()->query->get('editorial');
+	public function buscar_Editorial_AjaxAction(Request $peticion){
+		$nombre = $peticion->request->get('editorial');
+		$res = array();
+		$array_salida = array();
 		
-		$nombre .= '%';
-		
-		$em = $this->getEm();
-		$qb = $em->createQueryBuilder();
-		$qb->select('e')
-		->from('RGM\\eLibreria\LibroBundle\Entity\Editorial', 'e')
-		->add('where', $qb->expr()->like('e.nombre', '?1'))
-		->setParameter(1, $nombre);
-		
-		$editoriales = $qb->getQuery()->getResult();
-		
-		$salida = array();
-		
-		foreach($editoriales as $e){
-			$array_editorial = array();
-		
-			$array_editorial['nombre'] = $e->getNombre();
-				
-			$salida[] = $array_editorial;
+		if($peticion->getMethod() == "POST"){
+			$nombre .= '%';
+			
+			$em = $this->getEm();
+			$qb = $em->createQueryBuilder();
+			$qb->select('e')
+			->from('RGM\\eLibreria\LibroBundle\Entity\Editorial', 'e')
+			->add('where', $qb->expr()->like('e.nombre', '?1'))
+			->setParameter(1, $nombre);
+			
+			$editoriales = $qb->getQuery()->getResult();
+			
+			$salida = array();
+			
+			foreach($editoriales as $e){
+				$array_editorial = array();
+			
+				$array_editorial['nombre'] = $e->getNombre();
+					
+				$salida[] = $array_editorial;
+			}
+			
+			$array_salida['sugerencias'] = $salida;
 		}
-		
-		$array_salida['sugerencias'] = $salida;
-		
+
 		$res = new Response(json_encode($array_salida));
+		$res->headers->set('Content-Type', 'application/json');
 		
 		return $res;
 	}

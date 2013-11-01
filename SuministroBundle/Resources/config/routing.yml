@@ -20,7 +20,7 @@ rgm_e_libreria_suministro_albaran_borrar:
     
 rgm_e_libreria_suministro_albaran_crear_nuevo:
     pattern: /albaran/crear2
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:crearAlbaranNuevo' }
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran2:crearAlbaran' }
     
 rgm_e_libreria_suministro_albaran_crear:
     pattern: /albaran/crear
@@ -31,6 +31,11 @@ rgm_e_libreria_suministro_albaran_homepage:
     defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:verAlbaranes' }
     
 
+
+rgm_e_libreria_suministro_albaran_crear_ajax_registro_libros_albaran:
+    pattern: /ajax/registro/libros
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroLibro' }
+    
 rgm_e_libreria_suministro_albaran_crear_ajax_registro:
     pattern: /ajax/registro
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroAlbaran' }

@@ -5,6 +5,7 @@ use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
 use APY\DataGridBundle\Grid\Column\BlankColumn;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class LibroController extends Asistente{
 	private $bundle = 'librobundle';
@@ -253,39 +254,44 @@ class LibroController extends Asistente{
 		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
-	public function buscarLibroAjaxAction(){
-		$isbn = $this->getRequest()->query->get('isbn');
-				
-		$isbn .= '%';
-		
-		$em = $this->getEm();
-		$qb = $em->createQueryBuilder();
-		$qb->select('l')
-		->from('RGM\\eLibreria\LibroBundle\Entity\Libro', 'l')
-		->add('where', $qb->expr()->like('l.isbn', '?1'))
-		->setParameter(1, $isbn);
-		
-		$libros = $qb->getQuery()->getResult();
-		
-		$salida = array();
-		
-		foreach($libros as $l){
-			$array_libro = array();
+	public function buscarLibroAjaxAction(Request $peticion){
+		$isbn = $peticion->request->get('isbn');
+		$res = array();
+		$array_salida = array();
 
-			$array_libro['isbn'] = $l->getISBN();
-			$array_libro['titulo'] = $l->getTitulo();
-			$array_libro['editorial'] = null;
+		if($peticion->getMethod() == "POST"){
+	
+			$isbn .= '%';
 			
-			if($l->getEditorial()){
-				$array_libro['editorial'] = $l->getEditorial()->getNombre();
+			$em = $this->getEm();
+			$qb = $em->createQueryBuilder();
+			$qb->select('l')
+			->from('RGM\\eLibreria\LibroBundle\Entity\Libro', 'l')
+			->add('where', $qb->expr()->like('l.isbn', '?1'))
+			->setParameter(1, $isbn);
+			
+			$libros = $qb->getQuery()->getResult();
+			
+			$salida = array();
+			
+			foreach($libros as $l){
+				$array_libro = array();
+	
+				$array_libro['isbn'] = $l->getISBN();
+				$array_libro['titulo'] = $l->getTitulo();
+				
+				if($l->getEditorial()){
+					$array_libro['editorial'] = $l->getEditorial()->getNombre();
+				}
+				
+				$salida[] = $array_libro;
 			}
 			
-			$salida[] = $array_libro;
+			$array_salida['sugerencias'] = $salida;
 		}
-		
-		$array_salida['sugerencias'] = $salida;
-		
+
 		$res = new Response(json_encode($array_salida));
+		$res->headers->set('Content-Type', 'application/json');
 		
 		return $res;
 	}

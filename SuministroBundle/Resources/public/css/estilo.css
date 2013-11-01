@@ -59,7 +59,9 @@ h1{
 }
 
 .botonActualizar{
-	display: block
+	display: block;
+	margin-right: 30px;
+	margin-bottom: 10px;
 }
 
 .clear{
@@ -101,24 +103,53 @@ h1{
 }
 
 .tituloAcordeon{
+	width: 300px !important;
+}
+
+.editorialAcordeon{
+	width: 150px !important;
+}
+
+.tituloAcordeon, .isbnAcordeon, .editorialAcordeon{
 	height: 15px !important;
-	width: 105px;
+	width: 80px;
 	font-size: 10px !important;
 	color: #666;
 	padding: 0px 5px;
 	margin: 0px;
 }
 
+.estadoAcordeon{
+	height: 17px;
+	width: 17px;
+
+	float: right;
+	border-radius: 5px;
+	margin-right: 5px;
+}
+
 .sinActualizar{
-	background-color: red;
+}
+
+.estado{
+	width: 20px !important;
+	text-indent: -9999px;
 }
 
 .enProceso{
-	background-color: yellow;
+	background: transparent url(../images/save_icon.png) no-repeat center center;
+	border-radius: 0px;
+	margin-top: -1px;
 }
 
 .actualizado{
-	background-color: green;
+	background: transparent url(../images/right_icon.png) no-repeat center center;
+	background-size: 19px 19px;
+	border-radius: 0px;
+}
+
+.porGuardar{
+	border: 1px solid #c66 !important;
 }
 
 .jaula-libros{

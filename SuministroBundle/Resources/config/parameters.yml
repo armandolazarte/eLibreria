@@ -120,6 +120,9 @@ parameters:
         impresion:
             numElementosPagina: 33
             
+        contrato:
+            repositorio: 'RGMELibreriaSuministroBundle:ContratoSuministro'
+            
         libro:
             repositorio: 'RGMELibreriaLibroBundle:Libro'
             entidad: 'RGM\eLibreria\LibroBundle\Entity\Libro'
@@ -137,7 +140,10 @@ parameters:
         ajax:
             ruta_registrar: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro'
             ruta_get_libros_albaran: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_libros_albaran'
-            ruta_get_datos_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro' 
+            ruta_get_datos_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro'
+            ruta_get_isbn_existentes: 'rgm_e_libreria_librobundle_libro_buscar_referencia_ajax'
+            ruta_get_editoriales_existentes: 'rgarcia_entrelineas_editorial_buscarAjax'
+            ruta_registrar_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro_libros_albaran'
                     
         ruta_form_crear: 'rgm_e_libreria_suministro_contratosuministro_crear'
         titulo_crear: 'Crear nuevo contrato'
