@@ -39,6 +39,10 @@ rgm_e_libreria_suministro_albaran_crear_ajax_registro_libros_albaran:
 rgm_e_libreria_suministro_albaran_crear_ajax_registro:
     pattern: /ajax/registro
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroAlbaran' }
+    
+rgm_e_libreria_suministro_albaran_crear_ajax_eliminar_libro:
+    pattern: /ajax/eliminar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:eliminarLibro' }
 
 rgm_e_libreria_suministro_albaran_crear_ajax_get_libros_albaran:
     pattern: /ajax/libros
@@ -47,6 +51,24 @@ rgm_e_libreria_suministro_albaran_crear_ajax_get_libros_albaran:
 rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro:
     pattern: /ajax/datos-libro
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getDatosLibro' }
+
+
+
+rgm_e_libreria_suministro_albaran_ajax_plantilla:
+    pattern: /ajax/ejemplar/plantilla
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getPlantillaEjemplar' }
+
+rgm_e_libreria_suministro_albaran_ajax_nuevo_ejemplar:
+    pattern: /ajax/ejemplar/nuevo/{idAlbaran}/{idLibro}
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:crearEjemplar' }
+
+rgm_e_libreria_suministro_albaran_ajax_editar_ejemplar:
+    pattern: /ajax/ejemplar/nuevo/{idAlbaran}/{idLibro}/{idEjemplar}
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:editarEjemplar' }
+
+rgm_e_libreria_suministro_albaran_ajax_borrar_ejemplar:
+    pattern: /ajax/ejemplar/nuevo/{idAlbaran}/{idLibro}/{idEjemplar}
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:borrarEjemplar' }
     
 
 rgm_e_libreria_suministro_contratosuministro_crear:

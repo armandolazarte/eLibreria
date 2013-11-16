@@ -24,7 +24,9 @@
 			<div class="contrato clear">
 				<label for="albaran-contrato">Contrato de suministro</label>
 				<select id="albaran-contrato" name="albaran-contrato">
-					<option value="1">1</option>
+					{% for contrato in contratos %}
+					<option value="{{ contrato.id }}">{{ contrato }}</option>
+					{% endfor %}
 				</select>
 			</div>
 			<div class="fecha-vencimiento">
@@ -52,6 +54,8 @@
 {% endblock %}
 
 {% block javascripts %}
+	{{ parent() }}
+	
 	<script type="text/javascript">
 		var ruta_ajax_registro_albaran = '{{ path(ajax.ruta_registrar) }}',
 			ruta_ajax_get_libros_albaran = '{{ path(ajax.ruta_get_libros_albaran) }}',
@@ -60,6 +64,7 @@
 			ruta_ajax_get_editoriales_existente = '{{ path(ajax.ruta_get_editoriales_existentes) }}',
 			ruta_ajax_registro_libro = '{{ path(ajax.ruta_registrar_libro) }}',
 			ruta_ajax_cargar_contenido = '';
+			ruta_ajax_eliminar_libro = '{{ path(ajax.ruta_ajax_eliminar_libro) }}';
 	</script>
 
 	<script type="text/javascript" src="{{ asset('bundles/rgmelibreriasuministro/js/crearalbaran.js') }}"></script>

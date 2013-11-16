@@ -5,13 +5,27 @@ var $idAlbaran,
 	$cId,
 	$estado_datos_albaran,
 	$div_libros,
+	titulo_isbn = 'ISBN',
+	titulo_titulo = 'Titulo libro',
+	titulo_editorial = 'Editorial',
 	nuevos_libros_id = 1,
-	div_libro = '<div id="libro-%isbn%" class="libro">';
+	div_libro = '<div id="libro-%isbn_id%" class="libro">';
 	div_libro += '<h3><div class="borrarLibro">-</div><div class="estadoAcordeon sinActualizar"></div>';
-	div_libro += '<input class="isbnAcordeon" maxlength="13" value="%isbn%" onfocus="this.value=(this.value==\'ISBN\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'ISBN\' : this.value;" type="text">';
-	div_libro += ' | <input class="tituloAcordeon" value="%titulo%" onfocus="this.value=(this.value==\'Titulo libro\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'Titulo libro\' : this.value;" type="text">';
-	div_libro += ' | <input class="editorialAcordeon" value="%editorial%" onfocus="this.value=(this.value==\'Editorial\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'Editorial\' : this.value;" type="text"></h3>';
-	div_libro += '<div class="contenido-libro"></div></div>';
+	div_libro += '<input class="isbnAcordeon" maxlength="13" value="%isbn%" onfocus="funcion_onfocus(this, \'%isbn%\')" onblur="funcion_onblur(this, \'%isbn%\')" type="text">';
+	div_libro += ' | <input class="tituloAcordeon" value="%titulo%" onfocus="funcion_onfocus(this, \'%titulo%\')" onblur="funcion_onblur(this, \'%titulo%\')" type="text">';
+	div_libro += ' | <input class="editorialAcordeon" value="%editorial%" onfocus="funcion_onfocus(this, \'%editorial%\')" onblur="funcion_onblur(this, \'%editorial%\')" type="text"></h3>';
+	div_libro += '<div class="contenido-libro">';
+	div_libro += '<div class="ejemplares">';
+	div_libro += '</div>';
+	div_libro += '</div>';
+	div_libro += '</div>';
+	
+	div_ejemplar = '<div class="ejemplar-%isbn_id%-%ejemplar_id%" class="ejemplar">';
+	div_ejemplar += '<h3><div class="borrarLibro">-</div><div class="estadoAcordeon sinActualizar"></div>';
+	div_ejemplar += '<input class="isbnAcordeon" maxlength="13" value="%isbn%" onfocus="this.value=(this.value==\'ISBN\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'ISBN\' : this.value;" type="text">';
+	div_ejemplar += ' | <input class="tituloAcordeon" value="%titulo%" onfocus="this.value=(this.value==\'Titulo libro\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'Titulo libro\' : this.value;" type="text">';
+	div_ejemplar += ' | <input class="editorialAcordeon" value="%editorial%" onfocus="this.value=(this.value==\'Editorial\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'Editorial\' : this.value;" type="text"></h3>';
+	div_ejemplar += '<div class="contenido-libro"></div></div>';
 	delete($.ui.accordion.prototype._keydown);
 
 $(document).ready(function(){
@@ -49,26 +63,65 @@ $(document).ready(function(){
 	$botonAnadir.click(function(event){
 		event.preventDefault();
 		$div_libros.find('p').remove();
-		$div_libros.append(div_libro.replace('%isbn%', nuevos_libros_id).replace('%isbn%', 'ISBN').replace('%titulo%', 'Titulo libro').replace('%editorial%', 'Editorial'));
+		$div_libros.append(reemplazo_div_libro(nuevos_libros_id));		
+		$div_libro = $('#libro-' + nuevos_libros_id++);
 		
-		$('#libro-' + nuevos_libros_id).find('.borrarLibro').click(borrarLibroAlbaran);
-		$('#libro-' + nuevos_libros_id).find('.isbnAcordeon').autocomplete({source: buscarISBNLibro, select: seleccionarISBNLibro});
-		$('#libro-' + nuevos_libros_id).find('.editorialAcordeon').autocomplete({source: buscarEditorialLibro});
-		$('#libro-' + nuevos_libros_id).find('.isbnAcordeon').click(borrarClick);
-		$('#libro-' + nuevos_libros_id).find('.editorialAcordeon').click(borrarClick);
-		$('#libro-' + nuevos_libros_id++).find('.tituloAcordeon').click(tituloModificado);
+		$div_libro.find('.borrarLibro').click(borrarLibroAlbaran);
+		$div_libro.find('.isbnAcordeon').autocomplete({
+			source: buscarISBNLibro, 
+			select: seleccionarISBNLibro
+		});
+		
+		$div_libro.find('.editorialAcordeon').autocomplete({
+			source: buscarEditorialLibro
+		});
+		
+		$div_libro.find('.isbnAcordeon').click(borrarClick);
+		$div_libro.find('.editorialAcordeon').click(borrarClick);
+		$div_libro.find('.tituloAcordeon').change(tituloModificado);
+		$div_libro.find('.tituloAcordeon').click(borrarClick);
+		
+		nuevos_libros_id++;
 		$div_libros.accordion("refresh");
 	});
 	
 	$idAlbaran.change(get_libros_albaran_ajax);
 });
 
+function funcion_onfocus(elemento, msg){
+	return elemento.value=(elemento.value==msg) ? '' : elemento.value;
+}
+
+function funcion_onblur(elemento, msg){
+	return elemento.value=(elemento.value=='') ? msg : elemento.value;
+}
+
+function reemplazo_div_libro(id){
+	div_isbn_id = div_libro.replace('%isbn_id%', id);
+	div_isbn = div_isbn_id.replace(/%isbn%/gi, titulo_isbn);
+	div_titulo = div_isbn.replace(/%titulo%/gi, titulo_titulo);
+	div_editorial = div_titulo.replace(/%editorial%/gi, titulo_editorial);
+	
+	return div_editorial;
+}
+
 function tituloModificado(event){
 	event.preventDefault();
-	$(this).addClass('porGuardar');
-	$estado = $(this).siblings('.estadoAcordeon');
 	
-	modificar_estado($estado, 'enProceso');
+	dump(event.target);
+	
+	$estado = $(this).siblings('.estadoAcordeon');
+	$input = $(this);
+	
+	if($input.val() != ''){
+		$input.addClass('porGuardar');		
+		modificar_estado($estado, 'enProceso');
+	}
+	else{
+		$input.removeClass('porGuardar');		
+		modificar_estado($estado, 'sinActualizar');
+		
+	}
 	return false;
 }
 
@@ -82,6 +135,17 @@ function borrarLibroAlbaran(event){
 	var r=confirm("Esta acción borrará todos los ejemplares existentes.\n¿Desea realizar la acción?");
 	if (r==true)
 	{
+		$padre = $(event.target.parentElement);
+		$isbn = $padre.find('isbnAcordeon');
+		
+		$.ajax({
+	        url: ruta_ajax_eliminar_libro,
+	        type: 'POST',
+	        data: {
+	          isbn: $isbn.val()
+	        }
+	      });
+		
 		$(event.target).off();
 		$(event.target).parent().parent().remove();
 	}
@@ -89,7 +153,7 @@ function borrarLibroAlbaran(event){
 	return false;
 }
 
-function objToString(obj) {
+function dump(obj) {
     var str = '';
     for (var p in obj) {
         if (obj.hasOwnProperty(p)) {

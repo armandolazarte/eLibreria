@@ -150,6 +150,14 @@ class AlbaranAjaxController extends Asistente{
 		return $this->getResponse($res);
 	}
 	
+	public function eliminarLibroAction(){
+		return $this->getResponse(array('estado' => true));
+	}
+	
+	public function getPlantillaEjemplarAction(){
+		return $this->render($this->getPlantilla('ejemplar'));
+	}
+	
 	private function getResponse(array $respuesta){
 		$response = new Response(json_encode($respuesta));
 		$response->headers->set('Content-Type', 'application/json');

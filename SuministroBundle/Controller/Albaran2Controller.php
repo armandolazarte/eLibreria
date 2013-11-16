@@ -28,6 +28,11 @@ class Albaran2Controller extends Asistente{
 	public function crearAlbaranAction(Request $peticion){
 		$opciones = $this->getArrayOpcionesVista();
 		
+		$em = $this->getEm();
+		
+		$info_contratos = $this->getParametro('contrato');
+		$opciones['contratos'] = $em->getRepository($info_contratos['repositorio'])->findAll();
+		
 		$opciones['ajax'] = $this->getParametro('ajax');
 		
 		return $this->render($this->getPlantilla('crearAlbaran'), $opciones);
