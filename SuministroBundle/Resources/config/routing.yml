@@ -3,7 +3,7 @@ rgm_e_libreria_suministro_editor_albaran_crear:
     defaults: { _controller: 'RGMELibreriaSuministroBundle:EditorAlbaran:editarAlbaran' }
     
 rgm_e_libreria_suministro_editor_albaran_editar:
-    pattern: /albaran2/editar/{idAlbaran}
+    pattern: /albaran2/editar/{id}
     defaults: { _controller: 'RGMELibreriaSuministroBundle:EditorAlbaran:editarAlbaran' }
     
 rgm_e_libreria_suministro_albaran_crear:
@@ -35,22 +35,27 @@ rgm_e_libreria_suministro_albaran_homepage:
 rgm_e_libreria_suministro_albaran_crear_ajax_registro_libros_albaran:
     pattern: /ajax/registro/libros
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroLibro' }
+    methods:  [POST]
     
 rgm_e_libreria_suministro_albaran_crear_ajax_registro:
     pattern: /ajax/registro
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroAlbaran' }
+    methods:  [POST]
     
 rgm_e_libreria_suministro_albaran_crear_ajax_eliminar_libro:
     pattern: /ajax/eliminar
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:eliminarLibro' }
+    methods:  [POST]
 
 rgm_e_libreria_suministro_albaran_crear_ajax_get_libros_albaran:
     pattern: /ajax/libros
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getLibrosAlbaran' }
+    methods:  [POST]
 
 rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro:
     pattern: /ajax/datos-libro
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getDatosLibro' }
+    methods:  [POST]
 
 
 

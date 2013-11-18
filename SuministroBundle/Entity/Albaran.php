@@ -35,6 +35,8 @@ class Albaran {
 	 * @ORM\ManyToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ContratoSuministro", inversedBy="albaranes")
 	 * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
 	 * 
+	 * @GRID\Column(visible=false)
+	 * 
 	 */
 	private $contrato;
 

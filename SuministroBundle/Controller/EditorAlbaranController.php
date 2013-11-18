@@ -25,24 +25,16 @@ class EditorAlbaranController extends Asistente{
 				$this->controller);
 	}
 	
-	public function editarAlbaranAction(Request $peticion, $idAlbaran = null){
+	public function editarAlbaranAction(Request $peticion, $id = null){
 		$opciones = $this->getArrayOpcionesVista();
 		$em = $this->getEm();
 		
-		if($idAlbaran){
-			$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($idAlbaran);
+		if($id){
+			$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
 			
-			if(!$albaran){
-				$albaran = array(
-						'id' => $idAlbaran,
-						'numero' => "",
-						'fechaRealizacion' => "",
-						'fechaVencimiento' => "",
-						'contratoid' => ""
-				);
-			}
-			
-			$opciones['albaran'] = $albaran;
+			if($albaran){
+				$opciones['albaran'] = $albaran;
+			}			
 		}
 		
 		$info_contratos = $this->getParametro('contrato');

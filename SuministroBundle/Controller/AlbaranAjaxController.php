@@ -19,33 +19,37 @@ class AlbaranAjaxController extends Asistente{
 		$res = array();
 		
 		if($peticion->getMethod() == "POST"){
-			$numero = $peticion->request->get('numero');
-			$fecha_real = $peticion->request->get('fecha_real');
-			$fecha_vencimiento = $peticion->request->get('fecha_vencimiento');
-			$contrato_id = $peticion->request->get('contrato_id');
+			$id = $peticion->request->get('idAlbaran');
+			$numero = $peticion->request->get('numeroAlbaran');
+			$fecha_real = $peticion->request->get('fechaRealizacion');
+			$fecha_vencimiento = $peticion->request->get('fechaVencimiento');
+			$contrato_id = $peticion->request->get('contratoId');
 			
 			if($numero != "" && $fecha_real != "" && $fecha_vencimiento != "" && $contrato_id != ""){
-// 				$em = $this->getEm();
+				$em = $this->getEm();
 				
-// 				$entidad = $em->getRepository($this->getNombreEntidad($this->getParametro('entidad')))->findOneBy(array(
-// 						'numeroAlbaran' => $numero
-// 				));
+				$entidad = null;
 				
-// 				if(!$entidad){
-// 					$entidad = $this->getNuevaInstancia($this->getParametro('clase_entidad'));
-// 					$entidad->setNumeroAlbaran($numero);
-					
-// 					$info_contrato = $this->getParametro('contrato');
-// 					$contrato = $em->getRepository($info_contrato['repositorio'])->find($contrato_id);
-// 					$entidad->setContrato($contrato);
+				if($id == ""){
+					$entidad = $this->getNuevaInstancia($this->getParametro('clase_entidad'));					
+				}
+				else{
+					$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
+				}
+				
+				$entidad->setNumeroAlbaran($numero);
+				
+				$info_contrato = $this->getParametro('contrato');
+				$contrato = $em->getRepository($info_contrato['repositorio'])->find($contrato_id);
+				$entidad->setContrato($contrato);
 
-// 					$entidad->setFechaRealizacion(new \DateTime($fecha_real));
-// 					$entidad->setFechaVencimiento(new \DateTime($fecha_vencimiento));
-					
-// 					$em->persist($entidad);
-// 					$em->flush();
-// 				}
+				$entidad->setFechaRealizacion(new \DateTime($fecha_real));
+				$entidad->setFechaVencimiento(new \DateTime($fecha_vencimiento));
 				
+				$em->persist($entidad);
+				$em->flush();
+
+				$res['idAlbaran'] = $entidad->getId();
 				$res['estado'] = true;
 			}
 		}

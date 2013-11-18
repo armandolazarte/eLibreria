@@ -15,23 +15,24 @@
 			
 			<div class="numero">
 				<label for="albaran-numero">Numero de Identificación</label>
-				<input type="text" id="albaran-numero" name="albaran-numero" {% if albaran is defined %}value="{{ albaran.numero }}"{% endif %}>
+				<input type="text" id="albaran-numero" required="required" name="albaran-numero" {% if albaran is defined %}value="{{ albaran.numeroAlbaran }}"{% endif %}>
 			</div>
 			<div class="fecha-realizacion">
 				<label for="albaran-fecha-realizacion">Fecha de realización</label>
-				<input type="text" id="albaran-fecha-realizacion" class="dateJquery" name="albaran-fecha-realizacion" {% if albaran is defined %}value="{{ albaran.fechaRealizacion }}"{% endif %}>
+				<input type="text" id="albaran-fecha-realizacion" required="required" class="dateJquery" name="albaran-fecha-realizacion" {% if albaran is defined %}value="{{ albaran.fechaRealizacion|date('d-m-Y') }}"{% endif %}>
 			</div>
 			<div class="contrato clear">
 				<label for="albaran-contrato">Contrato de suministro</label>
-				<select id="albaran-contrato" name="albaran-contrato">
+				<select id="albaran-contrato" required="required" name="albaran-contrato">
+					<option value="">Seleccione un contrato</option>
 					{% for contrato in contratos %}
-					<option value="{{ contrato.id }}" {% if albaran is defined %}{% if albaran.contratoid == contrato.id %}selected{% endif %}{% endif %}>{{ contrato }}</option>
+					<option value="{{ contrato.id }}" {% if albaran is defined %}{% if albaran.contrato.id == contrato.id %}selected{% endif %}{% endif %}>{{ contrato }}</option>
 					{% endfor %}
 				</select>
 			</div>
 			<div class="fecha-vencimiento">
 				<label for="albaran-fecha-vencimiento">Fecha de vencimiento</label>
-				<input type="text" id="albaran-fecha-vencimiento" class="dateJquery" name="albaran-fecha-vencimiento" {% if albaran is defined %}value="{{ albaran.fechaVencimiento }}"{% endif %}>
+				<input type="text" id="albaran-fecha-vencimiento" required="required" class="dateJquery" name="albaran-fecha-vencimiento" {% if albaran is defined %}value="{{ albaran.fechaVencimiento|date('d-m-Y') }}"{% endif %}>
 			</div>
 			
 			<div class="separador clear"></div>
@@ -44,7 +45,7 @@
 
 <div id="visor"></div>
 
-<div class="jaula-libros">
+<div id="jaula-libros">
 	<div class="nuevo-libro">
 		<div id="botonAnadir" class="botonAnadir">+</div>
 		<h2>Libros contenidos en el albaran</h2>
@@ -67,5 +68,5 @@
 			ruta_ajax_eliminar_libro = '{{ path(ajax.ruta_ajax_eliminar_libro) }}';
 	</script>
 
-	<script type="text/javascript" src="{{ asset('bundles/rgmelibreriasuministro/js/crearalbaran.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/rgmelibreriasuministro/js/editorAlbaranes.js') }}"></script>
 {% endblock %}

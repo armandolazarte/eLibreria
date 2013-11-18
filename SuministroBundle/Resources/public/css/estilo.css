@@ -12,7 +12,7 @@ h1{
 	padding-left: 5px;
 }
 
-.datos-albaran, .jaula-libros{
+.datos-albaran, #jaula-libros{
 	border: 1px solid;
 
 	margin: 0px 20px 5px;
@@ -21,7 +21,7 @@ h1{
 	border-radius: 5px;
 }
 
-.datos-albaran h2, .jaula-libros h2{
+.datos-albaran h2, #jaula-libros h2{
 	border-bottom: 1px solid;
 
 	font-size: 13px;
@@ -128,15 +128,12 @@ h1{
 	margin-right: 5px;
 }
 
-.sinActualizar{
-}
-
 .estado{
 	width: 20px !important;
 	text-indent: -9999px;
 }
 
-.enProceso{
+.sinActualizar{
 	background: transparent url(../images/save_icon.png) no-repeat center center;
 	border-radius: 0px;
 	margin-top: -1px;
@@ -152,6 +149,6 @@ h1{
 	border: 1px solid #c66 !important;
 }
 
-.jaula-libros{
+#jaula-libros{
 	display: none;
 }

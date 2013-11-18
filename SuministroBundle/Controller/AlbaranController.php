@@ -28,29 +28,29 @@ class AlbaranController extends Asistente{
 	private function getGrid(){
 		$grid = new GridController($this->getEntidadLogico($this->getParametro('entidad')), $this);
 		
-// 		$columnaContrato = new BlankColumn(array('id' => 'contrato', 'title' => 'Contrato'));
-// 		$columnaTotal = new BlankColumn(array('id' => 'total', 'title' => 'Total'));
-// 		$columnaVer = new BlankColumn(array('id' => 'ver', 'title' => 'Ver Albaran', 'safe' => false));
+		$columnaContrato = new BlankColumn(array('id' => 'contrato', 'title' => 'Contrato'));
+		$columnaTotal = new BlankColumn(array('id' => 'total', 'title' => 'Total'));
+		$columnaVer = new BlankColumn(array('id' => 'ver', 'title' => 'Ver Albaran', 'safe' => false));
 		
-// 		$grid->getGrid()->addColumn($columnaContrato);
-// 		$grid->getGrid()->addColumn($columnaTotal);
-// 		$grid->getGrid()->addColumn($columnaVer);
+		$grid->getGrid()->addColumn($columnaContrato);
+		//$grid->getGrid()->addColumn($columnaTotal);
+		//$grid->getGrid()->addColumn($columnaVer);
 		
-// 		$grid->getSource()->manipulateRow(function($row){
-// 			$entidad = $row->getEntity();
+		$grid->getSource()->manipulateRow(function($row){
+			$entidad = $row->getEntity();
 				
-// 			$enlaceVer = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=960,height=500,toolbar=1,resizable=0"); return false;\' href="' . $this->generateUrl('rgm_e_libreria_suministro_albaran_ver', array('id' => $entidad->getId())) . '">Ver Albaran</a>';
+			$enlaceVer = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=960,height=500,toolbar=1,resizable=0"); return false;\' href="' . $this->generateUrl('rgm_e_libreria_suministro_albaran_ver', array('id' => $entidad->getId())) . '">Ver Albaran</a>';
 				
-// 			$row->setField('contrato', $entidad->getContrato());
-// 			$row->setField('ver', $enlaceVer);
+			$row->setField('contrato', $entidad->getContrato());
+			//$row->setField('ver', $enlaceVer);
 				
 // 			if(!$entidad->getTotal()){
 // 				$this->calcularValorAlbaran($entidad);
 // 			}
 // 			$row->setField('total', round($entidad->getTotal(), 2) . '€');
 				
-// 			return $row;
-// 		});
+			return $row;
+		});
 		
 		return $grid;
 	}
@@ -73,19 +73,19 @@ class AlbaranController extends Asistente{
 	}
 	
 	public function verAlbaranesAction(Request $peticion){
-// 		$render = null;
-// 		$grid = $this->getGrid();
+		$render = null;
+		$grid = $this->getGrid();
 		
-// 		if($peticion->isXmlHttpRequest()){
-// 			$grid->setOpciones($this->getOpcionesGridAjax());
-// 			$render = $grid->getRenderAjax();
-// 		}
-// 		else{
-// 			$grid->setOpciones($this->getOpcionesVista());
-// 			$render = $grid->getRender($this->getPlantilla('principal'));
-// 		}
+		if($peticion->isXmlHttpRequest()){
+			$grid->setOpciones($this->getOpcionesGridAjax());
+			$render = $grid->getRenderAjax();
+		}
+		else{
+			$grid->setOpciones($this->getOpcionesVista());
+			$render = $grid->getRender($this->getPlantilla('principal'));
+		}
 		
-// 		return $render;
+		return $render;
 	}
 	
 	public function importarAction(){
@@ -228,46 +228,51 @@ class AlbaranController extends Asistente{
 		return $lineas;
 	}
 	
-	public function borrarAlbaranAction($id){
-		$peticion = $this->getRequest();
+	public function borrarAlbaranAction($id, Request $peticion){
 		if($peticion->isXmlHttpRequest()){
 			return $this->irInicio();
 		}
 	
 		$em = $this->getEm();
-		$entidad = $em->getRepository($this->getNombreEntidad())->find($id);
+	
+		$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
 	
 		if(!$entidad){
 			return $this->irInicio();
 		}
 	
 		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_borrar');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
 	
-		$opciones['path_form'] = $this -> generateUrl($this -> grid_ruta_borrar, array('id' => $id));
-		$opciones['titulo_ventana'] = $this -> titulo_borrar;
-		$opciones['msg'] = $this -> msg_borrar;
-		$opciones['titulo_form'] = $this -> titulo_form_borrar;
-		$opciones['msg_confirmar'] = $this -> msg_confirmar_borrar;
-		$opciones['titulo_submit'] = $this -> titulo_submit_borrar;
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('grid_ruta_borrar'), array("id"=>$id));
+		$opcionesVM['titulo_submit'] = $this->getParametro('titulo_submit_borrar');
+		$opcionesVM['msg'] = $this->getParametro('msg_borrar');
+		$opcionesVM['msg_confirmar'] = $this->getParametro('msg_confirmar_borrar');
 	
-		$opciones['form'] = $this->createForm($this->getFormulario('visor'), $entidad);
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('visor'), $entidad);
 	
 		if($peticion->getMethod() == "POST"){
-			$opciones['form']->bind($peticion);
-				
-			if($opciones['form']->isValid()){
+			$opcionesVM['form']->bind($peticion);
+	
+			if($opcionesVM['form']->isValid()){
 				$em->remove($entidad);
 				$em->flush();
 	
-				$this->setFlash($this->flash_borrar);
+				$this->setFlash($this->getParametro('flash_borrar'));
 				return $this->irInicio();
 			}
 		}
 	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
 		$grid = $this->getGrid();
 		$grid->setOpciones($opciones);
 	
-		return $grid->getRenderVentanaModal();
+		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
 	public function verAlbaranAction($id){
