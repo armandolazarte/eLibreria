@@ -1,3 +1,15 @@
+rgm_e_libreria_suministro_editor_albaran_crear:
+    pattern: /albaran2/crear
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:EditorAlbaran:editarAlbaran' }
+    
+rgm_e_libreria_suministro_editor_albaran_editar:
+    pattern: /albaran2/editar/{idAlbaran}
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:EditorAlbaran:editarAlbaran' }
+    
+rgm_e_libreria_suministro_albaran_crear:
+    pattern: /albaran2/crear
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:EditorAlbaran:editarAlbaran' }
+
 rgm_e_libreria_suministro_albaran_importar:
     pattern: /albaran/importar
     defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:importar' }
@@ -10,21 +22,9 @@ rgm_e_libreria_suministro_albaran_ver:
     pattern: /albaran/{id}/ver
     defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:verAlbaran' }
     
-rgm_e_libreria_suministro_albaran_editar:
-    pattern: /albaran/{id}/editar
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:editarAlbaran' }
-    
 rgm_e_libreria_suministro_albaran_borrar:
     pattern: /albaran/{id}/borrar
     defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:borrarAlbaran' }
-    
-rgm_e_libreria_suministro_albaran_crear_nuevo:
-    pattern: /albaran/crear2
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran2:crearAlbaran' }
-    
-rgm_e_libreria_suministro_albaran_crear:
-    pattern: /albaran/crear
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:crearAlbaran' }
     
 rgm_e_libreria_suministro_albaran_homepage:
     pattern: /albaran

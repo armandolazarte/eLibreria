@@ -15,7 +15,7 @@ use RGM\eLibreria\LibroBundle\Entity\Editorial;
 use APY\DataGridBundle\Grid\Column\BlankColumn;
 use Symfony\Component\HttpFoundation\Request;
 
-class Albaran2Controller extends Asistente{
+class EditorAlbaranController extends Asistente{
 	private $bundle = 'suministrobundle';
 	private $controller = 'albaran';	
 	
@@ -24,11 +24,26 @@ class Albaran2Controller extends Asistente{
 				$this->bundle,
 				$this->controller);
 	}
-		
-	public function crearAlbaranAction(Request $peticion){
+	
+	public function editarAlbaranAction(Request $peticion, $idAlbaran = null){
 		$opciones = $this->getArrayOpcionesVista();
-		
 		$em = $this->getEm();
+		
+		if($idAlbaran){
+			$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($idAlbaran);
+			
+			if(!$albaran){
+				$albaran = array(
+						'id' => $idAlbaran,
+						'numero' => "",
+						'fechaRealizacion' => "",
+						'fechaVencimiento' => "",
+						'contratoid' => ""
+				);
+			}
+			
+			$opciones['albaran'] = $albaran;
+		}
 		
 		$info_contratos = $this->getParametro('contrato');
 		$opciones['contratos'] = $em->getRepository($info_contratos['repositorio'])->findAll();

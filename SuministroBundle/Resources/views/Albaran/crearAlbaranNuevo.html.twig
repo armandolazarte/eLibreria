@@ -6,32 +6,32 @@
 {% endblock %}
 
 {% block contenido %}
-<h1>Registrar nuevo albaran</h1>
+<h1>Registro de albaranes</h1>
 <div class="datos-albaran">
 	<form id="form-datos-albaran">
 		<h2>Datos del albaran</h2>
 		<div id="formulario-datos-albaran">
-			<input id="albaran-id" type="hidden" name="albaran-id">
+			<input id="albaran-id" type="hidden" name="albaran-id" {% if albaran is defined %}value="{{ albaran.id }}"{% endif %}>
 			
 			<div class="numero">
 				<label for="albaran-numero">Numero de Identificación</label>
-				<input type="text" id="albaran-numero" name="albaran-numero">
+				<input type="text" id="albaran-numero" name="albaran-numero" {% if albaran is defined %}value="{{ albaran.numero }}"{% endif %}>
 			</div>
 			<div class="fecha-realizacion">
 				<label for="albaran-fecha-realizacion">Fecha de realización</label>
-				<input type="text" id="albaran-fecha-realizacion" class="dateJquery" name="albaran-fecha-realizacion">
+				<input type="text" id="albaran-fecha-realizacion" class="dateJquery" name="albaran-fecha-realizacion" {% if albaran is defined %}value="{{ albaran.fechaRealizacion }}"{% endif %}>
 			</div>
 			<div class="contrato clear">
 				<label for="albaran-contrato">Contrato de suministro</label>
 				<select id="albaran-contrato" name="albaran-contrato">
 					{% for contrato in contratos %}
-					<option value="{{ contrato.id }}">{{ contrato }}</option>
+					<option value="{{ contrato.id }}" {% if albaran is defined %}{% if albaran.contratoid == contrato.id %}selected{% endif %}{% endif %}>{{ contrato }}</option>
 					{% endfor %}
 				</select>
 			</div>
 			<div class="fecha-vencimiento">
 				<label for="albaran-fecha-vencimiento">Fecha de vencimiento</label>
-				<input type="text" id="albaran-fecha-vencimiento" class="dateJquery" name="albaran-fecha-vencimiento">
+				<input type="text" id="albaran-fecha-vencimiento" class="dateJquery" name="albaran-fecha-vencimiento" {% if albaran is defined %}value="{{ albaran.fechaVencimiento }}"{% endif %}>
 			</div>
 			
 			<div class="separador clear"></div>
