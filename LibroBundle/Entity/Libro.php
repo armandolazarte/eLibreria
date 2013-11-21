@@ -12,7 +12,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  *
  * @ORM\Table()
  * @ORM\Entity
- * @DoctrineAssert\UniqueEntity(fields="titulo", message="El titulo ya esta en uso")
  * 
  */
 class Libro
