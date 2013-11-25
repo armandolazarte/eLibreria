@@ -152,3 +152,75 @@ h1{
 #jaula-libros{
 	display: none;
 }
+
+.datos{
+	width: 740px;
+	margin: 0 auto;
+	
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+	
+	border-bottom: 1px solid #999999;
+}
+
+.datos .jaula-datos-libro{
+	overflow: hidden;
+}
+
+.datos h4{
+	margin-bottom: 10px;
+	border-bottom: 1px solid #999999;
+	font-size: 14px;
+	font-weight: 800;
+	color: #444;
+}
+
+.datos .jaula-datos-texto, .datos .jaula-datos-entidades{
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+
+.datos .jaula-datos-texto > div{
+	float: left;
+	width: 205px;
+	padding: 0 20px;
+}
+
+.datos .datos-libro-titulo{
+	display: block;
+	float: left;
+	margin-top: 8px;
+	width: 45px;
+	text-align: right;
+}
+
+.datos .datos-libro-input{
+	float: right;
+}
+
+.datos .ultimo{
+	float: right !important;
+}
+
+.datos .jaula-datos-entidades > div{
+	float: left;
+	width: 330px;
+	padding: 0 20px;
+}
+
+.ejemplares{
+	height: 5px;
+	
+	border: 1px solid #999999;
+}
+
+.datos .cajaEleccionEntidades{
+	width: 250px !important;
+	background-color: white;
+}
+
+.jaula-datos-libro input[type="submit"]{
+	float: right;
+	margin-right: 20px;
+	margin-bottom: 10px;
+}

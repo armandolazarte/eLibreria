@@ -148,12 +148,20 @@ function anadir_libro(isbn){
 	$borrarLibro = $libroAnadido.find('.borrarLibro');
 	$estadoLibro = $libroAnadido.find('.estadoAcordeon');
 	$isbnAcordeon = $libroAnadido.find('.isbnAcordeon');
+
+	$datosLibro = $libroAnadido.find('.datos');
+	$ejemplaresLibro = $libroAnadido.find('.ejemplares');
 	
 	$borrarLibro.click(eventoClickBorrarLibro);
 	$isbnAcordeon.click(prevenirDefault);
 	
 	$div_libros.append($libroAnadido);
-	$div_libros.accordion("refresh");	
+	
+	$datosLibro.load(ruta_ajax_plantilla_datos_libro, function(){
+		
+		$div_libros.accordion("refresh");
+		
+	});	
 }
 
 function eventoClickBorrarLibro(event){

@@ -117,6 +117,7 @@ parameters:
             crearAlbaran: 'crearAlbaranNuevo.html.twig'
             ejemplar: 'ejemplar.html.twig'
             vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+            plantillaDatosLibro: 'plantillaDatosLibro.html.twig'
             
         impresion:
             numElementosPagina: 33
@@ -146,6 +147,7 @@ parameters:
             ruta_get_editoriales_existentes: 'rgarcia_entrelineas_editorial_buscarAjax'
             ruta_registrar_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro_libros_albaran'
             ruta_ajax_eliminar_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_eliminar_libro'
+            ruta_ajax_plantilla_datos_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_datos_libro'
                     
         ruta_form_crear: 'rgm_e_libreria_suministro_editor_albaran_crear'
         titulo_crear: 'Crear nuevo contrato'
