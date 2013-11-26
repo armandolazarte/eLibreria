@@ -82,6 +82,10 @@ class AlbaranAjaxController extends Asistente{
 		return $this->render($this->getPlantilla('plantillaDatosLibro'));
 	}
 	
+	public function getEjemplaresLibroPlantillaAction(){
+		return $this->render($this->getPlantilla('plantillaEjemplaresLibro'));
+	}
+	
 	public function getDatosLibroAction(Request $peticion){
 		$res = array();
 		

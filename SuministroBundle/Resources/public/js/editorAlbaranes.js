@@ -90,7 +90,7 @@ function habilitarJaulaLibros(){
 	$div_libros = $div_jaula_libros.find('.libros-albaran');
 	$div_libros.accordion({
         header: "> div > h3",
-        active: false,
+        active: true,
         collapsible: true,
         icons: { "header": "ui-icon-plus", "headerSelected": "ui-icon-minus" }
       })
@@ -158,10 +158,28 @@ function anadir_libro(isbn){
 	$div_libros.append($libroAnadido);
 	
 	$datosLibro.load(ruta_ajax_plantilla_datos_libro, function(){
+		$ejemplaresLibro.load(ruta_ajax_plantilla_ejemplares_libro, function(){
+			$ejemplaresLibro.find('.jaula-ejemplares').accordion({
+		        header: "> div > h5",
+		        active: true,
+		        collapsible: true,
+		        icons: { "header": "ui-icon-plus", "headerSelected": "ui-icon-minus" }
+		      })
+		      .sortable({
+		        axis: "y",
+		        handle: "h5",
+		        stop: function( event, ui ) {
+		          ui.item.children( "h5" ).triggerHandler( "focusout" );
+		        }
+		      });
+			
+			$div_libros.accordion("refresh");
+		});		
 		
 		$div_libros.accordion("refresh");
-		
 	});	
+		
+	$div_libros.accordion("refresh");
 }
 
 function eventoClickBorrarLibro(event){
@@ -175,8 +193,9 @@ function prevenirDefault(event){
 	return false;
 }
 
-
-
+function actualizarAcordeones(){
+	$('.ui-accordion').accordion("refresh");
+}
 
 
 
