@@ -79,7 +79,18 @@ class AlbaranAjaxController extends Asistente{
 	}
 	
 	public function getDatosLibroPlantillaAction(){
-		return $this->render($this->getPlantilla('plantillaDatosLibro'));
+		//Sacar todos los autores y estilos
+
+		$infoAutores = $this->getParametro('autor');
+		$infoEstilos = $this->getParametro('estilo');
+		
+		$em = $this->getEm();
+		$opciones = array();
+		
+		$opciones['autores'] = $em->getRepository($infoAutores['repositorio'])->findAll();
+		$opciones['estilos'] = $em->getRepository($infoEstilos['repositorio'])->findAll();
+		
+		return $this->render($this->getPlantilla('plantillaDatosLibro'), $opciones);
 	}
 	
 	public function getEjemplaresLibroPlantillaAction(){
@@ -93,9 +104,26 @@ class AlbaranAjaxController extends Asistente{
 			$isbn = $peticion->request->get('isbn');
 			
 			if($isbn != ""){
-				$res['estado'] = true;
-				$res['isbn'] = $isbn;
-				$res['titulo'] = 'Libro' . (rand() % 100);
+				$em = $this->getEm();
+				
+				$infoLibro = $this->getParametro('libro');
+				$libro = $em->getRepository($infoLibro['repositorio'])->find($isbn);
+				
+				if($libro){
+					$autores = array();
+					$estilos = array();
+
+					foreach($libro->getAutores() as $autor){
+						$autores[] = $autor->getId();
+					}
+					
+					foreach($libro->getEstilos() as $estilo){
+						$estilos[] = $estilo->getId();
+					}
+					
+					$res['autores'] = $autores;
+					$res['estilos'] = $estilos;
+				}				
 			}
 		}
 		

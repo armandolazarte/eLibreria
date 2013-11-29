@@ -6,6 +6,7 @@ use RGM\eLibreria\IndexBundle\Controller\GridController;
 use APY\DataGridBundle\Grid\Column\BlankColumn;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use RGM\eLibreria\IndexBundle\Controller\ParseadorFichero;
 
 class LibroController extends Asistente{
 	private $bundle = 'librobundle';
@@ -255,11 +256,11 @@ class LibroController extends Asistente{
 	}
 	
 	public function buscarLibroAjaxAction(Request $peticion){
-		$isbn = $peticion->request->get('isbn');
 		$res = array();
 		$array_salida = array();
 
 		if($peticion->getMethod() == "POST"){
+			$isbn = $peticion->request->get('isbn');
 	
 			$isbn .= '%';
 			
@@ -283,7 +284,7 @@ class LibroController extends Asistente{
 				if($l->getEditorial()){
 					$array_libro['editorial'] = $l->getEditorial()->getNombre();
 				}
-				
+								
 				$salida[] = $array_libro;
 			}
 			
@@ -295,4 +296,35 @@ class LibroController extends Asistente{
 		
 		return $res;
 	}
+	
+// 	public function importarLibroAction(Request $peticion){
+// 		$opciones = $this->getArrayOpcionesVista();
+// 		$em = $this->getEm();
+// 		$parseador = new ParseadorFichero('/home/inma/Documentos/juridicos/juridico2.csv');
+		
+// 		$librosNuevos = $parseador->parsearFichero();
+		
+// 		$estiloJuridico = $em->getRepository($this->getEntidadLogico('Estilo'))->findBy(array(
+// 				'denominacion' => 'juridico'
+// 		));
+		
+// 		foreach($librosNuevos as $l){
+// 			$libro = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($l['isbn']);
+			
+// 			if(!$libro){
+// 				$libro = $this->getNuevaInstancia($this->getParametro('clase_entidad'));
+
+// 				$libro->setIsbn($l['isbn']);
+// 				$libro->setTitulo($l['titulo']);
+				
+// 				$libro->getEstilos()->add($estiloJuridico[0]);
+								
+// 				$em->persist($libro);
+// 				$em->flush();
+// 			}
+// 		}
+		
+		
+// 		return $this->render('RGMELibreriaIndexBundle::layout.html.twig', $opciones);
+// 	} 
 }

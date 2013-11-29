@@ -11,7 +11,7 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
  * Estilo
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="RGM\eLibreria\LibroBundle\Entity\RepositorioEstilo")
  * @DoctrineAssert\UniqueEntity(fields="denominacion", message="La denominacion ya esta en uso")
  */
 class Estilo

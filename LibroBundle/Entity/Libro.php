@@ -18,7 +18,7 @@ class Libro
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="isbn", type="string", length=255)
+     * @ORM\Column(name="isbn", type="string", length=13)
      * 
      * @GRID\Column(title="ISBN", size="50")
      */

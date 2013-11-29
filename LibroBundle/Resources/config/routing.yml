@@ -75,11 +75,11 @@ rgarcia_entrelineas_autor_index:
     defaults: { _controller: "RGMELibreriaLibroBundle:Autor:verAutores" }
     
     
-    
 
 rgm_e_libreria_librobundle_libro_buscar_referencia_ajax:
     pattern: /libro/buscarAjax
     defaults: { _controller: 'RGMELibreriaLibroBundle:Libro:buscarLibroAjax' }
+    methods:  [POST]
 
 rgarcia_entrelineas_libro_crear:
     pattern:  /gestor/crear/{crearMasivo}

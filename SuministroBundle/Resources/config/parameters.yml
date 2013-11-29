@@ -140,6 +140,12 @@ parameters:
             repositorio: 'RGMELibreriaLibroBundle:Editorial'
             entidad: 'RGM\eLibreria\LibroBundle\Entity\Editorial'
             
+        autor:
+            repositorio: 'RGMELibreriaLibroBundle:Autor'
+            
+        estilo:
+            repositorio: 'RGMELibreriaLibroBundle:Estilo'
+            
         ajax:
             ruta_registrar: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro'
             ruta_get_libros_albaran: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_libros_albaran'

@@ -179,54 +179,7 @@ class AlbaranController extends Asistente{
 		$opciones['formulario'] = $opciones['formulario']->createView();
 		
 		return $this->render($this->plantilla_importar_albaran, $opciones);
-	}
-	
-	private function parsearFichero($fichero){
-		$res = array();
-		$lectura = array();
-		$keys = array();
-		
-		if(($pF = fopen($fichero, 'r')) != false){
-			while(!feof($pF)){
-				$lectura[] = fgets($pF);	
-			}			
-			
-			fclose($pF);
-		}		
-		
-		$keys = explode(";", $lectura[0]);
-		$claves = array();
-		$lineas = array();
-
-		foreach($keys as $k){
-			$k = str_replace("\"", "", $k);
-			$k = str_replace("\n", "", $k);
-			$k = str_replace("\r", "", $k);
-			
-			$claves[] = $k;
-		}
-		
-		for($i = 1; $i < count($lectura) - 1; $i++){
-			$linea = explode(";", $lectura[$i]);
-			
-			$lineaAux = array();
-			$j = 0;
-			
-			foreach($claves as $c){				
-				$linea[$j] = str_replace("\"", "", $linea[$j]);
-				$linea[$j] = str_replace("\n", "", $linea[$j]);
-				$linea[$j] = str_replace("\r", "", $linea[$j]);
-				
-				$lineaAux[$c] = $linea[$j];
-				
-				$j++;
-			}
-			
-			$lineas[] = $lineaAux;
-		}
-		
-		return $lineas;
-	}
+	}	
 	
 	public function borrarAlbaranAction($id, Request $peticion){
 		if($peticion->isXmlHttpRequest()){

@@ -1,45 +1,51 @@
-<div id="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}">
-	<div class="ejemplar">
-		<h4>
-			<div class="ejemplar_borrar">-</div>
-			<div class="ejemplar_estado"></div>
-			<header class="ejemplar_titulo">Ejemplar {% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}</header>
-		</h4>
-		<article class="ejemplar_cuerpo">
-			<div class="ejemplar_info_checkbox">
-				<div>
-					<label for="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-vigente">Vigente</label>
-					<input type="checkbox" id="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-vigente" name="vigente">
-				</div>
-				<div>
-					<label for="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-adquirido">Adquirido</label>
-					<input type="checkbox" id="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-adquirido" name="adquirido">
-				</div>
-				<div>
-					<label for="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-vendido">Vendido</label>
-					<input type="checkbox" id="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-vendido" name="vendido">
-				</div>
-			</div>
-			
-			<div class="ejemplar_info_input">
-				<div>
-					<label for="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-precio">Precio</label>
-					<input type="text" id="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-precio" name="precio">
-				</div>
-				<div>
-					<label for="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-descuento">Descuento</label>
-					<input type="text" id="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-descuento" name="descuento">
-				</div>
-				<div>
-					<label for="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-localizacion">Localización</label>
-					<select id="ejemplar{% if idEjemplar is defined %}{{ idEjemplar }}{% else %}%idEjemplar%{% endif %}-localizacion" name="localizacion">
-						<option>Seleccione una localización</option>
-						<option value="1">L1</option>
-						<option value="2">L2</option>
-						<option value="3">L3</option>
-					</select>
+<div class="ejemplar-1 ejemplar">
+	<h5>
+		<div class="borrarEjemplar">-</div>
+		<div class="estadoEjemplar sinActualizar"></div>
+		<div class="jaula-ejemplar-titulo">Ejemplar 1</div>
+		<div class="jaula-ejemplar-localizacion">
+			<label>Localización</label>
+			<select>
+				<option>Seleccione una localización</option>
+				<option>A3</option>
+				<option>A4</option>
+				<option>A5</option>
+			</select>
+		</div>
+	</h5>
+	<div class="cuerpo-ejemplar">
+		<div class="cuerpo-ejemplar-datos">
+			<div>
+				<div class="jaula-ejemplar-dato precio">
+					<label>Precio</label>
+					<input class="moneda" type="text">€
 				</div>
 			</div>
-		</article>
+			<div>
+				<div class="jaula-ejemplar-dato iva">
+					<label>IVA</label>
+					<input class="porcentaje" type="text">%
+				</div>
+			</div>
+			<div class="ultimo">
+				<div class="jaula-ejemplar-dato descuento">
+					<label>Descuento</label>
+					<input class="porcentaje" type="text">%
+				</div>
+			</div>
+		</div>
+		<div class="cuerpo-ejemplar-estados">
+			<div class="jaula-cuerpo-ejemplar-estados">
+				<div>
+					<input type="checkbox">
+					<label>Vendido</label>
+				</div>
+				<div>
+					<input type="checkbox">
+					<label>Adquirido por la Librería</label>
+				</div>
+			</div>
+		</div>
+		<input type="submit" value="Actualizar">
 	</div>
 </div>

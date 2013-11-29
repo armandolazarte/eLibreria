@@ -109,11 +109,11 @@ function habilitarJaulaLibros(){
 
 var prototipoLibro;
 
-prototipoLibro = '<div id="libro-%isbn_id%" class="libro">';
+prototipoLibro = '<div id="libro-%isbn_id%" class="libro" data="1">';
 prototipoLibro += '<h3>';
 prototipoLibro += '<div class="borrarLibro">-</div>';
 prototipoLibro += '<div class="estadoAcordeon sinActualizar"></div>';
-prototipoLibro += '<input class="isbnAcordeon" maxlength="13" value="%isbn%" onfocus="funcion_onfocus(this, \'ISBN\')" onblur="funcion_onblur(this, \'ISBN\')" type="text">';
+prototipoLibro += '<input id="libro-%isbn_id%-isbn" class="isbnAcordeon" maxlength="13" value="%isbn%" onfocus="funcion_onfocus(this, \'ISBN\')" onblur="funcion_onblur(this, \'ISBN\')" type="text">';
 prototipoLibro += '</h3>';
 prototipoLibro += '<div class="jaula-datos-libro">';
 prototipoLibro += '<div class="datos"></div>';
@@ -132,7 +132,7 @@ function anadir_libro_cargados_ajax(){
 }
 
 function anadir_libro(isbn){
-	var isbnId, isbnTitulo, $libroAnadido;
+	var isbnId, isbnTitulo, $libroAnadido, $jaulaEjemplares;
 	
 	if(isbn == undefined){
 		isbnId = i++;
@@ -143,44 +143,130 @@ function anadir_libro(isbn){
 		isbnTitulo = isbn;
 	}
 	
-	$libroAnadido = $(prototipoLibro.replace('%isbn_id%', isbnId).replace('%isbn%', isbnTitulo));
+	$libroAnadido = $(prototipoLibro.replace('%isbn_id%', isbnId).replace('%isbn_id%', isbnId).replace('%isbn%', isbnTitulo));
 	
 	$borrarLibro = $libroAnadido.find('.borrarLibro');
 	$estadoLibro = $libroAnadido.find('.estadoAcordeon');
 	$isbnAcordeon = $libroAnadido.find('.isbnAcordeon');
 
 	$datosLibro = $libroAnadido.find('.datos');
-	$ejemplaresLibro = $libroAnadido.find('.ejemplares');
 	
 	$borrarLibro.click(eventoClickBorrarLibro);
 	$isbnAcordeon.click(prevenirDefault);
 	
+	$isbnAcordeon.autocomplete({
+		source: ajaxCargarDatosLibroDesdeAutocomplete,
+		select: cargarDatosLibroDesdeAutocomplete
+	});
+	
 	$div_libros.append($libroAnadido);
 	
-	$datosLibro.load(ruta_ajax_plantilla_datos_libro, function(){
-		$ejemplaresLibro.load(ruta_ajax_plantilla_ejemplares_libro, function(){
-			$ejemplaresLibro.find('.jaula-ejemplares').accordion({
-		        header: "> div > h5",
-		        active: true,
-		        collapsible: true,
-		        icons: { "header": "ui-icon-plus", "headerSelected": "ui-icon-minus" }
-		      })
-		      .sortable({
-		        axis: "y",
-		        handle: "h5",
-		        stop: function( event, ui ) {
-		          ui.item.children( "h5" ).triggerHandler( "focusout" );
-		        }
-		      });
-			
-			$div_libros.accordion("refresh");
-		});		
-		
-		$div_libros.accordion("refresh");
-	});	
-		
-	$div_libros.accordion("refresh");
+	$datosLibro.load(ruta_ajax_plantilla_datos_libro, ajaxCargarNuevoLibroAnadido);		
+				
+	actualizarAcordeones();
 }
+
+function ajaxCargarNuevoLibroAnadido(response){
+	$cargaAjax = $(this);
+	$ejemplaresLibro = $cargaAjax.next();
+	
+	$botonSubmit = $cargaAjax.find('input[type="submit"]');
+	
+	$ejemplaresLibro.load(ruta_ajax_plantilla_ejemplares_libro, ajaxCargarEjemplaresParaNuevoLibroAnadido);
+	
+	actualizarAcordeones();
+}
+
+function ajaxCargarEjemplaresParaNuevoLibroAnadido(response){
+	$respuesta = $(response);
+	$jaulaEjemplares = $respuesta.find('.jaula-ejemplares');
+		
+	$jaulaEjemplares.accordion({
+        header: "> div > h5",
+        active: true,
+        collapsible: true,
+        icons: { "header": "ui-icon-plus", "headerSelected": "ui-icon-minus" }
+      })
+      .sortable({
+        axis: "y",
+        handle: "h5",
+        stop: function( event, ui ) {
+          ui.item.children( "h5" ).triggerHandler( "focusout" );
+        }
+      });
+	
+	actualizarAcordeones();
+}
+
+function ajaxCargarDatosLibroDesdeAutocomplete( request, response ){
+	$.ajax({
+        url: ruta_ajax_get_isbn_existente,
+        data: {
+          isbn: request.term,
+          maxRows: 12
+        },
+        type: "POST",
+        success: function( data ) {
+        	
+          response( $.map( data.sugerencias, function(item){
+          		return {
+	          		label: item.isbn + " - " + item.titulo + (item.editorial ? " [ " + item.editorial + " ]" : ""),
+	          		value: item.isbn,
+	          		isbn: item.isbn,
+	          		titulo: item.titulo,
+	          		editorial: item.editorial
+	          	};    
+          }));
+        }
+      });
+}
+
+function cargarDatosLibroDesdeAutocomplete( event, ui ) {
+	id=event.target.id;
+    
+    $abuelo = $('#'+id).parent().parent();
+    
+    $datosLibroDiv = $abuelo.find('.datos');
+    
+    $isbn = $datosLibroDiv.find('input[name="isbn"]');
+    $isbn.val(ui.item.isbn);
+    
+    $titulo = $datosLibroDiv.find('input[name="titulo"]');
+    $titulo.val(ui.item.titulo);
+    
+    $editorial = $datosLibroDiv.find('input[name="editorial"]');
+    $editorial.val(ui.item.editorial);
+
+    $autores = $datosLibroDiv.find('.autores');
+    $estilos = $datosLibroDiv.find('.estilos');
+    
+    $.ajax({
+    	url: ruta_ajax_get_datos_libro,
+    	type: "POST",
+    	data: {
+    		isbn: ui.item.isbn
+    	},
+    	success: function(data){
+    		$autores.children('input').each(function(){
+    			$inputCheckbox = $(this);
+    			
+    			if($.inArray(parseInt($inputCheckbox.val()), data.autores) > -1){
+    				$inputCheckbox.attr('checked', true);
+    			}
+    		});
+    		
+    		$estilos.children('input').each(function(){
+    			$inputCheckbox = $(this);
+    			
+    			if($.inArray(parseInt($inputCheckbox.val()), data.estilos) > -1){
+    				$inputCheckbox.attr('checked', true);
+    			}
+    		});
+    		
+    		
+    	}
+    });
+  }
 
 function eventoClickBorrarLibro(event){
 	

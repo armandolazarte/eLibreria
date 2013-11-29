@@ -15,7 +15,7 @@ h1{
 .datos-albaran, #jaula-libros{
 	border: 1px solid;
 
-	margin: 0px 20px 5px;
+	margin: 0px 20px 40px;
 	padding: 5px;
 
 	border-radius: 5px;
@@ -155,6 +155,8 @@ h1{
 
 .ejemplares{
 	margin-bottom: 5px !important;
+	
+	display: none;
 }
 
 .datos, .ejemplares{
@@ -181,6 +183,19 @@ h1{
 	font-size: 14px;
 	font-weight: 800;
 	color: #444;
+}
+
+.datos .jaula-datos-libro-isbn{
+	margin-bottom: 20px;
+}
+
+.datos .jaula-datos-libro-titulo{
+	clear: both;
+	width: 450px !important;
+}
+
+.datos .jaula-datos-libro-titulo .datos-libro-input{
+	width: 373px !important;
 }
 
 .datos .jaula-datos-texto, .datos .jaula-datos-entidades{
@@ -249,11 +264,12 @@ h1{
 
 .ejemplar .jaula-ejemplar-titulo{
 	font-weight: 800;
-	margin: 2px 20px 0px 5px;
+	margin: 2px 50px 0px 5px;
 }
 
 .ejemplar .jaula-ejemplar-localizacion label{
 	font-weight: 800;
+	margin-right: 10px;
 }
 
 .ejemplar .cuerpo-ejemplar-estados{
@@ -273,8 +289,35 @@ h1{
 	padding-right: 5px;
 }
 
-.ejemplar .cuerpo-ejemplar-datos > div > label{
+.ejemplar .cuerpo-ejemplar-datos > div > label,
+.ejemplar .cuerpo-ejemplar-datos .porcentaje,
+.ejemplar .cuerpo-ejemplar-datos .moneda{
 	margin-right: 5px;
+}
+
+.ejemplar .cuerpo-ejemplar-datos .moneda{
+	width: 100px;
+}
+
+.ejemplar .cuerpo-ejemplar-datos .porcentaje{
+	width: 40px;
+	text-align: right;
+}
+
+.ejemplar .cuerpo-ejemplar-datos .precio{
+	width: 170px;
+}
+
+.ejemplar .cuerpo-ejemplar-datos .iva{
+	width: 100px;
+}
+
+.ejemplar .cuerpo-ejemplar-datos .descuento{
+	width: 130px;
+}
+
+.ejemplar .cuerpo-ejemplar-datos .jaula-ejemplar-dato{
+	margin: 0 auto;
 }
 
 .ejemplar .cuerpo-ejemplar-datos .ultimo{
@@ -300,4 +343,8 @@ h1{
 .jaula-cuerpo-ejemplar-estados > div > label{
 	float: right;
 	display: block;
+}
+
+.jaula-ejemplares-libro .jaula-ejemplares{
+	display: none;
 }
