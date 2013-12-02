@@ -219,6 +219,7 @@ h1{
 
 .datos .datos-libro-input{
 	float: right;
+	width: 128px;
 }
 
 .datos .ultimo{

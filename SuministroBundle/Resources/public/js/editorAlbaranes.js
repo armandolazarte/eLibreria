@@ -145,11 +145,11 @@ function anadir_libro(isbn){
 	
 	$libroAnadido = $(prototipoLibro.replace('%isbn_id%', isbnId).replace('%isbn_id%', isbnId).replace('%isbn%', isbnTitulo));
 	
-	$borrarLibro = $libroAnadido.find('.borrarLibro');
-	$estadoLibro = $libroAnadido.find('.estadoAcordeon');
-	$isbnAcordeon = $libroAnadido.find('.isbnAcordeon');
+	var $borrarLibro = $libroAnadido.find('.borrarLibro');
+	var $estadoLibro = $libroAnadido.find('.estadoAcordeon');
+	var $isbnAcordeon = $libroAnadido.find('.isbnAcordeon');
 
-	$datosLibro = $libroAnadido.find('.datos');
+	var $datosLibro = $libroAnadido.find('.datos');
 	
 	$borrarLibro.click(eventoClickBorrarLibro);
 	$isbnAcordeon.click(prevenirDefault);
@@ -167,10 +167,55 @@ function anadir_libro(isbn){
 }
 
 function ajaxCargarNuevoLibroAnadido(response){
-	$cargaAjax = $(this);
-	$ejemplaresLibro = $cargaAjax.next();
+	var $cargaAjax = $(this);
+	var $ejemplaresLibro = $cargaAjax.next();
 	
-	$botonSubmit = $cargaAjax.find('input[type="submit"]');
+	var $estadoLibro = $cargaAjax.parent().parent().find('.estadoAcordeon');
+    
+    var $isbn = $cargaAjax.find('input[name="isbn"]');
+    var $titulo = $cargaAjax.find('input[name="titulo"]');
+    var $editorial = $cargaAjax.find('input[name="editorial"]');
+	
+	$editorial.autocomplete({
+		source: function( request, response ){
+			$.ajax({
+				url: ruta_ajax_get_editoriales_existente,
+				type: "POST",
+				data: {
+						editorial: request.term
+					},
+				success: function(data){
+						response( $.map(data.sugerencias, function(item){
+								return {
+										label: item.nombre,
+										value: item.nombre
+									};
+							}) );
+					}
+			});
+		}
+    });
+	
+	$isbn.change(function(evento){
+    	alert("hola");
+    	modificar_estado($estadoLibro, 'sinActualizar')
+    });
+    $titulo.change(function(){modificar_estado($estadoLibro, 'sinActualizar')});
+    $editorial.change(function(){modificar_estado($estadoLibro, 'sinActualizar')});
+
+    var $autores = $cargaAjax.find('.autores');
+    var $estilos = $cargaAjax.find('.estilos');
+    
+    $autores.find('input').each(function(){
+    	$(this).change(function(){modificar_estado($estadoLibro, 'sinActualizar')});
+    });
+    
+    $estilos.find('input').each(function(){
+    	$(this).change(function(){modificar_estado($estadoLibro, 'sinActualizar')});
+    });
+	
+    var $botonSubmit = $cargaAjax.find('input[type="submit"]');
+	$botonSubmit.click(actualizarInformacionLibro);
 	
 	$ejemplaresLibro.load(ruta_ajax_plantilla_ejemplares_libro, ajaxCargarEjemplaresParaNuevoLibroAnadido);
 	
@@ -178,8 +223,8 @@ function ajaxCargarNuevoLibroAnadido(response){
 }
 
 function ajaxCargarEjemplaresParaNuevoLibroAnadido(response){
-	$respuesta = $(response);
-	$jaulaEjemplares = $respuesta.find('.jaula-ejemplares');
+	var $respuesta = $(response);
+	var $jaulaEjemplares = $respuesta.find('.jaula-ejemplares');
 		
 	$jaulaEjemplares.accordion({
         header: "> div > h5",
@@ -222,31 +267,33 @@ function ajaxCargarDatosLibroDesdeAutocomplete( request, response ){
 }
 
 function cargarDatosLibroDesdeAutocomplete( event, ui ) {
-	id=event.target.id;
+	var id=event.target.id;
+	    
+    var $abuelo = $('#'+id).parent().parent();
     
-    $abuelo = $('#'+id).parent().parent();
+    var $estadoLibro = $abuelo.find('.estadoAcordeon');
+    var $datosLibroDiv = $abuelo.find('.datos');
     
-    $datosLibroDiv = $abuelo.find('.datos');
-    
-    $isbn = $datosLibroDiv.find('input[name="isbn"]');
+    var  $isbn = $datosLibroDiv.find('input[name="isbn"]');
     $isbn.val(ui.item.isbn);
     
-    $titulo = $datosLibroDiv.find('input[name="titulo"]');
+    var $titulo = $datosLibroDiv.find('input[name="titulo"]');
     $titulo.val(ui.item.titulo);
     
-    $editorial = $datosLibroDiv.find('input[name="editorial"]');
+    var $editorial = $datosLibroDiv.find('input[name="editorial"]');
     $editorial.val(ui.item.editorial);
-
-    $autores = $datosLibroDiv.find('.autores');
-    $estilos = $datosLibroDiv.find('.estilos');
     
     $.ajax({
     	url: ruta_ajax_get_datos_libro,
+    	context: $abuelo,
     	type: "POST",
     	data: {
     		isbn: ui.item.isbn
     	},
     	success: function(data){
+    		var $autores = $(this).find('.autores');
+    		var $estilos = $(this).find('.estilos');
+    		
     		$autores.children('input').each(function(){
     			$inputCheckbox = $(this);
     			
@@ -263,7 +310,8 @@ function cargarDatosLibroDesdeAutocomplete( event, ui ) {
     			}
     		});
     		
-    		
+    		modificar_estado($estadoLibro, 'actualizado');
+    		cargarEjemplaresJaula($(this));
     	}
     });
   }
@@ -283,9 +331,62 @@ function actualizarAcordeones(){
 	$('.ui-accordion').accordion("refresh");
 }
 
+function actualizarInformacionLibro(evento){
+	$datosLibro = $(evento.target).parent().parent().parent().parent(); 
+	$estadoLibro = $datosLibro.find('.estadoAcordeon');
+	isbn = $datosLibro.find('input[name="isbn"]').val();
+	
+	if($estadoLibro.hasClass('sinActualizar') && isbn != ""){
+		titulo = $datosLibro.find('input[name="titulo"]').val();
+		editorial = $datosLibro.find('input[name="editorial"]').val();
+		$autores = $datosLibro.find('.autores');
+		$estilos = $datosLibro.find('.estilos');
+	
+		autoresArray = new Array();
+		estilosArray = new Array();
+		
+		$autores.children('input:checked').each(function(){
+			autoresArray.push($(this).val());
+		});
+		
+		autoresArray = JSON.stringify(autoresArray);
+		
+		$estilos.children('input:checked').each(function(){
+			estilosArray.push($(this).val());
+		});
+		
+		estilosArray = JSON.stringify(estilosArray);
+		
+		$.ajax({
+			url: ruta_ajax_registro_libro,
+			type: "POST",
+			context: $datosLibro,
+			data: {
+				isbn: isbn,
+				titulo: titulo,
+				editorial: editorial,
+				autores: autoresArray,
+				estilos: estilosArray
+			},
+			success: actualizarDatosLibro
+		});
+		
+		//Ajax para actualizar / crear el libro y si todo ha ido bien, se cambia estado a OK y se muestra ejemplares
+		
+	}
+}
 
+function actualizarDatosLibro(data){
+	if(data.estado){
+		$estadoLibro = $(this).find('.estadoAcordeon');
+		modificar_estado($estadoLibro, 'actualizado');
+		cargarEjemplaresJaula($(this));
+	}
+}
 
-
+function cargarEjemplaresJaula($divJaulaLibro){
+	
+}
 
 
 

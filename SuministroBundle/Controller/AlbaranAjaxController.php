@@ -4,6 +4,7 @@ namespace RGM\eLibreria\SuministroBundle\Controller;
 use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class AlbaranAjaxController extends Asistente{
 	private $bundle = 'suministrobundle';
@@ -137,22 +138,51 @@ class AlbaranAjaxController extends Asistente{
 			$isbn = $peticion->request->get('isbn');
 			$titulo = $peticion->request->get('titulo');
 			$editorial_nombre = $peticion->request->get('editorial');
+			$autores_ids = json_decode($peticion->request->get('autores'));
+			$estilos_ids = json_decode($peticion->request->get('estilos'));
 			
-			if($isbn != "" && $titulo != "" && $editorial_nombre != ""){
+			if($isbn != "" && $titulo != ""){
 				$em = $this->getEm();
 				
-				$info_editorial = $this->getParametro('editorial');
-				$editorial = $em->getRepository($info_editorial['repositorio'])->findOneBy(array(
-						'nombre' => $editorial_nombre		
-				));
-				
-				if(!$editorial){
-					$editorial = $this->getNuevaInstancia($info_editorial['entidad']);
-					$editorial->setNombre($editorial_nombre);
+				$editorial = null;
+				if($editorial_nombre != ""){
+					$info_editorial = $this->getParametro('editorial');
+					$editorial = $em->getRepository($info_editorial['repositorio'])->findOneBy(array(
+							'nombre' => $editorial_nombre		
+					));
 					
-					$em->persist($editorial);
+					if(!$editorial){
+						$editorial = $this->getNuevaInstancia($info_editorial['entidad']);
+						$editorial->setNombre($editorial_nombre);
+						
+						$em->persist($editorial);
+					}
 				}
 				
+				$autores = new ArrayCollection();				
+				if(!empty($autores_ids)){
+					$infoAutor = $this->getParametro('autor');
+					foreach($autores_ids as $idAutor){
+						$autor = $em->getRepository($infoAutor['repositorio'])->find($idAutor);
+						
+						if($autor){
+							$autores[] = $autor;
+						}
+					}
+				}
+				
+				$estilos = new ArrayCollection();
+				if(!empty($estilos_ids)){
+					$infoEstilo = $this->getParametro('estilo');
+					foreach($estilos_ids as $idEstilo){
+						$estilo = $em->getRepository($infoEstilo['repositorio'])->find($idEstilo);
+				
+						if($estilo){
+							$estilos[] = $estilo;
+						}
+					}
+				}
+					
 				$info_libro = $this->getParametro('libro');
 				$libro = $this->getEm()->getRepository($info_libro['repositorio'])->find($isbn);
 				
@@ -160,25 +190,15 @@ class AlbaranAjaxController extends Asistente{
 					$libro = $this->getNuevaInstancia($info_libro['entidad']);
 					
 					$libro->setIsbn($isbn);
-					$libro->setTitulo($titulo);
+				}
+				
+				$libro->setTitulo($titulo);
+				if($editorial){
 					$libro->setEditorial($editorial);
 				}
-				else{
-					if($libro->getTitulo() != $titulo){
-						$libro->setTitulo($titulo);
-					}
-					
-					$editorial_ant = $libro->getEditorial();
-					
-					if($editorial_ant){
-						if($editorial_ant->getNombre() != $editorial->getNombre()){
-							$libro->setEditorial($editorial);
-						}
-					}
-					else{
-						$libro->setEditorial($editorial);
-					}
-				}
+				
+				$libro->setAutores($autores);
+				$libro->setEstilos($estilos);
 					
 				$em->persist($libro);
 				$em->flush();
