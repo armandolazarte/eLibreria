@@ -298,6 +298,7 @@ h1{
 
 .ejemplar .cuerpo-ejemplar-datos .moneda{
 	width: 100px;
+	text-align: right;
 }
 
 .ejemplar .cuerpo-ejemplar-datos .porcentaje{
@@ -306,15 +307,15 @@ h1{
 }
 
 .ejemplar .cuerpo-ejemplar-datos .precio{
-	width: 170px;
+	width: 175px;
 }
 
 .ejemplar .cuerpo-ejemplar-datos .iva{
-	width: 100px;
+	width: 105px;
 }
 
 .ejemplar .cuerpo-ejemplar-datos .descuento{
-	width: 130px;
+	width: 145px;
 }
 
 .ejemplar .cuerpo-ejemplar-datos .jaula-ejemplar-dato{
@@ -344,8 +345,4 @@ h1{
 .jaula-cuerpo-ejemplar-estados > div > label{
 	float: right;
 	display: block;
-}
-
-.jaula-ejemplares-libro .jaula-ejemplares{
-	display: none;
 }

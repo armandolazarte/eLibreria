@@ -54,6 +54,10 @@ rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_datos_libro:
 rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_ejemplares_libro:
     pattern: /ajax/plantilla/ejemplaresLibro
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getEjemplaresLibroPlantilla' }
+    
+rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_ejemplar:
+    pattern: /ajax/plantilla/ejemplar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getPlantillaEjemplar' }
 
 rgm_e_libreria_suministro_albaran_crear_ajax_get_libros_albaran:
     pattern: /ajax/libros

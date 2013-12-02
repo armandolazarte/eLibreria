@@ -1,15 +1,15 @@
-<div class="ejemplar-1 ejemplar">
+<div class="ejemplar-%idEjemplar% ejemplar">
 	<h5>
 		<div class="borrarEjemplar">-</div>
 		<div class="estadoEjemplar sinActualizar"></div>
-		<div class="jaula-ejemplar-titulo">Ejemplar 1</div>
+		<div class="jaula-ejemplar-titulo">Ejemplar %idEjemplar%</div>
 		<div class="jaula-ejemplar-localizacion">
 			<label>Localización</label>
-			<select>
+			<select name="localizacion-ejemplar">
 				<option>Seleccione una localización</option>
-				<option>A3</option>
-				<option>A4</option>
-				<option>A5</option>
+				{% for l in localizaciones %}
+					<option value="{{ l.id }}">{{ l.denominacion }}</option>
+				{% endfor %}
 			</select>
 		</div>
 	</h5>
@@ -46,6 +46,6 @@
 				</div>
 			</div>
 		</div>
-		<input type="submit" value="Actualizar">
+		<input type="submit" class="ejemplarSubmit" value="Actualizar">
 	</div>
 </div>

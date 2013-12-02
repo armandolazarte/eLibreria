@@ -215,7 +215,12 @@ class AlbaranAjaxController extends Asistente{
 	}
 	
 	public function getPlantillaEjemplarAction(){
-		return $this->render($this->getPlantilla('ejemplar'));
+		$infoLoc = $this->getParametro('localizacion');
+		$em = $this->getEm();
+		
+		$opciones['localizaciones'] = $em->getRepository($infoLoc['repositorio'])->findAll();
+		
+		return $this->render($this->getPlantilla('ejemplar'), $opciones);
 	}
 	
 	private function getResponse(array $respuesta){

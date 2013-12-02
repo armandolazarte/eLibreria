@@ -91,6 +91,7 @@ function habilitarJaulaLibros(){
 	$div_libros.accordion({
         header: "> div > h3",
         active: true,
+        heightStyle: "content",
         collapsible: true,
         icons: { "header": "ui-icon-plus", "headerSelected": "ui-icon-minus" }
       })
@@ -109,7 +110,7 @@ function habilitarJaulaLibros(){
 
 var prototipoLibro;
 
-prototipoLibro = '<div id="libro-%isbn_id%" class="libro" data="1">';
+prototipoLibro = '<div id="libro-%isbn_id%" class="libro">';
 prototipoLibro += '<h3>';
 prototipoLibro += '<div class="borrarLibro">-</div>';
 prototipoLibro += '<div class="estadoAcordeon sinActualizar"></div>';
@@ -143,7 +144,7 @@ function anadir_libro(isbn){
 		isbnTitulo = isbn;
 	}
 	
-	$libroAnadido = $(prototipoLibro.replace('%isbn_id%', isbnId).replace('%isbn_id%', isbnId).replace('%isbn%', isbnTitulo));
+	var $libroAnadido = $(prototipoLibro.replace('%isbn_id%', isbnId).replace('%isbn_id%', isbnId).replace('%isbn%', isbnTitulo));
 	
 	var $borrarLibro = $libroAnadido.find('.borrarLibro');
 	var $estadoLibro = $libroAnadido.find('.estadoAcordeon');
@@ -160,6 +161,8 @@ function anadir_libro(isbn){
 	});
 	
 	$div_libros.append($libroAnadido);
+	
+	$libroAnadido.data('nEjemplares', 1);
 	
 	$datosLibro.load(ruta_ajax_plantilla_datos_libro, ajaxCargarNuevoLibroAnadido);		
 				
@@ -196,10 +199,7 @@ function ajaxCargarNuevoLibroAnadido(response){
 		}
     });
 	
-	$isbn.change(function(evento){
-    	alert("hola");
-    	modificar_estado($estadoLibro, 'sinActualizar')
-    });
+	$isbn.change(function(evento){modificar_estado($estadoLibro, 'sinActualizar')});
     $titulo.change(function(){modificar_estado($estadoLibro, 'sinActualizar')});
     $editorial.change(function(){modificar_estado($estadoLibro, 'sinActualizar')});
 
@@ -223,21 +223,14 @@ function ajaxCargarNuevoLibroAnadido(response){
 }
 
 function ajaxCargarEjemplaresParaNuevoLibroAnadido(response){
-	var $respuesta = $(response);
+	var $respuesta = $(this);
 	var $jaulaEjemplares = $respuesta.find('.jaula-ejemplares');
 		
 	$jaulaEjemplares.accordion({
         header: "> div > h5",
-        active: true,
+        heightStyle: "content",
         collapsible: true,
         icons: { "header": "ui-icon-plus", "headerSelected": "ui-icon-minus" }
-      })
-      .sortable({
-        axis: "y",
-        handle: "h5",
-        stop: function( event, ui ) {
-          ui.item.children( "h5" ).triggerHandler( "focusout" );
-        }
       });
 	
 	actualizarAcordeones();
@@ -295,7 +288,7 @@ function cargarDatosLibroDesdeAutocomplete( event, ui ) {
     		var $estilos = $(this).find('.estilos');
     		
     		$autores.children('input').each(function(){
-    			$inputCheckbox = $(this);
+    			var $inputCheckbox = $(this);
     			
     			if($.inArray(parseInt($inputCheckbox.val()), data.autores) > -1){
     				$inputCheckbox.attr('checked', true);
@@ -303,7 +296,7 @@ function cargarDatosLibroDesdeAutocomplete( event, ui ) {
     		});
     		
     		$estilos.children('input').each(function(){
-    			$inputCheckbox = $(this);
+    			var $inputCheckbox = $(this);
     			
     			if($.inArray(parseInt($inputCheckbox.val()), data.estilos) > -1){
     				$inputCheckbox.attr('checked', true);
@@ -311,9 +304,12 @@ function cargarDatosLibroDesdeAutocomplete( event, ui ) {
     		});
     		
     		modificar_estado($estadoLibro, 'actualizado');
-    		cargarEjemplaresJaula($(this));
+    		habilitarEjemplares($(this));
+    		actualizarAcordeones();
     	}
     });
+
+	actualizarAcordeones();
   }
 
 function eventoClickBorrarLibro(event){
@@ -378,16 +374,43 @@ function actualizarInformacionLibro(evento){
 
 function actualizarDatosLibro(data){
 	if(data.estado){
-		$estadoLibro = $(this).find('.estadoAcordeon');
+		var $estadoLibro = $(this).find('.estadoAcordeon');
 		modificar_estado($estadoLibro, 'actualizado');
-		cargarEjemplaresJaula($(this));
+		habilitarEjemplares($(this));
+		$(this).parent().accordion("refresh");
 	}
 }
 
-function cargarEjemplaresJaula($divJaulaLibro){
+function habilitarEjemplares($divJaulaLibro){
+	var $ejemplares = $divJaulaLibro.find('.ejemplares');
+	var $botonAnadirEjemplar = $ejemplares.find('.anadirEjemplar');
+	$ejemplares.show();
 	
+	$botonAnadirEjemplar.click(anadirEjemplarALibro);
 }
 
+function anadirEjemplarALibro(event){
+	var $jaulaEjemplares = $(event.target).parent().next('.jaula-ejemplares');
+	
+	$.ajax({
+		url: ruta_ajax_plantilla_ejemplar,
+		context: $jaulaEjemplares,
+		success: inyectarPlantillaEjemplaresEnJaula
+	});
+}
+
+function inyectarPlantillaEjemplaresEnJaula(data){
+	var $contenedorLibro = $(this).parent().parent().parent().parent();
+	var idEjemplar = $contenedorLibro.data('nEjemplares');
+	
+	data = data.replace(/%idEjemplar%/g, idEjemplar);
+	$contenedorLibro.data('nEjemplares', parseInt(idEjemplar) + 1);
+	
+	$(this).append(data);
+
+	$(this).accordion("refresh");
+	$contenedorLibro.parent().accordion("refresh");
+}
 
 
 
