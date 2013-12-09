@@ -60,19 +60,20 @@ class AlbaranAjaxController extends Asistente{
 	
 	public function getLibrosAlbaranAction(Request $peticion){
 		$res = array();
+		$res['estado'] = false;
 		
 		if($peticion->getMethod() == "POST"){
-			$id_albaran = $peticion->request->get('id_albaran');
+			$idAlbaran = $peticion->request->get('idAlbaran');
 			
-			if($id_albaran != ""){
-				$res['estado'] = true;
-				$res['libros'] = array(
-// 						'9788466222938',
-// 						'9788421663165',
-// 						'9788466216081',
-// 						'9788466223768',
-// 						'9788425509087',
-				);
+			if($idAlbaran != ""){
+				$em = $this->getEm();
+				
+				$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($idAlbaran);
+				
+				if($albaran){					
+					$res['libros'] = $albaran->getLibros();
+					$res['estado'] = true;
+				}
 			}
 		}
 		
@@ -203,6 +204,7 @@ class AlbaranAjaxController extends Asistente{
 				$em->persist($libro);
 				$em->flush();
 				
+				$res['isbn'] = $isbn;
 				$res['estado'] = true;
 			}
 		}
@@ -229,6 +231,88 @@ class AlbaranAjaxController extends Asistente{
 		
 		return $response;
 	}
-}
+	
+	public function registroEjemplarAction(Request $peticion){
+		$res['estado'] = false;
+		$res['idEjemplar'] = "";
+		
+		if($peticion->getMethod() == "POST"){
+			$isbn = $peticion->request->get('isbn');
+			$idAlbaran = $peticion->request->get('albaran');
 
+			$idEjemplar = $peticion->request->get('id');
+			$idLoc = $peticion->request->get('localizacion');
+			$precio = $peticion->request->get('precio');
+			$iva = $peticion->request->get('iva');
+			$descuento = $peticion->request->get('descuento');
+			$vendido = $peticion->request->get('vendido');
+			$adquirido = $peticion->request->get('adquirido');
+			
+			if($isbn != "" && $idAlbaran != "" && $idLoc != "" &&
+					$precio != "" && $iva != "" && $descuento != "" &&
+					$vendido != "" && $adquirido != ""){
+				$em = $this->getEm();
+				
+				$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($idAlbaran);
+				
+				if($albaran){				
+					$infoLibro = $this->getParametro('libro');
+					
+					$libro = $em->getRepository($infoLibro['repositorio'])->find($isbn);
+					
+					if($libro){
+						$infoEjemplar = $this->getParametro('ejemplar');
+						
+						if($idEjemplar != ""){
+							//Actualizar ejemplar
+							$ejemplar = $em->getRepository($infoEjemplar['repositorio'])->find($idEjemplar);
+						}
+						else{
+							//Crear nuevo ejemplar
+							$ejemplar = $this->getNuevaInstancia($infoEjemplar['entidad'], array($libro));
+						}
+						
+						$infoLocalizacion = $this->getParametro('localizacion');
+						$loc = $em->getRepository($infoLocalizacion['repositorio'])->find($idLoc);
+						
+						$ejemplar->setLocalizacion($loc);
+						$ejemplar->setPrecio($precio);
+						$ejemplar->setIva($iva);
+						if($vendido){
+							$ejemplar->setVendido(1);	
+						}
+						else{
+							$ejemplar->setVendido(0);
+						}
+						
+						if($adquirido){
+							$ejemplar->setAdquirido(1);	
+						}
+						else{
+							$ejemplar->setAdquirido(0);
+						}
+						
+						$em->persist($ejemplar);
+						
+						$infoItem = $this->getParametro('itemAlbaran');
+						$item = $this->getNuevaInstancia($infoItem['entidad']);
+						
+						$item->setEjemplar($ejemplar);
+						$item->setAlbaran($albaran);
+						$item->setDescuento($descuento);
+						
+						$em->persist($item);
+						
+						$em->flush();
+						
+						$res['estado'] = true;
+						$res['idEjemplar'] = $ejemplar->getId();
+					}
+				}
+			}
+		}
+				
+		return $this->getResponse($res);
+	}
+}
 ?>

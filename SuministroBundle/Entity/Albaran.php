@@ -202,6 +202,20 @@ class Albaran {
 
 		return $res;
 	}
+	
+	public function getLibros(){
+		$res = array();
+		
+		foreach($this->items as $i){
+			$ejemplar = $i->getEjemplar();
+			
+			if(!in_array($ejemplar->getLibro()->getIsbn(), $res)){
+				$res[] = $ejemplar->getLibro()->getIsbn();
+			}
+		}
+		
+		return $res;
+	}
 
 	public function getTotal() {
 		return $this->total;

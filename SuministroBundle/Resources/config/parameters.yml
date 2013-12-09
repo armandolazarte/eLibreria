@@ -131,10 +131,15 @@ parameters:
             entidad: 'RGM\eLibreria\LibroBundle\Entity\Libro'
             
         ejemplar:
+            repositorio: 'RGMELibreriaLibroBundle:Ejemplar'
             entidad: 'RGM\eLibreria\LibroBundle\Entity\Ejemplar'
             
+        itemAlbaran:
+            entidad: 'RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran'
+            
         localizacion:
-            repositorio: 'RGM\eLibreria\LibroBundle\Entity\Localizacion'
+            repositorio: 'RGMELibreriaLibroBundle:Localizacion'
+            entidad: 'RGM\eLibreria\LibroBundle\Entity\Localizacion'
             
         recargo:
             repositorio: 'RGMELibreriaSuministroBundle:Recargo'
@@ -155,6 +160,7 @@ parameters:
             ruta_get_datos_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro'
             ruta_get_isbn_existentes: 'rgm_e_libreria_librobundle_libro_buscar_referencia_ajax'
             ruta_get_editoriales_existentes: 'rgarcia_entrelineas_editorial_buscarAjax'
+            ruta_ajax_registro_ejemplar: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro_ejemplar'
             ruta_registrar_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro_libros_albaran'
             ruta_ajax_eliminar_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_eliminar_libro'
             ruta_ajax_plantilla_datos_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_datos_libro'

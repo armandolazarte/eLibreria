@@ -5,7 +5,7 @@
 		<div class="jaula-ejemplar-titulo">Ejemplar %idEjemplar%</div>
 		<div class="jaula-ejemplar-localizacion">
 			<label>Localización</label>
-			<select name="localizacion-ejemplar">
+			<select name="localizacion">
 				<option>Seleccione una localización</option>
 				{% for l in localizaciones %}
 					<option value="{{ l.id }}">{{ l.denominacion }}</option>
@@ -14,34 +14,35 @@
 		</div>
 	</h5>
 	<div class="cuerpo-ejemplar">
+		<input type="hidden" name="idEjemplar">
 		<div class="cuerpo-ejemplar-datos">
 			<div>
 				<div class="jaula-ejemplar-dato precio">
 					<label>Precio</label>
-					<input class="moneda" type="text">€
+					<input class="moneda" name="precio" type="text">€
 				</div>
 			</div>
 			<div>
 				<div class="jaula-ejemplar-dato iva">
 					<label>IVA</label>
-					<input class="porcentaje" type="text">%
+					<input class="porcentaje" name="iva" type="text">%
 				</div>
 			</div>
 			<div class="ultimo">
 				<div class="jaula-ejemplar-dato descuento">
 					<label>Descuento</label>
-					<input class="porcentaje" type="text">%
+					<input class="porcentaje" name="descuento" type="text">%
 				</div>
 			</div>
 		</div>
 		<div class="cuerpo-ejemplar-estados">
 			<div class="jaula-cuerpo-ejemplar-estados">
 				<div>
-					<input type="checkbox">
+					<input name="vendido" type="checkbox">
 					<label>Vendido</label>
 				</div>
 				<div>
-					<input type="checkbox">
+					<input name="adquirido" type="checkbox">
 					<label>Adquirido por la Librería</label>
 				</div>
 			</div>

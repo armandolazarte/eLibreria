@@ -106,6 +106,7 @@ function habilitarJaulaLibros(){
 	$boton_anadir_libro = $div_jaula_libros.find('.botonAnadir');
 	$boton_anadir_libro.click(anadir_libro_nuevo);
 	
+	anadir_libro_cargados_ajax();
 }
 
 var prototipoLibro;
@@ -129,7 +130,18 @@ function anadir_libro_nuevo(){
 }
 
 function anadir_libro_cargados_ajax(){
-	anadir_libro('isbn');
+	$.ajax({
+		url: ruta_ajax_get_libros_albaran,
+		type: "POST",
+		data: {
+			idAlbaran: $idAlbaran.val()
+		},
+		success: function(data){
+			for (var l=0;l<data.libros.length;l++){ 
+				anadir_libro(data.libros[l]);
+			}
+		}
+	});
 }
 
 function anadir_libro(isbn){
@@ -159,6 +171,10 @@ function anadir_libro(isbn){
 		source: ajaxCargarDatosLibroDesdeAutocomplete,
 		select: cargarDatosLibroDesdeAutocomplete
 	});
+	
+	if(isbn != undefined){
+		$isbnAcordeon.trigger("autocompleteselect");
+	}
 	
 	$div_libros.append($libroAnadido);
 	
@@ -302,6 +318,8 @@ function cargarDatosLibroDesdeAutocomplete( event, ui ) {
     				$inputCheckbox.attr('checked', true);
     			}
     		});
+
+    		$(this).data('isbn', ui.item.isbn);
     		
     		modificar_estado($estadoLibro, 'actualizado');
     		habilitarEjemplares($(this));
@@ -375,6 +393,7 @@ function actualizarInformacionLibro(evento){
 function actualizarDatosLibro(data){
 	if(data.estado){
 		var $estadoLibro = $(this).find('.estadoAcordeon');
+		$(this).data('isbn', data.isbn);
 		modificar_estado($estadoLibro, 'actualizado');
 		habilitarEjemplares($(this));
 		$(this).parent().accordion("refresh");
@@ -406,13 +425,83 @@ function inyectarPlantillaEjemplaresEnJaula(data){
 	data = data.replace(/%idEjemplar%/g, idEjemplar);
 	$contenedorLibro.data('nEjemplares', parseInt(idEjemplar) + 1);
 	
-	$(this).append(data);
+	$contenedorEjemplar = $(data).appendTo($(this));
+	
+	var ejemplar = new Ejemplar($contenedorEjemplar);
+	
+	ejemplar.localizacion.click(prevenirDefault);
+	ejemplar.botomSubmit.click(actualizarEjemplar);
+	
+	ejemplar.localizacion.change(function(){modificar_estado(ejemplar.estado, 'sinActualizar'); modificar_estado(ejemplar.libro.estado, 'sinActualizar');});
+	ejemplar.precio.change(function(){modificar_estado(ejemplar.estado, 'sinActualizar'); modificar_estado(ejemplar.libro.estado, 'sinActualizar');});
+	ejemplar.iva.change(function(){modificar_estado(ejemplar.estado, 'sinActualizar'); modificar_estado(ejemplar.libro.estado, 'sinActualizar');});
+	ejemplar.descuento.change(function(){modificar_estado(ejemplar.estado, 'sinActualizar'); modificar_estado(ejemplar.libro.estado, 'sinActualizar');});
+	ejemplar.vendido.change(function(){modificar_estado(ejemplar.estado, 'sinActualizar'); modificar_estado(ejemplar.libro.estado, 'sinActualizar');});
+	ejemplar.adquirido.change(function(){modificar_estado(ejemplar.estado, 'sinActualizar'); modificar_estado(ejemplar.libro.estado, 'sinActualizar');});
 
 	$(this).accordion("refresh");
 	$contenedorLibro.parent().accordion("refresh");
 }
 
+function actualizarEjemplar(evento){
+	var $contenedorEjemplar = $(evento.target).parent().parent();
+	
+	var ejemplar = new Ejemplar($contenedorEjemplar);
+	
+	if(ejemplar.estado.hasClass('sinActualizar')){
+		$.ajax({
+			url: ruta_ajax_registro_ejemplar,
+			type: "POST",
+			context: $contenedorEjemplar,
+			data: {
+				isbn: ejemplar.libro.isbn,
+				albaran: ejemplar.albaran,
+				id: ejemplar.id.val(),
+				localizacion: ejemplar.localizacion.val(),
+				precio: ejemplar.precio.val(),
+				iva: ejemplar.iva.val(),
+				descuento: ejemplar.descuento.val(),
+				vendido: ejemplar.vendido.prop('checked'),
+				adquirido: ejemplar.adquirido.prop('checked')
+			},
+			success: actualizarDatosEjemplar
+		});
+	}
+}
 
+function Libro($contenedorLibro){
+	this.contenedor = $contenedorLibro;
+	this.isbn = this.contenedor.data('isbn');
+	this.estado = this.contenedor.find('.estadoAcordeon');
+}
+
+function Ejemplar($contenedorEjemplar){
+	this.libro = new Libro($contenedorEjemplar.parent().parent().parent().parent().parent());
+	this.albaran = $idAlbaran.val();
+	
+	this.id = $contenedorEjemplar.find('input[name="idEjemplar"]');
+	this.estado = $contenedorEjemplar.find('.estadoEjemplar');
+	
+	this.localizacion = $contenedorEjemplar.find('select[name="localizacion"]');
+	this.precio = $contenedorEjemplar.find('input[name="precio"]');
+	this.iva = $contenedorEjemplar.find('input[name="iva"]');
+	this.descuento = $contenedorEjemplar.find('input[name="descuento"]');
+	this.vendido = $contenedorEjemplar.find('input[name="vendido"]');
+	this.adquirido = $contenedorEjemplar.find('input[name="adquirido"]');
+	this.botomSubmit = $contenedorEjemplar.find('.ejemplarSubmit');
+}
+
+function actualizarDatosEjemplar(data){	
+	if(data.estado){
+		var ejemplar = new Ejemplar($(this));
+		
+		if(data.idEjemplar != ""){
+			ejemplar.id.val(data.idEjemplar);
+			
+			modificar_estado(ejemplar.estado, 'actualizado');
+		}
+	}
+}
 
 
 

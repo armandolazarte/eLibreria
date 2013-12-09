@@ -15,7 +15,7 @@ class Ejemplar implements ArticuloVendible {
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Column(name="id", type="bigint")
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
@@ -48,8 +48,13 @@ class Ejemplar implements ArticuloVendible {
 	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran", mappedBy="ejemplar")
 	 */
 	private $itemAlbaran;
-
-	private $vigente = 1;
+	
+	/**
+	 * @var boolean
+	 *
+	 * @ORM\Column(name="adquirido", type="integer")
+	 */
+	private $adquirido = 0;
 
 	/**
 	 * @var float
@@ -132,6 +137,27 @@ class Ejemplar implements ArticuloVendible {
 		}
 
 		return $res;
+	}
+
+	/**
+	 * Set vendido
+	 *
+	 * @param boolean $vendido
+	 * @return Ejemplar
+	 */
+	public function setAdquirido($adquirido) {
+		$this->adquirido = $adquirido;
+
+		return $this;
+	}
+
+	/**
+	 * Get vendido
+	 *
+	 * @return boolean 
+	 */
+	public function getAdquirido() {
+		return $this->adquirido;
 	}
 
 	/**

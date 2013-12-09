@@ -36,6 +36,11 @@ rgm_e_libreria_suministro_albaran_crear_ajax_registro_libros_albaran:
     pattern: /ajax/registro/libros
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroLibro' }
     methods:  [POST]
+
+rgm_e_libreria_suministro_albaran_crear_ajax_registro_ejemplar:
+    pattern: /ajax/registro/ejemplar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroEjemplar' }
+    methods:  [POST]
     
 rgm_e_libreria_suministro_albaran_crear_ajax_registro:
     pattern: /ajax/registro
