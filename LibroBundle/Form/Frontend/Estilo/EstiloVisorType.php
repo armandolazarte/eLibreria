@@ -12,6 +12,14 @@ class EstiloVisorType extends AbstractType{
 		$builder -> add('denominacion', 'text', array(
 						'required' => false,
 						'disabled' => true,
+				))
+				-> add('padre', 'entity', array(
+						'required' => false,
+						'disabled' => true,
+						'class' => 'RGMELibreriaLibroBundle:Estilo',
+						'multiple' => false,
+						'expanded' => false,
+                		'empty_value' => "Sin padre"							
 				));
 	}
 

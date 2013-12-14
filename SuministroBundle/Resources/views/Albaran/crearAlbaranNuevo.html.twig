@@ -37,8 +37,8 @@
 			
 			<div class="separador clear"></div>
 			
-			<input class="botonActualizar" type="submit" value="Actualizar" id="actualizar-datos-albaran">
-			<div class="estado sinActualizar">-</div>
+			<input class="botonActualizar" type="submit" value="Actualizar" id="albaran-boton-submit">
+			<div class="estado sinActualizar" id="albaran-estado">-</div>
 		</div>
 	</form>
 </div>
@@ -47,10 +47,10 @@
 
 <div id="jaula-libros">
 	<div class="nuevo-libro">
-		<div id="botonAnadir" class="botonAnadir">+</div>
+		<div id="botonAnadirLibro" class="botonAnadir">+</div>
 		<h2>Libros contenidos en el albaran</h2>
 	</div>
-	<div class="libros-albaran"></div>
+	<div id="libros-albaran"></div>
 </div>
 {% endblock %}
 
@@ -72,5 +72,17 @@
 			ruta_ajax_plantilla_ejemplar = '{{ path(ajax.ruta_ajax_plantilla_ejemplar) }}';
 	</script>
 
-	<script type="text/javascript" src="{{ asset('bundles/rgmelibreriasuministro/js/editorAlbaranes.js') }}"></script>
+{# 	<script type="text/javascript" src="{{ asset('bundles/rgmelibreriasuministro/js/editorAlbaranes.js') }}"></script>#}
+	
+	{% javascripts '@RGMELibreriaSuministroBundle/Resources/public/js/editorAlbaran/clases/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	
+	{% javascripts '@RGMELibreriaSuministroBundle/Resources/public/js/editorAlbaran/utiles/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	
+	{% javascripts '@RGMELibreriaSuministroBundle/Resources/public/js/editorAlbaran/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
 {% endblock %}

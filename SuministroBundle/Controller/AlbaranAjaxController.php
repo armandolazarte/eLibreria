@@ -243,8 +243,8 @@ class AlbaranAjaxController extends Asistente{
 			$idEjemplar = $peticion->request->get('id');
 			$idLoc = $peticion->request->get('localizacion');
 			$precio = $peticion->request->get('precio');
-			$iva = $peticion->request->get('iva');
-			$descuento = $peticion->request->get('descuento');
+			$iva = $peticion->request->get('iva') / 100;
+			$descuento = $peticion->request->get('descuento') / 100;
 			$vendido = $peticion->request->get('vendido');
 			$adquirido = $peticion->request->get('adquirido');
 			
@@ -262,14 +262,23 @@ class AlbaranAjaxController extends Asistente{
 					
 					if($libro){
 						$infoEjemplar = $this->getParametro('ejemplar');
+						$ejemplar = null;
+						$item = null;
+						
+						$infoItem = $this->getParametro('itemAlbaran');
 						
 						if($idEjemplar != ""){
 							//Actualizar ejemplar
 							$ejemplar = $em->getRepository($infoEjemplar['repositorio'])->find($idEjemplar);
+							$item = $ejemplar->getItemAlbaran();
 						}
 						else{
 							//Crear nuevo ejemplar
 							$ejemplar = $this->getNuevaInstancia($infoEjemplar['entidad'], array($libro));
+							$item = $this->getNuevaInstancia($infoItem['entidad']);
+						
+							$item->setEjemplar($ejemplar);
+							$item->setAlbaran($albaran);
 						}
 						
 						$infoLocalizacion = $this->getParametro('localizacion');
@@ -278,14 +287,14 @@ class AlbaranAjaxController extends Asistente{
 						$ejemplar->setLocalizacion($loc);
 						$ejemplar->setPrecio($precio);
 						$ejemplar->setIva($iva);
-						if($vendido){
+						if($vendido == "true"){
 							$ejemplar->setVendido(1);	
 						}
 						else{
 							$ejemplar->setVendido(0);
 						}
 						
-						if($adquirido){
+						if($adquirido == "true"){
 							$ejemplar->setAdquirido(1);	
 						}
 						else{
@@ -293,12 +302,6 @@ class AlbaranAjaxController extends Asistente{
 						}
 						
 						$em->persist($ejemplar);
-						
-						$infoItem = $this->getParametro('itemAlbaran');
-						$item = $this->getNuevaInstancia($infoItem['entidad']);
-						
-						$item->setEjemplar($ejemplar);
-						$item->setAlbaran($albaran);
 						$item->setDescuento($descuento);
 						
 						$em->persist($item);
