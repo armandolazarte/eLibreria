@@ -1,68 +1,49 @@
-function Albaran(idAlb, numIden, idContr, fechaRea, fechaVen, est, bAct, bNuevo, cLibro){
+function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct, bNuevo, cLibro){
 	//Atributos privados
-	var idAlbaran;
+	this.idAlbaran;
 	
-	var numeroIdentificacion;
-	var idContratoDistribucion;
-	var fechaRealizacion;
-	var fechaVencimiento;
+	this.formularioAlbaran;
 	
-	var estado;
-	var botonActualizar;
+	this.numeroIdentificacion;
+	this.idContratoDistribucion;
+	this.fechaRealizacion;
+	this.fechaVencimiento;
 	
-	var libros = new Array();
-	var numLibroNuevo = 1;
+	this.estado;
+	this.botonActualizar;
 	
-	var botonAnadirLibro;
-	var contenedorLibros;
+	this.libros = new Array();
 	
-	//Metodos	
-	this.getIdAlbaran = function(){
-		return idAlbaran.val();
+	this.botonAnadirLibro;
+	this.contenedorLibros;
+	
+	this.setAlbaranModificado = function(){
+		modificar_estado(this.estado, 'sinActualizar');
 	}
 	
-	this.getNumeroIdentificacion = function(){
-		return numeroIdentificacion.val();
+	this.setAlbaranActualizado = function(){
+		var actualizar = true;
+		var i = 0;
+		
+		while(actualizar && this.libros[i]){
+			var libro = this.libros[i];
+			
+			if(!libro.isActualizado()){
+				actualizar = false;
+			}
+		}
+		
+		if(actualizar){
+			modificar_estado(this.estado, 'actualizado');
+		}
 	}
 	
-	this.getContratoDistribucion = function(){
-		return idContratoDistribucion.val();
+	this.isEstado = function(estadoAComprobar){
+		return this.estado.hasClass(estadoAComprobar);
 	}
 	
-	this.getFechaRealizacion = function(){
-		return fechaRealizacion.val();
-	}
-	
-	this.getFechaVencimiento = function(){
-		return fechaVencimiento.val();
-	}
-	
-	this.getEstado = function(){
-		return estado;
-	}
-	
-	this.getBotonActualizar = function(){
-		return botonActualizar;
-	}
-	
-	this.getBotonAnadirLibro = function(){
-		return botonAnadirLibro;
-	}
-	
-	this.getContenedorLibros = function(){
-		return contenedorLibros;
-	}
-	
-	var setAlbaranModificado = function(){
-		modificar_estado(estado, 'sinActualizar');
-	}
-	
-	var setAlbaranActualizado = function(){
-		modificar_estado(estado, 'actualizado');
-	}
-	
-	var verContenedorLibro = function(){
-		contenedorLibros.accordion({
+	this.verContenedorLibro = function(){
+		this.contenedorLibros.accordion({
 	        header: "> div > h3",
 	        active: true,
 	        heightStyle: "content",
@@ -77,39 +58,79 @@ function Albaran(idAlb, numIden, idContr, fechaRea, fechaVen, est, bAct, bNuevo,
 	        }
 	      });
 		
-		contenedorLibros.parent().css('display', 'block');
+		this.contenedorLibros.parent().css('display', 'block');
+	}
+	
+	this.actualizarInformacion = function(){
+		if(this.isEstado('sinActualizar')){
+			$.ajax({
+				url: ruta_ajax_registro_albaran,
+				context: this,
+				type: "POST",
+				data: {
+					idAlbaran: this.idAlbaran.val(),
+					numeroAlbaran: this.numeroIdentificacion.val(),
+					contratoId: this.idContratoDistribucion.val(),
+					fechaRealizacion: this.fechaRealizacion.val(),
+					fechaVencimiento: this.fechaVencimiento.val()
+				},
+				success: function(data){
+					if(data.estado){
+						this.idAlbaran.val(data.idAlbaran);
+						this.setAlbaranActualizado();
+						this.verContenedorLibro();
+					}
+				}
+			});
+		}		
+	}
+	
+	this.anadirLibroExistente = function(isbn){
+		
+	}
+	
+	this.anadirLibroNuevo = function(){
+		
+	}
+	
+	this.cargarLibrosAlbaranAJAX = function(){
+		
 	}
 	
 	//Contructor
-	var init = function(idAlb, numIden, idContr, fechaRea, fechaVen, est, bAct, bNuevo, cLibro){		
-		idAlbaran = idAlb;
+	this.init = function(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct, bNuevo, cLibro){		
+		this.idAlbaran = idAlb;
+		this.formularioAlbaran = formAlb;
 		
-		numeroIdentificacion = numIden;
-		idContratoDistribucion = idContr;
-		fechaRealizacion = fechaRea;
-		fechaVencimiento = fechaVen;
+		this.numeroIdentificacion = numIden;
+		this.idContratoDistribucion = idContr;
+		this.fechaRealizacion = fechaRea;
+		this.fechaVencimiento = fechaVen;
 		
-		estado = est;
-		botonActualizar = bAct;
+		this.estado = est;
+		this.botonActualizar = bAct;
 		
-		botonAnadirLibro = bNuevo;
-		contenedorLibros = cLibro;
+		this.botonAnadirLibro = bNuevo;
+		this.contenedorLibros = cLibro;
 
-		numeroIdentificacion.change(function(){setAlbaranModificado();});
-		idContratoDistribucion.change(function(){setAlbaranModificado();});
-		fechaRealizacion.change(function(){setAlbaranModificado();});
-		fechaVencimiento.change(function(){setAlbaranModificado();});
+		this.numeroIdentificacion.change(function(){$albaran.setAlbaranModificado();});
+		this.idContratoDistribucion.change(function(){$albaran.setAlbaranModificado();});
+		this.fechaRealizacion.change(function(){$albaran.setAlbaranModificado();});
+		this.fechaVencimiento.change(function(){$albaran.setAlbaranModificado();});
+		
+		this.formularioAlbaran.submit(function(evento){evento.preventDefault(); $albaran.actualizarInformacion(); return false;});
+		
+		this.botonAnadirLibro.click(function(evento){evento.preventDefault(); $albaran.anadirLibroNuevo(); return false;});
 				
-		if(idAlbaran.val() != ""){
+		if(this.idAlbaran.val() != ""){
 			//Albaran con datos
 			
-			setAlbaranActualizado();
-			verContenedorLibro();
+			this.setAlbaranActualizado();
+			this.verContenedorLibro();
+
+			this.cargarLibrosAlbaranAJAX();
 		}
 	}
 	
-	init(idAlb, numIden, idContr, fechaRea, fechaVen, est, bAct, bNuevo, cLibro);
-	
-	//
+	this.init(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct, bNuevo, cLibro);
 }
-
