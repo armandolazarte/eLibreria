@@ -86,11 +86,11 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct
 	}
 	
 	this.anadirLibroExistente = function(isbn){
-		
+		this.libros.push(new Libro(this, isbn));
 	}
 	
 	this.anadirLibroNuevo = function(){
-		
+		this.libros.push(new Libro(this));
 	}
 	
 	this.cargarLibrosAlbaranAJAX = function(){

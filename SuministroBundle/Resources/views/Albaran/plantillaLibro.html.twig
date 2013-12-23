@@ -1,0 +1,67 @@
+<div id="libro-%isbn_id%" class="libro">
+	<h3>
+		<div class="boton borrarLibro">-</div>
+		<div class="estadoLibro estado sinActualizar"></div>
+		<input class="isbnAcordeon" maxlength="13" value="ISBN" onfocus="funcion_onfocus(this, 'ISBN')" onblur="funcion_onblur(this, 'ISBN')" type="text">
+		<div class="boton botonCopiarInfo">C</div>
+	</h3>
+	<div class="jaula-datos-libro">
+		<div class="datos">
+			<div class="jaula-datos-libro">
+				<div class="jaula-datos-texto">
+					<h4>Datos del Libro</h4>
+					<div class="jaula-datos-libro-isbn">
+						<label class="datos-libro-titulo">ISBN</label>
+						<input class="datos-libro-input" maxlength="13" name="isbn" type="text">
+					</div>
+					<div class="jaula-datos-libro-titulo">
+						<label class="datos-libro-titulo">Titulo</label>
+						<input class="datos-libro-input" name="titulo" type="text">
+					</div>
+					<div class="ultimo">
+						<label class="datos-libro-titulo">Editorial</label>
+						<input class="datos-libro-input" name="editorial"type="text">
+					</div>
+				</div>
+				<div class="jaula-datos-entidades">
+					<div>
+						<label class="datos-libro-titulo">Autores</label>
+						<div class="cajaEleccionEntidades autores">
+							{% if autores is empty %}<label>No existen autores</label>
+							{% else %}
+								{% for autor in autores %}
+									<input id="libro-%isbn_id%-autor-{{ autor.id }}" type="checkbox" name="autores[]" value="{{ autor.id }}">
+									<label for="libro-%isbn_id%-autor-{{ autor.id }}">{{ autor }}</label>
+								{% endfor %}
+							{% endif %}
+						</div>
+					</div>
+					<div>
+						<label class="datos-libro-titulo">Estilos</label>
+						<div class="cajaEleccionEntidades estilos">
+							{% if estilos is empty %}<label>No existen estilos</label>
+							{% else %}
+								{% for estilo in estilos %}
+									<input id="libro-%isbn_id%-estilo-{{ estilo.id }}" type="checkbox" name="estilos[]" value="{{ estilo.id }}">
+									<label for="libro-%isbn_id%-estilo-{{ estilo.id }}">{{ estilo.denominacion }}</label>
+								{% endfor %}
+							{% endif %}
+						</div>
+					</div>
+				</div>
+				<input name="actualizar" type="submit" value="Actualizar Datos">
+			</div>
+		</div>
+		
+		<div class="ejemplares">
+			<div class="jaula-ejemplares-libro">
+				<div class="jaula-ejemplares-titulo">
+					<div class="boton anadirEjemplar">+</div>
+					<h4>Ejemplares</h4>
+				</div>
+				
+				<div class="jaula-ejemplares"></div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -12,6 +12,10 @@ h1{
 	padding-left: 5px;
 }
 
+h3.ui-accordion-header{
+	overflow: hidden;
+}
+
 .datos-albaran, #jaula-libros{
 	border: 1px solid;
 
@@ -83,7 +87,7 @@ h1{
 	margin-top: 10px;
 }
 
-.botonAnadir, .borrarLibro, .anadirEjemplar, .ejemplar > h5 .borrarEjemplar{
+.boton, .botonAnadir, .borrarLibro, .anadirEjemplar, .ejemplar > h5 .borrarEjemplar{
 	float: right;
 	margin-right: 11px;
 
@@ -112,14 +116,15 @@ h1{
 
 .tituloAcordeon, .isbnAcordeon, .editorialAcordeon{
 	height: 15px !important;
+	float: left;
+	margin-right: 10px;
 	width: 80px;
 	font-size: 10px !important;
 	color: #666;
 	padding: 0px 5px;
-	margin: 0px;
 }
 
-.estadoAcordeon, .ejemplar > h5 .estadoEjemplar{
+.estado, .estadoAcordeon, .ejemplar > h5 .estadoEjemplar{
 	height: 17px;
 	width: 17px;
 
@@ -345,4 +350,8 @@ h1{
 .jaula-cuerpo-ejemplar-estados > div > label{
 	float: right;
 	display: block;
+}
+
+.botonCopiarInfo{
+	float: left !important;
 }

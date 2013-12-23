@@ -80,21 +80,6 @@ class AlbaranAjaxController extends Asistente{
 		return $this->getResponse($res);
 	}
 	
-	public function getDatosLibroPlantillaAction(){
-		//Sacar todos los autores y estilos
-
-		$infoAutores = $this->getParametro('autor');
-		$infoEstilos = $this->getParametro('estilo');
-		
-		$em = $this->getEm();
-		$opciones = array();
-		
-		$opciones['autores'] = $em->getRepository($infoAutores['repositorio'])->findAll();
-		$opciones['estilos'] = $em->getRepository($infoEstilos['repositorio'])->findAll();
-		
-		return $this->render($this->getPlantilla('plantillaDatosLibro'), $opciones);
-	}
-	
 	public function getEjemplaresLibroPlantillaAction(){
 		return $this->render($this->getPlantilla('plantillaEjemplaresLibro'));
 	}
@@ -216,13 +201,28 @@ class AlbaranAjaxController extends Asistente{
 		return $this->getResponse(array('estado' => true));
 	}
 	
+	public function getPlantillaLibroAction(){
+		//Sacar todos los autores y estilos
+
+		$infoAutores = $this->getParametro('autor');
+		$infoEstilos = $this->getParametro('estilo');
+		
+		$em = $this->getEm();
+		$opciones = array();
+		
+		$opciones['autores'] = $em->getRepository($infoAutores['repositorio'])->findAll();
+		$opciones['estilos'] = $em->getRepository($infoEstilos['repositorio'])->findAll();
+		
+		return $this->render($this->getPlantilla('plantillaLibro'), $opciones);
+	}
+	
 	public function getPlantillaEjemplarAction(){
 		$infoLoc = $this->getParametro('localizacion');
 		$em = $this->getEm();
 		
 		$opciones['localizaciones'] = $em->getRepository($infoLoc['repositorio'])->findAll();
 		
-		return $this->render($this->getPlantilla('ejemplar'), $opciones);
+		return $this->render($this->getPlantilla('plantillaEjemplar'), $opciones);
 	}
 	
 	private function getResponse(array $respuesta){

@@ -53,12 +53,8 @@ rgm_e_libreria_suministro_albaran_crear_ajax_eliminar_libro:
     methods:  [POST]
     
 rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_datos_libro:
-    pattern: /ajax/plantilla/datosLibro
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getDatosLibroPlantilla' }
-    
-rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_ejemplares_libro:
-    pattern: /ajax/plantilla/ejemplaresLibro
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getEjemplaresLibroPlantilla' }
+    pattern: /ajax/plantilla/libro
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getPlantillaLibro' }
     
 rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_ejemplar:
     pattern: /ajax/plantilla/ejemplar
