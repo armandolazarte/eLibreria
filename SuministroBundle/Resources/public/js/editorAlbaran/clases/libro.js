@@ -2,6 +2,7 @@ function Libro(albaran, isbn){
 	this.albaran;
 	
 	this.id;
+	this.divId;
 	
 	this.isbnAutocomplete;
 	this.botonCopiarInfo;
@@ -21,10 +22,6 @@ function Libro(albaran, isbn){
 	this.botonAnadirEjemplar;
 	this.contenedorEjemplares;
 	
-	this.isActualizado = function(){
-		return this.estado.hasClass('actualizado');
-	}
-	
 	this.init = function(albaran, isbn){
 		this.albaran = albaran;
 		
@@ -36,6 +33,8 @@ function Libro(albaran, isbn){
 			this.id = isbn;
 		}
 		
+		var libro = this;
+		
 		$.ajax({
 			url: ruta_ajax_plantilla_datos_libro,
 			context: this,
@@ -43,52 +42,49 @@ function Libro(albaran, isbn){
 				var libro = this;
 				var $plantilla = $(data.replace(/%isbn_id%/g, this.id));
 				
-				libro.isbnAutocomplete = $plantilla.find('.isbnAcordeon');
-				libro.botonCopiarInfo = $plantilla.find('.botonCopiarInfo');
-				libro.estado = $plantilla.find('.estadoLibro');
-				libro.botonBorrarLibro = $plantilla.find('.borrarLibro');
+				this.divId = $plantilla;
+				this.isbnAutocomplete = $plantilla.find('.isbnAcordeon');
+				this.botonCopiarInfo = $plantilla.find('.botonCopiarInfo');
+				this.estado = $plantilla.find('.estadoLibro');
+				this.botonBorrarLibro = $plantilla.find('.borrarLibro');
 				
-				libro.isbn = $plantilla.find('input[name="isbn"]');
-				libro.titulo = $plantilla.find('input[name="titulo"]');
-				libro.editorial = $plantilla.find('input[name="editorial"]');
-				libro.autores = $plantilla.find('.autores');
-				libro.estilos = $plantilla.find('.estilos');
+				this.isbn = $plantilla.find('input[name="isbn"]');
+				this.titulo = $plantilla.find('input[name="titulo"]');
+				this.editorial = $plantilla.find('input[name="editorial"]');
+				this.autores = $plantilla.find('.autores');
+				this.estilos = $plantilla.find('.estilos');
 				
-				libro.botonActualizar = $plantilla.find('input[name="actualizar"]');
+				this.botonActualizar = $plantilla.find('input[name="actualizar"]');
 				
-				libro.botonAnadirEjemplar = $plantilla.find('.anadirEjemplar');
-				libro.contenedorEjemplares = $plantilla.find('.jaula-ejemplares');
+				this.botonAnadirEjemplar = $plantilla.find('.anadirEjemplar');
+				this.contenedorEjemplares = $plantilla.find('.jaula-ejemplares');
 
-				libro.isbnAutocomplete.click(function(evento){evento.preventDefault(); return false;});
-				libro.isbnAutocomplete.autocomplete({
+				this.isbnAutocomplete.click(function(evento){evento.preventDefault(); return false;});
+				this.isbnAutocomplete.autocomplete({
 					source: function(request, response){
 						$.ajax({
 					        url: ruta_ajax_get_isbn_existente,
+					        context: this,
 					        data: {
 					          isbn: request.term,
 					          maxRows: 12
 					        },
 					        type: "POST",
-					        success: function( data ) {					        	
+					        success: function( data ){
 					          response( $.map( data.sugerencias, function(item){
 					          		return {
-					          			libro: libro,
 						          		label: item.isbn + " - " + item.titulo + (item.editorial ? " [ " + item.editorial + " ]" : ""),
 						          		value: item.isbn,
-						          		isbn: item.isbn,
-						          		titulo: item.titulo,
-						          		editorial: item.editorial
+						          		isbn: item.isbn
 						          	};    
 					          }));
 					        }
 					      });
 					},
 					select: function(evento, ui){
-						var libro = ui.item.libro;
-
-						libro.isbn.val(ui.item.isbn);
-						libro.titulo.val(ui.item.titulo);
-						libro.editorial.val(ui.item.editorial);
+						libro.isbn.val(ui.item.isbn);						
+						
+						libro.cargarInfoLibroAjax();
 					}
 				});
 				
@@ -98,6 +94,12 @@ function Libro(albaran, isbn){
 				this.botonActualizar.click(function(evento){evento.preventDefault(); return false;});
 				this.botonAnadirEjemplar.click(function(evento){evento.preventDefault(); return false;});
 								
+				if(isbn !== undefined){
+					this.isbn.val(isbn);
+					this.isbnAutocomplete.val(isbn);
+					this.cargarInfoLibroAjax();
+				}
+				
 				this.setLibroEnContenedor($plantilla);
 			}
 		});
@@ -112,6 +114,72 @@ function Libro(albaran, isbn){
 	
 	this.copiarInfo = function(){
 		this.isbn.val(this.isbnAutocomplete.val());
+	}
+	
+	this.cargarInfoLibroAjax = function(){
+		$.ajax({
+			url: ruta_ajax_get_datos_libro,
+			context: this,
+			data: {
+				isbn: this.isbn.val()
+			},
+			type: "POST",
+			success: function(data){
+				this.titulo.val(data.titulo);
+				this.editorial.val(data.editorial);
+				
+				var autores = data.autores;
+				for(var i = 0; i < autores.length; i++){
+					var autorId = autores[i];
+					
+					this.autores.children('input').each(function(){
+						var elemento = $(this);
+						
+						if(elemento.val() == autorId){
+							elemento.prop('checked', true);
+						}
+					});
+				}
+				
+				var estilos = data.estilos;
+				for(var i = 0; i < estilos.length; i++){
+					var estiloId = estilos[i];
+					
+					this.estilos.children('input').each(function(){
+						var elemento = $(this);
+						
+						if(elemento.val() == estiloId){
+							elemento.prop('checked', true);
+						}
+					});
+				}
+				
+				
+			}							
+		});
+		
+		this.setLibroActualizado();
+		this.habilitarEjemplares();
+	}
+	
+	this.habilitarEjemplares = function(){
+		
+	}
+	
+	this.setLibroActualizado = function(){
+		var todoActualizado = true;
+		
+		for(var i = 0; i < this.ejemplares.length; i++){
+			todoActualizado &= this.ejemplares[i].isActualizado();
+		}
+		
+		if(todoActualizado){
+			modificar_estado(this.estado, 'actualizado');
+		}
+	}
+	
+	this.isActualizado = function(){
+		return this.estado.hasClass('actualizado');
 	}
 }
 

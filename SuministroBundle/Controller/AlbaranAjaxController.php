@@ -97,6 +97,9 @@ class AlbaranAjaxController extends Asistente{
 				$libro = $em->getRepository($infoLibro['repositorio'])->find($isbn);
 				
 				if($libro){
+					$res['titulo'] = $libro->getTitulo();					
+					$res['editorial'] = $libro->getEditorial()->getNombre();
+										
 					$autores = array();
 					$estilos = array();
 

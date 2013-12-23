@@ -22,22 +22,21 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct
 	}
 	
 	this.setAlbaranActualizado = function(){
-		var actualizar = true;
-		var i = 0;
+		var todoActualizado = true;
 		
-		while(actualizar && this.libros[i]){
-			var libro = this.libros[i];
-			
-			if(!libro.isActualizado()){
-				actualizar = false;
-			}
+		for(var i = 0; i < this.libros.length; i++){
+			todoActualizado &= this.libros[i].isActualizado();
 		}
 		
-		if(actualizar){
+		if(todoActualizado){
 			modificar_estado(this.estado, 'actualizado');
 		}
 	}
 	
+	this.isActualizado = function(){
+		return this.estado.hasClass('actualizado');
+	}
+		
 	this.isEstado = function(estadoAComprobar){
 		return this.estado.hasClass(estadoAComprobar);
 	}
@@ -94,7 +93,20 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct
 	}
 	
 	this.cargarLibrosAlbaranAJAX = function(){
-		
+		var albaran = this;
+		$.ajax({
+			url: ruta_ajax_get_libros_albaran,
+			data: {
+				idAlbaran: this.idAlbaran.val()
+			},
+			type: "POST",
+			success: function(data){	
+				var librosRecibidos = data.libros;				
+				for(var i = 0; i < librosRecibidos.length; i++){
+					albaran.anadirLibroExistente(librosRecibidos[i]);
+				}
+			}
+		});
 	}
 	
 	//Contructor
