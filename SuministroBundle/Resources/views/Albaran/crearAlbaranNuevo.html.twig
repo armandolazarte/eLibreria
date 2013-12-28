@@ -9,7 +9,7 @@
 <h1>Registro de albaranes</h1>
 <div class="datos-albaran">
 	<form id="form-datos-albaran">
-		<h2>Datos del albaran</h2>
+		<h2><div id="albaran-estado-global" class="estadoGlobal sinActualizar">Estado global:</div>Datos del albaran</h2>
 		<div id="formulario-datos-albaran">
 			<input id="albaran-id" type="hidden" name="albaran-id" {% if albaran is defined %}value="{{ albaran.id }}"{% endif %}>
 			
@@ -38,7 +38,7 @@
 			<div class="separador clear"></div>
 			
 			<input class="botonActualizar" type="submit" value="Actualizar" id="albaran-boton-submit">
-			<div class="estado sinActualizar" id="albaran-estado">-</div>
+			<div class="estado sinActualizar" id="albaran-estado">Estado:</div>
 		</div>
 	</form>
 </div>
@@ -65,7 +65,7 @@
 			ruta_ajax_get_isbn_existente = '{{ path(ajax.ruta_get_isbn_existentes) }}',
 			ruta_ajax_get_editoriales_existente = '{{ path(ajax.ruta_get_editoriales_existentes) }}',
 			ruta_ajax_registro_libro = '{{ path(ajax.ruta_registrar_libro) }}',
-			ruta_ajax_cargar_contenido = '',
+			ruta_ajax_get_ejemplares_libro_albaran = '{{ path(ajax.ruta_ejemplares_libro_albaran) }}',
 			ruta_ajax_eliminar_libro = '{{ path(ajax.ruta_ajax_eliminar_libro) }}',
 			ruta_ajax_plantilla_datos_libro = '{{ path(ajax.ruta_ajax_plantilla_datos_libro) }}',
 			ruta_ajax_plantilla_ejemplar = '{{ path(ajax.ruta_ajax_plantilla_ejemplar) }}';

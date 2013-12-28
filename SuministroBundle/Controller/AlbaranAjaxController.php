@@ -235,6 +235,19 @@ class AlbaranAjaxController extends Asistente{
 		return $response;
 	}
 	
+	public function getEjemplaresLibroAlbaranAction(Request $peticion){
+		$res = array();
+		
+		if($peticion->getMethod() == "POST"){
+			$isbn = $peticion->request->get('isbn');
+			$albaran = $peticion->request->get('idAlbaran');
+			
+			//SELECT * FROM itemAlbaran i, Ejemplar e Where i.albaran_id = albaran && e.libro_id = isbn && i.ejemplar_id = e.id 
+		}
+		
+		return $this->getResponse($res);
+	}
+	
 	public function registroEjemplarAction(Request $peticion){
 		$res['estado'] = false;
 		$res['idEjemplar'] = "";

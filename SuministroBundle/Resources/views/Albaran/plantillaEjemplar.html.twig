@@ -1,7 +1,52 @@
-<div class="jaula-ejemplares-libro">
-	<div class="jaula-ejemplares-titulo">
-		<div class="anadirEjemplar">+</div>
-		<h4>Ejemplares</h4>
+<div class="ejemplar-%idEjemplar% ejemplar">
+	<h5>
+		<div class="borrarEjemplar">-</div>
+		<div class="estadoEjemplar sinActualizar"></div>
+		<div class="jaula-ejemplar-titulo">Ejemplar %idEjemplar%</div>
+		<div class="jaula-ejemplar-localizacion">
+			<label>Localización</label>
+			<select name="localizacion">
+				<option>Seleccione una localización</option>
+				{% for l in localizaciones %}
+					<option value="{{ l.id }}">{{ l.denominacion }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</h5>
+	<div class="cuerpo-ejemplar">
+		<input type="hidden" name="idEjemplar">
+		<div class="cuerpo-ejemplar-datos">
+			<div>
+				<div class="jaula-ejemplar-dato precio">
+					<label>Precio</label>
+					<input class="moneda" name="precio" type="text">€
+				</div>
+			</div>
+			<div>
+				<div class="jaula-ejemplar-dato iva">
+					<label>IVA</label>
+					<input class="porcentaje" name="iva" type="text">%
+				</div>
+			</div>
+			<div class="ultimo">
+				<div class="jaula-ejemplar-dato descuento">
+					<label>Descuento</label>
+					<input class="porcentaje" name="descuento" type="text">%
+				</div>
+			</div>
+		</div>
+		<div class="cuerpo-ejemplar-estados">
+			<div class="jaula-cuerpo-ejemplar-estados">
+				<div>
+					<input name="vendido" type="checkbox">
+					<label>Vendido</label>
+				</div>
+				<div>
+					<input name="adquirido" type="checkbox">
+					<label>Adquirido por la Librería</label>
+				</div>
+			</div>
+		</div>
+		<input type="submit" class="ejemplarSubmit" value="Actualizar">
 	</div>
-	<div class="jaula-ejemplares"></div>
 </div>

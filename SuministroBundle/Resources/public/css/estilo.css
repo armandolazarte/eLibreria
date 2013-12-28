@@ -87,23 +87,37 @@ h3.ui-accordion-header{
 	margin-top: 10px;
 }
 
+.anadirEjemplar{
+	margin-top: 0px !important;
+}
+
+#albaran-estado-global{
+	margin-top: -4px;
+}
+
 .boton, .botonAnadir, .borrarLibro, .anadirEjemplar, .ejemplar > h5 .borrarEjemplar{
 	float: right;
 	margin-right: 11px;
 
-	border: 1px solid;
+	padding: 2px;
+	margin-top: -2px;
 	border-radius: 5px;
 
 	width: 15px;
 	height: 15px;
-	line-height: 15px;
+	line-height: 14px;
 
 	text-align: center;
 	cursor: pointer;
+	
+	background-color: #617798;
+	color: #FFF;
+	border: 0;
 }
 
 .borrarLibro{
 	margin-right: 5px !important;
+	margin-left: 10px;
 }
 
 .tituloAcordeon{
@@ -124,28 +138,35 @@ h3.ui-accordion-header{
 	padding: 0px 5px;
 }
 
-.estado, .estadoAcordeon, .ejemplar > h5 .estadoEjemplar{
+.estado, .estadoGlobal{
 	height: 17px;
 	width: 17px;
 
 	float: right;
 	border-radius: 5px;
 	margin-right: 5px;
+	
+	line-height: 15px;
 }
 
 .estado{
-	width: 20px !important;
-	text-indent: -9999px;
+	width: 70px !important;
+	padding: 7px 0px !important;
+	margin-right: 20px;
+}
+
+.estadoGlobal{
+	width: 105px !important;
 }
 
 .sinActualizar{
-	background: transparent url(../images/save_icon.png) no-repeat center center;
+	background: transparent url(../images/save_icon.png) no-repeat right center;
 	border-radius: 0px;
 	margin-top: -1px;
 }
 
 .actualizado{
-	background: transparent url(../images/right_icon.png) no-repeat center center;
+	background: transparent url(../images/right_icon.png) no-repeat right center;
 	background-size: 19px 19px;
 	border-radius: 0px;
 }
@@ -354,4 +375,12 @@ h3.ui-accordion-header{
 
 .botonCopiarInfo{
 	float: left !important;
+	width: 80px !important;
+	background-color: #617798;
+	color: #FFF;
+	border: 0;
+	padding: 2px;
+	margin-top: -2px;
+	line-height: 15px;
+	font-family: Trebuchet MS,Helvetica,Arial,sans-serif;
 }

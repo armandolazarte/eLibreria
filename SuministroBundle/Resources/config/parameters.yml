@@ -166,6 +166,7 @@ parameters:
             ruta_ajax_plantilla_datos_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_datos_libro'
             ruta_ajax_plantilla_ejemplares_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_ejemplares_libro'
             ruta_ajax_plantilla_ejemplar: 'rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_ejemplar'
+            ruta_ejemplares_libro_albaran: 'rgm_e_libreria_suministro_albaran_ejemplares_libro_albaran'
                     
         ruta_form_crear: 'rgm_e_libreria_suministro_editor_albaran_crear'
         titulo_crear: 'Crear nuevo contrato'

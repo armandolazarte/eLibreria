@@ -69,6 +69,11 @@ rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro:
     pattern: /ajax/datos-libro
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getDatosLibro' }
     methods:  [POST]
+    
+rgm_e_libreria_suministro_albaran_ejemplares_libro_albaran:
+    pattern: /ajax/ejemplares/libro/albaran
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getEjemplaresLibroAlbaran' }
+    methods:  [POST]
 
 
 

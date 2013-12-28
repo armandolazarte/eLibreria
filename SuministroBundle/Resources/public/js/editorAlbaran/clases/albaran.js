@@ -1,4 +1,4 @@
-function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct, bNuevo, cLibro){
+function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal, est, bAct, bNuevo, cLibro){
 	//Atributos privados
 	this.idAlbaran;
 	
@@ -10,6 +10,7 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct
 	this.fechaVencimiento;
 	
 	this.estado;
+	this.estadoGlobal;
 	this.botonActualizar;
 	
 	this.libros = new Array();
@@ -17,20 +18,34 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct
 	this.botonAnadirLibro;
 	this.contenedorLibros;
 	
-	this.setAlbaranModificado = function(){
+	this.desactualizar = function(){
 		modificar_estado(this.estado, 'sinActualizar');
+		this.desactualizarGlobal();
 	}
 	
 	this.setAlbaranActualizado = function(){
-		var todoActualizado = true;
-		
-		for(var i = 0; i < this.libros.length; i++){
-			todoActualizado &= this.libros[i].isActualizado();
+		modificar_estado(this.estado, 'actualizado');
+		this.actualizarGlobal();
+	}
+	
+	this.actualizarGlobal = function(){
+		if(this.isActualizado()){
+			var todosActualizados = true;
+			
+			for(var i = 0; i < this.libros.length; i++){
+				var libroActual = this.libros[i];
+				
+				todosActualizados &= libroActual.isActualizado();
+			}
+			
+			if(todosActualizados){
+				modificar_estado(this.estadoGlobal, 'actualizado');
+			}
 		}
-		
-		if(todoActualizado){
-			modificar_estado(this.estado, 'actualizado');
-		}
+	}
+	
+	this.desactualizarGlobal = function(){
+		modificar_estado(this.estadoGlobal, 'sinActualizar');
 	}
 	
 	this.isActualizado = function(){
@@ -110,7 +125,7 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct
 	}
 	
 	//Contructor
-	this.init = function(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct, bNuevo, cLibro){		
+	this.init = function(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal, est, bAct, bNuevo, cLibro){		
 		this.idAlbaran = idAlb;
 		this.formularioAlbaran = formAlb;
 		
@@ -120,6 +135,7 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct
 		this.fechaVencimiento = fechaVen;
 		
 		this.estado = est;
+		this.estadoGlobal = estGlobal;
 		this.botonActualizar = bAct;
 		
 		this.botonAnadirLibro = bNuevo;
@@ -144,5 +160,5 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct
 		}
 	}
 	
-	this.init(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, bAct, bNuevo, cLibro);
+	this.init(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, est, estGlobal, bAct, bNuevo, cLibro);
 }
