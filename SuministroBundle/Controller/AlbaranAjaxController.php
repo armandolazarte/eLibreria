@@ -242,7 +242,20 @@ class AlbaranAjaxController extends Asistente{
 			$isbn = $peticion->request->get('isbn');
 			$albaran = $peticion->request->get('idAlbaran');
 			
-			//SELECT * FROM itemAlbaran i, Ejemplar e Where i.albaran_id = albaran && e.libro_id = isbn && i.ejemplar_id = e.id 
+			$em = $this->getEm();
+			
+			$sql = 'SELECT * FROM ItemAlbaran i, Ejemplar e WHERE i.albaran_id = :albaran AND e.libro_id = :isbn AND i.ejemplar_id = e.id';
+
+			$stmt = $em->getConnection()->prepare($sql);
+			$stmt->bindValue(":albaran", $albaran);
+			$stmt->bindValue(":isbn", $isbn);
+			$stmt->execute();
+			
+			$resultados = $stmt->fetchAll();
+			
+			foreach($resultados as $r){
+				$res['ejemplares'][] = $r['ejemplar_id'];
+			}
 		}
 		
 		return $this->getResponse($res);

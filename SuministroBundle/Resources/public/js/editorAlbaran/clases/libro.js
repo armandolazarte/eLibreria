@@ -116,11 +116,11 @@ function Libro(albaran, isbn){
 				this.botonActualizar.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.actualizar(); return false;});
 				this.botonAnadirEjemplar.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.anadirEjemplarNuevo(); return false;});
 				
-				this.isbn.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; modificar_estado(libroActual.estado, 'sinActualizar'); return false;});
-				this.titulo.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; modificar_estado(libroActual.estado, 'sinActualizar'); return false;});
-				this.editorial.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; modificar_estado(libroActual.estado, 'sinActualizar'); return false;});
-				this.autores.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; modificar_estado(libroActual.estado, 'sinActualizar'); return false;});
-				this.estilos.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; modificar_estado(libroActual.estado, 'sinActualizar'); return false;});
+				this.isbn.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
+				this.titulo.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
+				this.editorial.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
+				this.autores.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
+				this.estilos.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
 								
 				if(isbn !== undefined){
 					this.isbn.val(isbn);
@@ -134,6 +134,50 @@ function Libro(albaran, isbn){
 	}
 	
 	this.init(albaran, isbn);
+	
+	this.des = function(){
+		modificar_estado(this.estado, 'sinActualizar');
+		this.desGlobal();
+	}
+	
+	this.desGlobal = function(){
+		modificar_estado(this.estadoGlobal, 'sinActualizar');
+		this.albaran.desGlobal();
+	}
+	
+	this.act = function(){
+		modificar_estado(this.estado, 'actualizado');
+		this.actGlobal();
+	}
+	
+	this.actGlobal = function(){
+		if(this.isActGlobal()){
+			modificar_estado(this.estadoGlobal, 'actualizado');
+			this.albaran.actGlobal();
+		}
+	}
+	
+	this.isAct = function(){
+		return this.estado.hasClass('actualizado');
+	}
+	
+	this.isActGlobal = function(){
+		var res = false;
+		
+		if(this.isAct()){
+			var elementosActualizados = true;
+			
+			for(var i = 0; i < this.ejemplares.length; i++){
+				elementosActualizados &= this.ejemplares[i].isAct();
+			}
+			
+			if(elementosActualizados){
+				res = true;
+			}
+		}
+		
+		return res;
+	}
 	
 	this.setLibroEnContenedor = function(cuerpo){
 		cuerpo.appendTo(this.albaran.contenedorLibros);
@@ -182,41 +226,24 @@ function Libro(albaran, isbn){
 					});
 				}
 				
-				this.habilitarEjemplares();
 				this.cargarEjemplaresAjax();
 			}							
 		});
 		
-		this.setLibroActualizado();
+		this.act();
 		this.habilitarEjemplares();
 	}
 	
 	this.habilitarEjemplares = function(){
 		this.contenedorEjemplares.parent().parent().css('display','block');
 	}
-	
-	this.setLibroActualizado = function(){
-		var todoActualizado = true;
 		
-		for(var i = 0; i < this.ejemplares.length; i++){
-			todoActualizado &= this.ejemplares[i].isActualizado();
-		}
-		
-		if(todoActualizado){
-			modificar_estado(this.estado, 'actualizado');
-		}
-	}
-	
-	this.isActualizado = function(){
-		return this.estado.hasClass('actualizado');
-	}
-	
 	this.borrar = function(){
 		
 	}
 	
 	this.actualizar = function(){
-		if(!this.isActualizado()){		
+		if(!this.isAct()){		
 			var autoresArray = new Array();
 			var estilosArray = new Array();
 			
@@ -245,7 +272,7 @@ function Libro(albaran, isbn){
 				},
 				success: function(data){
 					if(data.estado){
-						modificar_estado(this.estado, 'actualizado');
+						this.act();
 						this.habilitarEjemplares();
 					}
 				}
@@ -256,25 +283,29 @@ function Libro(albaran, isbn){
 	this.cargarEjemplaresAjax = function(){
 		$.ajax({
 			url: ruta_ajax_get_ejemplares_libro_albaran,
+			context: this,
 			data: {
-				idAlbaran: this.idAlbaran.val()
+				idAlbaran: this.albaran.idAlbaran.val(),
+				isbn: this.isbn.val()
 			},
 			type: "POST",
 			success: function(data){	
-				var librosRecibidos = data.libros;				
-				for(var i = 0; i < librosRecibidos.length; i++){
-					albaran.anadirLibroExistente(librosRecibidos[i]);
+				var ejemplaresRecibidos = data.ejemplares;				
+				for(var i = 0; i < ejemplaresRecibidos.length; i++){
+					this.anadirEjemplarExistente(ejemplaresRecibidos[i]);
 				}
 			}
 		});
 	}
 	
 	this.anadirEjemplarExistente = function(idEjemplar){
+		this.ejemplares.push(new Ejemplar(this, idEjemplar));
 		
+		console.log(this.ejemplares);
 	}
 	
 	this.anadirEjemplarNuevo = function(){
-		
+		this.ejemplares.push(new Ejemplar(this));
 	}
 }
 
