@@ -115,7 +115,7 @@ h3.ui-accordion-header{
 	border: 0;
 }
 
-.borrarLibro{
+.borrarLibro, .borrarEjemplar{
 	margin-right: 5px !important;
 	margin-left: 10px;
 }
@@ -138,7 +138,7 @@ h3.ui-accordion-header{
 	padding: 0px 5px;
 }
 
-.estado, .estadoGlobal{
+.estado, .estadoGlobal, .estadoEjemplar{
 	height: 17px;
 	width: 17px;
 
@@ -153,6 +153,11 @@ h3.ui-accordion-header{
 	width: 70px !important;
 	padding: 7px 0px !important;
 	margin-right: 20px;
+}
+
+.estadoEjemplar{
+	width: 60px !important;
+	line-height: 20px;
 }
 
 .estadoGlobal{
@@ -292,6 +297,7 @@ h3.ui-accordion-header{
 .ejemplar .jaula-ejemplar-titulo{
 	font-weight: 800;
 	margin: 2px 50px 0px 5px;
+	width: 170px;
 }
 
 .ejemplar .jaula-ejemplar-localizacion label{

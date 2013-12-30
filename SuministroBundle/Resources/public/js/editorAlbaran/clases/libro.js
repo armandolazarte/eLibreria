@@ -44,6 +44,8 @@ function Libro(albaran, isbn){
 				var $plantilla = $(data.replace(/%isbn_id%/g, this.id));
 				
 				this.divId = $plantilla;
+				this.divId.data('libro', libro);
+				
 				this.isbnAutocomplete = $plantilla.find('.isbnAcordeon');
 				this.botonCopiarInfo = $plantilla.find('.botonCopiarInfo');
 				this.estadoGlobal = $plantilla.find('.estadoGlobal');
@@ -235,6 +237,20 @@ function Libro(albaran, isbn){
 	}
 	
 	this.habilitarEjemplares = function(){
+		this.contenedorEjemplares.accordion({
+	        header: "> div > h5",
+	        heightStyle: "content",
+	        collapsible: true,
+	        icons: { "header": "ui-icon-plus", "headerSelected": "ui-icon-minus" }
+	      })
+	      .sortable({
+	        axis: "y",
+	        handle: "h5",
+	        stop: function( event, ui ) {
+	          ui.item.children( "h5" ).triggerHandler( "focusout" );
+	        }
+	      });
+	
 		this.contenedorEjemplares.parent().parent().css('display','block');
 	}
 		
