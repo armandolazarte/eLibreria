@@ -80,7 +80,7 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 	}
 	
 	this.actualizarInformacion = function(){
-		if(this.isEstado('sinActualizar')){
+		if(!this.isAct()){
 			$.ajax({
 				url: ruta_ajax_registro_albaran,
 				context: this,
@@ -151,7 +151,7 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 		this.fechaRealizacion.change(function(){$albaran.des();});
 		this.fechaVencimiento.change(function(){$albaran.des();});
 		
-		this.formularioAlbaran.submit(function(evento){evento.preventDefault(); $albaran.act(); return false;});
+		this.formularioAlbaran.submit(function(evento){evento.preventDefault(); $albaran.actualizarInformacion(); $albaran.act(); return false;});
 		
 		this.botonAnadirLibro.click(function(evento){evento.preventDefault(); $albaran.anadirLibroNuevo(); return false;});
 				

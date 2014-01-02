@@ -4,6 +4,8 @@ function Libro(albaran, isbn){
 	this.id;
 	this.divId;
 	
+	this.indexArray;
+	
 	this.isbnAutocomplete;
 	this.botonCopiarInfo;
 	this.estadoGlobal;
@@ -315,13 +317,28 @@ function Libro(albaran, isbn){
 	}
 	
 	this.anadirEjemplarExistente = function(idEjemplar){
-		this.ejemplares.push(new Ejemplar(this, idEjemplar));
-		
-		console.log(this.ejemplares);
+		var ejemplar = new Ejemplar(this, idEjemplar);
+		var indexNuevoElemento = this.ejemplares.push(ejemplar);
 	}
 	
 	this.anadirEjemplarNuevo = function(){
-		this.ejemplares.push(new Ejemplar(this));
+		var ejemplar = new Ejemplar(this);
+		var indexNuevoElemento = this.ejemplares.push(ejemplar);
+	}
+	
+	this.borrarEjemplar = function(ejemplar){
+		var indexElementoABorrar;
+		
+		for(var i = 0; i < this.ejemplares.length; i++){
+			var ejemplarActual = this.ejemplares[i];
+			
+			if(ejemplarActual.id === ejemplar.id){
+				indexElementoABorrar = i;
+				break;
+			}
+		}
+		
+		this.ejemplares.splice(indexElementoABorrar, 1);
 	}
 }
 

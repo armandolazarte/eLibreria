@@ -70,6 +70,16 @@ rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro:
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getDatosLibro' }
     methods:  [POST]
     
+rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_ejemplar:
+    pattern: /ajax/datos-ejemplar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getDatosEjemplar' }
+    methods:  [POST]
+    
+rgm_e_libreria_suministro_albaran_borrar_ejemplar:
+    pattern: /ajax/borrar-ejemplar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:borrarEjemplar' }
+    methods:  [POST]
+    
 rgm_e_libreria_suministro_albaran_ejemplares_libro_albaran:
     pattern: /ajax/ejemplares/libro/albaran
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getEjemplaresLibroAlbaran' }

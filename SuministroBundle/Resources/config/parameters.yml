@@ -158,6 +158,7 @@ parameters:
             ruta_registrar: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro'
             ruta_get_libros_albaran: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_libros_albaran'
             ruta_get_datos_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro'
+            ruta_ajax_get_datos_ejemplar: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_ejemplar'
             ruta_get_isbn_existentes: 'rgm_e_libreria_librobundle_libro_buscar_referencia_ajax'
             ruta_get_editoriales_existentes: 'rgarcia_entrelineas_editorial_buscarAjax'
             ruta_ajax_registro_ejemplar: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro_ejemplar'
@@ -167,6 +168,7 @@ parameters:
             ruta_ajax_plantilla_ejemplares_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_ejemplares_libro'
             ruta_ajax_plantilla_ejemplar: 'rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_ejemplar'
             ruta_ejemplares_libro_albaran: 'rgm_e_libreria_suministro_albaran_ejemplares_libro_albaran'
+            ruta_ajax_borrar_ejemplar: 'rgm_e_libreria_suministro_albaran_borrar_ejemplar'
                     
         ruta_form_crear: 'rgm_e_libreria_suministro_editor_albaran_crear'
         titulo_crear: 'Crear nuevo contrato'

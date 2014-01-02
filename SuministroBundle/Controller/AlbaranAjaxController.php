@@ -120,6 +120,34 @@ class AlbaranAjaxController extends Asistente{
 		return $this->getResponse($res);
 	}
 	
+	public function getDatosEjemplarAction(Request $peticion){
+		$res = array();
+		
+		if($peticion->getMethod() == "POST"){
+			$idEjemplar = $peticion->request->get('idEjemplar');
+			
+			if($idEjemplar != ""){
+				$em = $this->getEm();
+				
+				$infoEjemplar = $this->getParametro('ejemplar');
+				$ejemplar = $em->getRepository($infoEjemplar['repositorio'])->find($idEjemplar);
+				
+				if($ejemplar){
+					$res['localizacion'] = $ejemplar->getLocalizacion()->getId();					
+					$res['precio'] = $ejemplar->getPrecio();		
+					$res['iva'] = $ejemplar->getIva();		
+					$res['descuento'] = $ejemplar->getItemAlbaran()->getDescuento();		
+					$res['adquirido'] = $ejemplar->getAdquirido();		
+					$res['vendido'] = $ejemplar->getVendido();
+					
+					$res['estado'] = true;
+				}				
+			}
+		}
+		
+		return $this->getResponse($res);
+	}
+	
 	public function registroLibroAction(Request $peticion){
 		$res = array();
 		
@@ -261,6 +289,27 @@ class AlbaranAjaxController extends Asistente{
 		return $this->getResponse($res);
 	}
 	
+	public function borrarEjemplarAction(Request $peticion){
+		$res = array();
+		
+		if($peticion->getMethod() == "POST"){
+			$idEjemplar = $peticion->request->get('id');
+			$infoEjemplar = $this->getParametro('ejemplar');
+			$em = $this->getEm();
+			
+			$ejemplar = $em->getRepository($infoEjemplar['repositorio'])->find($idEjemplar);
+			
+			if($ejemplar){
+				$em->remove($ejemplar);
+				$em->flush();
+
+				$res['estado'] = true;
+			}
+		}
+		
+		return $this->getResponse($res);
+	}
+	
 	public function registroEjemplarAction(Request $peticion){
 		$res['estado'] = false;
 		$res['idEjemplar'] = "";
@@ -272,12 +321,12 @@ class AlbaranAjaxController extends Asistente{
 			$idEjemplar = $peticion->request->get('id');
 			$idLoc = $peticion->request->get('localizacion');
 			$precio = $peticion->request->get('precio');
-			$iva = $peticion->request->get('iva') / 100;
-			$descuento = $peticion->request->get('descuento') / 100;
+			$iva = $peticion->request->get('iva');
+			$descuento = $peticion->request->get('descuento');
 			$vendido = $peticion->request->get('vendido');
 			$adquirido = $peticion->request->get('adquirido');
 			
-			if($isbn != "" && $idAlbaran != "" && $idLoc != "" &&
+			if($isbn != "" && $idLoc != "" &&
 					$precio != "" && $iva != "" && $descuento != "" &&
 					$vendido != "" && $adquirido != ""){
 				$em = $this->getEm();
