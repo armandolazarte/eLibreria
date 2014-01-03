@@ -75,6 +75,10 @@ rgarcia_entrelineas_autor_index:
     defaults: { _controller: "RGMELibreriaLibroBundle:Autor:verAutores" }
     
     
+    
+rgarcia_entrelineas_libro_ver_ejemplares:
+    pattern:  /libro/{isbn}/verEjemplares
+    defaults: { _controller: "RGMELibreriaLibroBundle:Libro:verEjemplaresLibro" }
 
 rgm_e_libreria_librobundle_libro_buscar_referencia_ajax:
     pattern: /libro/buscarAjax

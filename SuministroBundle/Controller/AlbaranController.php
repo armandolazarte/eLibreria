@@ -33,8 +33,8 @@ class AlbaranController extends Asistente{
 		$columnaVer = new BlankColumn(array('id' => 'ver', 'title' => 'Ver Albaran', 'safe' => false));
 		
 		$grid->getGrid()->addColumn($columnaContrato);
-		//$grid->getGrid()->addColumn($columnaTotal);
-		//$grid->getGrid()->addColumn($columnaVer);
+		$grid->getGrid()->addColumn($columnaTotal);
+		$grid->getGrid()->addColumn($columnaVer);
 		
 		$grid->getSource()->manipulateRow(function($row){
 			$entidad = $row->getEntity();
@@ -42,12 +42,12 @@ class AlbaranController extends Asistente{
 			$enlaceVer = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=960,height=500,toolbar=1,resizable=0"); return false;\' href="' . $this->generateUrl('rgm_e_libreria_suministro_albaran_ver', array('id' => $entidad->getId())) . '">Ver Albaran</a>';
 				
 			$row->setField('contrato', $entidad->getContrato());
-			//$row->setField('ver', $enlaceVer);
+			$row->setField('ver', $enlaceVer);
 				
-// 			if(!$entidad->getTotal()){
-// 				$this->calcularValorAlbaran($entidad);
-// 			}
-// 			$row->setField('total', round($entidad->getTotal(), 2) . '€');
+			if(!$entidad->getTotal()){
+				$this->calcularValorAlbaran($entidad);
+			}
+			$row->setField('total', round($entidad->getTotal(), 2) . '€');
 				
 			return $row;
 		});
@@ -210,6 +210,10 @@ class AlbaranController extends Asistente{
 			$opcionesVM['form']->bind($peticion);
 	
 			if($opcionesVM['form']->isValid()){
+				foreach($entidad->getItems() as $item){
+					$em->remove($item->getElemento());
+				}
+				
 				$em->remove($entidad);
 				$em->flush();
 	
@@ -228,10 +232,10 @@ class AlbaranController extends Asistente{
 		return $grid->getRender($this->getPlantilla('principal'));
 	}
 	
-	public function verAlbaranAction($id){
+	public function verAlbaranAction(Request $peticion, $id){
 		$em = $this->getEm();
 		
-		$albaran = $em->getRepository($this->getNombreEntidad())->find($id);
+		$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
 		$opciones = array();
 		
 		$opciones['error'] = null;
@@ -255,14 +259,15 @@ class AlbaranController extends Asistente{
 			$opciones['numPaginas'] = $calculoAlbaran['numPaginas'];
 		}
 		
-		return $this->render($this->plantilla_ver_albaran, $opciones);
+		return $this->render($this->getPlantilla('ver'), $opciones);
 	}
 	
 	private function calcularValorAlbaran($albaran){
 		$salida = array();
 		$em = $this->getEm();
 			
-		$recargos = $em->getRepository($this->entidad_recargo)->findAll();
+		$infoRecargo = $this->getParametro('recargo');
+		$recargos = $em->getRepository($infoRecargo['repositorio'])->findAll();
 			
 		$bases = new ArrayCollection();
 			
@@ -281,7 +286,7 @@ class AlbaranController extends Asistente{
 			
 		$lineasAlbaran = new ArrayCollection();
 		$items = $albaran->getItems();
-			
+		
 		foreach($items as $item){
 			$elemento = $item->getElemento();
 			$referencia = $elemento->getReferencia();
@@ -346,8 +351,9 @@ class AlbaranController extends Asistente{
 		
 		$salida['lineas'] = $lineasAlbaran->getValues();
 		
-		$salida['numPaginas'] = ceil(count($lineasAlbaran) / $this->numElementosPagina);
-				
+		$infoImpresion = $this->getParametro('impresion');
+		$salida['numPaginas'] = ceil(count($lineasAlbaran) / $infoImpresion['numElementosPagina']);
+						
 		return $salida;
 	}
 }

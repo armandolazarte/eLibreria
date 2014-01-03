@@ -26,11 +26,13 @@ class LibroController extends Asistente{
 		$estilos = new BlankColumn(array('id' => 'estilos', 'title' => 'Estilos', 'size' => '50', 'safe' => false));
 		$stock = new BlankColumn(array('id' => 'stock', 'title' => 'Stock/Totales', 'size' => '50'));
 		$pv = new BlankColumn(array('id' => 'p_venta', 'title' => 'Porcentaje de Venta', 'size' => '50'));
+		$vEj = new BlankColumn(array('id' => 'ver_ejem', 'title' => 'Ver ejemplares', 'safe' => false));
 		
 		$grid->getGrid()->addColumn($autores);
 		$grid->getGrid()->addColumn($estilos);
 		$grid->getGrid()->addColumn($stock);
 		$grid->getGrid()->addColumn($pv);
+		$grid->getGrid()->addColumn($vEj);
 		
 		$controlador = $this;		
 		$grid->getSource()->manipulateRow(function($row) use($controlador){
@@ -64,10 +66,15 @@ class LibroController extends Asistente{
 				
 				$salida_estilos .= '</ul>';
 			}
+			
+			$ruta_ver_ejemplares = $this->generateUrl($this->getParametro('ruta_ver_ejemplares'), array('isbn' => $entidad->getIsbn()));
+			
+			$salida_ver_Ejemplares = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=960,height=500,toolbar=1,resizable=0"); return false;\' href="'.$ruta_ver_ejemplares.'">Ver Ejemplares</a>';
 
 			$row->setField('autores', $salida_autores);
 			$row->setField('estilos', $salida_estilos);
 			$row->setField('stock', $salida_ejemplares);
+			$row->setField('ver_ejem', $salida_ver_Ejemplares);
 			$row->setField('p_venta', ($entidad->getPorcentajeVenta() * 100) . '%' );
 				
 			return $row;
@@ -253,6 +260,23 @@ class LibroController extends Asistente{
 		$grid->setOpciones($opciones);
 	
 		return $grid->getRender($this->getPlantilla('principal'));
+	}
+	
+	public function verEjemplaresLibroAction(Request $peticion, $isbn){
+		$em = $this->getEm();
+	
+		$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($isbn);
+		
+		$opciones = array();
+		
+		if(!$entidad){
+			$opciones['error'] = "Libro no encontrado";
+		}
+		else{
+			$opciones['libro'] = $entidad;
+		}
+		
+		return $this->render($this->getPlantilla('verEjemplares'), $opciones);
 	}
 	
 	public function buscarLibroAjaxAction(Request $peticion){

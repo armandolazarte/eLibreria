@@ -119,6 +119,7 @@ parameters:
             vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
             plantillaLibro: 'plantillaLibro.html.twig'
             plantillaEjemplar: 'plantillaEjemplar.html.twig'
+            ver: 'verAlbaran.html.twig'
             
         impresion:
             numElementosPagina: 33

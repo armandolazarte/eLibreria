@@ -1,0 +1,14 @@
+<div class="marco">
+	<header class="libro">
+		<div class="isbn">{{ libro.isbn }}</div>
+	</header>
+	
+	<article class="ejemplares">
+		{% for ejemplar in libro.ejemplares %}
+		<div class="ejemplar">
+			<div class="id">{{ ejemplar.id }}</div>
+			<div class="localizacion">{{ ejemplar.localizacion.denominacion }}</div>
+		</div>
+		{% endfor %}
+	</article>
+</div>

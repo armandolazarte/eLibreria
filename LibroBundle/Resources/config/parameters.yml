@@ -14,6 +14,9 @@ parameters:
         plantillas:
             principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
             vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+            verEjemplares: 'verEjemplares.html.twig'
+            
+        ruta_ver_ejemplares: 'rgarcia_entrelineas_libro_ver_ejemplares'
         
         ruta_form_crear: 'rgarcia_entrelineas_libro_crear'
         titulo_crear: 'Crear nuevo libro'
