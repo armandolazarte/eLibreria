@@ -129,6 +129,21 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 		});
 	}
 	
+	this.borrarLibro = function(libro){
+		var indexElementoABorrar;
+		
+		for(var i = 0; i < this.libros.length; i++){
+			var libroActual = this.libros[i];
+			
+			if(libroActual.id === libro.id){
+				indexElementoABorrar = i;
+				break;
+			}
+		}
+		
+		this.libros.splice(indexElementoABorrar, 1);
+	}
+	
 	//Contructor
 	this.init = function(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal, est, bAct, bNuevo, cLibro){		
 		this.idAlbaran = idAlb;

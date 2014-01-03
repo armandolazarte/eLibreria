@@ -257,7 +257,26 @@ function Libro(albaran, isbn){
 	}
 		
 	this.borrar = function(){
+		this.des();
 		
+		var proceder = true;
+		
+		if(this.hasEjemplares()){
+			proceder &= confirm('Este libro contiene ejemplares que tambien se eliminarán.\n¿Desea continuar?');
+		}
+		
+		if(proceder){
+			this.des();
+			
+			//Borrar ejemplares
+			for(var i = 0; i < this.ejemplares.length; i++){
+				this.ejemplares[i].borrarEjemplar();
+			}
+			
+			this.albaran.borrarLibro(this);
+			this.divId.remove();
+			this.albaran.actGlobal();
+		}
 	}
 	
 	this.actualizar = function(){
@@ -339,6 +358,10 @@ function Libro(albaran, isbn){
 		}
 		
 		this.ejemplares.splice(indexElementoABorrar, 1);
+	}
+	
+	this.hasEjemplares = function(){
+		return this.ejemplares.length > 0;
 	}
 }
 
