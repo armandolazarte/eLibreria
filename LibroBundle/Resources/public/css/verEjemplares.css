@@ -1,0 +1,169 @@
+*{
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-family: "Trebuchet MS,Helvetica,Arial,sans-serif";
+}
+
+body{
+	background-color: #DDD;
+}
+
+img{
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2);
+	
+	margin: 0px 0 8px 0;
+	border: 3px solid #FAFAFA;
+}
+
+.marco{
+	border: 1px solid #AAA;
+	width: 800px;
+	margin: 10px auto;
+	border-radius: 5px;
+	padding: 10px 20px;
+	background-color: #FFF;
+}
+
+.libro{
+	margin-bottom: 20px;
+	padding: 5px 10px;
+	overflow: hidden;
+	border-bottom: 1px solid #AAA;
+}
+
+.imagen{
+	float: right;
+	margin-right: 20px;
+	width: 100px;
+}
+
+.imagen img{
+	width: 100px;
+}
+
+.libro_info{
+	overflow: hidden;
+	width: 620px;
+	
+	padding: 10px 5px;
+	margin: 11px 0px;
+	
+	border-radius: 5px;
+	
+	color: #444;
+}
+
+.clave{
+	float: left;
+	
+	font-weight: 800;
+	font-size: 15px;
+}
+
+.valor{
+	float: right;
+	line-height: 18px;
+}
+
+.color1{
+	background-color: #ddd;
+}
+
+.color2{
+	background-color: #d3d3d3;
+}
+
+.ejemplares{
+	padding: 5px 10px;
+	overflow: hidden;
+}
+
+.primero{
+	margin-top: -5px !important;
+}
+
+.ultimo{
+	float: right !important;
+}
+
+.ejemplar_titulo{
+	padding: 10px 5px;
+	margin: 11px 0px;
+	border-radius: 5px;
+	color: #444;
+	overflow: hidden;
+}
+
+.ejemplar_datos{
+	overflow: hidden;
+	
+	width: 750px;
+	margin: -11px auto 0px;
+	padding: 10px;
+	background: #e7e7e7;
+	
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.ejemplar_info{
+	overflow: hidden;
+	
+	padding: 10px 5px;
+	margin: 11px 0px;
+	
+	border-radius: 5px;
+	
+	color: #444;
+	
+	font-size: 80%;
+}
+
+.ejemplar_untercio{
+	float: left;
+	width: 207px;
+	padding: 0px 20px;
+}
+
+.ejemplar_untercio .clave{
+	margin-left: 40px;
+}
+
+.ejemplar_untercio .valor{
+	margin-right: 40px;
+}
+
+.localizacion .clave{
+	text-align: right;
+}
+
+.localizacion select{
+	display: block;
+	margin: 0 auto;
+	width: 200px;
+}
+
+.localizacion_botones{
+	width: 200px;
+	padding-top: 1px;
+	overflow: hidden;
+}
+
+.localizacion_botones .boton_actualizar{
+	border: 1px solid;
+	height: 15px;
+	width: 15px;
+	float: left;
+}
+
+.localizacion_botones .estado{
+	border: 1px solid;
+	height: 15px;
+	width: 15px;
+	float: left;
+	
+	margin: 0 10px;
+}

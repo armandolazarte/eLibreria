@@ -69,7 +69,7 @@ class LibroController extends Asistente{
 			
 			$ruta_ver_ejemplares = $this->generateUrl($this->getParametro('ruta_ver_ejemplares'), array('isbn' => $entidad->getIsbn()));
 			
-			$salida_ver_Ejemplares = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=960,height=500,toolbar=1,resizable=0"); return false;\' href="'.$ruta_ver_ejemplares.'">Ver Ejemplares</a>';
+			$salida_ver_Ejemplares = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=900,height=471,toolbar=1,resizable=0"); return false;\' href="'.$ruta_ver_ejemplares.'">Ver Ejemplares</a>';
 
 			$row->setField('autores', $salida_autores);
 			$row->setField('estilos', $salida_estilos);
@@ -268,6 +268,9 @@ class LibroController extends Asistente{
 		$entidad = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($isbn);
 		
 		$opciones = array();
+		
+		$infoLocalizacion = $this->getParametro('localizacion');
+		$opciones['localizaciones'] = $em->getRepository($this->getEntidadLogico($infoLocalizacion['repositorio']))->findAll();
 		
 		if(!$entidad){
 			$opciones['error'] = "Libro no encontrado";

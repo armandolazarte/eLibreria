@@ -18,6 +18,9 @@ parameters:
             
         ruta_ver_ejemplares: 'rgarcia_entrelineas_libro_ver_ejemplares'
         
+        localizacion:
+            repositorio: 'Localizacion'
+        
         ruta_form_crear: 'rgarcia_entrelineas_libro_crear'
         titulo_crear: 'Crear nuevo libro'
         titulo_submit_crear: 'Crear'

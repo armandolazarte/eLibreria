@@ -114,8 +114,7 @@ parameters:
         clase_entidad: 'RGM\eLibreria\SuministroBundle\Entity\Albaran'
         plantillas:
             principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
-            crearAlbaran: 'crearAlbaranNuevo.html.twig'
-            ejemplar: 'ejemplar.html.twig'
+            crearAlbaran: 'crearAlbaran.html.twig'
             vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
             plantillaLibro: 'plantillaLibro.html.twig'
             plantillaEjemplar: 'plantillaEjemplar.html.twig'

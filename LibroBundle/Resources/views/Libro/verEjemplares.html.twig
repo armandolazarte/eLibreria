@@ -1,14 +1,66 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Ver Ejemplares | ISBN: {{ libro.isbn }}{% endblock %}
+
+{% block body %}
 <div class="marco">
 	<header class="libro">
-		<div class="isbn">{{ libro.isbn }}</div>
+		<div class="imagen"><img src="{{ asset('bundles/imagenesLibro/') }}{{ libro.isbn }}"></div>
+		<div class="isbn color1 libro_info"><div class="clave">ISBN:</div><div class="valor">{{ libro.isbn }}</div></div>
+		<div class="titulo color2 libro_info"><div class="clave">Titulo:</div><div class="valor">{{ libro.titulo }}</div></div>
+		<div class="editorial color1 libro_info"><div class="clave">Editorial:</div><div class="valor">{{ libro.editorial.nombre }}</div></div>
 	</header>
 	
 	<article class="ejemplares">
-		{% for ejemplar in libro.ejemplares %}
-		<div class="ejemplar">
-			<div class="id">{{ ejemplar.id }}</div>
-			<div class="localizacion">{{ ejemplar.localizacion.denominacion }}</div>
+		<div class="ejemplar_titulo primero color1">
+			<div class="clave">Ejemplares disponibles</div>
+			<div class="ejemplar_select valor">
+				<select>
+					<option value="">Ejemplares encontrados: {{ libro.getEjemplaresDisponibles|length }}</option>
+					{% for ejemplar in libro.getEjemplaresDisponibles %}
+						<option value="{{ ejemplar.id }}">Ejemplar-{{ ejemplar.id }} [Loc: {{ ejemplar.localizacion.denominacion }}]</option>
+						<div class="ejemplar">fasdfasdf</div>
+					{% endfor %}
+				</select>
+			</div>
 		</div>
-		{% endfor %}
+		<div class="ejemplar_datos">
+			<div class="precio ejemplar_untercio ejemplar_info"><div class="clave">Precio:</div><div class="valor">564€</div></div>
+			<div class="iva ejemplar_untercio ejemplar_info"><div class="clave">IVA:</div><div class="valor">4%</div></div>
+			<div class="descuento ejemplar_untercio ultimo ejemplar_info"><div class="clave">Descuento:</div><div class="valor">30%</div></div>
+			<div class="localizacion ejemplar_info"><div class="clave ejemplar_untercio">Localizacion:</div><div class="valor ejemplar_untercio">
+			<select>
+			{% for l in localizaciones %}
+				<option value="{{ l.id }}">{{ l.denominacion }}</option>
+			{% endfor %}
+			</select>
+			</div>
+			<div class="localizacion_botones ejemplar_untercio ultimo">
+				<div class="boton_actualizar"></div>
+				<div class="estado"></div>
+			</div>
+			</div>
+			<div class="albaran"><div class="clave">Albaran:</div><div class="valor">197025</div>
+			<a href=""><div class="albaran_boton"></div></a></div>
+			<div class="ejemplar_planos">
+				<div class="plano"><div class="general"><img src=".jpg"></div><div class="especifico"><img src=".jpg"></div></div>
+			</div>
+		</div>
 	</article>
 </div>
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	
+	<link href="{{ asset('bundles/rgmelibrerialibro/css/verEjemplares.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	{% javascripts '@RGMELibreriaLibroBundle/Resources/public/js/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+{% endblock %}

@@ -1,193 +1,89 @@
 {% extends 'RGMELibreriaIndexBundle::layout.html.twig' %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('bundles/rgmelibreriasuministro/css/estilo.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
 {% block contenido %}
-<div id="marco">
-	<div id="cuerpo_marco">
-		{% if salida %}<header>{{ salida }}</header>{% endif %}
-		<div class="form_s">
-			<form method="POST" action="{{ ruta_form }}">
-				{{ form_widget(form) }}
-				<input type="submit" value="Enviar">
-			</form>
+<h1>Registro de albaranes</h1>
+<div class="datos-albaran">
+	<form id="form-datos-albaran">
+		<h2><div id="albaran-estado-global" class="estadoGlobal sinActualizar">Estado global:</div>Datos del albaran</h2>
+		<div id="formulario-datos-albaran">
+			<input id="albaran-id" type="hidden" name="albaran-id" {% if albaran is defined %}value="{{ albaran.id }}"{% endif %}>
+			
+			<div class="numero">
+				<label for="albaran-numero">Numero de Identificación</label>
+				<input type="text" id="albaran-numero" required="required" name="albaran-numero" {% if albaran is defined %}value="{{ albaran.numeroAlbaran }}"{% endif %}>
+			</div>
+			<div class="fecha-realizacion">
+				<label for="albaran-fecha-realizacion">Fecha de realización</label>
+				<input type="text" id="albaran-fecha-realizacion" required="required" class="dateJquery" name="albaran-fecha-realizacion" {% if albaran is defined %}value="{{ albaran.fechaRealizacion|date('d-m-Y') }}"{% endif %}>
+			</div>
+			<div class="contrato clear">
+				<label for="albaran-contrato">Contrato de suministro</label>
+				<select id="albaran-contrato" required="required" name="albaran-contrato">
+					<option value="">Seleccione un contrato</option>
+					{% for contrato in contratos %}
+					<option value="{{ contrato.id }}" {% if albaran is defined %}{% if albaran.contrato.id == contrato.id %}selected{% endif %}{% endif %}>{{ contrato }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="fecha-vencimiento">
+				<label for="albaran-fecha-vencimiento">Fecha de vencimiento</label>
+				<input type="text" id="albaran-fecha-vencimiento" required="required" class="dateJquery" name="albaran-fecha-vencimiento" {% if albaran is defined %}value="{{ albaran.fechaVencimiento|date('d-m-Y') }}"{% endif %}>
+			</div>
+			
+			<div class="separador clear"></div>
+			
+			<input class="botonActualizar" type="submit" value="Actualizar" id="albaran-boton-submit">
+			<div class="estado sinActualizar" id="albaran-estado">Estado:</div>
 		</div>
-	</div>
+	</form>
 </div>
 
-<script>
-$('form').bind("keydown keyup", function(e) {
-	  var code = e.keyCode || e.which; 
-	  if (code  == 13) {               
-	    e.preventDefault();
-	    return false;
-	  }
-	});
+<div id="visor"></div>
 
-$('input').each( function(){
-	$elemento=$(this);
+<div id="jaula-libros">
+	<div class="nuevo-libro">
+		<div id="botonAnadirLibro" class="botonAnadir">+</div>
+		<h2>Libros contenidos en el albaran</h2>
+	</div>
+	<div id="libros-albaran"></div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
 	
-	$elemento.focus(function(e){
-		$e=$(e.target);
-		if($.inArray($e.val(), ['ISBN', 'Titulo', 'Editorial', 'Unid.', 'Precio', 'IVA', 'Desc']) > -1){
-			$e.val("");
-		}
-	});
-});
+	<script type="text/javascript">
+		var ruta_ajax_registro_albaran = '{{ path(ajax.ruta_registrar) }}',
+			ruta_ajax_get_libros_albaran = '{{ path(ajax.ruta_get_libros_albaran) }}',
+			ruta_ajax_get_datos_libro = '{{ path(ajax.ruta_get_datos_libro) }}',
+			ruta_ajax_get_datos_ejemplar = '{{ path(ajax.ruta_ajax_get_datos_ejemplar) }}',
+			ruta_ajax_registro_ejemplar = '{{ path(ajax.ruta_ajax_registro_ejemplar) }}',
+			ruta_ajax_get_isbn_existente = '{{ path(ajax.ruta_get_isbn_existentes) }}',
+			ruta_ajax_get_editoriales_existente = '{{ path(ajax.ruta_get_editoriales_existentes) }}',
+			ruta_ajax_registro_libro = '{{ path(ajax.ruta_registrar_libro) }}',
+			ruta_ajax_get_ejemplares_libro_albaran = '{{ path(ajax.ruta_ejemplares_libro_albaran) }}',
+			ruta_ajax_eliminar_libro = '{{ path(ajax.ruta_ajax_eliminar_libro) }}',
+			ruta_ajax_plantilla_datos_libro = '{{ path(ajax.ruta_ajax_plantilla_datos_libro) }}',
+			ruta_ajax_plantilla_ejemplar = '{{ path(ajax.ruta_ajax_plantilla_ejemplar) }}';
+			ruta_ajax_borrar_ejemplar = '{{ path(ajax.ruta_ajax_borrar_ejemplar) }}';
+	</script>
+
+{# 	<script type="text/javascript" src="{{ asset('bundles/rgmelibreriasuministro/js/editorAlbaranes.js') }}"></script>#}
 	
-function recargarAjax(){
-	$('input').each( function(){
-		$elemento=$(this);
-		
-		$elemento.focus(function(e){
-			$e=$(e.target);
-			if($.inArray($e.val(), ['ISBN', 'Titulo', 'Editorial', 'Unid.', 'Precio', 'IVA', 'Desc']) > -1){
-				$e.val("");
-			}
-		});
-	});
-
-	$('.editorial').each(function (){
-		$elemento=$(this);
-
-		if(! $elemento.is('.ui-autocomplete-input')){
-			$elemento.autocomplete({
-				source: function( request, response ){
-							$.ajax({
-								url: "{{ path('rgarcia_entrelineas_editorial_buscarAjax') }}",
-								data: {
-										editorial: request.term
-									},
-								success: function(data){
-										$data = $.parseJSON(data);
-
-										response( $.map($data.sugerencias, function(item){
-												return {
-														label: item.nombre,
-														value: item.nombre
-													};
-											}) );
-									}
-							});
-						}
-			});
-		}
-	});
+	{% javascripts '@RGMELibreriaSuministroBundle/Resources/public/js/editorAlbaran/clases/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
 	
-	$('.refAjax').each(function (){
-		$elemento=$(this);
-
-		if(! $elemento.is('.ui-autocomplete-input')){
-			a = $elemento.autocomplete({
-			      source: function( request, response ) {
-				      $.ajax({
-			            url: "{{ path('rgm_e_libreria_librobundle_libro_buscar_referencia_ajax') }}",
-			            data: {
-			              isbn: request.term,
-			              maxRows: 12
-			            },
-			            success: function( data ) {
+	{% javascripts '@RGMELibreriaSuministroBundle/Resources/public/js/editorAlbaran/utiles/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
 	
-				          $data = jQuery.parseJSON(data);
-			            	
-			              response( $.map( $data.sugerencias, function(item){
-				          		return {
-					          		label: item.isbn + " - " + item.titulo + (item.editorial ? " [ " + item.editorial + " ]" : ""),
-					          		value: item.isbn,
-					          		titulo: item.titulo,
-					          		editorial: item.editorial
-					          	};    
-				          }));
-			            }
-			          });
-			        },
-	
-		        select: function( event, ui ) {
-
-					id=event.target.id;
-			        
-			        $abuelo = $('#'+id).parent().parent();
-			        
-		            $abuelo.find('.titulo').val(ui.item.titulo);
-		            $abuelo.find('.editorial').val(ui.item.editorial);
-		          }
-			 });
-		}
-	});
-};
-
-
-	
-// Get the ul that holds the collection of tags
-	var collectionHolder = $('div#rgm_e_libreria_suministrobundle_crearalbarantype_lineas');
-	
-	// setup an "add a tag" link
-	var $addTagLink = $('<a title="Añadir Nueva entrada" class="add_new" href="#" class="add_tag_link">Añadir un elemento</a>');
-	var $newLinkLi = $('<div class="add_div"></div>').append($addTagLink);
-	
-	function crearBoton(){
-	    // add the "add a tag" anchor and li to the tags ul
-	    collectionHolder.prepend($newLinkLi);
-	    
-	    collectionHolder.children().not(":first-child").each(function() {
-	        addTagFormDeleteLink($(this));
-	    });
-
-	    // count the current form inputs we have (e.g. 2), use that as the new
-	    // index when inserting a new item (e.g. 2)
-	    collectionHolder.data('index', collectionHolder.find(':input').length);
-
-	    $addTagLink.on('click', function(e) {
-	        // prevent the link from creating a "#" on the URL
-	        e.preventDefault();
-
-	        // add a new tag form (see next code block)
-	        addTagForm(collectionHolder, $newLinkLi);
-	    });
-	}	
-
-	jQuery(document).ready(crearBoton);
-	
-	function addTagForm(collectionHolder, $newLinkLi) {
-	    // Get the data-prototype explained earlier
-	    var prototype = collectionHolder.data('prototype');
-	    var msg_confirmar = $('p#msg_confirmar');
-	    msg_confirmar.remove();
-
-	    // get the new index
-	    var index = collectionHolder.data('index');
-
-	    // Replace '$$name$$' in the prototype's HTML to
-	    // instead be a number based on how many items we have
-	    var newForm = prototype.replace(/__name__/g, index);
-	    newForm = newForm.replace(/label__/g, '');
-
-	    // increase the index with one for the next item
-	    collectionHolder.data('index', index + 1);
-
-	    // Display the form in the page in an li, before the "Add a tag" link li
-	    var $newFormLi = $(newForm);
-
-	    addTagFormDeleteLink($newFormLi);
-	    
-	    collectionHolder.append($newFormLi);
-	    
-	    $('.dateJquery').datepicker({ dateFormat: 'dd-mm-yy' });
-	    recargarAjax();
-	}
-
-	
-	function addTagFormDeleteLink($tagFormLi) {
-	    var $removeFormA = $('<a title="Borrar Elemento" class="delete_element" href="#">Borrar este elemento</a>');
-		    
-	    $tagFormLi.prepend($removeFormA);
-
-	    $removeFormA.on('click', function(e) {
-	        // prevent the link from creating a "#" on the URL
-	        e.preventDefault();
-
-	        // remove the li for the tag form
-	        $tagFormLi.remove();
-	        $removeFormA.remove();
-	    });
-	}
-</script>
+	{% javascripts '@RGMELibreriaSuministroBundle/Resources/public/js/editorAlbaran/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
 {% endblock %}

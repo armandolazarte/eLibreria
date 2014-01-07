@@ -285,13 +285,18 @@ class Libro
         return $this->ejemplares;
     }
     
-//     public function getEjemplaresOrdenado(Criterio $c){
-//     	  usort($this -> ejemplares, "nombre_funcion_ordenacion"
-//     	    function nombre_funcion_ordenacion( $clave1, $clave2 ){
-//     	    	return (strlen($clave1) > strlen($clave2)) ? True : False;
-// 			}
+    public function getEjemplaresDisponibles()
+    {
+    	$res = new ArrayCollection();
     	
-//     }
+    	foreach($this->ejemplares as $e){
+    		if(!$e->isVendido()){
+    			$res->add($e);
+    		}
+    	}
+    	
+        return $res;
+    }
     
     public function getStock(){
     	$res = 0;
