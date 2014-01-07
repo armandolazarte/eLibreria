@@ -26,7 +26,7 @@ eLibreria
         
     b. Modificar:
         assetic:
-            bundles:        [ RGMELibreriaIndexBundle ]
+            bundles:        [ RGMELibreriaIndexBundle, RGMELibreriaSuministroBundle, RGMELibreriaLibroBundle ]
             
 10.- Añadir a app/AppKernel.php:
 
