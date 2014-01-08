@@ -85,6 +85,16 @@ rgm_e_libreria_librobundle_libro_buscar_referencia_ajax:
     defaults: { _controller: 'RGMELibreriaLibroBundle:Libro:buscarLibroAjax' }
     methods:  [POST]
 
+rgm_e_libreria_librobundle_ejemplar_datos_ajax:
+    pattern: /libro/ejemplar/datos
+    defaults: { _controller: 'RGMELibreriaLibroBundle:Libro:getEjemplarDatosAjax' }
+    methods:  [POST]
+
+rgm_e_libreria_librobundle_ejemplar_setLoc_ajax:
+    pattern: /libro/ejemplar/setLoc
+    defaults: { _controller: 'RGMELibreriaLibroBundle:Libro:setEjemplarLocalizacionAjax' }
+    methods:  [POST]
+
 rgarcia_entrelineas_libro_crear:
     pattern:  /gestor/crear/{crearMasivo}
     defaults: 

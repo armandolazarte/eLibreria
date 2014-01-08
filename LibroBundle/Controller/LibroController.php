@@ -69,7 +69,7 @@ class LibroController extends Asistente{
 			
 			$ruta_ver_ejemplares = $this->generateUrl($this->getParametro('ruta_ver_ejemplares'), array('isbn' => $entidad->getIsbn()));
 			
-			$salida_ver_Ejemplares = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=900,height=471,toolbar=1,resizable=0"); return false;\' href="'.$ruta_ver_ejemplares.'">Ver Ejemplares</a>';
+			$salida_ver_Ejemplares = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=900,height=694,toolbar=1,resizable=0"); return false;\' href="'.$ruta_ver_ejemplares.'">Ver Ejemplares</a>';
 
 			$row->setField('autores', $salida_autores);
 			$row->setField('estilos', $salida_estilos);
@@ -322,6 +322,70 @@ class LibroController extends Asistente{
 		$res->headers->set('Content-Type', 'application/json');
 		
 		return $res;
+	}
+	
+	public function getEjemplarDatosAjaxAction(Request $peticion){
+		$render = new Response();
+		
+		if($peticion->getMethod() == "POST"){
+			$idEjemplar = $peticion->request->get('idEjemplar');
+			
+			if($idEjemplar != ""){
+				$em = $this->getEm();
+				
+				$infoEjemplar = $this->getParametro('ejemplar');
+				
+				$ejemplar = $em->getRepository($this->getEntidadLogico($infoEjemplar['repositorio']))->find($idEjemplar);
+				$opciones = array();
+				
+				if($ejemplar){
+					$infoLocalizacion = $this->getParametro('localizacion');
+					
+					$opciones['localizaciones'] = $em->getRepository($this->getEntidadLogico($infoLocalizacion['repositorio']))->findAll();
+					$opciones['ejemplar'] = $ejemplar;
+
+					$render = $this->render($this->getPlantilla('plantillaEjemplar'), $opciones);
+				}
+			}
+		}
+		
+		return $render;
+	}
+	
+	public function setEjemplarLocalizacionAjaxAction(Request $peticion){
+		$res = array();
+		
+		if($peticion->getMethod() == "POST"){
+			$idEjemplar = $peticion->request->get('idEjemplar');
+			$idLoc = $peticion->request->get('idLoc');
+			
+			if($idEjemplar != "" && $idLoc != ""){
+				$em = $this->getEm();
+				
+				$infoEjemplar = $this->getParametro('ejemplar');
+				
+				$ejemplar = $em->getRepository($this->getEntidadLogico($infoEjemplar['repositorio']))->find($idEjemplar);
+				
+				if($ejemplar){
+					$infoLoc = $this->getParametro('localizacion');
+					
+					$loc = $em->getRepository($this->getEntidadLogico($infoLoc['repositorio']))->find($idLoc);
+					
+					if($loc){
+						$ejemplar->setLocalizacion($loc);
+						$em->persist($ejemplar);
+						$em->flush();
+						
+						$res['estado'] = true;
+					}
+				}
+			}
+		}
+		
+		$vuelta = new Response(json_encode($res));
+		$vuelta->headers->set('Content-Type', 'application/json');
+		
+		return $vuelta;
 	}
 	
 // 	public function importarLibroAction(Request $peticion){

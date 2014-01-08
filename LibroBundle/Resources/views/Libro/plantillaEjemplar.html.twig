@@ -1,0 +1,28 @@
+<div class="precio ejemplar_untercio ejemplar_info"><div class="clave">Precio:</div><div class="valor">{{ ejemplar.precio }}€</div></div>
+<div class="iva ejemplar_untercio ejemplar_info"><div class="clave">IVA:</div><div class="valor">{{ ejemplar.iva  * 100 }}%</div></div>
+<div class="descuento ejemplar_untercio ultimo ejemplar_info"><div class="clave">Descuento:</div><div class="valor">{{ ejemplar.itemAlbaran.descuento * 100 }}%</div></div>
+
+<div class="localizacion ejemplar_info">
+	<div class="clave ejemplar_untercio">Localizacion:</div>
+	<div class="valor ejemplar_untercio">
+		<select id="localizacion_select">
+		{% for l in localizaciones %}
+			<option value="{{ l.id }}" {% if ejemplar.localizacion.id == l.id %}selected{% endif %}>{{ l.denominacion }}</option>
+		{% endfor %}
+		</select>
+	</div>
+	<div class="localizacion_botones ejemplar_untercio ultimo">
+		<div class="estado_ejemplar actualizado"></div>
+		<div class="boton_actualizar">Actualizar</div>
+	</div>
+</div>
+
+<div class="albaran ejemplar_info">
+	<div class="clave ejemplar_untercio">Albaran:</div>
+	<div class="valor ejemplar_untercio">{{ ejemplar.getAlbaran.numeroAlbaran }}</div>
+	<div class="albaran_boton ejemplar_untercio"></div>
+</div>
+
+<div class="ejemplar_planos ejemplar_info">
+	<div class="plano"><div class="general"><img src=".jpg"></div><div class="especifico"><img src=".jpg"></div></div>
+</div>

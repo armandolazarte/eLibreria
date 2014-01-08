@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'RGMELibreriaIndexBundle::base.html.twig' %}
 
 {% block title %}Ver Ejemplares | ISBN: {{ libro.isbn }}{% endblock %}
 
@@ -15,36 +15,16 @@
 		<div class="ejemplar_titulo primero color1">
 			<div class="clave">Ejemplares disponibles</div>
 			<div class="ejemplar_select valor">
-				<select>
+				<select id="ejemplares_encontrados_select">
 					<option value="">Ejemplares encontrados: {{ libro.getEjemplaresDisponibles|length }}</option>
 					{% for ejemplar in libro.getEjemplaresDisponibles %}
 						<option value="{{ ejemplar.id }}">Ejemplar-{{ ejemplar.id }} [Loc: {{ ejemplar.localizacion.denominacion }}]</option>
-						<div class="ejemplar">fasdfasdf</div>
 					{% endfor %}
 				</select>
 			</div>
 		</div>
-		<div class="ejemplar_datos">
-			<div class="precio ejemplar_untercio ejemplar_info"><div class="clave">Precio:</div><div class="valor">564€</div></div>
-			<div class="iva ejemplar_untercio ejemplar_info"><div class="clave">IVA:</div><div class="valor">4%</div></div>
-			<div class="descuento ejemplar_untercio ultimo ejemplar_info"><div class="clave">Descuento:</div><div class="valor">30%</div></div>
-			<div class="localizacion ejemplar_info"><div class="clave ejemplar_untercio">Localizacion:</div><div class="valor ejemplar_untercio">
-			<select>
-			{% for l in localizaciones %}
-				<option value="{{ l.id }}">{{ l.denominacion }}</option>
-			{% endfor %}
-			</select>
-			</div>
-			<div class="localizacion_botones ejemplar_untercio ultimo">
-				<div class="boton_actualizar"></div>
-				<div class="estado"></div>
-			</div>
-			</div>
-			<div class="albaran"><div class="clave">Albaran:</div><div class="valor">197025</div>
-			<a href=""><div class="albaran_boton"></div></a></div>
-			<div class="ejemplar_planos">
-				<div class="plano"><div class="general"><img src=".jpg"></div><div class="especifico"><img src=".jpg"></div></div>
-			</div>
+		<div id="ejemplar_datos" class="ejemplar_datos">
+			
 		</div>
 	</article>
 </div>
@@ -62,5 +42,10 @@
 	{% javascripts '@RGMELibreriaLibroBundle/Resources/public/js/*.js' %}
 	    <script type="text/javascript" src="{{ asset_url }}"></script>
 	{% endjavascripts %}
+	
+	<script>
+		var ruta_ajax_get_ejemplar_datos = '{{ path('rgm_e_libreria_librobundle_ejemplar_datos_ajax') }}',
+			ruta_ajax_ejemplar_set_loc = '{{ path('rgm_e_libreria_librobundle_ejemplar_setLoc_ajax') }}';
+	</script>
 
 {% endblock %}

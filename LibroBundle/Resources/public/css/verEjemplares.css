@@ -136,7 +136,7 @@ img{
 	margin-right: 40px;
 }
 
-.localizacion .clave{
+.localizacion .clave, .albaran .clave{
 	text-align: right;
 }
 
@@ -152,18 +152,78 @@ img{
 	overflow: hidden;
 }
 
-.localizacion_botones .boton_actualizar{
-	border: 1px solid;
-	height: 15px;
-	width: 15px;
-	float: left;
+
+.albaran_boton{
+	width: 206px !important;
 }
 
-.localizacion_botones .estado{
-	border: 1px solid;
-	height: 15px;
+.albaran_boton a{
 	width: 15px;
-	float: left;
+	height: 15px;
+	border: 1px solid;
 	
-	margin: 0 10px;
+	display: block;
+}
+
+.plano{
+	margin: 0 auto;
+	width: 500px;
+	overflow: hidden;
+}
+
+.general, .especifico{
+	width: 207px;
+} 
+
+.general img, .especifico img{
+	width: 200px;
+}
+
+.general{
+	float: left;	
+}
+
+.especifico{
+	float: right;
+}
+
+.estado_ejemplar{
+	height: 19px;
+	width: 19px;
+
+	float: left;
+	border-radius: 5px;
+	margin-right: 5px;
+	
+	line-height: 15px;
+}
+
+.sinActualizar{
+	background: transparent url(../images/save_icon.png) no-repeat right center;
+	border-radius: 0px;
+	margin-top: -1px;
+}
+
+.actualizado{
+	background: transparent url(../images/right_icon.png) no-repeat right center;
+	background-size: 19px 19px;
+	border-radius: 0px;
+}
+
+.boton_actualizar{
+	float: left;
+	margin-right: 11px;
+
+	padding: 2px;
+	border-radius: 5px;
+
+	height: 15px;
+	line-height: 15px;
+
+	text-align: center;
+	cursor: pointer;
+	
+	background-color: #617798;
+	color: #FFF;
+	border: 0;
 }
