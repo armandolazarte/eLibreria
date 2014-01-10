@@ -48,7 +48,12 @@ class Ejemplar implements ArticuloVendible {
 	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran", mappedBy="ejemplar")
 	 */
 	private $itemAlbaran;
-	
+
+	/**
+	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\VentasBundle\Entity\ItemVenta", mappedBy="ejemplar")
+	 */
+	private $itemVenta;
+
 	/**
 	 * @var boolean
 	 *
@@ -70,10 +75,10 @@ class Ejemplar implements ArticuloVendible {
 	 */
 	private $iva;
 
-	public function __construct(Libro $l){
+	public function __construct(Libro $l) {
 		$this->libro = $l;
 	}
-	
+
 	/**
 	 * Get id
 	 *
@@ -196,7 +201,7 @@ class Ejemplar implements ArticuloVendible {
 
 	public function setIva($IVA) {
 		$this->iva = $IVA;
-		
+
 		return $this;
 	}
 
@@ -231,9 +236,17 @@ class Ejemplar implements ArticuloVendible {
 	public function getReferencia() {
 		return $this->libro->getIsbn();
 	}
-	
+
 	public function getTitulo() {
 		return $this->getLibro()->getTitulo();
+	}
+
+	public function getItemVenta() {
+		return $this->itemVenta;
+	}
+
+	public function setItemVenta($itemVenta) {
+		$this->itemVenta = $itemVenta;
 	}
 
 }

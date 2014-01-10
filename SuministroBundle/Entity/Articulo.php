@@ -23,6 +23,11 @@ class Articulo implements ArticuloVendible {
 	private $itemAlbaran;
 
 	/**
+	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\VentasBundle\Entity\ItemVenta", mappedBy="articulo")
+	 */
+	private $itemVenta;
+
+	/**
 	 * @ORM\Column(name="titulo", type="string", length=255, nullable = false)
 	 */
 	private $titulo;
@@ -94,6 +99,26 @@ class Articulo implements ArticuloVendible {
 
 	public function setVendido($vendido) {
 		$this->vendido = $vendido;
+
+		return $this;
+	}
+
+	public function getItemVenta() {
+		return $this->itemVenta;
+	}
+
+	public function setItemVenta($itemVenta) {
+		$this->itemVenta = $itemVenta;
+
+		return $this;
+	}
+
+	public function getItemAlbaran() {
+		return $this->itemAlbaran;
+	}
+
+	public function setItemAlbaran($itemAlbaran) {
+		$this->itemAlbaran = $itemAlbaran;
 
 		return $this;
 	}

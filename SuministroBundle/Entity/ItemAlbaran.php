@@ -20,24 +20,18 @@ class ItemAlbaran {
 	private $id;
 
 	/**
-	 * @var string
-	 *
 	 * @ORM\ManyToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\Albaran", inversedBy="items")
 	 * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
 	 */
 	private $albaran;
 
 	/**
-	 * @var string
-	 *
 	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\LibroBundle\Entity\Ejemplar", inversedBy="itemAlbaran")
 	 * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
 	 */
 	private $ejemplar;
 
 	/**
-	 * @var string
-	 *
 	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\Articulo", inversedBy="itemAlbaran")
 	 * @ORM\JoinColumn(name="articulo_id", referencedColumnName="ref", nullable=true, onDelete="CASCADE")
 	 */
