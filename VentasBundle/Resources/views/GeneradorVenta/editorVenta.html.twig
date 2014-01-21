@@ -1,0 +1,111 @@
+{% extends 'RGMELibreriaIndexBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('bundles/rgmelibreriaventas/css/editor.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		var ruta_cliente_get_info = '{{ path(ajax.ruta_cliente_get_info) }}',
+			ruta_cliente_set_nuevo = '{{ path(ajax.ruta_cliente_set_nuevo) }}';
+	</script>
+	
+	{% javascripts '@RGMELibreriaVentasBundle/Resources/public/js/editor/clases/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	
+	{% javascripts '@RGMELibreriaVentasBundle/Resources/public/js/editor/utiles/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	
+	{% javascripts '@RGMELibreriaVentasBundle/Resources/public/js/editor/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
+
+{% block contenido %}
+<div class="venta">
+	<div class="venta_cabecera_info contenido_venta">
+		<div class="venta_cliente">
+			<div class="venta_cliente_titulo contenedor_info">
+				<label for="select_venta_cliente_nombre">Cliente</label>
+				<select id="select_venta_cliente_nombre">
+					<option value="" selected>Anonimo / Crear nuevo cliente</option>
+					{% for cliente in clientes %}
+						<option value="{{ cliente.id }}">{{ cliente.nombreContacto }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			
+			<div class="venta_cliente_nombre contenedor_info">
+				<label for="input_venta_cliente_nombre">Nombre</label>
+				<input type="text" id="input_venta_cliente_nombre">
+			</div>
+			
+			<div class="venta_cliente_tel contenedor_info">
+				<label for="input_venta_cliente_tel">Telefono</label>
+				<input type="text" id="input_venta_cliente_tel">
+			</div>
+			
+			<div class="venta_cliente_movil contenedor_info">
+				<label for="input_venta_cliente_movil">Movil</label>
+				<input type="text" id="input_venta_cliente_movil">
+			</div>
+			
+			<div class="venta_cliente_dir contenedor_info">
+				<label for="input_venta_cliente_dir">Dirección</label>
+				<textarea id="input_venta_cliente_dir"></textarea>
+			</div>
+			
+			<div class="venta_cliente_estado contenedor_info">
+				<div id="venta_cliente_estado" class="estado_cliente estado actualizado"></div>
+				<input id="venta_cliente_boton_actualizar" type="submit" value="Actualizar">
+				Estado
+			</div>
+		</div>
+		
+		<div class="venta_dinero">	
+			<div class="venta_total">			
+				<div class="venta_total_info titulo">Total</div>
+				<div id="venta_info_total" class="venta_total_info valor">19.95€</div>
+			</div>	
+			<div class="venta_entregado">			
+				<div class="venta_entregado_info titulo">Entregado</div>
+				<div class="venta_entregado_info valor"><input id="venta_info_entregado" type="text" value="0.00">€</div>
+			</div>	
+			<div class="venta_vuelta">			
+				<div class="venta_vuelta_info titulo">Vuelta</div>
+				<div id="venta_info_vuelta" class="venta_vuelta_info valor">0.00€</div>
+			</div>
+		</div>
+	
+		<div class="venta_acciones">
+			<div class="metodo_pago">
+				<label for="select_metodo_pago">Metodo de pago:</label>
+				<select id="select_metodo_pago">
+					<option value="efectivo">Efectivo</option>
+					<option value="tarjeta">Tarjeta</option>
+				</select>
+			</div>
+			
+			<div class="botones">
+				<input id="input_submit_venta" type="submit" class="generarTicket" value="Guardar venta y generar ticket">
+				<div id="venta_estado" class="estado sinActualizar"></div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="venta_nuevo_articulo contenido_venta">
+		<input id="venta_busqueda_isbnRef" onfocus="funcion_onfocus(this, 'ISBN / REF');" onblur="funcion_onblur(this, 'ISBN / REF');" type="text" value="ISBN / REF" class="inputIsbn">
+		<input id="venta_busqueda_titulo" onfocus="funcion_onfocus(this, 'Titulo');" onblur="funcion_onblur(this, 'Titulo');" type="text" value="Titulo" class="inputTitulo">
+		<input id="input_submit_anadir_articulo" type="submit" class="boton anadir_Articulo" value="+">				
+	</div>
+	
+	<div id="venta_contenedorItems" class="venta_lista_articulos contenido_venta">
+	</div>
+</div>
+{% endblock %}

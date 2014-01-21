@@ -58,7 +58,7 @@ class AlbaranAjaxController extends Asistente{
 		return $this->getResponse($res);
 	}
 	
-	public function getLibrosAlbaranAction(Request $peticion){
+	public function getItemsAlbaranAction(Request $peticion){
 		$res = array();
 		$res['estado'] = false;
 		
@@ -71,7 +71,27 @@ class AlbaranAjaxController extends Asistente{
 				$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($idAlbaran);
 				
 				if($albaran){					
-					$res['libros'] = $albaran->getLibros();
+					$res['items'] = array();
+					foreach($albaran->getItems() as $item){
+						$elemento = $item->getElemento();
+						$clase = get_class($elemento);
+						$array = explode('\\', $clase);
+						$clase = strtolower(array_pop($array));
+												
+						if($clase == 'ejemplar'){
+							$isbn = $elemento->getLibro()->getIsbn();
+							if(! array_key_exists($isbn, $res['items'])){
+								$res['items'][$isbn] = 'libro';
+							}
+						}
+						else if($clase == 'articulo'){
+							$ref = $elemento->getRef();
+							if(! array_key_exists($ref, $res['items'])){
+								$res['items'][$ref] = 'articulo';
+							}							
+						}
+					}
+					
 					$res['estado'] = true;
 				}
 			}

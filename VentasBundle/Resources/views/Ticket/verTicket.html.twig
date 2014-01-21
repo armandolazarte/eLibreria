@@ -3,38 +3,79 @@
 {% block title %}Ticket{% endblock %}
 
 {% block stylesheets %}
-	<link href="{{ asset('bundles/rgmelibreriaindex/css/ticket.css') }}" type="text/css" rel="stylesheet" />	
+	<link href="{{ asset('bundles/rgmelibreriaventas/css/ticket.css') }}" type="text/css" rel="stylesheet" />	
 {% endblock %}
 
 {% block body %}
 <div id="albaran_contenedor">
 	<header id="albaran_header">
-		Distribuidora: CAL
-		Nº Albaran: 036595
-		Fecha Realizacion: 20/07/2013
-		Fecha Factura: 10/2013
+		<div class="imagen_ticket"></div>
+		<h1>Librería Entre Líneas</h1>
+		<div class="info">
+			<div class="titulo">Tel:</div>
+			<div class="valor">954342748</div>
+		</div>
+		<div class="info">
+			<div class="titulo">Dir:</div>
+			<div class="valor">San Jacinto Nº96</div>
+		</div>
+		<div class="info">
+			<div class="titulo"></div>
+			<div class="valor">41010 Sevilla</div>
+		</div>
+		<div class="info separacion">
+			<div class="titulo">Factura simplificada</div>
+		</div>
+		<div class="info">
+			<div class="titulo">Venta nº:</div>
+			<div class="valor">3442</div>
+		</div>
+		<div class="info">
+			<div class="titulo">Fecha:</div>
+			<div class="valor">15/05/2048</div>
+		</div>
 	</header>
 	<section id="albaran_cuerpo">
 		<table>
 			<tr>
-				<th>ISBN/REF</th>
 				<th>Titulo</th>
-				<th>UDS.</th>
-				<th>P.V.c/i</th>
 				<th>P.V.s/i</th>
-				<th>%Descuento</th>
-				<th>Importe</th>
 				<th>%IVA</th>
+				<th>P.V.c/i</th>
+				<th>UDS.</th>
+				<th>Importe</th>
 			</tr>
 			<tr>
-				<td>9780194316927</td>
 				<td>OXF-Dicc.Oxford Study + CD</td>
+				<td>27.45</td>
+				<td>4.00</td>
+				<td>28.55</td>
 				<td>1</td>
 				<td>28.55</td>
-				<td>27.45</td>
-				<td>25.00</td>
-				<td>20.59</td>
+			</tr>
+			<tr>
+				<td>Guia de los movimientos</td>
+				<td>27.00</td>
 				<td>4.00</td>
+				<td>27.50</td>
+				<td>1</td>
+				<td>27.50</td>
+			</tr>
+			<tr>
+				<td>OXF-Dicc.Oxford Study + CD</td>
+				<td>27.45</td>
+				<td>4.00</td>
+				<td>28.55</td>
+				<td>1</td>
+				<td>28.55</td>
+			</tr>
+			<tr>
+				<td>OXF-Dicc.Oxford Study + CD</td>
+				<td>27.45</td>
+				<td>4.00</td>
+				<td>28.55</td>
+				<td>1</td>
+				<td>28.55</td>
 			</tr>
 		</table>
 	</section>
@@ -45,7 +86,9 @@
 			Total REC: 0.16€ 
 		</section>
 		<section class="total">
-			TOTAL €: 33.93€
+			TOTAL: 33.93€
+			Entregado: 40€
+			Vuelta: 6.07€
 		</section>
 		<section class="impuestos">
 			<table>
@@ -65,6 +108,7 @@
 				</tr>
 			</table>
 		</section>
+		<h2>Gracias por su visita.</h2>
 	</footer>
 </div>
 {% endblock %}

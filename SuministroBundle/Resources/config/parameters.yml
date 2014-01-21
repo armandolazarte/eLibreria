@@ -156,7 +156,7 @@ parameters:
             
         ajax:
             ruta_registrar: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro'
-            ruta_get_libros_albaran: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_libros_albaran'
+            ruta_get_items_albaran: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_items_albaran'
             ruta_get_datos_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro'
             ruta_ajax_get_datos_ejemplar: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_ejemplar'
             ruta_get_isbn_existentes: 'rgm_e_libreria_librobundle_libro_buscar_referencia_ajax'

@@ -1,4 +1,4 @@
-function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal, est, bAct, bNuevo, cLibro){
+function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal, est, bAct, bLibroNuevo, bArticuloNuevo, cItems){
 	//Atributos privados
 	this.idAlbaran;
 	
@@ -13,10 +13,11 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 	this.estadoGlobal;
 	this.botonActualizar;
 	
-	this.libros = new Array();
-	
+	this.items = new Array();
+
 	this.botonAnadirLibro;
-	this.contenedorLibros;
+	this.botonAnadirArticulo;
+	this.contenedorItems;
 	
 	this.des = function(){
 		modificar_estado(this.estado, 'sinActualizar');
@@ -48,8 +49,8 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 		if(this.isAct()){
 			var elementosActualizados = true;
 			
-			for(var i = 0; i < this.libros.length; i++){
-				elementosActualizados &= this.libros[i].isActGlobal();
+			for(var i = 0; i < this.items.length; i++){
+				elementosActualizados &= this.items[i].isActGlobal();
 			}
 			
 			if(elementosActualizados){
@@ -60,8 +61,8 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 		return res;
 	}
 	
-	this.verContenedorLibro = function(){
-		this.contenedorLibros.accordion({
+	this.verContenedorItems = function(){
+		this.contenedorItems.accordion({
 	        header: "> div > h3",
 	        active: true,
 	        heightStyle: "content",
@@ -76,7 +77,7 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 	        }
 	      });
 		
-		this.contenedorLibros.parent().css('display', 'block');
+		this.contenedorItems.parent().css('display', 'block');
 	}
 	
 	this.actualizarInformacion = function(){
@@ -96,7 +97,7 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 					if(data.estado){
 						this.idAlbaran.val(data.idAlbaran);
 						this.act();
-						this.verContenedorLibro();
+						this.verContenedorItems();
 					}
 				}
 			});
@@ -104,48 +105,62 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 	}
 	
 	this.anadirLibroExistente = function(isbn){
-		this.libros.push(new Libro(this, isbn));
+		this.items.push(new Libro(this, isbn));
 	}
 	
 	this.anadirLibroNuevo = function(){
 		this.desGlobal();
-		this.libros.push(new Libro(this));
+		this.items.push(new Libro(this));
 	}
 	
-	this.cargarLibrosAlbaranAJAX = function(){
+	this.anadirArticuloExistente = function(){
+	}
+	
+	this.anadirArticuloNuevo = function(){
+	}
+	
+	this.cargarItemsAlbaranAJAX = function(){
 		var albaran = this;
 		$.ajax({
-			url: ruta_ajax_get_libros_albaran,
+			url: ruta_ajax_get_items_albaran,
 			data: {
 				idAlbaran: this.idAlbaran.val()
 			},
 			type: "POST",
 			success: function(data){	
-				var librosRecibidos = data.libros;				
-				for(var i = 0; i < librosRecibidos.length; i++){
-					albaran.anadirLibroExistente(librosRecibidos[i]);
+				var itemsRecibidos = data.items;
+				
+				for(var item in itemsRecibidos){
+					var tipo = itemsRecibidos[item];
+					
+					if(tipo === 'libro'){
+						albaran.anadirLibroExistente(item);
+					}
+					else if(tipo === 'articulo'){
+						albaran.anadirArticuloExistente(item);
+					}
 				}
 			}
 		});
 	}
 	
-	this.borrarLibro = function(libro){
+	this.borrarItem = function(item){
 		var indexElementoABorrar;
 		
-		for(var i = 0; i < this.libros.length; i++){
-			var libroActual = this.libros[i];
+		for(var i = 0; i < this.items.length; i++){
+			var itemActual = this.items[i];
 			
-			if(libroActual.id === libro.id){
+			if(itemActual.id === item.id){
 				indexElementoABorrar = i;
 				break;
 			}
 		}
 		
-		this.libros.splice(indexElementoABorrar, 1);
+		this.items.splice(indexElementoABorrar, 1);
 	}
 	
 	//Contructor
-	this.init = function(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal, est, bAct, bNuevo, cLibro){		
+	this.init = function(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal, est, bAct, bLibroNuevo, bArticuloNuevo, cItems){		
 		this.idAlbaran = idAlb;
 		this.formularioAlbaran = formAlb;
 		
@@ -157,9 +172,10 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 		this.estado = est;
 		this.estadoGlobal = estGlobal;
 		this.botonActualizar = bAct;
-		
-		this.botonAnadirLibro = bNuevo;
-		this.contenedorLibros = cLibro;
+
+		this.botonAnadirLibro = bLibroNuevo;
+		this.botonAnadirArticulo = bArticuloNuevo;
+		this.contenedorItems = cItems;
 
 		this.numeroIdentificacion.change(function(){$albaran.des();});
 		this.idContratoDistribucion.change(function(){$albaran.des();});
@@ -167,18 +183,19 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 		this.fechaVencimiento.change(function(){$albaran.des();});
 		
 		this.formularioAlbaran.submit(function(evento){evento.preventDefault(); $albaran.actualizarInformacion(); $albaran.act(); return false;});
-		
+
 		this.botonAnadirLibro.click(function(evento){evento.preventDefault(); $albaran.anadirLibroNuevo(); return false;});
+		this.botonAnadirArticulo.click(function(evento){evento.preventDefault(); $albaran.anadirArticuloNuevo(); return false;});
 				
 		if(this.idAlbaran.val() != ""){
 			//Albaran con datos
 			
 			this.act();
-			this.verContenedorLibro();
+			this.verContenedorItems();
 
-			this.cargarLibrosAlbaranAJAX();
+			this.cargarItemsAlbaranAJAX();
 		}
 	}
 	
-	this.init(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal, est, bAct, bNuevo, cLibro);
+	this.init(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal, est, bAct, bLibroNuevo, bArticuloNuevo, cItems);
 }

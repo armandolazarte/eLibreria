@@ -6,7 +6,19 @@ rgm_e_libreria_ventas_ticket_ver:
     
 rgm_e_libreria_ventas_crear:
     pattern: /venta/nueva
-    defaults: { _controller: 'RGMELibreriaVentasBundle:Venta:crearVenta' }
+    defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:generadorVenta' }
+    
+    
+
+rgm_e_libreria_venta_get_info_cliente:
+    pattern: /venta/ajax/cliente/info
+    defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:getInfoCliente' }
+    methods:  [POST]
+    
+rgm_e_libreria_venta_crear_nuevo_cliente:
+    pattern: /venta/ajax/cliente/nuevo
+    defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:setNuevoCliente' }
+    methods:  [POST]
     
     
     

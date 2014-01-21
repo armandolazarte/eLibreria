@@ -184,8 +184,8 @@ function Libro(albaran, isbn){
 	}
 	
 	this.setLibroEnContenedor = function(cuerpo){
-		cuerpo.appendTo(this.albaran.contenedorLibros);
-		this.albaran.contenedorLibros.accordion("refresh");
+		cuerpo.appendTo(this.albaran.contenedorItems);
+		this.albaran.contenedorItems.accordion("refresh");
 	}
 	
 	this.copiarInfo = function(){
@@ -273,7 +273,7 @@ function Libro(albaran, isbn){
 				this.ejemplares[i].borrarEjemplar();
 			}
 			
-			this.albaran.borrarLibro(this);
+			this.albaran.borrarItem(this);
 			this.divId.remove();
 			this.albaran.actGlobal();
 		}

@@ -1,44 +1,25 @@
 parameters:
     ventasbundle.venta:
-        inicio: 'rgm_e_libreria_ventas_index'
-        seccion: 'Gestión de Ventas'
-        subseccion: 'Ventas'
+    
+    ventasbundle.ticket:
+
+    ventasbundle.generador:
+        seccion: 'Venta'
+        subseccion: 'Generar nueva venta'
         nombrelogicobundle: 'RGMELibreriaVentasBundle'
-        path: 'Ventas'
-        formularios:
-            editor: 'RGM\eLibreria\VentasBundle\Form\Frontend\Libro\LibroType'
-            visor: 'RGM\eLibreria\VentasBundle\Form\Frontend\Libro\LibroVisorType'
+        path: 'GeneradorVenta'
+        plantillas:
+            editor: 'editorVenta.html.twig'
+            menu_izq: 'RGMELibreriaIndexBundle::menu_izq_vacio.html.twig'
             
-        entidad: 
+        entidad:
             repositorio: 'Venta'
             clase: 'RGM\eLibreria\VentasBundle\Entity\Venta'
             
-        plantillas:
-            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
-            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
-            creadorVenta: 'crearVenta.html.twig'
-        
-        localizacion:
-            repositorio: 'Localizacion'
+        cliente:
+            repositorio: 'Cliente'
+            clase: 'RGM\eLibreria\VentasBundle\Entity\Cliente'
             
-        ejemplar:
-            repositorio: 'Ejemplar'
-        
-        ruta_form_crear: 'rgarcia_entrelineas_libro_crear'
-        titulo_crear: 'Crear nuevo libro'
-        titulo_submit_crear: 'Crear'
-        flash_crear: 'Libro creado con éxito'
-        
-        grid_ruta_editar: 'rgarcia_entrelineas_libro_editar'
-        titulo_editar: 'Editar libro'
-        grid_boton_editar: 'Editar'
-        flash_editar: 'Libro editado con éxito'
-        
-        grid_ruta_borrar: 'rgarcia_entrelineas_libro_borrar'
-        titulo_borrar: 'Confirmar Borrado'
-        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
-        titulo_form_borrar: 'Borrar libro'
-        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
-        grid_boton_borrar: 'Borrar'
-        titulo_submit_borrar: '¡Si, Estoy seguro!'
-        flash_borrar: 'Libro borrado con éxito'
+        ajax:
+            ruta_cliente_get_info: 'rgm_e_libreria_venta_get_info_cliente'
+            ruta_cliente_set_nuevo: 'rgm_e_libreria_venta_crear_nuevo_cliente'

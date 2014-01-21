@@ -1,15 +1,18 @@
 <?php 
-namespace RGM\eLibreria\SuministroBundle\Controller;
+namespace RGM\eLibreria\VentasBundle\Controller;
 
-use RGM\eLibreria\IndexBundle\Controller\AsistenteController;
-use RGM\eLibreria\IndexBundle\Controller\GridController;
+use RGM\eLibreria\IndexBundle\Controller\Asistente;
 
-class TicketController{
+class TicketController extends Asistente{
+	private $bundle = 'ventasbundle';
+	private $controlador = 'ticket';
 	
 	private $plantilla_ticket = 'RGMELibreriaVentasBundle:Ticket:verTicket.html.twig';
 	
 	public function __construct(){
-		
+		parent::__construct(
+				$this->bundle,
+				$this->controlador);
 	}
 	
 	public function verTicketAction(){

@@ -12,8 +12,9 @@ $(document).ready(function(){
 		$estGlobal = $('#albaran-estado-global'), 
 		$est = $('#albaran-estado'), 
 		$bAct = $('#albaran-boton-submit'),
-		$bNuevo = $('#botonAnadirLibro'), 
-		$cLibro = $('#libros-albaran');
+		$bLibroNuevo = $('#botonAnadirLibro'),
+		$bArticuloNuevo = $('#botonAnadirArticulo'), 
+		$cItems = $('#items-albaran');
 	
-	$albaran = new Albaran($idAlb, $formAlb, $numIden, $idContr, $fechaRea, $fechaVen, $estGlobal, $est, $bAct, $bNuevo, $cLibro);
+	$albaran = new Albaran($idAlb, $formAlb, $numIden, $idContr, $fechaRea, $fechaVen, $estGlobal, $est, $bAct, $bLibroNuevo, $bArticuloNuevo, $cItems);
 });
