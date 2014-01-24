@@ -44,15 +44,15 @@ class Ejemplar implements ArticuloVendible {
 	 */
 	private $localizacion;
 
-	/**
-	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran", mappedBy="ejemplar")
-	 */
-	private $itemAlbaran;
+// 	/**
+// 	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran", mappedBy="ejemplar")
+// 	 */
+// 	private $itemAlbaran;
 
-	/**
-	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\VentasBundle\Entity\ItemVenta", mappedBy="ejemplar")
-	 */
-	private $itemVenta;
+// 	/**
+// 	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\VentasBundle\Entity\ItemVenta", mappedBy="ejemplar")
+// 	 */
+// 	private $itemVenta;
 
 	/**
 	 * @var boolean
@@ -163,6 +163,10 @@ class Ejemplar implements ArticuloVendible {
 	 */
 	public function getAdquirido() {
 		return $this->adquirido;
+	}
+
+	public function isAdquirido() {
+		return $this->adquirido == 1;
 	}
 
 	/**

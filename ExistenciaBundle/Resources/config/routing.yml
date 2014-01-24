@@ -1,0 +1,3 @@
+rg_me_libreria_existencia_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: RGMeLibreriaExistenciaBundle:Default:index }

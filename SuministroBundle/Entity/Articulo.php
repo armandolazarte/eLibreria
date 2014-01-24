@@ -1,7 +1,8 @@
 <?php
 namespace RGM\eLibreria\SuministroBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
-use RGM\eLibreria\SuministroBundle\Controller\ArticuloVendible;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Ejemplar
@@ -9,23 +10,20 @@ use RGM\eLibreria\SuministroBundle\Controller\ArticuloVendible;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Articulo implements ArticuloVendible {
+class Articulo {
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id", type="bigint")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	private $id;
 
 	/**
-	 * @ORM\Column(name="ref", type="string", length=255)
-	 * @ORM\Id
+	 * @ORM\Column(name="ref", type="string", length=255, nullable = false)
 	 */
 	private $ref;
-
-	/**
-	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran", mappedBy="articulo")
-	 */
-	private $itemAlbaran;
-
-	/**
-	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\VentasBundle\Entity\ItemVenta", mappedBy="articulo")
-	 */
-	private $itemVenta;
 
 	/**
 	 * @ORM\Column(name="titulo", type="string", length=255, nullable = false)
@@ -33,28 +31,27 @@ class Articulo implements ArticuloVendible {
 	private $titulo;
 
 	/**
-	 * @ORM\Column(name="precio", type="float", nullable=false)
+	 * @ORM\OneToMany(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ArticuloContenido", mappedBy="padre")
 	 */
-	private $precio;
+	private $articulosContenidos;
 
 	/**
-	 * @ORM\Column(name="iva", type="float", nullable=false)
+	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ArticuloContenido", mappedBy="hijo")
 	 */
-	private $iva;
+	private $contenedor;
 
 	/**
-	 * @ORM\Column(name="vendido", type="integer")
+	 * @ORM\OneToMany(targetEntity="RGM\eLibreria\ExistenciaBundle\Entity\ExistenciaArticulo", mappedBy="articulo")
 	 */
-	private $vendido = 0;
+	private $existencias;
 
-	public function getReferencia() {
-		return $this->ref;
+	public function __construct() {
+		$this->articulosContenidos = new ArrayCollection();
+		$this->existencias = new ArrayCollection();
 	}
-	public function getPrecio() {
-		return $this->precio;
-	}
-	public function getIva() {
-		return $this->iva;
+
+	public function getId($id) {
+		return $this->id;
 	}
 
 	public function getRef() {
@@ -77,52 +74,35 @@ class Articulo implements ArticuloVendible {
 		return $this;
 	}
 
-	public function setPrecio($precio) {
-		$this->precio = $precio;
+	public function getExistencias() {
+		return $this->existencias;
+	}
+
+	public function setExistencias($existencias) {
+		$this->existencias = $existencias;
 
 		return $this;
 	}
 
-	public function setIva($iva) {
-		$this->iva = $iva;
+	public function getArticulosContenidos() {
+		return $this->articulosContenidos;
+	}
+
+	public function setArticulosContenidos($articulosContenidos) {
+		$this->articulosContenidos = $articulosContenidos;
 
 		return $this;
 	}
 
-	public function getPrecioTotal() {
-		return $this->getPrecio() * (1 + $this->getIVA());
+	public function getContenedor() {
+		return $this->contenedor;
 	}
 
-	public function getVendido() {
-		return $this->vendido;
-	}
-
-	public function setVendido($vendido) {
-		$this->vendido = $vendido;
-
-		return $this;
-	}
-
-	public function getItemVenta() {
-		return $this->itemVenta;
-	}
-
-	public function setItemVenta($itemVenta) {
-		$this->itemVenta = $itemVenta;
-
-		return $this;
-	}
-
-	public function getItemAlbaran() {
-		return $this->itemAlbaran;
-	}
-
-	public function setItemAlbaran($itemAlbaran) {
-		$this->itemAlbaran = $itemAlbaran;
+	public function setContenedor($contenedor) {
+		$this->contenedor = $contenedor;
 
 		return $this;
 	}
 
 }
-
 ?>

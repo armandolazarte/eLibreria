@@ -82,7 +82,7 @@ rgm_e_libreria_suministro_albaran_borrar_ejemplar:
     
 rgm_e_libreria_suministro_albaran_ejemplares_libro_albaran:
     pattern: /ajax/ejemplares/libro/albaran
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getEjemplaresLibroAlbaran' }
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getExistenciasLibroAlbaran' }
     methods:  [POST]
 
 

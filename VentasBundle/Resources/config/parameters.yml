@@ -20,6 +20,14 @@ parameters:
             repositorio: 'Cliente'
             clase: 'RGM\eLibreria\VentasBundle\Entity\Cliente'
             
+        localizacion:
+            repositorio: 'RGMELibreriaLibroBundle:Localizacion'
+            
+        ejemplar:
+            repositorio: 'RGMELibreriaLibroBundle:Ejemplar'
+            
         ajax:
             ruta_cliente_get_info: 'rgm_e_libreria_venta_get_info_cliente'
             ruta_cliente_set_nuevo: 'rgm_e_libreria_venta_crear_nuevo_cliente'
+            ruta_ajax_buscar_ref: 'rgm_e_libreria_venta_buscar_ref'
+            ruta_ajax_buscar_titulo: 'rgm_e_libreria_venta_buscar_titulo'

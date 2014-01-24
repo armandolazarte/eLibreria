@@ -73,22 +73,44 @@ class AlbaranAjaxController extends Asistente{
 				if($albaran){					
 					$res['items'] = array();
 					foreach($albaran->getItems() as $item){
-						$elemento = $item->getElemento();
+						$elemento = $item->getExistencia();
+						
+						
+						
 						$clase = get_class($elemento);
 						$array = explode('\\', $clase);
 						$clase = strtolower(array_pop($array));
-												
-						if($clase == 'ejemplar'){
+
+						if($clase == 'existencialibro'){
 							$isbn = $elemento->getLibro()->getIsbn();
+							
 							if(! array_key_exists($isbn, $res['items'])){
-								$res['items'][$isbn] = 'libro';
+								$arrayLibro = array();
+								
+								$arrayLibro['tipo'] = 'libro';
+								$arrayLibro['existencias'] = array();
+								
+								$res['items'][$isbn] = $arrayLibro;
 							}
+							
+							var_dump($elemento->getId());
+							
+							$res['items'][$isbn]['existencias'][] = $elemento->getId(); 
 						}
-						else if($clase == 'articulo'){
-							$ref = $elemento->getRef();
+						else if($clase == 'existenciaarticulo'){
+							$ref = $elemento->getArticulo()->getRef();
 							if(! array_key_exists($ref, $res['items'])){
-								$res['items'][$ref] = 'articulo';
-							}							
+								$arrayArticulo = array();
+								
+								$arrayArticulo['tipo'] = 'articulo';
+								$arrayArticulo['existencias'] = array();
+								
+								$res['items'][$ref] = $arrayArticulo;
+							}	
+							
+							var_dump($elemento->getId());				
+									
+							$res['items'][$ref]['existencias'][] = $elemento->getId();
 						}
 					}
 					
@@ -117,8 +139,13 @@ class AlbaranAjaxController extends Asistente{
 				$libro = $em->getRepository($infoLibro['repositorio'])->find($isbn);
 				
 				if($libro){
-					$res['titulo'] = $libro->getTitulo();					
-					$res['editorial'] = $libro->getEditorial()->getNombre();
+					$res['titulo'] = $libro->getTitulo();	
+
+					$editorial = $libro->getEditorial();
+					
+					if($editorial){
+						$res['editorial'] = $editorial->getNombre();
+					}
 										
 					$autores = array();
 					$estilos = array();
@@ -283,7 +310,7 @@ class AlbaranAjaxController extends Asistente{
 		return $response;
 	}
 	
-	public function getEjemplaresLibroAlbaranAction(Request $peticion){
+	public function getExistenciasLibroAlbaranAction(Request $peticion){
 		$res = array();
 		
 		if($peticion->getMethod() == "POST"){
@@ -292,7 +319,7 @@ class AlbaranAjaxController extends Asistente{
 			
 			$em = $this->getEm();
 			
-			$sql = 'SELECT * FROM ItemAlbaran i, Ejemplar e WHERE i.albaran_id = :albaran AND e.libro_id = :isbn AND i.ejemplar_id = e.id';
+			$sql = 'SELECT * FROM ItemAlbaran i, Existencia e, existenciaLibro eL WHERE i.albaran_id = :albaran AND eL.libro_id = :isbn AND i.existencia_id = e.id AND e.id = eL.id';
 
 			$stmt = $em->getConnection()->prepare($sql);
 			$stmt->bindValue(":albaran", $albaran);
@@ -302,7 +329,7 @@ class AlbaranAjaxController extends Asistente{
 			$resultados = $stmt->fetchAll();
 			
 			foreach($resultados as $r){
-				$res['ejemplares'][] = $r['ejemplar_id'];
+				$res['existenciasLibro'][] = $r['existencia_id'];
 			}
 		}
 		

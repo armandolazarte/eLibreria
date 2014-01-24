@@ -1,0 +1,7 @@
+parameters:
+#    rg_me_libreria_existencia.example.class: RGM\eLibreria\ExistenciaBundle\Example
+
+services:
+#    rg_me_libreria_existencia.example:
+#        class: %rg_me_libreria_existencia.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

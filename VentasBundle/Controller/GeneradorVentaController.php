@@ -86,6 +86,105 @@ class GeneradorVentaController extends Asistente{
 		return $this->getResponse($res);
 	}
 	
+	private function buscarLocalizacion($idLoc){
+		$em = $this->getEm();
+		
+		$infoLoc = $this->getParametro('localizacion');
+		$loc = $em->getRepository($infoLoc['repositorio'])->find($idLoc);
+		
+		$res;
+		
+		if($loc){
+			$res = $loc->getDenominacion();
+		}
+		
+		return $res;
+	}
+	
+	private function buscarTitulo($idEjemplar){
+		$em = $this->getEm();
+		
+		$infoEjem = $this->getParametro('ejemplar');
+		$ej = $em->getRepository($infoEjem['repositorio'])->find($idEjemplar);
+		
+		$res;
+		
+		if($ej){
+			$res = $ej->getLibro()->getTitulo();
+		}
+		
+		return $res;
+	}
+	
+	public function buscarRefAction(Request $peticion){
+		$res = array();
+		
+		if($peticion->getMethod() == "POST"){
+			$ref = $peticion->request->get('ref');
+			
+			$buscar = '%' . $ref . '%';
+			
+			$em = $this->getEm();
+			
+			$sql = 'SELECT * FROM `Ejemplar` WHERE vendido = 0 AND libro_id LIKE :ref LIMIT 20';
+			
+			$stmt = $em->getConnection()->prepare($sql);
+			$stmt->bindValue(":ref", $buscar);
+			$stmt->execute();
+			
+			$resultadosEjemplar = $stmt->fetchAll();
+			
+			foreach($resultadosEjemplar as $r){
+				$obj = array();
+				
+				$obj['tipo'] = "Ejemplar";
+				$obj['id'] = $r['id'];
+				$obj['ref'] = $r['libro_id'];
+				$obj['titulo'] = $this->buscarTitulo($r['id']);
+				$obj['loc'] = $this->buscarLocalizacion($r['localizacion_id']);
+				$obj['precio'] = $r['precio'];
+				$obj['iva'] = $r['iva'];
+				
+				$res[] = $obj;
+			}
+
+			$sql = 'SELECT * FROM `Articulo` WHERE vendido = 0 AND ref LIKE :ref LIMIT 20';
+				
+			$stmt = $em->getConnection()->prepare($sql);
+			$stmt->bindValue(":ref", $buscar);
+			$stmt->execute();
+				
+			$resultadosArticulo = $stmt->fetchAll();
+			
+			foreach($resultadosArticulo as $r){
+				$obj = array();
+				
+				$obj['tipo'] = "Articulo";
+				$obj['id'] = $r['id'];
+				$obj['ref'] = $r['ref'];
+				$obj['titulo'] = $r['titulo'];
+				$obj['precio'] = $r['precio'];
+				$obj['iva'] = $r['iva'];
+				
+				$res[] = $obj;
+			}
+		}
+		
+		return $this->getResponse($res);
+	}
+	
+	public function buscarTituloAction(Request $peticion){
+		$res = array();
+		
+		if($peticion->getMethod() == "POST"){
+			$titulo = $peticion->request->get('titulo');
+			
+			
+		}
+		
+		return $this->getResponse($res);
+	}
+	
 	public function generadorVentaAction(Request $peticion){
 		$opciones = $this->getArrayOpcionesVista(array(), $this->getPlantilla('menu_izq'));
 		$opciones['ajax'] = $this->getParametro('ajax');

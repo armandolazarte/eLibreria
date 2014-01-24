@@ -100,7 +100,30 @@ function Venta(
 		this.select_metodo_pago.change(function(evento){evento.preventDefault(); $venta.cambioModoPago(); return false;});		
 		this.venta_info_entregado.change(function(evento){evento.preventDefault(); $venta.modificarValoresInfoVenta(); return false;});
 		
-		this.venta_busqueda_isbnRef;
+		this.venta_busqueda_isbnRef.autocomplete({
+			source: function(request, response){
+				$.ajax({
+			        url: ruta_ajax_buscar_ref,
+			        context: this,
+			        data: {
+			          ref: request.term
+			        },
+			        type: "POST",
+			        success: function( data ){
+			          response( $.map( data.sugerencias, function(item){
+			          		return {
+				          		label: item.isbn + " - " + item.titulo + (item.editorial ? " [ " + item.editorial + " ]" : ""),
+				          		value: item.isbn,
+				          		isbn: item.isbn
+				          	};    
+			          }));
+			        }
+			      });
+			},
+			select: function(evento, ui){
+			}
+		});
+		
 		this.venta_busqueda_titulo;
 	}
 	
