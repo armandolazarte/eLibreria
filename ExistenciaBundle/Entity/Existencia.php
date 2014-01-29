@@ -68,6 +68,10 @@ class Existencia {
 	 */
 	private $localizacion;
 
+	public function __construct(){
+		
+	}
+	
 	/**
 	 * Get id
 	 *

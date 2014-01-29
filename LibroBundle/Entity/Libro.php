@@ -90,6 +90,15 @@ class Libro {
 	private $numPaginas;
 
 	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="precioOrientativo", type="float", nullable = true)
+	 * 
+	 * @GRID\Column(visible=false)
+	 */
+	private $precioOrientativo;
+
+	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="sinopsis", type="text", nullable = true)
@@ -333,8 +342,16 @@ class Libro {
 
 	public function setExistencias($existencias) {
 		$this->existencias = $existencias;
-		
+
 		return $this;
+	}
+
+	public function getPrecioOrientativo() {
+		return $this->precioOrientativo;
+	}
+
+	public function setPrecioOrientativo($precioOrientativo) {
+		$this->precioOrientativo = $precioOrientativo;
 	}
 
 }

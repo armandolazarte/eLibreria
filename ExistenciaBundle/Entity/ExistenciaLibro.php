@@ -3,6 +3,7 @@
 namespace RGM\eLibreria\ExistenciaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use RGM\eLibreria\LibroBundle\Entity\Libro;
 
 /**
  * ExistenciaLibro
@@ -12,14 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ExistenciaLibro extends Existencia
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="RGM\eLibreria\LibroBundle\Entity\Libro", inversedBy="existencias")
@@ -27,16 +20,12 @@ class ExistenciaLibro extends Existencia
      */
     private $libro;
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
+    public function __construct(Libro $l){
+    	parent::__construct();
+    	
+    	$this->setLibro($l);
     }
-
+    
     /**
      * Set libro
      *

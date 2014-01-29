@@ -1,8 +1,10 @@
-function Libro(albaran, isbn){
+function Libro(albaran, isbn, existenciasArray){
 	this.albaran;
 	
 	this.id;
 	this.divId;
+	
+	this.tipo = 'libro';
 	
 	this.indexArray;
 	
@@ -20,12 +22,12 @@ function Libro(albaran, isbn){
 	
 	this.botonActualizar;
 	
-	this.ejemplares = new Array();
+	this.existencias = new Array();
 	
-	this.botonAnadirEjemplar;
-	this.contenedorEjemplares;
+	this.botonAnadirEexistencia;
+	this.contenedorExistencias;
 	
-	this.init = function(albaran, isbn){
+	this.init = function(albaran, isbn, existenciasArray){
 		this.albaran = albaran;
 		
 		if(isbn === undefined){
@@ -39,7 +41,7 @@ function Libro(albaran, isbn){
 		var libro = this;
 		
 		$.ajax({
-			url: ruta_ajax_plantilla_datos_libro,
+			url: ruta_ajax_plantilla_libro,
 			context: this,
 			success: function(data){
 				var libro = this;
@@ -62,14 +64,14 @@ function Libro(albaran, isbn){
 				
 				this.botonActualizar = $plantilla.find('input[name="actualizar"]');
 				
-				this.botonAnadirEjemplar = $plantilla.find('.anadirEjemplar');
-				this.contenedorEjemplares = $plantilla.find('.jaula-ejemplares');
+				this.botonAnadirExistencia = $plantilla.find('.anadirExistencia');
+				this.contenedorExistencias = $plantilla.find('.jaula-existencias');
 
 				this.isbnAutocomplete.click(function(evento){evento.preventDefault(); return false;});
 				this.isbnAutocomplete.autocomplete({
 					source: function(request, response){
 						$.ajax({
-					        url: ruta_ajax_get_isbn_existente,
+					        url: ruta_ajax_buscar_libros,
 					        context: this,
 					        data: {
 					          isbn: request.term,
@@ -90,14 +92,14 @@ function Libro(albaran, isbn){
 					select: function(evento, ui){
 						libro.isbn.val(ui.item.isbn);						
 						
-						libro.cargarInfoLibroAjax();
+						libro.cargarInfoLibroAjax(new Array());
 					}
 				});
 				
 				this.editorial.autocomplete({
 					source: function( request, response ){
 						$.ajax({
-							url: ruta_ajax_get_editoriales_existente,
+							url: ruta_ajax_buscar_editoriales,
 							type: "POST",
 							data: {
 									editorial: request.term
@@ -118,7 +120,7 @@ function Libro(albaran, isbn){
 				this.botonBorrarLibro.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.borrar(); return false;});
 				
 				this.botonActualizar.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.actualizar(); return false;});
-				this.botonAnadirEjemplar.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.anadirEjemplarNuevo(); return false;});
+				this.botonAnadirExistencia.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.anadirExistenciaNueva(); return false;});
 				
 				this.isbn.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
 				this.titulo.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
@@ -129,7 +131,7 @@ function Libro(albaran, isbn){
 				if(isbn !== undefined){
 					this.isbn.val(isbn);
 					this.isbnAutocomplete.val(isbn);
-					this.cargarInfoLibroAjax();
+					this.cargarInfoLibroAjax(existenciasArray);
 				}
 				
 				this.setLibroEnContenedor($plantilla);
@@ -137,7 +139,7 @@ function Libro(albaran, isbn){
 		});
 	}
 	
-	this.init(albaran, isbn);
+	this.init(albaran, isbn, existenciasArray);
 	
 	this.des = function(){
 		modificar_estado(this.estado, 'sinActualizar');
@@ -161,6 +163,10 @@ function Libro(albaran, isbn){
 		}
 	}
 	
+	this.getId = function(){
+		return this.isbn.val();
+	}
+	
 	this.isAct = function(){
 		return this.estado.hasClass('actualizado');
 	}
@@ -171,8 +177,8 @@ function Libro(albaran, isbn){
 		if(this.isAct()){
 			var elementosActualizados = true;
 			
-			for(var i = 0; i < this.ejemplares.length; i++){
-				elementosActualizados &= this.ejemplares[i].isAct();
+			for(var i = 0; i < this.existencias.length; i++){
+				elementosActualizados &= this.existencias[i].isAct();
 			}
 			
 			if(elementosActualizados){
@@ -192,7 +198,7 @@ function Libro(albaran, isbn){
 		this.isbn.val(this.isbnAutocomplete.val());
 	}
 	
-	this.cargarInfoLibroAjax = function(){
+	this.cargarInfoLibroAjax = function(existenciasArray){
 		$.ajax({
 			url: ruta_ajax_get_datos_libro,
 			context: this,
@@ -230,16 +236,16 @@ function Libro(albaran, isbn){
 					});
 				}
 				
-				this.cargarEjemplaresAjax();
+				this.cargarExistenciasAjax(existenciasArray);
 			}							
 		});
 		
 		this.act();
-		this.habilitarEjemplares();
+		this.habilitarExistencias();
 	}
 	
-	this.habilitarEjemplares = function(){
-		this.contenedorEjemplares.accordion({
+	this.habilitarExistencias = function(){
+		this.contenedorExistencias.accordion({
 	        header: "> div > h5",
 	        heightStyle: "content",
 	        collapsible: true,
@@ -253,24 +259,22 @@ function Libro(albaran, isbn){
 	        }
 	      });
 	
-		this.contenedorEjemplares.parent().parent().css('display','block');
+		this.contenedorExistencias.parent().parent().css('display','block');
 	}
 		
-	this.borrar = function(){
-		this.des();
-		
+	this.borrar = function(){		
 		var proceder = true;
 		
-		if(this.hasEjemplares()){
-			proceder &= confirm('Este libro contiene ejemplares que tambien se eliminarán.\n¿Desea continuar?');
+		if(this.hasExistencias()){
+			proceder &= confirm('Este libro contiene existencias que tambien se eliminarán.\n¿Desea continuar?');
 		}
 		
 		if(proceder){
 			this.des();
 			
 			//Borrar ejemplares
-			for(var i = 0; i < this.ejemplares.length; i++){
-				this.ejemplares[i].borrarEjemplar();
+			for(var i = 0; i < this.existencias.length; i++){
+				this.existencias[i].borrarExistencia();
 			}
 			
 			this.albaran.borrarItem(this);
@@ -310,58 +314,48 @@ function Libro(albaran, isbn){
 				success: function(data){
 					if(data.estado){
 						this.act();
-						this.habilitarEjemplares();
+						this.habilitarExistencias();
 					}
 				}
 			});
 		}
 	}
 	
-	this.cargarEjemplaresAjax = function(){
-		$.ajax({
-			url: ruta_ajax_get_ejemplares_libro_albaran,
-			context: this,
-			data: {
-				idAlbaran: this.albaran.idAlbaran.val(),
-				isbn: this.isbn.val()
-			},
-			type: "POST",
-			success: function(data){	
-				var ejemplaresRecibidos = data.ejemplares;				
-				for(var i = 0; i < ejemplaresRecibidos.length; i++){
-					this.anadirEjemplarExistente(ejemplaresRecibidos[i]);
-				}
+	this.cargarExistenciasAjax = function(existenciasArray){
+		if(existenciasArray.length > 0){
+			for(var i = 0; i < existenciasArray.length; i++){
+				this.anadirExistenciaExistente(existenciasArray[i]);
 			}
-		});
+		}
 	}
 	
-	this.anadirEjemplarExistente = function(idEjemplar){
-		var ejemplar = new Ejemplar(this, idEjemplar);
-		var indexNuevoElemento = this.ejemplares.push(ejemplar);
+	this.anadirExistenciaExistente = function(idExistencia){
+		var existencia = new Existencia(this, idExistencia);
+		var indexNuevoElemento = this.existencias.push(existencia);
 	}
 	
-	this.anadirEjemplarNuevo = function(){
-		var ejemplar = new Ejemplar(this);
-		var indexNuevoElemento = this.ejemplares.push(ejemplar);
+	this.anadirExistenciaNueva = function(){
+		var existencia = new Existencia(this);
+		var indexNuevoElemento = this.existencias.push(existencia);
 	}
 	
-	this.borrarEjemplar = function(ejemplar){
+	this.borrarExistencia = function(existencia){
 		var indexElementoABorrar;
 		
-		for(var i = 0; i < this.ejemplares.length; i++){
-			var ejemplarActual = this.ejemplares[i];
+		for(var i = 0; i < this.existencias.length; i++){
+			var existenciaActual = this.existencias[i];
 			
-			if(ejemplarActual.id === ejemplar.id){
+			if(existenciaActual.id === existencia.id){
 				indexElementoABorrar = i;
 				break;
 			}
 		}
 		
-		this.ejemplares.splice(indexElementoABorrar, 1);
+		this.existencias.splice(indexElementoABorrar, 1);
 	}
 	
-	this.hasEjemplares = function(){
-		return this.ejemplares.length > 0;
+	this.hasExistencias = function(){
+		return this.existencias.length > 0;
 	}
 }
 

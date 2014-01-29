@@ -3,6 +3,7 @@
 namespace RGM\eLibreria\ExistenciaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use RGM\eLibreria\SuministroBundle\Entity\Articulo;
 
 /**
  * ExistenciaArticulo
@@ -13,29 +14,17 @@ use Doctrine\ORM\Mapping as ORM;
 class ExistenciaArticulo extends Existencia
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\Articulo", inversedBy="existencias")
 	 * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $articulo;
+    
+	public function __construct(Articulo $a) {
+		parent::__construct();
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+		$this->setArticulo($a);
+	}
+
 
     /**
      * Set articulo

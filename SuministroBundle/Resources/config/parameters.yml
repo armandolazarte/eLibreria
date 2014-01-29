@@ -117,7 +117,7 @@ parameters:
             crearAlbaran: 'crearAlbaran.html.twig'
             vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
             plantillaLibro: 'plantillaLibro.html.twig'
-            plantillaEjemplar: 'plantillaEjemplar.html.twig'
+            plantillaExistencia: 'plantillaExistencia.html.twig'
             ver: 'verAlbaran.html.twig'
             
         impresion:
@@ -133,6 +133,15 @@ parameters:
         ejemplar:
             repositorio: 'RGMELibreriaLibroBundle:Ejemplar'
             entidad: 'RGM\eLibreria\LibroBundle\Entity\Ejemplar'
+            
+        padres:
+            libro:
+                repositorio: 'RGMeLibreriaExistenciaBundle:ExistenciaLibro'
+                clase: 'RGM\eLibreria\ExistenciaBundle\Entity\ExistenciaLibro'
+            
+            articulo:
+                repositorio: 'RGMeLibreriaExistenciaBundle:ExistenciaArticulo'
+                clase: 'RGM\eLibreria\ExistenciaBundle\Entity\ExistenciaArticulo'
             
         itemAlbaran:
             entidad: 'RGM\eLibreria\SuministroBundle\Entity\ItemAlbaran'
@@ -155,20 +164,26 @@ parameters:
             repositorio: 'RGMELibreriaLibroBundle:Estilo'
             
         ajax:
-            ruta_registrar: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro'
-            ruta_get_items_albaran: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_items_albaran'
-            ruta_get_datos_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro'
-            ruta_ajax_get_datos_ejemplar: 'rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_ejemplar'
-            ruta_get_isbn_existentes: 'rgm_e_libreria_librobundle_libro_buscar_referencia_ajax'
-            ruta_get_editoriales_existentes: 'rgarcia_entrelineas_editorial_buscarAjax'
-            ruta_ajax_registro_ejemplar: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro_ejemplar'
-            ruta_registrar_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_registro_libros_albaran'
-            ruta_ajax_eliminar_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_eliminar_libro'
-            ruta_ajax_plantilla_datos_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_datos_libro'
-            ruta_ajax_plantilla_ejemplares_libro: 'rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_ejemplares_libro'
-            ruta_ajax_plantilla_ejemplar: 'rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_ejemplar'
-            ruta_ejemplares_libro_albaran: 'rgm_e_libreria_suministro_albaran_ejemplares_libro_albaran'
-            ruta_ajax_borrar_ejemplar: 'rgm_e_libreria_suministro_albaran_borrar_ejemplar'
+            ruta_ajax_registro_albaran: 'rgm_e_libreria_suministro_albaran_ajax_registro_albaran'
+            ruta_ajax_get_items_albaran: 'rgm_e_libreria_suministro_albaran_ajax_get_items_albaran'
+            
+            ruta_ajax_get_datos_libro: 'rgm_e_libreria_suministro_albaran_ajax_get_datos_libro'
+            ruta_ajax_get_datos_articulo: 'rgm_e_libreria_suministro_albaran_ajax_get_datos_articulo'
+            ruta_ajax_get_datos_existencia: 'rgm_e_libreria_suministro_albaran_ajax_get_datos_existencia'
+            
+            ruta_ajax_buscar_libros: 'rgm_e_libreria_librobundle_libro_buscar_referencia_ajax'
+            ruta_ajax_buscar_articulos: 'rgm_e_libreria_librobundle_libro_buscar_referencia_ajax'
+            ruta_ajax_buscar_editoriales: 'rgarcia_entrelineas_editorial_buscarAjax'
+            
+            ruta_ajax_registro_libro: 'rgm_e_libreria_suministro_albaran_ajax_registro_libro'
+            ruta_ajax_registro_articulo: 'rgm_e_libreria_suministro_albaran_ajax_registro_articulo'
+            ruta_ajax_registro_existencia: 'rgm_e_libreria_suministro_albaran_ajax_registro_existencia'
+            
+            ruta_ajax_borrar_existencia: 'rgm_e_libreria_suministro_albaran_ajax_borrar_existencia'
+            
+            ruta_ajax_plantilla_libro: 'rgm_e_libreria_suministro_albaran_ajax_plantilla_libro'
+            ruta_ajax_plantilla_articulo: 'rgm_e_libreria_suministro_albaran_ajax_plantilla_articulo'
+            ruta_ajax_plantilla_existencia: 'rgm_e_libreria_suministro_albaran_ajax_plantilla_existencia'
                     
         ruta_form_crear: 'rgm_e_libreria_suministro_editor_albaran_crear'
         titulo_crear: 'Crear nuevo contrato'

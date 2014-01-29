@@ -39,6 +39,11 @@ class Articulo {
 	 * @ORM\OneToOne(targetEntity="RGM\eLibreria\SuministroBundle\Entity\ArticuloContenido", mappedBy="hijo")
 	 */
 	private $contenedor;
+	
+	/**
+	 * @ORM\Column(name="vendible", type="boolean")
+	 */
+	private $vendible = 1;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="RGM\eLibreria\ExistenciaBundle\Entity\ExistenciaArticulo", mappedBy="articulo")

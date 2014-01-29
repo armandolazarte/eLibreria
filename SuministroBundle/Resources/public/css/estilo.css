@@ -87,7 +87,7 @@ h3.ui-accordion-header{
 	margin-top: 10px;
 }
 
-.anadirEjemplar{
+.anadirExistencia{
 	margin-top: 0px !important;
 }
 
@@ -107,7 +107,7 @@ h3.ui-accordion-header{
 	width: 100px !important;
 }
 
-.boton, .botonAnadir, .borrarLibro, .anadirEjemplar, .ejemplar > h5 .borrarEjemplar{
+.boton, .botonAnadir, .borrarLibro, .anadirExistencia, .existencia > h5 .borrarExistencia{
 	float: right;
 	margin-right: 11px;
 
@@ -127,7 +127,7 @@ h3.ui-accordion-header{
 	border: 0;
 }
 
-.borrarLibro, .borrarEjemplar{
+.borrarLibro, .borrarExistencia{
 	margin-right: 5px !important;
 	margin-left: 10px;
 }
@@ -150,7 +150,7 @@ h3.ui-accordion-header{
 	padding: 0px 5px;
 }
 
-.estado, .estadoGlobal, .estadoEjemplar{
+.estado, .estadoGlobal, .estadoExistencia{
 	height: 17px;
 	width: 17px;
 
@@ -167,7 +167,7 @@ h3.ui-accordion-header{
 	margin-right: 20px;
 }
 
-.estadoEjemplar{
+.estadoExistencia{
 	width: 60px !important;
 	line-height: 20px;
 }
@@ -196,13 +196,13 @@ h3.ui-accordion-header{
 	display: none;
 }
 
-.ejemplares{
+.existencias{
 	margin-bottom: 5px !important;
 	
 	display: none;
 }
 
-.datos, .ejemplares{
+.datos, .existencias{
 	width: 740px;
 	margin: 0 auto;
 	
@@ -216,11 +216,11 @@ h3.ui-accordion-header{
 	overflow: hidden;
 }
 
-.ejemplares h4{
+.existencias h4{
 	padding-top: 5px;
 }
 
-.datos h4, .ejemplares h4{
+.datos h4, .existencias h4{
 	margin-bottom: 10px;
 	border-bottom: 1px solid #999999;
 	font-size: 14px;
@@ -294,99 +294,99 @@ h3.ui-accordion-header{
 	margin-bottom: 10px;
 }
 
-.ejemplar{
+.existencia{
 	overflow: hidden;
 }
 
-.ejemplar > h5{
+.existencia > h5{
 	overflow: hidden;
 }
 
-.ejemplar .jaula-ejemplar-titulo, .ejemplar .jaula-ejemplar-localizacion{
+.existencia .jaula-existencia-titulo, .existencia .jaula-existencia-localizacion{
 	float: left;
 }
 
-.ejemplar .jaula-ejemplar-titulo{
+.existencia .jaula-existencia-titulo{
 	font-weight: 800;
 	margin: 2px 50px 0px 5px;
 	width: 170px;
 }
 
-.ejemplar .jaula-ejemplar-localizacion label{
+.existencia .jaula-existencia-localizacion label{
 	font-weight: 800;
 	margin-right: 10px;
 }
 
-.ejemplar .cuerpo-ejemplar-estados{
+.existencia .cuerpo-existencia-estados{
 	margin-bottom: 0px !important;
 }
 
-.ejemplar .cuerpo-ejemplar-datos, .ejemplar .cuerpo-ejemplar-estados{
+.existencia .cuerpo-existencia-datos, .existencia .cuerpo-existencia-estados{
 	width: 690px;
 	overflow: hidden;
 	margin-bottom: 20px;
 }
 
-.ejemplar .cuerpo-ejemplar-datos > div{
+.existencia .cuerpo-existencia-datos > div{
 	width: 220px;
 	float: left;
 	text-align: right;
 	padding-right: 5px;
 }
 
-.ejemplar .cuerpo-ejemplar-datos > div > label,
-.ejemplar .cuerpo-ejemplar-datos .porcentaje,
-.ejemplar .cuerpo-ejemplar-datos .moneda{
+.existencia .cuerpo-existencia-datos > div > label,
+.existencia .cuerpo-existencia-datos .porcentaje,
+.existencia .cuerpo-existencia-datos .moneda{
 	margin-right: 5px;
 }
 
-.ejemplar .cuerpo-ejemplar-datos .moneda{
+.existencia .cuerpo-existencia-datos .moneda{
 	width: 100px;
 	text-align: right;
 }
 
-.ejemplar .cuerpo-ejemplar-datos .porcentaje{
+.existencia .cuerpo-existencia-datos .porcentaje{
 	width: 40px;
 	text-align: right;
 }
 
-.ejemplar .cuerpo-ejemplar-datos .precio{
+.existencia .cuerpo-existencia-datos .precio{
 	width: 175px;
 }
 
-.ejemplar .cuerpo-ejemplar-datos .iva{
+.existencia .cuerpo-existencia-datos .iva{
 	width: 105px;
 }
 
-.ejemplar .cuerpo-ejemplar-datos .descuento{
+.existencia .cuerpo-existencia-datos .descuento{
 	width: 145px;
 }
 
-.ejemplar .cuerpo-ejemplar-datos .jaula-ejemplar-dato{
+.existencia .cuerpo-existencia-datos .jaula-existencia-dato{
 	margin: 0 auto;
 }
 
-.ejemplar .cuerpo-ejemplar-datos .ultimo{
+.existencia .cuerpo-existencia-datos .ultimo{
 	float: right !important;
 }
 
-.cuerpo-ejemplar-estados .jaula-cuerpo-ejemplar-estados{
+.cuerpo-existencia-estados .jaula-cuerpo-existencia-estados{
 	width: 200px;
 	margin: 0 auto;
 }
 
-.cuerpo-ejemplar-estados .jaula-cuerpo-ejemplar-estados > div{
+.cuerpo-existencia-estados .jaula-cuerpo-existencia-estados > div{
 	margin-bottom: 10px;
 	overflow: hidden;
 	padding: 5px 10px;
 	border-bottom: 1px solid #999;
 }
 
-.jaula-cuerpo-ejemplar-estados > div > input{
+.jaula-cuerpo-existencia-estados > div > input{
 	float: left;
 }
 
-.jaula-cuerpo-ejemplar-estados > div > label{
+.jaula-cuerpo-existencia-estados > div > label{
 	float: right;
 	display: block;
 }

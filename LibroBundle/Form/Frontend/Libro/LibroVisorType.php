@@ -49,6 +49,11 @@ class LibroVisorType extends AbstractType{
 						'disabled' => true,
 						'label' => 'Numero de Paginas'
 				))
+				-> add('precioOrientativo', 'text', array(
+						'required' => false,
+						'disabled' => true,
+						'label' => 'Precio orientativo'
+				))
 				
 				-> add('sinopsis', 'textarea', array(
 						'required' => false,

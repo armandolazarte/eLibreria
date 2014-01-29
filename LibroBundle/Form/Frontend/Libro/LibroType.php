@@ -40,11 +40,16 @@ class LibroType extends AbstractType{
 								'multiple' => true,
 								'expanded' => true,								
 						))	
-				
+
 				-> add('numPaginas', 'text', array(
 						'required' => false,
 						'disabled' => false,
 						'label' => 'Numero de Paginas'
+				))
+				-> add('precioOrientativo', 'text', array(
+						'required' => false,
+						'disabled' => false,
+						'label' => 'Precio orientativo'
 				))
 				
 				-> add('sinopsis', 'textarea', array(

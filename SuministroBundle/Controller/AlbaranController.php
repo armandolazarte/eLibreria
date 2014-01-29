@@ -35,7 +35,7 @@ class AlbaranController extends Asistente{
 		$grid->getGrid()->addColumn($columnaContrato);
 		$grid->getGrid()->addColumn($columnaTotal);
 		$grid->getGrid()->addColumn($columnaVer);
-		
+				
 		$grid->getSource()->manipulateRow(function($row){
 			$entidad = $row->getEntity();
 				

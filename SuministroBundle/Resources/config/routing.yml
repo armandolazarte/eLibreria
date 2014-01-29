@@ -30,78 +30,80 @@ rgm_e_libreria_suministro_albaran_homepage:
     pattern: /albaran
     defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:verAlbaranes' }
     
+    
+    
+    
+            
 
+rgm_e_libreria_suministro_albaran_ajax_registro_albaran:
+    pattern: /ajax/registro/albaran
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroAlbaran' }
+    methods:  [POST]
 
-rgm_e_libreria_suministro_albaran_crear_ajax_registro_libros_albaran:
-    pattern: /ajax/registro/libros
+rgm_e_libreria_suministro_albaran_ajax_get_items_albaran:
+    pattern: /ajax/peticion/items
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:peticionItems' }
+    methods:  [POST]
+    
+    
+    
+rgm_e_libreria_suministro_albaran_ajax_get_datos_libro:
+    pattern: /ajax/peticion/datos/libro
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:peticionDatosLibro' }
+    methods:  [POST]
+    
+rgm_e_libreria_suministro_albaran_ajax_get_datos_articulo:
+    pattern: /ajax/peticion/datos/articulo
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:peticionDatosArticulo' }
+    methods:  [POST]
+    
+rgm_e_libreria_suministro_albaran_ajax_get_datos_existencia:
+    pattern: /ajax/peticion/datos/existencia
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:peticionDatosExistencia' }
+    methods:  [POST]
+    
+    
+    
+    
+rgm_e_libreria_suministro_albaran_ajax_registro_libro:
+    pattern: /ajax/registro/libro
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroLibro' }
     methods:  [POST]
 
-rgm_e_libreria_suministro_albaran_crear_ajax_registro_ejemplar:
-    pattern: /ajax/registro/ejemplar
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroEjemplar' }
+rgm_e_libreria_suministro_albaran_ajax_registro_articulo:
+    pattern: /ajax/registro/articulo
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroArticulo' }
+    methods:  [POST]
+
+rgm_e_libreria_suministro_albaran_ajax_registro_existencia:
+    pattern: /ajax/registro/existencia
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroExistencia' }
     methods:  [POST]
     
-rgm_e_libreria_suministro_albaran_crear_ajax_registro:
-    pattern: /ajax/registro
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:registroAlbaran' }
+    
+    
+    
+rgm_e_libreria_suministro_albaran_ajax_borrar_existencia:
+    pattern: /ajax/borrar/existencia
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:borrarExistencia' }
     methods:  [POST]
     
-rgm_e_libreria_suministro_albaran_crear_ajax_eliminar_libro:
-    pattern: /ajax/eliminar
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:eliminarLibro' }
-    methods:  [POST]
     
-rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_datos_libro:
+    
+rgm_e_libreria_suministro_albaran_ajax_plantilla_libro:
     pattern: /ajax/plantilla/libro
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getPlantillaLibro' }
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:plantillaLibro' }
     
-rgm_e_libreria_suministro_albaran_crear_ajax_plantilla_ejemplar:
-    pattern: /ajax/plantilla/ejemplar
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getPlantillaEjemplar' }
-
-rgm_e_libreria_suministro_albaran_crear_ajax_get_items_albaran:
-    pattern: /ajax/items
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getItemsAlbaran' }
-    methods:  [POST]
-
-rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_libro:
-    pattern: /ajax/datos-libro
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getDatosLibro' }
-    methods:  [POST]
+rgm_e_libreria_suministro_albaran_ajax_plantilla_articulo:
+    pattern: /ajax/plantilla/articulo
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:plantillaArticulo' }
     
-rgm_e_libreria_suministro_albaran_crear_ajax_get_datos_ejemplar:
-    pattern: /ajax/datos-ejemplar
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getDatosEjemplar' }
-    methods:  [POST]
-    
-rgm_e_libreria_suministro_albaran_borrar_ejemplar:
-    pattern: /ajax/borrar-ejemplar
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:borrarEjemplar' }
-    methods:  [POST]
-    
-rgm_e_libreria_suministro_albaran_ejemplares_libro_albaran:
-    pattern: /ajax/ejemplares/libro/albaran
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getExistenciasLibroAlbaran' }
-    methods:  [POST]
+rgm_e_libreria_suministro_albaran_ajax_plantilla_existencia:
+    pattern: /ajax/plantilla/existencia
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:plantillaExistencia' }
 
 
 
-rgm_e_libreria_suministro_albaran_ajax_plantilla:
-    pattern: /ajax/ejemplar/plantilla
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:getPlantillaEjemplar' }
-
-rgm_e_libreria_suministro_albaran_ajax_nuevo_ejemplar:
-    pattern: /ajax/ejemplar/nuevo/{idAlbaran}/{idLibro}
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:crearEjemplar' }
-
-rgm_e_libreria_suministro_albaran_ajax_editar_ejemplar:
-    pattern: /ajax/ejemplar/nuevo/{idAlbaran}/{idLibro}/{idEjemplar}
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:editarEjemplar' }
-
-rgm_e_libreria_suministro_albaran_ajax_borrar_ejemplar:
-    pattern: /ajax/ejemplar/nuevo/{idAlbaran}/{idLibro}/{idEjemplar}
-    defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:borrarEjemplar' }
     
 
 rgm_e_libreria_suministro_contratosuministro_crear:
