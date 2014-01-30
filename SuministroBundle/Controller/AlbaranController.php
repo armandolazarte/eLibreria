@@ -288,23 +288,24 @@ class AlbaranController extends Asistente{
 		$items = $albaran->getItems();
 		
 		foreach($items as $item){
-			$elemento = $item->getElemento();
-			$referencia = $elemento->getReferencia();
+			$existencia = $item->getExistencia();
+			$referencia = $existencia->getReferencia();
 		
 			if($lineasAlbaran->containsKey($referencia)){
 				$linea = $lineasAlbaran->get($referencia);
 				$linea['numEjemplares'] += 1;
-				$linea['vendidos'] += $elemento->getVendido();
+				$linea['vendidos'] += $existencia->getVendido();
 					
 				$lineasAlbaran->set($referencia, $linea);
 			}
 			else{
+				$objeto = $existencia->getObjetoVinculado();
 				$linea['ref'] = $referencia;
-				$linea['titulo'] = $elemento->getTitulo();
-				$linea['iva'] = $elemento->getIVA();
-				$linea['precio'] = $elemento->getPrecio();
+				$linea['titulo'] = $objeto->getTitulo();
+				$linea['iva'] = $existencia->getIVA();
+				$linea['precio'] = $existencia->getPrecio();
 				$linea['numEjemplares'] = 1;
-				$linea['vendidos'] = 0 + $elemento->getVendido();
+				$linea['vendidos'] = 0 + $existencia->getVendido();
 				$linea['desc'] = $item->getDescuento();
 					
 				$lineasAlbaran->set($referencia, $linea);
@@ -330,9 +331,9 @@ class AlbaranController extends Asistente{
 		$bTotal = 0;
 			
 		foreach($bases as $base){
-			$bImp += $base['baseImp'];
-			$bIva += $base['ivaImp'];
-			$bRec += $base['recImp'];
+			$bImp += round($base['baseImp'],2);
+			$bIva += round($base['ivaImp'],2);
+			$bRec += round($base['recImp'],2);
 		}
 			
 		$bTotal = $bImp + $bIva + $bRec;

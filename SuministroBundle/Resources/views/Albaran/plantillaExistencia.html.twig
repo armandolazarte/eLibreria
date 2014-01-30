@@ -25,7 +25,11 @@
 			<div>
 				<div class="jaula-existencia-dato iva">
 					<label>IVA</label>
-					<input class="porcentaje" name="iva" type="text">%
+					<select name="iva">
+						{% for rec in recargos %}
+						<option value="{{ rec.iva }}">{{ rec.iva * 100 }}%</option>
+						{% endfor %}
+					</select>
 				</div>
 			</div>
 			<div class="ultimo">

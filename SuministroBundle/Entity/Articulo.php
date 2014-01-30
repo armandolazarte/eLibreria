@@ -3,6 +3,7 @@ namespace RGM\eLibreria\SuministroBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use APY\DataGridBundle\Grid\Mapping as GRID;
 
 /**
  * Ejemplar
@@ -17,16 +18,22 @@ class Articulo {
 	 * @ORM\Column(name="id", type="bigint")
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * 
+	 * @GRID\Column(visible=false)
 	 */
 	private $id;
 
 	/**
 	 * @ORM\Column(name="ref", type="string", length=255, nullable = false)
+	 * 
+	 * @GRID\Column(title="Referencia")
 	 */
 	private $ref;
 
 	/**
 	 * @ORM\Column(name="titulo", type="string", length=255, nullable = false)
+	 * 
+	 * @GRID\Column(title="Titulo")
 	 */
 	private $titulo;
 
@@ -42,6 +49,8 @@ class Articulo {
 	
 	/**
 	 * @ORM\Column(name="vendible", type="boolean")
+	 * 
+	 * @GRID\Column(visible=false)
 	 */
 	private $vendible = 1;
 

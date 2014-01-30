@@ -168,7 +168,13 @@ function Libro(albaran, isbn, existenciasArray){
 	}
 	
 	this.isAct = function(){
-		return this.estado.hasClass('actualizado');
+		var res = false;
+		
+		if(this.estado != undefined){
+			res = this.estado.hasClass('actualizado');
+		}
+		
+		return res;
 	}
 	
 	this.isActGlobal = function(){

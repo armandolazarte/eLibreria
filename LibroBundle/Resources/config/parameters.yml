@@ -23,7 +23,7 @@ parameters:
             repositorio: 'Localizacion'
             
         ejemplar:
-            repositorio: 'Ejemplar'
+            repositorio: 'RGMeLibreriaExistenciaBundle:ExistenciaLibro'
         
         ruta_form_crear: 'rgarcia_entrelineas_libro_crear'
         titulo_crear: 'Crear nuevo libro'

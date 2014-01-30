@@ -197,7 +197,7 @@ class Existencia {
 	}
 	
 	public function isVendido(){
-		return $this->vendido = 1;
+		return $this->vendido == 1;
 	}
 
 	public function getAdquirido() {
@@ -211,6 +211,6 @@ class Existencia {
 	}
 	
 	public function isAdquirido(){
-		return $this->adquirido = 1;
+		return $this->adquirido == 1;
 	}
 }

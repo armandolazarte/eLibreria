@@ -1,0 +1,39 @@
+<div id="%ref%" class="articulo">
+	<h3>
+		<div class="boton borrarArticulo">-</div>
+		<div class="estadoGlobal sinActualizar">Estado global:</div>
+		<div class="tipo-item">Articulo</div>
+		<input class="refAcordeon" maxlength="13" value="REF" onfocus="funcion_onfocus(this, 'REF')" onblur="funcion_onblur(this, 'REF')" type="text">
+		<div class="boton botonCopiarInfo">Copiar REF</div>
+	</h3>
+	<div class="jaula-datos-articulo">
+		<div class="datos">
+			<div class="jaula-datos-articulo">
+				<div class="jaula-datos-texto">
+					<h4>Datos del Articulo</h4>
+					<div class="jaula-datos-articulo-ref">
+						<label class="datos-articulo-titulo">Ref</label>
+						<input class="datos-articulo-input" maxlength="13" name="ref" type="text">
+					</div>
+					<div class="jaula-datos-articulo-titulo">
+						<label class="datos-articulo-titulo">Titulo</label>
+						<input class="datos-articulo-input" name="titulo" type="text">
+					</div>
+				</div>
+				<input name="actualizar" type="submit" value="Actualizar Datos">
+				<div class="estado sinActualizar">Estado:</div>
+			</div>
+		</div>
+		
+		<div class="existencias">
+			<div class="jaula-existencias-articulo">
+				<div class="jaula-existencias-titulo">
+					<div class="boton anadirExistencia">+</div>
+					<h4>Existencias</h4>
+				</div>
+				
+				<div class="jaula-existencias"></div>
+			</div>
+		</div>
+	</div>
+</div>

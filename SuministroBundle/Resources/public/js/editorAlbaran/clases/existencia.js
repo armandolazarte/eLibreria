@@ -39,7 +39,7 @@ function Existencia(padre, id){
 
 				this.localizacion = $plantilla.find('select[name="localizacion"]');
 				this.precio = $plantilla.find('input[name="precio"]');
-				this.iva = $plantilla.find('input[name="iva"]');
+				this.iva = $plantilla.find('select[name="iva"]');
 				this.descuento = $plantilla.find('input[name="descuento"]');
 				this.vendido = $plantilla.find('input[name="vendido"]');
 				this.adquirido = $plantilla.find('input[name="adquirido"]');
@@ -84,7 +84,7 @@ function Existencia(padre, id){
 				if(data.estado){
 					this.localizacion.val(data.localizacion);
 					this.precio.val(data.precio);
-					this.iva.val(data.iva * 100);
+					this.iva.val(data.iva);
 					this.descuento.val(data.descuento * 100);
 					
 					if(data.vendido){
@@ -141,7 +141,7 @@ function Existencia(padre, id){
 				idPadre: this.padre.getId(),
 				localizacion: this.localizacion.val(),
 				precio: this.precio.val(),
-				iva: this.iva.val() / 100,
+				iva: this.iva.val(),
 				descuento: this.descuento.val() / 100,
 				vendido: this.vendido.prop('checked'),
 				adquirido: this.adquirido.prop('checked')

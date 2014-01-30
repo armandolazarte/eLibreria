@@ -168,7 +168,26 @@ class AlbaranAjaxController extends Asistente{
 	}
 
 // 	peticionDatosArticulo
-
+	public function peticionDatosArticuloAction(Request $peticion){
+		$res = array();
+	
+		if($peticion->getMethod() == "POST"){
+			$ref = $peticion->request->get('ref');
+				
+			if($ref != ""){
+				$em = $this->getEm();
+	
+				$infoArticulo = $this->getParametro('articulo');
+				$articulo = $em->getRepository($infoArticulo['repositorio'])->findOneBy(array('ref'=>$ref));
+	
+				if($articulo){
+					$res['titulo'] = $articulo->getTitulo();
+				}
+			}
+		}
+	
+		return $this->getResponse($res);
+	}
 
 // 	peticionDatosExistencia
 	public function peticionDatosExistenciaAction(Request $peticion){
@@ -181,7 +200,7 @@ class AlbaranAjaxController extends Asistente{
 			if($idExistencia != ""){
 				$em = $this->getEm();
 	
-				$infoPadres = $this->getParametro('padres');
+				$infoPadres = $this->getParametro('existencias');
 				$existencia = $em->getRepository($infoPadres[$tipoObjeto]['repositorio'])->find($idExistencia);
 	
 				if($existencia){
@@ -282,7 +301,37 @@ class AlbaranAjaxController extends Asistente{
 	}
 
 // 	registroArticulo
-
+	public function registroArticuloAction(Request $peticion){
+		$res = array();
+	
+		if($peticion->getMethod() == "POST"){
+			$ref = $peticion->request->get('ref');
+			$titulo = $peticion->request->get('titulo');
+				
+			if($ref != "" && $titulo != ""){
+				$em = $this->getEm();
+	
+				$infoArticulo = $this->getParametro('articulo');
+				$articulo = $this->getEm()->getRepository($infoArticulo['repositorio'])->findOneBy(array('ref'=>$ref));
+	
+				if(!$articulo){
+					$articulo = $this->getNuevaInstancia($infoArticulo['entidad']);
+						
+					$articulo->setRef($ref);
+				}
+	
+				$articulo->setTitulo($titulo);
+					
+				$em->persist($articulo);
+				$em->flush();
+	
+				$res['ref'] = $ref;
+				$res['estado'] = true;
+			}
+		}
+	
+		return $this->getResponse($res);
+	}
 
 // 	registroExistencia
 	public function registroExistenciaAction(Request $peticion){
@@ -313,11 +362,17 @@ class AlbaranAjaxController extends Asistente{
 	
 				if($albaran){
 					$infoPadre = $this->getParametro($tipoPadre);
-					$padre = $em->getRepository($infoPadre['repositorio'])->find($idPadre);
-						
+					
+					if($tipoPadre == "articulo"){
+						$padre = $em->getRepository($infoPadre['repositorio'])->findOneBy(array('ref'=>$idPadre));
+					}
+					else{
+						$padre = $em->getRepository($infoPadre['repositorio'])->find($idPadre);
+					}
+					
 					if($padre){
-						$infoExistencias = $this->getParametro('padres');
-						$ejemplar = null;
+						$infoExistencias = $this->getParametro('existencias');
+						$existencia = null;
 						$item = null;
 	
 						$infoItem = $this->getParametro('itemAlbaran');
@@ -380,7 +435,7 @@ class AlbaranAjaxController extends Asistente{
 		if($peticion->getMethod() == "POST"){
 			$idExistencia = $peticion->request->get('id');
 			$tipoExistencia = $peticion->request->get('tipo');
-			$infoPadres = $this->getParametro('padres');
+			$infoPadres = $this->getParametro('existencias');
 			$em = $this->getEm();
 				
 			$existencia = $em->getRepository($infoPadres[$tipoExistencia]['repositorio'])->find($idExistencia);
@@ -413,14 +468,22 @@ class AlbaranAjaxController extends Asistente{
 	}
 
 // 	plantillaArticulo
-
+	public function plantillaArticuloAction(){		
+		$em = $this->getEm();
+		$opciones = array();
+	
+		return $this->render($this->getPlantilla('plantillaArticulo'), $opciones);
+	}
 
 // 	plantillaExistencia
 	public function plantillaExistenciaAction(){
-		$infoLoc = $this->getParametro('localizacion');
 		$em = $this->getEm();
-	
+
+		$infoLoc = $this->getParametro('localizacion');
 		$opciones['localizaciones'] = $em->getRepository($infoLoc['repositorio'])->findAll();
+
+		$infoRec = $this->getParametro('recargo');
+		$opciones['recargos'] = $em->getRepository($infoRec['repositorio'])->findAll();
 	
 		return $this->render($this->getPlantilla('plantillaExistencia'), $opciones);
 	}

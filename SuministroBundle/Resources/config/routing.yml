@@ -101,8 +101,30 @@ rgm_e_libreria_suministro_albaran_ajax_plantilla_articulo:
 rgm_e_libreria_suministro_albaran_ajax_plantilla_existencia:
     pattern: /ajax/plantilla/existencia
     defaults: { _controller: 'RGMELibreriaSuministroBundle:AlbaranAjax:plantillaExistencia' }
+    
+    
+    
+    
+rgm_e_libreria_suministro_articulo_crear:
+    pattern:  /articulo/nuevo
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Articulo:crearArticulo' }
+    
+rgm_e_libreria_suministro_articulo_editar:
+    pattern:  /articulo/{id}/editar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Articulo:editarArticulo' }
+    
+rgm_e_libreria_suministro_articulo_borrar:
+    pattern:  /articulo/{id}/borrar
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Articulo:borrarArticulo' }
+    
+rgm_e_libreria_suministro_articulo_homepage:
+    pattern:  /articulo
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Articulo:verArticulos' }
 
-
+rgm_e_libreria_suministro_articulo_buscar_referencia_ajax:
+    pattern: /articulo/buscarAjax
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Articulo:buscarArticuloAjax' }
+    methods:  [POST]
 
     
 

@@ -101,13 +101,14 @@ h3.ui-accordion-header{
 	margin-right: 5px;
 	margin-left: 3px;
 	font-weight: 800;
+	width: 50px;
 }
 
 .anadirLibro, .anadirArticulo{
 	width: 100px !important;
 }
 
-.boton, .botonAnadir, .borrarLibro, .anadirExistencia, .existencia > h5 .borrarExistencia{
+.boton, .botonAnadir, .borrarLibro, .borrarArticulo, .anadirExistencia, .existencia > h5 .borrarExistencia{
 	float: right;
 	margin-right: 11px;
 
@@ -127,7 +128,7 @@ h3.ui-accordion-header{
 	border: 0;
 }
 
-.borrarLibro, .borrarExistencia{
+.borrarLibro, .borrarArticulo, .borrarExistencia{
 	margin-right: 5px !important;
 	margin-left: 10px;
 }
@@ -140,7 +141,7 @@ h3.ui-accordion-header{
 	width: 150px !important;
 }
 
-.tituloAcordeon, .isbnAcordeon, .editorialAcordeon{
+.tituloAcordeon, .isbnAcordeon, .refAcordeon, .editorialAcordeon{
 	height: 15px !important;
 	float: left;
 	margin-right: 10px;
@@ -212,7 +213,7 @@ h3.ui-accordion-header{
 	overflow: hidden;
 }
 
-.datos .jaula-datos-libro{
+.datos .jaula-datos-libro, .datos .jaula-datos-articulo{
 	overflow: hidden;
 }
 
@@ -228,16 +229,16 @@ h3.ui-accordion-header{
 	color: #444;
 }
 
-.datos .jaula-datos-libro-isbn{
+.datos .jaula-datos-libro-isbn, .datos .jaula-datos-articulo-ref{
 	margin-bottom: 20px;
 }
 
-.datos .jaula-datos-libro-titulo{
+.datos .jaula-datos-libro-titulo, .datos .jaula-datos-articulo-titulo{
 	clear: both;
 	width: 450px !important;
 }
 
-.datos .jaula-datos-libro-titulo .datos-libro-input{
+.datos .jaula-datos-libro-titulo .datos-libro-input, .datos .jaula-datos-articulo-titulo .datos-articulo-input{
 	width: 373px !important;
 }
 
@@ -252,7 +253,7 @@ h3.ui-accordion-header{
 	padding: 0 20px;
 }
 
-.datos .datos-libro-titulo{
+.datos .datos-libro-titulo, .datos .datos-articulo-titulo{
 	display: block;
 	float: left;
 	margin-top: 8px;
@@ -260,7 +261,7 @@ h3.ui-accordion-header{
 	text-align: right;
 }
 
-.datos .datos-libro-input{
+.datos .datos-libro-input, .datos .datos-articulo-input{
 	float: right;
 	width: 128px;
 }
@@ -288,7 +289,7 @@ h3.ui-accordion-header{
 	background: -moz-linera-gradient(top, #FFF, #EEE 1px, #FFF 25px);
 }
 
-.jaula-datos-libro input[type="submit"]{
+.jaula-datos-libro input[type="submit"], .jaula-datos-articulo input[type="submit"]{
 	float: right;
 	margin-right: 20px;
 	margin-bottom: 10px;
@@ -356,6 +357,11 @@ h3.ui-accordion-header{
 
 .existencia .cuerpo-existencia-datos .iva{
 	width: 105px;
+}
+
+.iva select{
+	height: 33px;
+	width: 80px;
 }
 
 .existencia .cuerpo-existencia-datos .descuento{

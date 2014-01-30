@@ -25,6 +25,13 @@ class ExistenciaArticulo extends Existencia
 		$this->setArticulo($a);
 	}
 
+	public function getReferencia(){
+		return $this->articulo->getRef();
+	}
+
+	public function getObjetoVinculado(){
+		return $this->articulo;
+	}
 
     /**
      * Set articulo

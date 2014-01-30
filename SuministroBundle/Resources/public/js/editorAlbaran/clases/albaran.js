@@ -114,9 +114,12 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 	}
 	
 	this.anadirArticuloExistente = function(ref, existenciasArray){
+		this.items.push(new Articulo(this, ref, existenciasArray));
 	}
 	
 	this.anadirArticuloNuevo = function(){
+		this.desGlobal();
+		this.items.push(new Articulo(this, undefined, new Array()));
 	}
 	
 	this.cargarItemsAlbaranAJAX = function(){

@@ -335,7 +335,7 @@ class LibroController extends Asistente{
 				
 				$infoEjemplar = $this->getParametro('ejemplar');
 				
-				$ejemplar = $em->getRepository($this->getEntidadLogico($infoEjemplar['repositorio']))->find($idEjemplar);
+				$ejemplar = $em->getRepository($infoEjemplar['repositorio'])->find($idEjemplar);
 				$opciones = array();
 				
 				if($ejemplar){
@@ -364,7 +364,7 @@ class LibroController extends Asistente{
 				
 				$infoEjemplar = $this->getParametro('ejemplar');
 				
-				$ejemplar = $em->getRepository($this->getEntidadLogico($infoEjemplar['repositorio']))->find($idEjemplar);
+				$ejemplar = $em->getRepository($infoEjemplar['repositorio'])->find($idEjemplar);
 				
 				if($ejemplar){
 					$infoLoc = $this->getParametro('localizacion');

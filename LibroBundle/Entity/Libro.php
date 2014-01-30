@@ -285,7 +285,7 @@ class Libro {
 	public function getEjemplaresDisponibles() {
 		$res = new ArrayCollection();
 
-		foreach ($this->ejemplares as $e) {
+		foreach ($this->existencias as $e) {
 			if (!$e->isVendido()) {
 				$res->add($e);
 			}

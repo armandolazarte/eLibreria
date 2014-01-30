@@ -28,7 +28,7 @@ parameters:
         titulo_borrar: 'Confirmar Borrado'
         msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
         titulo_form_borrar: 'Borrar distribuidora'
-        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        msg_confirmar_borrar: '¿Realmente desea realizar la acción?'
         grid_boton_borrar: 'Borrar'
         titulo_submit_borrar: '¡Si, Estoy seguro!'
         flash_borrar: 'Distribuidora borrada con éxito'
@@ -62,7 +62,7 @@ parameters:
         titulo_borrar: 'Confirmar Borrado'
         msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
         titulo_form_borrar: 'Borrar recargo'
-        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        msg_confirmar_borrar: '¿Realmente desea realizar la acción?'
         grid_boton_borrar: 'Borrar'
         titulo_submit_borrar: '¡Si, Estoy seguro!'
         flash_borrar: 'Recargo borrado con éxito'
@@ -96,7 +96,7 @@ parameters:
         titulo_borrar: 'Confirmar Borrado'
         msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
         titulo_form_borrar: 'Borrar contrato'
-        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        msg_confirmar_borrar: '¿Realmente desea realizar la acción?'
         grid_boton_borrar: 'Borrar'
         titulo_submit_borrar: '¡Si, Estoy seguro!'
         flash_borrar: 'Contrato de suministro borrado con éxito'
@@ -118,6 +118,7 @@ parameters:
             vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
             plantillaLibro: 'plantillaLibro.html.twig'
             plantillaExistencia: 'plantillaExistencia.html.twig'
+            plantillaArticulo: 'plantillaArticulo.html.twig'
             ver: 'verAlbaran.html.twig'
             
         impresion:
@@ -130,11 +131,15 @@ parameters:
             repositorio: 'RGMELibreriaLibroBundle:Libro'
             entidad: 'RGM\eLibreria\LibroBundle\Entity\Libro'
             
+        articulo:
+            repositorio: 'RGMELibreriaSuministroBundle:Articulo'
+            entidad: 'RGM\eLibreria\SuministroBundle\Entity\Articulo'
+            
         ejemplar:
             repositorio: 'RGMELibreriaLibroBundle:Ejemplar'
             entidad: 'RGM\eLibreria\LibroBundle\Entity\Ejemplar'
             
-        padres:
+        existencias:
             libro:
                 repositorio: 'RGMeLibreriaExistenciaBundle:ExistenciaLibro'
                 clase: 'RGM\eLibreria\ExistenciaBundle\Entity\ExistenciaLibro'
@@ -172,7 +177,7 @@ parameters:
             ruta_ajax_get_datos_existencia: 'rgm_e_libreria_suministro_albaran_ajax_get_datos_existencia'
             
             ruta_ajax_buscar_libros: 'rgm_e_libreria_librobundle_libro_buscar_referencia_ajax'
-            ruta_ajax_buscar_articulos: 'rgm_e_libreria_librobundle_libro_buscar_referencia_ajax'
+            ruta_ajax_buscar_articulos: 'rgm_e_libreria_suministro_articulo_buscar_referencia_ajax'
             ruta_ajax_buscar_editoriales: 'rgarcia_entrelineas_editorial_buscarAjax'
             
             ruta_ajax_registro_libro: 'rgm_e_libreria_suministro_albaran_ajax_registro_libro'
@@ -196,7 +201,45 @@ parameters:
         titulo_borrar: 'Confirmar Borrado'
         msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
         titulo_form_borrar: 'Borrar albarán'
-        msg_confirmar_borrar: '¿Realmente desea realizar la accion?'
+        msg_confirmar_borrar: '¿Realmente desea realizar la acción?'
         grid_boton_borrar: 'Borrar'
         titulo_submit_borrar: '¡Si, Estoy seguro!'
         flash_borrar: 'Albarán borrado con éxito'
+        
+    suministrobundle.articulo:
+        inicio: 'rgm_e_libreria_suministro_articulo_homepage'
+        seccion: 'Gestión de articulos'
+        subseccion: 'Articulos'
+        nombrelogicobundle: 'RGMELibreriaSuministroBundle'
+        path: 'Articulo'
+        tipoNoConformidad: 'Tipo de No Conformidad'
+        formularios:
+            editor: 'RGM\eLibreria\SuministroBundle\Form\Frontend\Articulo\ArticuloType'
+            visor: 'RGM\eLibreria\SuministroBundle\Form\Frontend\Articulo\ArticuloVisorType'
+            
+        entidad: 
+            repositorio: 'Articulo'
+            clase: 'RGM\eLibreria\SuministroBundle\Entity\Articulo'
+            
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
+
+        ruta_form_crear: 'rgm_e_libreria_suministro_articulo_crear'
+        titulo_crear: 'Crear nuevo articulo'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Articulo creada con éxito'
+        
+        grid_ruta_editar: 'rgm_e_libreria_suministro_articulo_editar'
+        titulo_editar: 'Editar articulo'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Articulo editado con éxito'
+        
+        grid_ruta_borrar: 'rgm_e_libreria_suministro_articulo_borrar'
+        titulo_borrar: 'Confirmar Borrado'
+        msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
+        titulo_form_borrar: 'Borrar articulo'
+        msg_confirmar_borrar: '¿Realmente desea realizar la acción?'
+        grid_boton_borrar: 'Borrar'
+        titulo_submit_borrar: '¡Si, Estoy seguro!'
+        flash_borrar: 'Articulo borrado con éxito'

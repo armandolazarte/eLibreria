@@ -25,6 +25,14 @@ class ExistenciaLibro extends Existencia
     	
     	$this->setLibro($l);
     }
+
+	public function getReferencia(){
+		return $this->libro->getIsbn();
+	}
+
+	public function getObjetoVinculado(){
+		return $this->libro;
+	}
     
     /**
      * Set libro

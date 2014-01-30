@@ -58,7 +58,11 @@ class LibroCrearMasivoType extends AbstractType{
 						'disabled' => false,
 						'label' => 'Numero de Paginas'
 				))
-				
+				-> add('precioOrientativo', 'text', array(
+						'required' => false,
+						'disabled' => false,
+						'label' => 'Precio orientativo'
+				))
 				-> add('sinopsis', 'textarea', array(
 						'required' => false,
 						'disabled' => false,

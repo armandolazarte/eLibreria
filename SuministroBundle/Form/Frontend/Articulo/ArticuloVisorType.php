@@ -6,7 +6,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ArticuloType extends AbstractType{
+class ArticuloVisorType extends AbstractType{
 	public function buildForm(FormBuilderInterface $builder, array $options){
 		
 		$builder -> add('ref', 'text', array(
@@ -20,7 +20,7 @@ class ArticuloType extends AbstractType{
 	}
 
 	public function getName(){
-		return 'rgm_elibreria_suministro_articulotype';
+		return 'rgm_elibreria_suministro_articulovisortype';
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver){
