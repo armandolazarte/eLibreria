@@ -122,11 +122,11 @@ class GeneradorVentaController extends Asistente{
 		if($peticion->getMethod() == "POST"){
 			$ref = $peticion->request->get('ref');
 			
-			$buscar = '%' . $ref . '%';
+			$buscar = $ref . '%';
 			
 			$em = $this->getEm();
 			
-			$sql = 'SELECT * FROM `Ejemplar` WHERE vendido = 0 AND libro_id LIKE :ref LIMIT 20';
+			$sql = 'SELECT e.id, l.titulo, l.isbn, loc.denominacion FROM Existencia as e Natural Join existenciaLibro as eL, Libro as l, Localizacion as loc WHERE e.localizacion_id = loc.id  AND eL.libro_id = l.isbn AND e.vendido = 0 AND l.isbn LIKE :ref LIMIT 20';
 			
 			$stmt = $em->getConnection()->prepare($sql);
 			$stmt->bindValue(":ref", $buscar);
@@ -137,18 +137,16 @@ class GeneradorVentaController extends Asistente{
 			foreach($resultadosEjemplar as $r){
 				$obj = array();
 				
-				$obj['tipo'] = "Ejemplar";
+				$obj['tipo'] = 'Libro';
 				$obj['id'] = $r['id'];
-				$obj['ref'] = $r['libro_id'];
-				$obj['titulo'] = $this->buscarTitulo($r['id']);
-				$obj['loc'] = $this->buscarLocalizacion($r['localizacion_id']);
-				$obj['precio'] = $r['precio'];
-				$obj['iva'] = $r['iva'];
+				$obj['ref'] = $r['isbn'];
+				$obj['titulo'] = $r['titulo'];
+				$obj['loc'] = $r['denominacion'];
 				
 				$res[] = $obj;
 			}
 
-			$sql = 'SELECT * FROM `Articulo` WHERE vendido = 0 AND ref LIKE :ref LIMIT 20';
+			$sql = 'SELECT e.id, a.titulo, a.ref, loc.denominacion FROM Existencia as e Natural Join existenciaArticulo as eA, Articulo as a, Localizacion as loc WHERE e.localizacion_id = loc.id AND e.vendido = 0 AND eA.articulo_id = a.id AND a.ref LIKE :ref LIMIT 20';
 				
 			$stmt = $em->getConnection()->prepare($sql);
 			$stmt->bindValue(":ref", $buscar);
@@ -159,18 +157,17 @@ class GeneradorVentaController extends Asistente{
 			foreach($resultadosArticulo as $r){
 				$obj = array();
 				
-				$obj['tipo'] = "Articulo";
+				$obj['tipo'] = 'Articulo';
 				$obj['id'] = $r['id'];
 				$obj['ref'] = $r['ref'];
 				$obj['titulo'] = $r['titulo'];
-				$obj['precio'] = $r['precio'];
-				$obj['iva'] = $r['iva'];
+				$obj['loc'] = $r['denominacion'];
 				
 				$res[] = $obj;
 			}
 		}
 		
-		return $this->getResponse($res);
+		return $this->getResponse(array('sugerencias' => $res));
 	}
 	
 	public function buscarTituloAction(Request $peticion){
@@ -179,10 +176,52 @@ class GeneradorVentaController extends Asistente{
 		if($peticion->getMethod() == "POST"){
 			$titulo = $peticion->request->get('titulo');
 			
+			$buscar = '%' . $titulo . '%';
+				
+			$em = $this->getEm();
+				
+			$sql = 'SELECT e.id, l.titulo, l.isbn, loc.denominacion FROM Existencia as e Natural Join existenciaLibro as eL, Libro as l, Localizacion as loc WHERE e.localizacion_id = loc.id  AND eL.libro_id = l.isbn AND e.vendido = 0 AND l.titulo LIKE :titulo LIMIT 20';
+				
+			$stmt = $em->getConnection()->prepare($sql);
+			$stmt->bindValue(":titulo", $buscar);
+			$stmt->execute();
+				
+			$resultadosEjemplar = $stmt->fetchAll();
+				
+			foreach($resultadosEjemplar as $r){
+				$obj = array();
+				
+				$obj['tipo'] = 'Libro';
+				$obj['id'] = $r['id'];
+				$obj['ref'] = $r['isbn'];
+				$obj['titulo'] = $r['titulo'];
+				$obj['loc'] = $r['denominacion'];
 			
+				$res[] = $obj;
+			}
+			
+			$sql = 'SELECT e.id, a.titulo, a.ref, loc.denominacion FROM Existencia as e Natural Join existenciaArticulo as eA, Articulo as a, Localizacion as loc WHERE e.localizacion_id = loc.id AND e.vendido = 0 AND eA.articulo_id = a.id AND a.titulo LIKE :titulo LIMIT 20';
+			
+			$stmt = $em->getConnection()->prepare($sql);
+			$stmt->bindValue(":titulo", $buscar);
+			$stmt->execute();
+			
+			$resultadosArticulo = $stmt->fetchAll();
+				
+			foreach($resultadosArticulo as $r){
+				$obj = array();
+				
+				$obj['tipo'] = 'Articulo';
+				$obj['id'] = $r['id'];
+				$obj['ref'] = $r['ref'];
+				$obj['titulo'] = $r['titulo'];
+				$obj['loc'] = $r['denominacion'];
+			
+				$res[] = $obj;
+			}
 		}
 		
-		return $this->getResponse($res);
+		return $this->getResponse(array('sugerencias' => $res));
 	}
 	
 	public function generadorVentaAction(Request $peticion){
@@ -194,6 +233,27 @@ class GeneradorVentaController extends Asistente{
 		$opciones['clientes'] = $em->getRepository($this->getEntidadLogico($infoClientes['repositorio']))->findAll();
 		
 		return $this->render($this->getPlantilla('editor'), $opciones);
+	}
+	
+	public function plantillaExistenciaAction(Request $peticion){
+		$opciones = array();
+		$render = null;
+		
+		if($peticion->getMethod() == "POST"){
+			$em = $this->getEm();
+			$idExistencia = $peticion->request->get('id');
+			$tipoExistencia = strtolower($peticion->request->get('tipo'));
+			
+			$infoExistencia = $this->getParametro('existencias');
+			$existencia = $em->getRepository($infoExistencia[$tipoExistencia]['repositorio'])->find($idExistencia);
+			
+			if($existencia){
+				$opciones['existencia'] = $existencia;
+				$render = $this->render($this->getPlantilla('plantillaItem'), $opciones);
+			}
+		}
+		
+		return $render;
 	}
 }
 ?>

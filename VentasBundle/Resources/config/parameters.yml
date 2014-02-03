@@ -11,6 +11,7 @@ parameters:
         plantillas:
             editor: 'editorVenta.html.twig'
             menu_izq: 'RGMELibreriaIndexBundle::menu_izq_vacio.html.twig'
+            plantillaItem: 'plantillaItem.html.twig'
             
         entidad:
             repositorio: 'Venta'
@@ -23,6 +24,15 @@ parameters:
         localizacion:
             repositorio: 'RGMELibreriaLibroBundle:Localizacion'
             
+        existencias:
+            articulo:
+                repositorio:
+                    'RGMeLibreriaExistenciaBundle:ExistenciaArticulo'
+                
+            libro:
+                repositorio:
+                    'RGMeLibreriaExistenciaBundle:ExistenciaLibro'
+            
         ejemplar:
             repositorio: 'RGMELibreriaLibroBundle:Ejemplar'
             
@@ -31,3 +41,4 @@ parameters:
             ruta_cliente_set_nuevo: 'rgm_e_libreria_venta_crear_nuevo_cliente'
             ruta_ajax_buscar_ref: 'rgm_e_libreria_venta_buscar_ref'
             ruta_ajax_buscar_titulo: 'rgm_e_libreria_venta_buscar_titulo'
+            ruta_ajax_plantilla_existencia: 'rgm_e_libreria_venta_plantilla_existencia'

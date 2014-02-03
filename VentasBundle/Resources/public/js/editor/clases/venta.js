@@ -47,6 +47,16 @@ function Venta(
 		this.venta_contenedorItems.css('display', 'block');
 	}
 	
+	this.actualizarTotal = function(){
+		var total = parseFloat(0);
+		
+		for(var i = 0; i < this.items.length; i++){			
+			total += parseFloat(this.items[i].getPrecioTotal());
+		}
+		
+		this.venta_info_total.html(total.toFixed(2) + '€');
+	}
+	
 	this.modificarValoresInfoVenta = function(){
 		var total = this.venta_info_total.html();
 		var entregado = this.venta_info_entregado.val();
@@ -68,6 +78,11 @@ function Venta(
 			this.venta_info_vuelta.html('----');			
 		}
 	}
+	
+	this.anadirExistencia = function(idExistencia, tipoExistencia){
+		$venta.habilitarContenedorItem();
+		this.items.push(new Existencia(this, idExistencia, tipoExistencia));
+	};
 	
 	//Contructor
 	this.init = function($select_venta_cliente_nombre,$input_venta_cliente_nombre,$input_venta_cliente_tel,$input_venta_cliente_movil,
@@ -112,19 +127,51 @@ function Venta(
 			        success: function( data ){
 			          response( $.map( data.sugerencias, function(item){
 			          		return {
-				          		label: item.isbn + " - " + item.titulo + (item.editorial ? " [ " + item.editorial + " ]" : ""),
-				          		value: item.isbn,
-				          		isbn: item.isbn
+				          		label: "[ " + item.tipo + " ] " + item.ref + " - " + item.titulo + " [ " + item.loc + " ]",
+				          		value: "ISBN / REF",
+				          		titulo: item.titulo,
+				          		id: item.id,
+				          		tipo: item.tipo
 				          	};    
 			          }));
 			        }
 			      });
 			},
 			select: function(evento, ui){
+				$venta.venta_busqueda_titulo.val("Titulo");
+				$venta.anadirExistencia(ui.item.id,ui.item.tipo);
 			}
 		});
 		
-		this.venta_busqueda_titulo;
+		this.venta_busqueda_titulo.autocomplete({
+			source: function(request, response){
+				$.ajax({
+			        url: ruta_ajax_buscar_titulo,
+			        context: this,
+			        data: {
+			          titulo: request.term
+			        },
+			        type: "POST",
+			        success: function( data ){
+			          response( $.map( data.sugerencias, function(item){
+			          		return {
+				          		label: "[ " + item.tipo + " ] " + item.ref + " - " + item.titulo + " [ " + item.loc + " ]",
+				          		value: "Titulo",
+				          		ref: item.ref,
+				          		id: item.id,
+				          		tipo: item.tipo
+				          	};    
+			          }));
+			        }
+			      });
+			},
+			select: function(evento, ui){
+				$venta.venta_busqueda_titulo.val("ISBN / REF");
+				$venta.anadirExistencia(ui.item.id,ui.item.tipo);
+			}
+		});
+		
+		$('.venta').data('venta', $venta);
 	}
 	
 	this.init($select_venta_cliente_nombre,$input_venta_cliente_nombre,$input_venta_cliente_tel,$input_venta_cliente_movil,

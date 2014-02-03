@@ -12,7 +12,8 @@
 		var ruta_cliente_get_info = '{{ path(ajax.ruta_cliente_get_info) }}',
 			ruta_cliente_set_nuevo = '{{ path(ajax.ruta_cliente_set_nuevo) }}',
 			ruta_ajax_buscar_ref = '{{ path(ajax.ruta_ajax_buscar_ref) }}',
-			ruta_ajax_buscar_titulo = '{{ path(ajax.ruta_ajax_buscar_titulo) }}';
+			ruta_ajax_buscar_titulo = '{{ path(ajax.ruta_ajax_buscar_titulo) }}',
+			ruta_ajax_plantilla_existencia = '{{ path(ajax.ruta_ajax_plantilla_existencia) }}';
 	</script>
 	
 	{% javascripts '@RGMELibreriaVentasBundle/Resources/public/js/editor/clases/*.js' %}
@@ -72,7 +73,7 @@
 		<div class="venta_dinero">	
 			<div class="venta_total">			
 				<div class="venta_total_info titulo">Total</div>
-				<div id="venta_info_total" class="venta_total_info valor">19.95€</div>
+				<div id="venta_info_total" class="venta_total_info valor">0.00€</div>
 			</div>	
 			<div class="venta_entregado">			
 				<div class="venta_entregado_info titulo">Entregado</div>

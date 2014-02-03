@@ -205,14 +205,14 @@
 }
 
 .item .item_titulo input{
-	width: 300px;
+	width: 270px;
 }
 
 .item .item_unidades input{
 	width: 25px;
 }
 
-.item .item_precio input{
+.item .item_precio input, .item .item_precio_total input{
 	width: 50px;
 	text-align: right;
 }
