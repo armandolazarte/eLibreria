@@ -52,7 +52,7 @@
 							<td><div class="envoltura">{{ '%.2f'|format(l.precio * (1 + l.iva)) }}€</div></td>
 							<td><div class="envoltura">{{ '%.2f'|format(l.precio) }}€</div></td>
 							<td><div class="envoltura">{{ l.desc * 100 }}%</div></td>
-							<td><div class="envoltura">{{ '%.2f'|format(l.precio * (1 - l.desc)) }}€</div></td>
+							<td><div class="envoltura">{{ '%.2f'|format((l.precio * (1 - l.desc))|round(2) * l.numEjemplares) }}€</div></td>
 							<td><div class="envoltura">{{ l.iva * 100 }}%</div></td>
 						</tr>
 			{% endfor %}		

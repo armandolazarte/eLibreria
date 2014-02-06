@@ -14,6 +14,8 @@ function Libro(albaran, isbn, existenciasArray){
 	this.estado;
 	this.botonBorrarLibro;
 	
+	this.formDatosLibro;
+	
 	this.isbn;
 	this.titulo;
 	this.editorial;
@@ -61,6 +63,7 @@ function Libro(albaran, isbn, existenciasArray){
 				this.editorial = $plantilla.find('input[name="editorial"]');
 				this.autores = $plantilla.find('.autores');
 				this.estilos = $plantilla.find('.estilos');
+				this.formDatosLibro = $plantilla.find('.form-datos-libro');
 				
 				this.botonActualizar = $plantilla.find('input[name="actualizar"]');
 				
@@ -119,7 +122,7 @@ function Libro(albaran, isbn, existenciasArray){
 				this.botonCopiarInfo.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.copiarInfo(); return false;});
 				this.botonBorrarLibro.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.borrar(); return false;});
 				
-				this.botonActualizar.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.actualizar(); return false;});
+				this.formDatosLibro.submit(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.actualizar(); return false;});
 				this.botonAnadirExistencia.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.anadirExistenciaNueva(); return false;});
 				
 				this.isbn.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
@@ -196,7 +199,7 @@ function Libro(albaran, isbn, existenciasArray){
 	}
 	
 	this.setLibroEnContenedor = function(cuerpo){
-		cuerpo.appendTo(this.albaran.contenedorItems);
+		cuerpo.prependTo(this.albaran.contenedorItems);
 		this.albaran.contenedorItems.accordion("refresh");
 	}
 	

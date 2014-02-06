@@ -204,7 +204,12 @@ class AlbaranAjaxController extends Asistente{
 				$existencia = $em->getRepository($infoPadres[$tipoObjeto]['repositorio'])->find($idExistencia);
 	
 				if($existencia){
-					$res['localizacion'] = $existencia->getLocalizacion()->getId();
+					$loc = $existencia->getLocalizacion();
+					
+					if($loc){
+						$res['localizacion'] = $loc->getId();
+					}
+					
 					$res['precio'] = $existencia->getPrecio();
 					$res['iva'] = $existencia->getIva();
 					$res['descuento'] = $existencia->getItemAlbaran()->getDescuento();
@@ -353,9 +358,8 @@ class AlbaranAjaxController extends Asistente{
 			$vendido = $peticion->request->get('vendido');
 			$adquirido = $peticion->request->get('adquirido');
 				
-			if($idPadre != "" && $idLoc != "" &&
-			$precio != "" && $iva != "" && $descuento != "" &&
-			$vendido != "" && $adquirido != ""){
+			if($idPadre != "" && $precio != "" && $iva != "" && 
+			$descuento != "" &&	$vendido != "" && $adquirido != ""){
 				$em = $this->getEm();
 	
 				$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($idAlbaran);
@@ -394,7 +398,10 @@ class AlbaranAjaxController extends Asistente{
 						$infoLocalizacion = $this->getParametro('localizacion');
 						$loc = $em->getRepository($infoLocalizacion['repositorio'])->find($idLoc);
 	
-						$existencia->setLocalizacion($loc);
+						if($loc){
+							$existencia->setLocalizacion($loc);
+						}
+						
 						$existencia->setPrecio($precio);
 						$existencia->setIva($iva);
 						if($vendido == "true"){

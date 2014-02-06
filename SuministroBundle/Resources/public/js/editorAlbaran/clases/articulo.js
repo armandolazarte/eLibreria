@@ -13,6 +13,7 @@ function Articulo(albaran, ref, existenciasArray){
 	this.estadoGlobal;
 	this.estado;
 	this.botonBorrarArticulo;
+	this.formDatosArticulo;
 	
 	this.ref;
 	this.titulo;
@@ -57,6 +58,7 @@ function Articulo(albaran, ref, existenciasArray){
 				this.titulo = $plantilla.find('input[name="titulo"]');
 				
 				this.botonActualizar = $plantilla.find('input[name="actualizar"]');
+				this.formDatosArticulo = $plantilla.find('.form-datos-articulo');
 				
 				this.botonAnadirExistencia = $plantilla.find('.anadirExistencia');
 				this.contenedorExistencias = $plantilla.find('.jaula-existencias');
@@ -68,7 +70,7 @@ function Articulo(albaran, ref, existenciasArray){
 					        url: ruta_ajax_buscar_articulos,
 					        context: this,
 					        data: {
-					          isbn: request.term,
+					          ref: request.term,
 					          maxRows: 12
 					        },
 					        type: "POST",
@@ -94,7 +96,7 @@ function Articulo(albaran, ref, existenciasArray){
 				this.botonCopiarInfo.click(this, function(evento){evento.preventDefault(); var artActual = evento.data; artActual.copiarInfo(); return false;});
 				this.botonBorrarArticulo.click(this, function(evento){evento.preventDefault(); var artActual = evento.data; artActual.borrar(); return false;});
 				
-				this.botonActualizar.click(this, function(evento){evento.preventDefault(); var artActual = evento.data; artActual.actualizar(); return false;});
+				this.formDatosArticulo.click(this, function(evento){evento.preventDefault(); var artActual = evento.data; artActual.actualizar(); return false;});
 				this.botonAnadirExistencia.click(this, function(evento){evento.preventDefault(); var artActual = evento.data; artActual.anadirExistenciaNueva(); return false;});
 				
 				this.ref.change(this, function(evento){evento.preventDefault(); var artActual = evento.data; artActual.des(); return false;});
@@ -168,7 +170,7 @@ function Articulo(albaran, ref, existenciasArray){
 	}
 	
 	this.setArticuloEnContenedor = function(cuerpo){
-		cuerpo.appendTo(this.albaran.contenedorItems);
+		cuerpo.prependTo(this.albaran.contenedorItems);
 		this.albaran.contenedorItems.accordion("refresh");
 	}
 	

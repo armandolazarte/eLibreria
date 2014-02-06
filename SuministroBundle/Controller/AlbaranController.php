@@ -310,14 +310,18 @@ class AlbaranController extends Asistente{
 					
 				$lineasAlbaran->set($referencia, $linea);
 			}
-		
-			$linea = $lineasAlbaran->get($referencia);
-		
+		}
+
+		foreach($lineasAlbaran as $linea){
 			$iva = $linea['iva'];
 			$base = $bases->get((string) $iva);
 			
-			$baseImponible = $linea['precio'] * (1 - $linea['desc']);
-		
+			$precio = $linea['precio'];
+			$numEjem = $linea['numEjemplares'];
+			$desc = round(1 - $linea['desc'],2);
+			
+			$baseImponible = round($precio * $desc,2) * $numEjem;
+			
 			$base['baseImp'] += $baseImponible;
 			$base['ivaImp'] += $baseImponible * $iva;
 			$base['recImp'] += $baseImponible * $base['rec'];
@@ -329,11 +333,11 @@ class AlbaranController extends Asistente{
 		$bIva = 0;
 		$bRec = 0;
 		$bTotal = 0;
-			
+		
 		foreach($bases as $base){
-			$bImp += round($base['baseImp'],2);
-			$bIva += round($base['ivaImp'],2);
-			$bRec += round($base['recImp'],2);
+			$bImp += $base['baseImp'];
+			$bIva += $base['ivaImp'];
+			$bRec += $base['recImp'];
 		}
 			
 		$bTotal = $bImp + $bIva + $bRec;

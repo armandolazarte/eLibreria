@@ -17,6 +17,9 @@ parameters:
             repositorio: 'Venta'
             clase: 'RGM\eLibreria\VentasBundle\Entity\Venta'
             
+        itemVenta:
+            clase: 'RGM\eLibreria\VentasBundle\Entity\ItemVenta'
+            
         cliente:
             repositorio: 'Cliente'
             clase: 'RGM\eLibreria\VentasBundle\Entity\Cliente'
@@ -26,19 +29,15 @@ parameters:
             
         existencias:
             articulo:
-                repositorio:
-                    'RGMeLibreriaExistenciaBundle:ExistenciaArticulo'
+                repositorio: 'RGMeLibreriaExistenciaBundle:ExistenciaArticulo'
                 
             libro:
-                repositorio:
-                    'RGMeLibreriaExistenciaBundle:ExistenciaLibro'
-            
-        ejemplar:
-            repositorio: 'RGMELibreriaLibroBundle:Ejemplar'
-            
+                repositorio: 'RGMeLibreriaExistenciaBundle:ExistenciaLibro'
+                        
         ajax:
             ruta_cliente_get_info: 'rgm_e_libreria_venta_get_info_cliente'
             ruta_cliente_set_nuevo: 'rgm_e_libreria_venta_crear_nuevo_cliente'
             ruta_ajax_buscar_ref: 'rgm_e_libreria_venta_buscar_ref'
             ruta_ajax_buscar_titulo: 'rgm_e_libreria_venta_buscar_titulo'
             ruta_ajax_plantilla_existencia: 'rgm_e_libreria_venta_plantilla_existencia'
+            ruta_ajax_registro_venta: 'rgm_e_libreria_venta_registro_venta'

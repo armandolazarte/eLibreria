@@ -174,7 +174,7 @@
 }
 
 .venta_nuevo_articulo .inputTitulo{
-	width: 560px;
+	width: 610px;
 	margin-left: 5px;
 }
 
@@ -184,10 +184,17 @@
 	height: 32px;
 	width: 32px;
 	padding: 0px;
+	margin-right: 5px;
 }
 
 .venta_lista_articulos{
 	display: none;
+}
+
+#venta_contenedorItems .titulo{
+	border-bottom: 1px solid #DDD;
+	padding-bottom: 8px;
+	margin-bottom: 8px;
 }
 
 .item{

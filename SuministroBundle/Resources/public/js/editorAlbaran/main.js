@@ -17,4 +17,10 @@ $(document).ready(function(){
 		$cItems = $('#items-albaran');
 	
 	$albaran = new Albaran($idAlb, $formAlb, $numIden, $idContr, $fechaRea, $fechaVen, $estGlobal, $est, $bAct, $bLibroNuevo, $bArticuloNuevo, $cItems);
+	
+	$(window).on('beforeunload', function(){
+		if(!$albaran.isActGlobal()){
+			return "El albaran aun tiene datos sin guardar";	
+		}
+	});
 });

@@ -1,5 +1,5 @@
 rgm_e_libreria_ventas_ticket_ver:
-    pattern: /ticket/ver
+    pattern: /ticket/{idVenta}/ver
     defaults: { _controller: 'RGMELibreriaVentasBundle:Ticket:verTicket' }
     
     
@@ -35,6 +35,10 @@ rgm_e_libreria_venta_buscar_titulo:
     defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:buscarTitulo' }
     methods:  [POST]
     
+rgm_e_libreria_venta_registro_venta:
+    pattern: /venta/ajax/registro/venta
+    defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:registrarVenta' }
+    methods:  [POST]
     
     
 rgm_e_libreria_ventas_editar:

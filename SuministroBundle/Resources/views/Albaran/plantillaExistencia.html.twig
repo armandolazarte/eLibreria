@@ -1,4 +1,4 @@
-<div class="%idExistencia% existencia">
+<div class="existencia">
 	<h5>
 		<div class="borrarExistencia boton">-</div>
 		<div class="estadoExistencia sinActualizar">Estado:</div>
@@ -14,43 +14,44 @@
 		</div>
 	</h5>
 	<div class="cuerpo-existencia">
-		<input type="hidden" name="idExistencia">
-		<div class="cuerpo-existencia-datos">
-			<div>
-				<div class="jaula-existencia-dato precio">
-					<label>Precio</label>
-					<input class="moneda" name="precio" type="text">€
-				</div>
-			</div>
-			<div>
-				<div class="jaula-existencia-dato iva">
-					<label>IVA</label>
-					<select name="iva">
-						{% for rec in recargos %}
-						<option value="{{ rec.iva }}">{{ rec.iva * 100 }}%</option>
-						{% endfor %}
-					</select>
-				</div>
-			</div>
-			<div class="ultimo">
-				<div class="jaula-existencia-dato descuento">
-					<label>Descuento</label>
-					<input class="porcentaje" name="descuento" type="text">%
-				</div>
-			</div>
-		</div>
-		<div class="cuerpo-existencia-estados">
-			<div class="jaula-cuerpo-existencia-estados">
+		<form class="form-datos-existencia">
+			<div class="cuerpo-existencia-datos">
 				<div>
-					<input name="vendido" type="checkbox">
-					<label>Vendido</label>
+					<div class="jaula-existencia-dato precio">
+						<label>Precio</label>
+						<input class="moneda" name="precio" type="text">€
+					</div>
 				</div>
 				<div>
-					<input name="adquirido" type="checkbox">
-					<label>Adquirido por la Librería</label>
+					<div class="jaula-existencia-dato iva">
+						<label>IVA</label>
+						<select name="iva">
+							{% for rec in recargos %}
+							<option value="{{ rec.iva }}">{{ rec.iva * 100 }}%</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+				<div class="ultimo">
+					<div class="jaula-existencia-dato descuento">
+						<label>Descuento</label>
+						<input class="porcentaje" name="descuento" type="text">%
+					</div>
 				</div>
 			</div>
-		</div>
-		<input type="submit" class="existenciaSubmit" name="actualizarExistencia" value="Actualizar">
+			<div class="cuerpo-existencia-estados">
+				<div class="jaula-cuerpo-existencia-estados">
+					<div>
+						<input name="vendido" type="checkbox">
+						<label>Vendido</label>
+					</div>
+					<div>
+						<input name="adquirido" type="checkbox">
+						<label>Adquirido por la Librería</label>
+					</div>
+				</div>
+			</div>
+			<input type="submit" class="existenciaSubmit" name="actualizarExistencia" value="Actualizar">
+		</form>
 	</div>
 </div>

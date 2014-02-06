@@ -9,12 +9,17 @@ function Existencia(venta, idExistencia, tipoExistencia){
 	this.precio;
 	this.iva;
 	
+	this.botonBorrar;
+	
 	this.descuento;
 	this.precioTotal;
 	
+	this.des = function(){
+		this.venta.des();
+	}
+	
 	this.setExistenciaEnContenedor = function(){
 		this.html.appendTo(this.venta.venta_contenedorItems);
-		this.venta.venta_contenedorItems.accordion("refresh");
 	}
 	
 	this.modificarDescuento = function(){
@@ -23,6 +28,7 @@ function Existencia(venta, idExistencia, tipoExistencia){
 		
 		this.descuento.val(d.toFixed(2));
 		
+		this.des();
 		this.venta.actualizarTotal();
 	}
 	
@@ -32,7 +38,8 @@ function Existencia(venta, idExistencia, tipoExistencia){
 		var t = this.precio.val() - d + i;
 		
 		this.precioTotal.val(t.toFixed(2));
-		
+
+		this.des();
 		this.venta.actualizarTotal();
 	}
 	
@@ -45,9 +52,21 @@ function Existencia(venta, idExistencia, tipoExistencia){
 		
 		return res;
 	}
+		
+	this.borrar = function(){			
+		this.venta.borrarItem(this);
+		this.html.remove();
+		
+		if(this.venta.items.length <= 0){
+			this.venta.deshabilitarContenedorItem();
+		}
+		
+		this.venta.actualizarTotal();
+	}
 	
 	this.init = function(venta, idExistencia, tipoExistencia){
 		this.venta = venta;
+		
 		this.id = idExistencia;
 		this.tipo = tipoExistencia;
 		
@@ -68,13 +87,18 @@ function Existencia(venta, idExistencia, tipoExistencia){
 				
 				this.descuento = $html.find('.item_descuento').children('input');
 				this.precioTotal = $html.find('.item_precio_total').children('input');
+				
+				this.botonBorrar = $html.find('.borrar_Articulo');
 
 				this.descuento.change(function(){$existencia.modificarPrecioTotal();});
 				this.precioTotal.change(function(){$existencia.modificarDescuento();});
 				
+				this.botonBorrar.click(function(){$existencia.borrar();});
+				
 				this.html = $html;
 				
 				this.setExistenciaEnContenedor();
+				this.modificarPrecioTotal();
 			}
 		});
 	}

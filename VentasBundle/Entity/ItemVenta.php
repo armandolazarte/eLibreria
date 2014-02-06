@@ -20,7 +20,7 @@ class ItemVenta {
 	private $id;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="RGM\eLibreria\VentasBundle\Entity\Venta", inversedBy="items")
+	 * @ORM\ManyToOne(targetEntity="RGM\eLibreria\VentasBundle\Entity\Venta", inversedBy="items", cascade={"persist"})
 	 * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
 	 */
 	private $venta;
@@ -36,6 +36,10 @@ class ItemVenta {
 	 */
 	private $descuento = 0;
 
+	public function __construct(Venta $v){
+		$this->setVenta($v);
+	}
+	
 	/**
 	 * Get id
 	 *

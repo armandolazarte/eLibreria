@@ -10,6 +10,7 @@ function Existencia(padre, id){
 	this.descuento;
 	this.vendido;
 	this.adquirido;
+	this.formExistencia;
 	
 	this.estado;
 	this.botonActualizar;
@@ -43,6 +44,7 @@ function Existencia(padre, id){
 				this.descuento = $plantilla.find('input[name="descuento"]');
 				this.vendido = $plantilla.find('input[name="vendido"]');
 				this.adquirido = $plantilla.find('input[name="adquirido"]');
+				this.formExistencia = $plantilla.find('.form-datos-existencia');
 
 				this.localizacion.change(function(){existencia.des();});
 				this.precio.change(function(){existencia.des();});
@@ -56,7 +58,8 @@ function Existencia(padre, id){
 				this.botonBorrar = $plantilla.find('.borrarExistencia');	
 
 				this.localizacion.click(function(evento){evento.preventDefault(); return false;});
-				this.botonActualizar.click(function(evento){evento.preventDefault(); existencia.actualizarInformacion(); return false;});
+				
+				this.formExistencia.submit(function(evento){evento.preventDefault(); existencia.actualizarInformacion(); return false;});
 				this.botonBorrar.click(function(evento){evento.preventDefault(); existencia.borrarExistencia(); return false;});
 
 				this.setExistenciaEnContenedor($plantilla);
