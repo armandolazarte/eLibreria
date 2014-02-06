@@ -26,7 +26,7 @@ eLibreria
         
     b. Modificar:
         assetic:
-            bundles:        [ RGMELibreriaIndexBundle, RGMELibreriaSuministroBundle, RGMELibreriaLibroBundle ]
+            bundles:        [ RGMELibreriaIndexBundle, RGMELibreriaSuministroBundle, RGMELibreriaLibroBundle, RGMELibreriaVentasBundle ]
             
 10.- Añadir a app/AppKernel.php:
 
@@ -41,6 +41,7 @@ eLibreria
             new RGM\eLibreria\SuministroBundle\RGMELibreriaSuministroBundle(),
             new RGM\eLibreria\VentasBundle\RGMELibreriaVentasBundle(),
             new RGM\eLibreria\ReservasBundle\RGMeLibreriaReservasBundle(),
+            new RGM\eLibreria\ExistenciaBundle\RGMeLibreriaExistenciaBundle(),
 ```
         
 11.- Lanzar php app/console doctrine:database:create
