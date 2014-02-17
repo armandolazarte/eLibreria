@@ -39,12 +39,19 @@ class Existencia {
 	private $iva;
 
 	/**
+	 * @var float
+	 *
+	 * @ORM\Column(name="beneficio", type="float")
+	 */
+	private $beneficio;
+
+	/**
 	 * @var integer
 	 *
 	 * @ORM\Column(name="vendido", type="integer")
 	 */
 	private $vendido = 0;
- 
+
 	/**
 	 * @var integer
 	 *
@@ -68,10 +75,10 @@ class Existencia {
 	 */
 	private $localizacion;
 
-	public function __construct(){
-		
+	public function __construct() {
+
 	}
-	
+
 	/**
 	 * Get id
 	 *
@@ -192,11 +199,11 @@ class Existencia {
 
 	public function setVendido($vendido) {
 		$this->vendido = $vendido;
-		
+
 		return $this;
 	}
-	
-	public function isVendido(){
+
+	public function isVendido() {
 		return $this->vendido == 1;
 	}
 
@@ -206,11 +213,39 @@ class Existencia {
 
 	public function setAdquirido($adquirido) {
 		$this->adquirido = $adquirido;
-		
+
 		return $this;
 	}
-	
-	public function isAdquirido(){
+
+	public function isAdquirido() {
 		return $this->adquirido == 1;
+	}
+
+	public function getTipo() {
+		$claseString = get_class($this);
+		$claseString = explode('\\', $claseString);
+		$claseString = array_pop($claseString);
+
+		$tipo = '';
+		if (strtolower($claseString) == 'existencialibro') {
+			$tipo = 'libro';
+		} else {
+			$tipo = 'articulo';
+		}
+
+		return $tipo;
+	}
+
+	public function getBeneficio() {
+		return $this->beneficio;
+	}
+
+	public function setBeneficio($beneficio) {
+		$this->beneficio = $beneficio;
+		return $this;
+	}
+
+	public function getPVP(){
+		return round($this->precio * (1 + $this->iva + $this->beneficio), 2);
 	}
 }

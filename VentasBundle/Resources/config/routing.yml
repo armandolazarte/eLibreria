@@ -4,17 +4,13 @@ rgm_e_libreria_ventas_ticket_ver:
     
     
     
-rgm_e_libreria_ventas_crear:
-    pattern: /venta/nueva
-    defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:generadorVenta' }
+
     
 rgm_e_libreria_venta_plantilla_existencia:
     pattern: /venta/ajax/plantilla/existencia
     defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:plantillaExistencia' }
     methods:  [POST]    
     
-    
-
 rgm_e_libreria_venta_get_info_cliente:
     pattern: /venta/ajax/cliente/info
     defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:getInfoCliente' }
@@ -40,10 +36,26 @@ rgm_e_libreria_venta_registro_venta:
     defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:registrarVenta' }
     methods:  [POST]
     
+rgm_e_libreria_venta_borrar_existencia:
+    pattern: /venta/ajax/borrar/existencia
+    defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:borrarExistencia' }
+    methods:  [POST]
+    
+rgm_e_libreria_venta_get_ruta_ticket:
+    pattern: /venta/ajax/ruta/ticket
+    defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:getRutaTicket' }
+    methods:  [POST]
+    
+    
+    
+    
+rgm_e_libreria_ventas_crear:
+    pattern: /venta/nueva
+    defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:generadorVenta' }
     
 rgm_e_libreria_ventas_editar:
     pattern: /gestor/editar/{id}
-    defaults: { _controller: 'RGMELibreriaVentasBundle:Venta:editarVenta' }
+    defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:generadorVenta' }
     
 rgm_e_libreria_ventas_borrar:
     pattern: /gestor/borrar/{id}
@@ -52,3 +64,22 @@ rgm_e_libreria_ventas_borrar:
 rgm_e_libreria_ventas_index:
     pattern: /gestor
     defaults: { _controller: 'RGMELibreriaVentasBundle:Venta:verVentas' }
+    
+    
+    
+    
+rgm_e_libreria_cliente_crear:
+    pattern: /cliente/nuevo
+    defaults: { _controller: 'RGMELibreriaVentasBundle:Cliente:crearCliente' }
+    
+rgm_e_libreria_cliente_editar:
+    pattern: /cliente/editar/{id}
+    defaults: { _controller: 'RGMELibreriaVentasBundle:Cliente:editarCliente' }
+    
+rgm_e_libreria_cliente_borrar:
+    pattern: /cliente/borrar/{id}
+    defaults: { _controller: 'RGMELibreriaVentasBundle:Cliente:borrarCliente' }
+    
+rgm_e_libreria_cliente_index:
+    pattern: /cliente
+    defaults: { _controller: 'RGMELibreriaVentasBundle:Cliente:verClientes' }

@@ -8,6 +8,7 @@ function Existencia(padre, id){
 	this.precio;
 	this.iva;
 	this.descuento;
+	this.beneficio;
 	this.vendido;
 	this.adquirido;
 	this.formExistencia;
@@ -42,6 +43,7 @@ function Existencia(padre, id){
 				this.precio = $plantilla.find('input[name="precio"]');
 				this.iva = $plantilla.find('select[name="iva"]');
 				this.descuento = $plantilla.find('input[name="descuento"]');
+				this.beneficio = $plantilla.find('input[name="beneficio"]');
 				this.vendido = $plantilla.find('input[name="vendido"]');
 				this.adquirido = $plantilla.find('input[name="adquirido"]');
 				this.formExistencia = $plantilla.find('.form-datos-existencia');
@@ -50,6 +52,7 @@ function Existencia(padre, id){
 				this.precio.change(function(){existencia.des();});
 				this.iva.change(function(){existencia.des();});
 				this.descuento.change(function(){existencia.des();});
+				this.beneficio.change(function(){existencia.des();});
 				this.vendido.change(function(){existencia.des();});
 				this.adquirido.change(function(){existencia.des();});
 				
@@ -89,6 +92,7 @@ function Existencia(padre, id){
 					this.precio.val(data.precio);
 					this.iva.val(data.iva);
 					this.descuento.val(data.descuento * 100);
+					this.beneficio.val(data.beneficio * 100);
 					
 					if(data.vendido){
 						this.vendido.prop('checked', true);
@@ -146,6 +150,7 @@ function Existencia(padre, id){
 				precio: this.precio.val(),
 				iva: this.iva.val(),
 				descuento: this.descuento.val() / 100,
+				beneficio: this.beneficio.val() / 100,
 				vendido: this.vendido.prop('checked'),
 				adquirido: this.adquirido.prop('checked')
 			},

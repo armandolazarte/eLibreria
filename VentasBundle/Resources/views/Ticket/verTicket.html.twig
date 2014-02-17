@@ -6,11 +6,21 @@
 	<link href="{{ asset('bundles/rgmelibreriaventas/css/ticket.css') }}" type="text/css" rel="stylesheet" />	
 {% endblock %}
 
+{% block javascripts %}
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="{{ asset('bundles/rgmelibreriaventas/js/ticket.js') }}"></script>
+{% endblock %}
+
 {% block body %}
+<div class="barra_impresion">IMPRIMIR TICKET</div>
 <div id="albaran_contenedor">
 	<header id="albaran_header">
 		<div class="imagen_ticket"></div>
 		<h1>Librería Entre Líneas</h1>
+		<div class="info">
+			<div class="titulo">NIF:</div>
+			<div class="valor">77814416-B</div>
+		</div>
 		<div class="info">
 			<div class="titulo">Tel:</div>
 			<div class="valor">954342748</div>
@@ -24,89 +34,47 @@
 			<div class="valor">41010 Sevilla</div>
 		</div>
 		<div class="info separacion">
-			<div class="titulo">Factura simplificada</div>
-		</div>
-		<div class="info">
 			<div class="titulo">Venta nº:</div>
-			<div class="valor">3442</div>
+			<div class="valor">{{ venta.id }}</div>
 		</div>
 		<div class="info">
 			<div class="titulo">Fecha:</div>
-			<div class="valor">15/05/2048</div>
+			<div class="valor">{{ venta.fecha|date('d-m-Y') }}</div>
+		</div>
+		<div class="info separacion facturaSimplificada">
+			<div class="titulo">Factura simplificada</div>
 		</div>
 	</header>
 	<section id="albaran_cuerpo">
 		<table>
 			<tr>
-				<th>Titulo</th>
-				<th>P.V.s/i</th>
-				<th>%IVA</th>
-				<th>P.V.c/i</th>
-				<th>UDS.</th>
-				<th>Importe</th>
+				<th class="titulo">Titulo</th>
+				<th class="pvp">P.V.P</th>
+				<th class="cant">UDS.</th>
+				<th class="importe">Importe</th>
 			</tr>
+			{% for prod in productos %}
 			<tr>
-				<td>OXF-Dicc.Oxford Study + CD</td>
-				<td>27.45</td>
-				<td>4.00</td>
-				<td>28.55</td>
-				<td>1</td>
-				<td>28.55</td>
+				<td>{{ prod.titulo }}</td>
+				<td>{{ '%.2f'|format(prod.pf) }}€</td>
+				<td>{{ prod.cant }}</td>
+				<td>{{ '%.2f'|format(prod.pf * prod.cant) }}€</td>
 			</tr>
-			<tr>
-				<td>Guia de los movimientos</td>
-				<td>27.00</td>
-				<td>4.00</td>
-				<td>27.50</td>
-				<td>1</td>
-				<td>27.50</td>
+			{% if prod.titulo_desc is defined %}
+			<tr class="descuento">
+				<td>{{ prod.titulo_desc }}</td>
+				<td class="tachado">{{ prod.pvp }}</td>
 			</tr>
-			<tr>
-				<td>OXF-Dicc.Oxford Study + CD</td>
-				<td>27.45</td>
-				<td>4.00</td>
-				<td>28.55</td>
-				<td>1</td>
-				<td>28.55</td>
-			</tr>
-			<tr>
-				<td>OXF-Dicc.Oxford Study + CD</td>
-				<td>27.45</td>
-				<td>4.00</td>
-				<td>28.55</td>
-				<td>1</td>
-				<td>28.55</td>
-			</tr>
+			{% endif %}
+			{% endfor %}
 		</table>
 	</section>
 	<footer id="albaran_footer">
-		<section class="total_base">
-			Total Base: 32.47€
-			Total IVA: 1.30€
-			Total REC: 0.16€ 
-		</section>
 		<section class="total">
-			TOTAL: 33.93€
-			Entregado: 40€
-			Vuelta: 6.07€
+			Total: {{ '%.2f'|format(base) }}€
 		</section>
-		<section class="impuestos">
-			<table>
-				<tr>
-					<th>I.V.A.</th>
-					<th>REC.</th>
-					<th>Base Imponible</th>
-					<th>IMP I.V.A.</th>
-					<th>IMP REC.</th>
-				</tr>
-				<tr>
-					<td>4.00%</td>
-					<td>0.50%</td>
-					<td>32.47€</td>
-					<td>1.30€</td>
-					<td>0.16€</td>
-				</tr>
-			</table>
+		<section class="ivaIncluido">
+			IVA Incluido 
 		</section>
 		<h2>Gracias por su visita.</h2>
 	</footer>

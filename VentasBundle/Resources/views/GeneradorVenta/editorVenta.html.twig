@@ -14,7 +14,11 @@
 			ruta_ajax_buscar_ref = '{{ path(ajax.ruta_ajax_buscar_ref) }}',
 			ruta_ajax_buscar_titulo = '{{ path(ajax.ruta_ajax_buscar_titulo) }}',
 			ruta_ajax_plantilla_existencia = '{{ path(ajax.ruta_ajax_plantilla_existencia) }}';
-			ruta_ajax_registro_venta = '{{ path(ajax.ruta_ajax_registro_venta) }}';
+			ruta_ajax_registro_venta = '{{ path(ajax.ruta_ajax_registro_venta) }}',
+			ruta_ajax_borrar_existencia = '{{ path(ajax.ruta_ajax_borrar_existencia) }}',
+			ruta_ajax_get_ruta_ticket = '{{ path(ajax.ruta_ajax_get_ruta_ticket) }}';
+
+		{% if venta is defined %}var venta_info = $.parseJSON('{{ venta | raw }}');{% endif %}
 	</script>
 	
 	{% javascripts '@RGMELibreriaVentasBundle/Resources/public/js/editor/clases/*.js' %}
@@ -117,10 +121,13 @@
 				<input type="text" value="Titulo" disabled>
 			</div>
 			<div class="item_contenido item_precio">
-				<input type="text" value="Precio" disabled>€
+				<input type="text" value="P.s/IVA" disabled>€
 			</div>
 			<div class="item_contenido item_iva">
 				<input type="text" value="IVA" disabled>%
+			</div>
+			<div class="item_contenido item_precio">
+				<input type="text" value="PVP" disabled>€
 			</div>
 			<div class="item_contenido item_descuento">
 				<input type="text" value="Desc." disabled>%

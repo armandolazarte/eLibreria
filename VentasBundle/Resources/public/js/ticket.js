@@ -1,0 +1,9 @@
+$(document).ready(function(){
+	$('.barra_impresion').click(function(){
+		$('div.barra_impresion').hide();
+		$('div.sf-toolbar').hide();
+		window.print();
+		$('div.sf-toolbar').show();
+		$('div.barra_impresion').show();
+	});
+});

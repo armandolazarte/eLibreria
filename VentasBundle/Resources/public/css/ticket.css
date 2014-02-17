@@ -7,9 +7,9 @@
 
 #albaran_contenedor{
 	/*Ticket: 80mm*/
-	width: 292px;
-	
-	border: 1px solid #000;
+	width: 310px;
+	padding: 0 5px;
+	margin: 0 auto;
 }
 
 #albaran_header{
@@ -24,6 +24,9 @@
 	border: 1px solid;
 	margin-right: 15px;
 	margin-top: 31px;
+	
+	background: url(../images/logo.png) #c6fecd center no-repeat;
+	background-size: 70px 68px;
 }
 
 .info{
@@ -78,11 +81,69 @@
 }
 
 .total{
-	
+	border-top: 1px solid;
+	padding-top: 5px;
+}
+
+.total, .ivaIncluido{
+	text-align: right;
+	padding-right: 15px;
+	font-size: 17px;
+	font-weight: 800;
+}
+
+.ivaIncluido{
+	font-size: 10px !important;
+	margin-top: 5px;
+}
+
+.facturaSimplificada .titulo{
+	font-size: 12px;
+	font-weight: 800;
+}
+
+#albaran_cuerpo .titulo{
+	width: 170px;
+}
+
+#albaran_cuerpo .cant{
+	width: 20px;
+}
+
+#albaran_cuerpo .pvp, .importe{
+	width: 50px;
 }
 
 #albaran_footer h2{
-	margin-top: 20px;
+	margin-top: 15px;
 	border-bottom: 1px solid #000;
 	font-size: 12px;
+}
+
+.barra_impresion{
+	border: 1px solid;
+	padding: 20px;
+	text-align: center;
+	font-size: 18px;
+	font-weight: 800;
+	cursor: pointer;
+	
+	background: -webkit-linear-gradient(#F9F9F9, #CAD6E8);
+	background: -moz-linear-gradient(#F9F9F9, #CAD6E8);
+	background: -o-linear-gradient(#F9F9F9, #CAD6E8);
+	color: #000;
+	border: 1px solid #A2B5D0;
+}
+
+.descuento{
+	text-align: right;
+}
+
+.descuento td{
+	font-size: 10px;
+	padding-bottom: 10px;
+}
+
+.tachado{
+	text-decoration: line-through;
 }

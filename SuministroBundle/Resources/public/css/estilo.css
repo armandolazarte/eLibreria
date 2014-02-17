@@ -269,6 +269,7 @@ h3.ui-accordion-header{
 
 .datos .ultimo{
 	float: right !important;
+	clear: both;
 }
 
 .datos .jaula-datos-entidades > div{
@@ -358,6 +359,11 @@ h3.ui-accordion-header{
 
 .existencia .cuerpo-existencia-datos .iva{
 	width: 105px;
+}
+
+.existencia .cuerpo-existencia-datos .beneficio{
+	width: 174px;
+	margin-bottom: 5px !important;
 }
 
 .iva select{

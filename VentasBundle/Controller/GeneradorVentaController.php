@@ -4,6 +4,7 @@ namespace RGM\eLibreria\VentasBundle\Controller;
 use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use RGM\eLibreria\VentasBundle\Entity\DispensadorItemsVenta;
 
 class GeneradorVentaController extends Asistente{
 	private $bundle = 'ventasbundle';
@@ -220,8 +221,38 @@ class GeneradorVentaController extends Asistente{
 		return $this->getResponse(array('sugerencias' => $res));
 	}
 	
-	public function generadorVentaAction(Request $peticion){
+	public function generadorVentaAction(Request $peticion, $id = null){
 		$opciones = $this->getArrayOpcionesVista(array(), $this->getPlantilla('menu_izq'));
+		
+		if($id){
+			$em = $this->getEm();
+			$infoEntidad = $this->getParametro('entidad');
+			$venta = $em->getRepository($this->getEntidadLogico($infoEntidad['repositorio']))->find($id);
+			
+			if(!$venta){
+				return $this->irInicio();
+			}
+			
+			$existencias = array();
+			
+			foreach($venta->getItems() as $item){
+				$ex = $item->getExistencia();
+				$eArray = array();
+				
+				$eArray['id'] = $ex->getId();				
+				$eArray['tipo'] = $ex->getTipo();
+				
+				$existencias[] = $eArray;
+			}
+			
+			$vArray = array();
+			
+			$vArray['id'] = $venta->getId();
+			$vArray['existencias'] = $existencias;
+			
+			$opciones['venta'] = json_encode($vArray);
+		}
+		
 		$opciones['ajax'] = $this->getParametro('ajax');
 		
 		$infoClientes = $this->getParametro('cliente');
@@ -252,6 +283,35 @@ class GeneradorVentaController extends Asistente{
 		return $render;
 	}
 	
+	public function borrarExistenciaAction(Request $peticion){
+		$res = array();
+		
+		if($peticion->getMethod() == "POST"){
+			$em = $this->getEm();
+			$idExistencia = $peticion->request->get('id');
+			$tipoExistencia = strtolower($peticion->request->get('tipo'));
+			
+			$infoExistencia = $this->getParametro('existencias');
+			$existencia = $em->getRepository($infoExistencia[$tipoExistencia]['repositorio'])->find($idExistencia);
+			
+			if($existencia){
+				$itemVenta = $existencia->getItemVenta();
+				
+				if($itemVenta){
+					$em->remove($itemVenta);
+				}
+				
+				$existencia->setVendido(0);
+				$em->persist($existencia);
+				
+				$em->flush();
+				$res['estado'] = true;
+			}
+		}
+		
+		return $this->getResponse($res);
+	}
+	
 	public function registrarVentaAction(Request $peticion){
 		$res = array();
 		
@@ -260,7 +320,7 @@ class GeneradorVentaController extends Asistente{
 			$total = $peticion->request->get('total');
 			$clienteId = $peticion->request->get('cliente');
 			$metodoPago = $peticion->request->get('metodoPago');
-			$items = $peticion->request->get('items');
+			$itemsNuevos = $peticion->request->get('items');
 			
 			$infoVenta = $this->getParametro('entidad');
 			$em = $this->getEm();
@@ -286,49 +346,60 @@ class GeneradorVentaController extends Asistente{
 			}
 			
 			$em->persist($venta);
-			
-			foreach($venta->getItems() as $itemVentaAnterior){
-				$exTemp = $itemVentaAnterior->getExistencia();
-				
-				$exTemp->setVendido(0);
-				
-				$em->remove($itemVentaAnterior);								
-				$em->persist($exTemp);
-			}
-			
 			$em->flush();
 			
-			$infoItemVenta = $this->getParametro('itemVenta');
-			$infoExistencias = $this->getParametro('existencias');
-			
-			$todoBien = true;
-			
-			foreach($items as $infoItem){
-				$idItem = $infoItem['id'];
-				$tipoItem = $infoItem['tipo'];
-				$descItem = $infoItem['desc'];
+			$itemsDisponibles = array();
+						
+			foreach($venta->getItems() as $itemVenta){
+				$ex = $itemVenta->getExistencia();
+				$ex->setVendido(0);
+				$em->persist($ex);
 				
-				$existencia = $em->getRepository($infoExistencias[strtolower($tipoItem)]['repositorio'])->find($idItem);
-				
-				if($existencia){
-					$itemVenta = $this->getNuevaInstancia($infoItemVenta['clase'], array($venta));
-					$itemVenta->setDescuento($descItem);
-					$itemVenta->setExistencia($existencia);
-					
-					$em->persist($itemVenta);
-					
-					$existencia->setVendido(1);
-					$em->persist($existencia);
-				}
-				else{
-					$todoBien = false;
-				}
+				$itemVenta->setExistencia(null);
+				$itemsDisponibles[] = $itemVenta;
 			}
+			
+			$dispensador = new DispensadorItemsVenta($venta, $itemsDisponibles);
+			
+			foreach($itemsNuevos as $i){
+				$itemVenta = $dispensador->getItem();
+				$itemVenta->setDescuento($i['desc']);
+				$itemVenta->setPrecioVenta($i['precioVenta']);
+				
+				$idExistencia = $i['id'];
+				$tipoExistencia = strtolower($i['tipo']);
+				
+				$infoExistencia = $this->getParametro('existencias');
+				$existencia = $em->getRepository($infoExistencia[$tipoExistencia]['repositorio'])->find($idExistencia);
+				
+				$existencia->setVendido(1);
+				$itemVenta->setExistencia($existencia);
+
+				$em->persist($itemVenta);
+				$em->persist($existencia);				
+			}
+			
+			$dispensador->terminarTransaccion($em);
 			
 			$em->flush();
 			
 			$res['idVenta'] = $venta->getId();
-			$res['estado'] = $todoBien;
+			$res['estado'] = true;
+		}
+		
+		return $this->getResponse($res);
+	}
+	
+	public function getRutaTicketAction(Request $peticion){
+		$res = array();
+		
+		if($peticion->getMethod() == "POST"){
+			$idVenta = $peticion->request->get('idVenta');
+			
+			if($idVenta != ""){
+				$res['estado'] = true;
+				$res['url'] = $this->generateUrl($this->getParametro('ruta_ticket'), array('idVenta' => $idVenta));
+			}
 		}
 		
 		return $this->getResponse($res);

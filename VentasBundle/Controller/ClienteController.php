@@ -5,9 +5,9 @@ use RGM\eLibreria\IndexBundle\Controller\GridController;
 use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use Symfony\Component\HttpFoundation\Request;
 
-class VentaController extends Asistente{
+class ClienteController extends Asistente{
 	private $bundle = 'ventasbundle';
-	private $controlador = 'venta';
+	private $controlador = 'cliente';
 	
 	public function __construct(){
 		parent::__construct(
@@ -39,7 +39,7 @@ class VentaController extends Asistente{
 		return $opciones;
 	}
 	
-	public function verVentasAction(Request $peticion){
+	public function verClientesAction(Request $peticion){
 		$render = null;
 		$grid = $this->getGrid();
 		
@@ -55,7 +55,95 @@ class VentaController extends Asistente{
 		return $render;
 	}
 	
-	public function borrarVentaAction(Request $peticion, $id){
+	public function crearClienteAction(Request $peticion){
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicio();
+		}
+	
+		$em = $this->getEm();
+	
+		$infoEntidad = $this->getParametro('entidad');
+		$entidad = $this->getNuevaInstancia($infoEntidad['clase']);
+		
+		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_crear');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
+	
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('ruta_form_crear'));
+		$opcionesVM['titulo_submit'] = $this->getParametro('titulo_submit_crear');
+	
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('editor'), $entidad);
+	
+		if($peticion->getMethod() == "POST"){
+			$opcionesVM['form']->bind($peticion);
+	
+			if($opcionesVM['form']->isValid()){				
+				$em->persist($entidad);
+				$em->flush();
+	
+				$this->setFlash($this->getParametro('flash_crear'));
+				return $this->irInicio();
+			}
+		}
+	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
+		$grid = $this->getGrid();
+		$grid->setOpciones($opciones);
+	
+		return $grid->getRender($this->getPlantilla('principal'));
+	}
+	
+	public function editarClienteAction(Request $peticion, $id){
+		if($peticion->isXmlHttpRequest()){
+			return $this->irInicio();
+		}
+	
+		$em = $this->getEm();
+	
+		$infoEntidad = $this->getParametro('entidad');
+		$entidad = $em->getRepository($this->getEntidadLogico($infoEntidad['repositorio']))->find($id);
+	
+		if(!$entidad){
+			return $this->irInicio();
+		}
+	
+		$opciones = $this->getOpcionesVista();
+		$opciones['vm']['titulo'] = $this->getParametro('titulo_editar');
+		$opciones['vm']['plantilla'] = $this->getPlantilla('vm_formularios');
+	
+		$opcionesVM = array();
+		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('grid_ruta_editar'), array("id"=>$id));
+		$opcionesVM['titulo_submit'] = $this->getParametro('grid_boton_editar');
+	
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('editor'), $entidad);
+	
+		if($peticion->getMethod() == "POST"){
+			$opcionesVM['form']->bind($peticion);
+	
+			if($opcionesVM['form']->isValid()){				
+				$em->persist($entidad);
+				$em->flush();
+	
+				$this->setFlash($this->getParametro('flash_editar'));
+				return $this->irInicio();
+			}
+		}
+	
+		$opcionesVM['form'] = $opcionesVM['form']->createView();
+	
+		$opciones['vm']['opciones'] = $opcionesVM;
+	
+		$grid = $this->getGrid();
+		$grid->setOpciones($opciones);
+	
+		return $grid->getRender($this->getPlantilla('principal'));
+	}
+	
+	public function borrarClienteAction(Request $peticion, $id){
 		if($peticion->isXmlHttpRequest()){
 			return $this->irInicio();
 		}
@@ -84,15 +172,7 @@ class VentaController extends Asistente{
 		if($peticion->getMethod() == "POST"){
 			$opcionesVM['form']->bind($peticion);
 	
-			if($opcionesVM['form']->isValid()){
-				foreach($entidad->getItems() as $item){
-					$existencia = $item->getExistencia();
-					$item->setExistencia(null);
-					
-					$existencia->setVendido(0);
-					$em->persist($existencia);
-				}
-				
+			if($opcionesVM['form']->isValid()){				
 				$em->remove($entidad);
 				$em->flush();
 	

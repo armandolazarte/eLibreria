@@ -17,7 +17,7 @@ function Venta(
 		$input_submit_anadir_articulo,
 		$venta_contenedorItems){	
 
-	this.id;
+	this.id = null;
 	
 	this.cliente;
 	this.venta_info_total;
@@ -62,7 +62,8 @@ function Venta(
 				itemsAjax.push({
 					id: it.id,
 					tipo: it.tipo,
-					desc: parseFloat(it.descuento.val())
+					desc: parseFloat(it.descuento.val()),
+					precioVenta: parseFloat(it.precioTotal.val())
 				});			
 			}
 			
@@ -81,6 +82,19 @@ function Venta(
 					if(data.estado){
 						this.id = data.idVenta;
 						this.act();
+						
+						$.ajax({
+							url: ruta_ajax_get_ruta_ticket,
+							data: {
+								idVenta: this.id,
+							},
+							type: "POST",
+							success: function(data){
+								if(data.estado){
+									window.open(data.url, '_blank', 'menubar=no,width=500,height=600');
+								}
+							}
+						});
 					}
 				}
 			});
@@ -88,7 +102,18 @@ function Venta(
 		
 		//Abrir ventana con ticket
 		if(this.isActualizado()){
-			
+			$.ajax({
+				url: ruta_ajax_get_ruta_ticket,
+				data: {
+					idVenta: this.id,
+				},
+				type: "POST",
+				success: function(data){
+					if(data.estado){
+						window.open(data.url, '_blank', 'menubar=no,width=500,height=600');
+					}
+				}
+			});
 		}
 	}
 	
@@ -122,10 +147,19 @@ function Venta(
 			this.venta_info_entregado.val('----');
 			this.venta_info_vuelta.html('----');			
 		}
+		
+		this.des();
+	}
+	
+	this.cargarInfo = function(arrayItems){
+		for(var i = 0; i < arrayItems.length; i++){
+			var ex = arrayItems[i];
+			this.anadirExistencia(ex.id, ex.tipo);
+		}
 	}
 	
 	this.anadirExistencia = function(idExistencia, tipoExistencia){
-		$venta.habilitarContenedorItem();
+		this.habilitarContenedorItem();
 		this.items.push(new Existencia(this, idExistencia, tipoExistencia));
 	}
 	
@@ -260,6 +294,11 @@ function Venta(
 		});
 		
 		$('.venta').data('venta', $venta);
+		
+		if(typeof venta_info != 'undefined'){
+			this.id = venta_info.id;			
+			this.cargarInfo(venta_info.existencias);
+		}
 	}
 	
 	this.init($select_venta_cliente_nombre,$input_venta_cliente_nombre,$input_venta_cliente_tel,$input_venta_cliente_movil,

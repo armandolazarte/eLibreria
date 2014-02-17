@@ -36,10 +36,15 @@ class ItemVenta {
 	 */
 	private $descuento = 0;
 
-	public function __construct(Venta $v){
+	/**
+	 * @ORM\Column(name="precioVenta", type="float", nullable=false)
+	 */
+	private $precioVenta = 0;
+
+	public function __construct(Venta $v) {
 		$this->setVenta($v);
 	}
-	
+
 	/**
 	 * Get id
 	 *
@@ -99,6 +104,14 @@ class ItemVenta {
 		$this->existencia = $existencia;
 
 		return $this;
+	}
+
+	public function getPrecioVenta() {
+		return $this->precioVenta;
+	}
+
+	public function setPrecioVenta($precioVenta) {
+		$this->precioVenta = $precioVenta;
 	}
 
 }

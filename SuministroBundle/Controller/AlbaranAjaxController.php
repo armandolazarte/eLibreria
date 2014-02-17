@@ -213,6 +213,7 @@ class AlbaranAjaxController extends Asistente{
 					$res['precio'] = $existencia->getPrecio();
 					$res['iva'] = $existencia->getIva();
 					$res['descuento'] = $existencia->getItemAlbaran()->getDescuento();
+					$res['beneficio'] = $existencia->getBeneficio();
 					$res['adquirido'] = $existencia->getAdquirido();
 					$res['vendido'] = $existencia->getVendido();
 						
@@ -355,11 +356,12 @@ class AlbaranAjaxController extends Asistente{
 			$precio = $peticion->request->get('precio');
 			$iva = $peticion->request->get('iva');
 			$descuento = $peticion->request->get('descuento');
+			$beneficio = $peticion->request->get('beneficio');
 			$vendido = $peticion->request->get('vendido');
 			$adquirido = $peticion->request->get('adquirido');
 				
 			if($idPadre != "" && $precio != "" && $iva != "" && 
-			$descuento != "" &&	$vendido != "" && $adquirido != ""){
+			$descuento != "" && $beneficio != "" &&	$vendido != "" && $adquirido != ""){
 				$em = $this->getEm();
 	
 				$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($idAlbaran);
@@ -404,6 +406,8 @@ class AlbaranAjaxController extends Asistente{
 						
 						$existencia->setPrecio($precio);
 						$existencia->setIva($iva);
+						$existencia->setBeneficio($beneficio);
+						
 						if($vendido == "true"){
 							$existencia->setVendido(1);
 						}

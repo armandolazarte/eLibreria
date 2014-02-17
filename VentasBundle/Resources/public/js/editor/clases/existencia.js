@@ -8,6 +8,7 @@ function Existencia(venta, idExistencia, tipoExistencia){
 	
 	this.precio;
 	this.iva;
+	this.pvp;
 	
 	this.botonBorrar;
 	
@@ -23,8 +24,7 @@ function Existencia(venta, idExistencia, tipoExistencia){
 	}
 	
 	this.modificarDescuento = function(){
-		var pt = (-1) * parseFloat(this.precioTotal.val());
-		var d = (pt * 100 / parseFloat(this.precio.val())) + 100 + parseFloat(this.iva.val());
+		var d = 1 - parseFloat(this.precioTotal.val() / this.pvp.val());
 		
 		this.descuento.val(d.toFixed(2));
 		
@@ -33,9 +33,7 @@ function Existencia(venta, idExistencia, tipoExistencia){
 	}
 	
 	this.modificarPrecioTotal = function(){
-		var i = this.precio.val() * (this.iva.val() / 100);
-		var d = this.precio.val() * (this.descuento.val() / 100);
-		var t = this.precio.val() - d + i;
+		var t = this.pvp.val() * (1 - (this.descuento.val() / 100));
 		
 		this.precioTotal.val(t.toFixed(2));
 
@@ -53,15 +51,28 @@ function Existencia(venta, idExistencia, tipoExistencia){
 		return res;
 	}
 		
-	this.borrar = function(){			
-		this.venta.borrarItem(this);
-		this.html.remove();
-		
-		if(this.venta.items.length <= 0){
-			this.venta.deshabilitarContenedorItem();
-		}
-		
-		this.venta.actualizarTotal();
+	this.borrar = function(){
+		$.ajax({
+			url: ruta_ajax_borrar_existencia,
+			context: this,
+			type: "POST",
+			data: {
+				id: this.id,
+				tipo: this.tipo
+			},
+			success: function(data){
+				if(data.estado){
+					this.venta.borrarItem(this);
+					this.html.remove();
+					
+					if(this.venta.items.length <= 0){
+						this.venta.deshabilitarContenedorItem();
+					}
+					
+					this.venta.actualizarTotal();
+				}
+			}
+		});
 	}
 	
 	this.init = function(venta, idExistencia, tipoExistencia){
@@ -84,6 +95,7 @@ function Existencia(venta, idExistencia, tipoExistencia){
 
 				this.precio = $html.find('.item_precio').children('input');
 				this.iva = $html.find('.item_iva').children('input');
+				this.pvp = $html.find('.item_pvp').children('input');
 				
 				this.descuento = $html.find('.item_descuento').children('input');
 				this.precioTotal = $html.find('.item_precio_total').children('input');
