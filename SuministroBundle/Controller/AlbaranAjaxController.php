@@ -468,10 +468,12 @@ class AlbaranAjaxController extends Asistente{
 	
 		$infoAutores = $this->getParametro('autor');
 		$infoEstilos = $this->getParametro('estilo');
+		$infoRec = $this->getParametro('recargo');
 	
 		$em = $this->getEm();
 		$opciones = array();
-	
+		
+		$opciones['recargos'] = $em->getRepository($infoRec['repositorio'])->findAll();	
 		$opciones['autores'] = $em->getRepository($infoAutores['repositorio'])->findAll();
 		$opciones['estilos'] = $em->getRepository($infoEstilos['repositorio'])->findAll();
 	
@@ -497,6 +499,16 @@ class AlbaranAjaxController extends Asistente{
 		$opciones['recargos'] = $em->getRepository($infoRec['repositorio'])->findAll();
 	
 		return $this->render($this->getPlantilla('plantillaExistencia'), $opciones);
+	}
+
+// 	plantillaCrearMasivoExistencia
+	public function plantillaCrearMasivoExistenciaAction(){
+		$em = $this->getEm();
+
+		$infoRec = $this->getParametro('recargo');
+		$opciones['recargos'] = $em->getRepository($infoRec['repositorio'])->findAll();
+	
+		return $this->render($this->getPlantilla('plantillaCrearMasivoExistencia'), $opciones);
 	}
 }
 ?>

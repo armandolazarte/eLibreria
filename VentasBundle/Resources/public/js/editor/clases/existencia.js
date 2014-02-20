@@ -24,7 +24,7 @@ function Existencia(venta, idExistencia, tipoExistencia){
 	}
 	
 	this.modificarDescuento = function(){
-		var d = 1 - parseFloat(this.precioTotal.val() / this.pvp.val());
+		var d = (1 - parseFloat(this.precioTotal.val() / this.pvp.val())) * 100;
 		
 		this.descuento.val(d.toFixed(2));
 		

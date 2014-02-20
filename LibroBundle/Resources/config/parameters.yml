@@ -51,6 +51,7 @@ parameters:
         nombrelogicobundle: 'RGMELibreriaLibroBundle'
         path: 'Autor'
         formularios:
+            creador: 'RGM\eLibreria\LibroBundle\Form\Frontend\Autor\CrearAutorType'
             editor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Autor\AutorType'
             visor: 'RGM\eLibreria\LibroBundle\Form\Frontend\Autor\AutorVisorType'
         entidad: 'Autor'
@@ -60,6 +61,7 @@ parameters:
             vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
         
         ruta_form_crear: 'rgarcia_entrelineas_autor_crear'
+        ruta_form_crear_siguiente: 'rgarcia_entrelineas_autor_crear_siguiente'
         titulo_crear: 'Crear nuevo autor'
         titulo_submit_crear: 'Crear'
         flash_crear: 'Autor creado con éxito'

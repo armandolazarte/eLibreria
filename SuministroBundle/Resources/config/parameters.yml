@@ -48,17 +48,17 @@ parameters:
             principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
             vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
         
-        ruta_form_crear: 'rgm_e_libreria_suministro_distribuidoras_crear'
+        ruta_form_crear: 'rgm_e_libreria_suministro_recargo_crear'
         titulo_crear: 'Crear nuevo recargo'
         titulo_submit_crear: 'Crear'
         flash_crear: 'Recargo creado con éxito'
         
-        grid_ruta_editar: 'rgm_e_libreria_suministro_distribuidoras_editar'
+        grid_ruta_editar: 'rgm_e_libreria_suministro_recargo_editar'
         titulo_editar: 'Editar recargo'
         grid_boton_editar: 'Editar'
         flash_editar: 'Recargo editado con éxito'
         
-        grid_ruta_borrar: 'rgm_e_libreria_suministro_distribuidoras_borrar'
+        grid_ruta_borrar: 'rgm_e_libreria_suministro_recargo_borrar'
         titulo_borrar: 'Confirmar Borrado'
         msg_borrar: 'Se va a proceder a borrar los siguientes datos.'
         titulo_form_borrar: 'Borrar recargo'
@@ -118,6 +118,7 @@ parameters:
             vm_formularios: 'RGMELibreriaIndexBundle:VentanaModal:vm_formularios_estandar.html.twig'
             plantillaLibro: 'plantillaLibro.html.twig'
             plantillaExistencia: 'plantillaExistencia.html.twig'
+            plantillaCrearMasivoExistencia: 'plantillaCrearMasivoExistencia.html.twig'
             plantillaArticulo: 'plantillaArticulo.html.twig'
             ver: 'verAlbaran.html.twig'
             

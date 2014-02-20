@@ -62,6 +62,10 @@ rgarcia_entrelineas_autor_crear:
     pattern:  /autor/crear
     defaults: { _controller: "RGMELibreriaLibroBundle:Autor:crearAutor" }
     
+rgarcia_entrelineas_autor_crear_siguiente:
+    pattern:  /autor/crear/siguiente
+    defaults: { _controller: "RGMELibreriaLibroBundle:Autor:crearAutorSiguiente" }
+    
 rgarcia_entrelineas_autor_editar:
     pattern:  /autor/editar/{id}
     defaults: { _controller: "RGMELibreriaLibroBundle:Autor:editarAutor" }

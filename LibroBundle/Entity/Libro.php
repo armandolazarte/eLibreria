@@ -297,7 +297,7 @@ class Libro {
 	public function getStock() {
 		$res = 0;
 
-		foreach ($this->ejemplares as $e) {
+		foreach ($this->existencias as $e) {
 			if (!$e->isVendido()) {
 				$res++;
 			}
@@ -307,7 +307,7 @@ class Libro {
 	}
 
 	public function getTotalEjemplares() {
-		return count($this->ejemplares);
+		return count($this->existencias);
 	}
 
 	public function getPorcentajeVenta() {

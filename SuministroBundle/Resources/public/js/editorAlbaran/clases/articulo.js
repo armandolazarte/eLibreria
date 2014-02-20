@@ -93,7 +93,7 @@ function Articulo(albaran, ref, existenciasArray){
 				});
 				
 				
-				this.botonCopiarInfo.click(this, function(evento){evento.preventDefault(); var artActual = evento.data; artActual.copiarInfo(); return false;});
+				this.botonCopiarInfo.click(this, function(evento){evento.preventDefault(); var artActual = evento.data; artActual.copiarInfo();});
 				this.botonBorrarArticulo.click(this, function(evento){evento.preventDefault(); var artActual = evento.data; artActual.borrar(); return false;});
 				
 				this.formDatosArticulo.click(this, function(evento){evento.preventDefault(); var artActual = evento.data; artActual.actualizar(); return false;});

@@ -54,7 +54,11 @@ class AutorController extends Asistente{
 		return $render;
 	}
 	
-	public function crearAutorAction(Request $peticion){
+	public function crearAutorSiguienteAction(Request $peticion){
+		return $this->crearAutorAction($peticion, true);
+	}
+	
+	public function crearAutorAction(Request $peticion, $siguiente = false){
 		if($peticion->isXmlHttpRequest()){
 			return $this->irInicio();
 		}
@@ -70,17 +74,25 @@ class AutorController extends Asistente{
 		$opcionesVM = array();
 		$opcionesVM['path_form'] = $this->generateUrl($this->getParametro('ruta_form_crear'));
 		$opcionesVM['titulo_submit'] = $this->getParametro('titulo_submit_crear');
-		$opcionesVM['form'] = $this->createForm($this->getFormulario('editor'), $entidad);
+		$opcionesVM['form'] = $this->createForm($this->getFormulario('creador'), $entidad, array('siguiente' => $siguiente));
 	
 		if($peticion->getMethod() == "POST"){
 			$opcionesVM['form']->bind($peticion);
 				
 			if($opcionesVM['form']->isValid()){
+				$siguiente = $opcionesVM['form']->get('siguiente')->getData();
+				
 				$em->persist($entidad);
 				$em->flush();
 	
 				$this->setFlash($this->getParametro('flash_crear'));
-				return $this->irInicio();
+				
+				if($siguiente){
+					return $this->redirect($this->generateUrl($this->getParametro('ruta_form_crear_siguiente')));
+				}
+				else{
+					return $this->irInicio();
+				}
 			}
 		}
 	

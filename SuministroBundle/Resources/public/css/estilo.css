@@ -269,7 +269,6 @@ h3.ui-accordion-header{
 
 .datos .ultimo{
 	float: right !important;
-	clear: both;
 }
 
 .datos .jaula-datos-entidades > div{
@@ -381,6 +380,7 @@ h3.ui-accordion-header{
 
 .existencia .cuerpo-existencia-datos .ultimo{
 	float: right !important;
+	clear: both;
 }
 
 .cuerpo-existencia-estados .jaula-cuerpo-existencia-estados{

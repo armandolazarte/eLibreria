@@ -26,6 +26,7 @@ class Pago
 
     /**
      * @ORM\ManyToOne(targetEntity="RGM\eLibreria\FinanciacionBundle\Entity\GastoCorriente", inversedBy="pagos")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      * 
      * @GRID\Column(title="Gasto corriente", field="gasto.denominacion")
      */

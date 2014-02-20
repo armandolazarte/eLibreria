@@ -26,6 +26,10 @@ input[type="submit"] {
 	cursor: pointer;
 }
 
+select{
+	padding: 2px;
+}
+
 input{
 	padding: 9px;
 	border: 1px solid #E5E5E5;
@@ -41,6 +45,10 @@ input{
 	-moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
 	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
 	
+}
+
+input:disabled{
+	font-weight: 800;
 }
 
 input:hover, textarea:hover,
@@ -163,4 +171,8 @@ a
 	{
 		background:url('../../images/titulobarra2.png') center bottom no-repeat #FFF;
 	}
+}
+
+.boton-filtro{
+	cursor: pointer;
 }

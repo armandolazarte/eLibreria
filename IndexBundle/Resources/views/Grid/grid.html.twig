@@ -1,1 +1,40 @@
 {{ grid(grid, 'APYDataGridBundle::blocks_js.jquery.html.twig') }}
+
+<script>
+$('.grid-row-cells').find('td:not(:first):not(:last):not(:last)').each(function(){$(this).resizable()});
+
+var divBotonFiltro = '<div class="boton-filtro">Ver filtro</div>';
+
+function crearBotonFiltro(){
+	var boton = $(divBotonFiltro);
+	
+	boton.click(function(){
+		var botonClick = $(this);
+		
+		if(botonClick.html() == 'Ver filtro'){
+			botonClick.next().show();
+			botonClick.html('Ocultar filtro');
+		}
+		else{
+			botonClick.next().hide();
+			botonClick.html('Ver filtro');				
+		}
+	});
+	
+	return boton;
+}
+
+$('.grid-filter-select').each(function(){
+	var elemento = $(this);
+	
+	elemento.hide();
+	elemento.parent().prepend(crearBotonFiltro());
+});
+
+$('.grid-filter-input').each(function(){
+	var elemento = $(this);
+	
+	elemento.hide();
+	elemento.parent().prepend(crearBotonFiltro());
+});
+</script>

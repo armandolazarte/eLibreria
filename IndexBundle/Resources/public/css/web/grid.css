@@ -51,6 +51,7 @@
 .grid_body{
 	position: relative;
 	overflow-x: auto;
+	overflow-y: inherit;
 	text-align: center;
 }
 
@@ -172,9 +173,28 @@
 
 .grid_footer{
 	text-align: center;
+	margin-top: 15px;
 }
 
 .grid_footer .pager{
-	float: none!important;
+	float: none !important;
 	display: inline;
+}
+
+.pager .prev{
+	padding: 5px;
+	margin-right: 5px;
+}
+
+.pager .current{
+	padding: 4px 5px;
+}
+
+.pager .next{
+	padding: 5px;
+	margin-left: 5px;
+}
+
+.pager select{
+	padding: 2px;
 }

@@ -140,6 +140,10 @@ img{
 	text-align: right;
 }
 
+.localizacion{
+	clear: both;
+}
+
 .localizacion select{
 	display: block;
 	margin: 0 auto;
