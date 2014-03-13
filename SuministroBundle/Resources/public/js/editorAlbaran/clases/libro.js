@@ -27,7 +27,9 @@ function Libro(albaran, isbn, existenciasArray){
 	this.existencias = new Array();
 	
 	this.botonAnadirEexistencia;
+	this.botonAnadirExistenciaMasiva;
 	this.contenedorExistencias;
+	this.masivoExistencias;
 	
 	this.init = function(albaran, isbn, existenciasArray){
 		this.albaran = albaran;
@@ -68,7 +70,9 @@ function Libro(albaran, isbn, existenciasArray){
 				this.botonActualizar = $plantilla.find('input[name="actualizar"]');
 				
 				this.botonAnadirExistencia = $plantilla.find('.anadirExistencia');
+				this.botonAnadirExistenciaMasiva = $plantilla.find('.anadirExistenciasMasivas');
 				this.contenedorExistencias = $plantilla.find('.jaula-existencias');
+				this.masivoExistencias = $plantilla.find('.jaula-existencias-masivo');
 
 				this.isbnAutocomplete.click(function(evento){evento.preventDefault(); return false;});
 				this.isbnAutocomplete.autocomplete({
@@ -124,6 +128,7 @@ function Libro(albaran, isbn, existenciasArray){
 				
 				this.formDatosLibro.submit(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.actualizar(); return false;});
 				this.botonAnadirExistencia.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.anadirExistenciaNueva(); return false;});
+				this.botonAnadirExistenciaMasiva.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.anadirExistenciaNuevaConDatos(); return false;});
 				
 				this.isbn.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
 				this.titulo.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
@@ -257,6 +262,7 @@ function Libro(albaran, isbn, existenciasArray){
 		this.contenedorExistencias.accordion({
 	        header: "> div > h5",
 	        heightStyle: "content",
+	        active: false,
 	        collapsible: true,
 	        icons: { "header": "ui-icon-plus", "headerSelected": "ui-icon-minus" }
 	      })
@@ -266,6 +272,14 @@ function Libro(albaran, isbn, existenciasArray){
 	        stop: function( event, ui ) {
 	          ui.item.children( "h5" ).triggerHandler( "focusout" );
 	        }
+	      });
+		
+		this.masivoExistencias.accordion({
+	        header: "> div > h4",
+	        heightStyle: "content",
+	        active: false,
+	        collapsible: true,
+	        icons: { "header": "ui-icon-plus", "headerSelected": "ui-icon-minus" }
 	      });
 	
 		this.contenedorExistencias.parent().parent().css('display','block');
@@ -345,6 +359,18 @@ function Libro(albaran, isbn, existenciasArray){
 	
 	this.anadirExistenciaNueva = function(){
 		var existencia = new Existencia(this);
+		var indexNuevoElemento = this.existencias.push(existencia);
+	}
+	
+	this.anadirExistenciaNuevaConDatos = function(){
+		var precioInit = this.masivoExistencias.find('input[name="precio"]');
+		var ivaInit = this.masivoExistencias.find('select[name="iva"]');
+		var beneficioInit = this.masivoExistencias.find('input[name="beneficio"]');
+		var descuentoInit = this.masivoExistencias.find('input[name="descuento"]');
+		var vendidoInit = this.masivoExistencias.find('input[name="vendido"]');
+		var adquiridoInit = this.masivoExistencias.find('input[name="adquirido"]');
+		
+		var existencia = new Existencia(this, undefined, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit);
 		var indexNuevoElemento = this.existencias.push(existencia);
 	}
 	

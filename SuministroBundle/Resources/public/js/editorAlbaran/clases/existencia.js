@@ -1,4 +1,4 @@
-function Existencia(padre, id){
+function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit){
 	this.padre;
 	
 	this.id;
@@ -17,7 +17,7 @@ function Existencia(padre, id){
 	this.botonActualizar;
 	this.botonBorrar;
 	
-	this.init = function(padre, id){
+	this.init = function(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit){
 		this.padre = padre;
 		
 		if(id === undefined){
@@ -47,6 +47,30 @@ function Existencia(padre, id){
 				this.vendido = $plantilla.find('input[name="vendido"]');
 				this.adquirido = $plantilla.find('input[name="adquirido"]');
 				this.formExistencia = $plantilla.find('.form-datos-existencia');
+
+				if(precioInit){
+					this.precio.val(precioInit.val());
+				}
+				
+				if(ivaInit){
+					this.iva.val(ivaInit.val());
+				}
+				
+				if(descuentoInit){
+					this.descuento.val(descuentoInit.val());
+				}
+				
+				if(beneficioInit){
+					this.beneficio.val(beneficioInit.val());
+				}
+				
+				if(vendidoInit){
+					this.vendido.prop('checked', vendidoInit.prop('checked'));
+				}
+				
+				if(adquiridoInit){
+					this.adquirido.prop('checked', adquiridoInit.prop('checked'));
+				}
 
 				this.localizacion.change(function(){existencia.des();});
 				this.precio.change(function(){existencia.des();});
@@ -111,7 +135,7 @@ function Existencia(padre, id){
 		this.padre.contenedorExistencias.accordion("refresh");
 	}
 	
-	this.init(padre, id);
+	this.init(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit);
 	
 	this.act = function(){
 		modificar_estado(this.estado, 'actualizado');

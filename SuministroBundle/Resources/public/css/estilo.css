@@ -74,6 +74,7 @@ h3.ui-accordion-header{
 
 #formulario-datos-albaran div select{
 	height: 30px;
+	width: 156px;
 }
 
 #formulario-datos-albaran div input, #formulario-datos-albaran div select{
@@ -104,7 +105,7 @@ h3.ui-accordion-header{
 	width: 50px;
 }
 
-.anadirLibro, .anadirArticulo{
+.anadirLibro, .anadirArticulo, .anadirExistenciasMasivas{
 	width: 100px !important;
 }
 
@@ -220,6 +221,11 @@ h3.ui-accordion-header{
 
 .existencias h4{
 	padding-top: 5px;
+}
+
+.existencias .titulo-masivo{
+	height: 16px;
+	margin-bottom: 0px;
 }
 
 .datos h4, .existencias h4{
@@ -353,7 +359,21 @@ h3.ui-accordion-header{
 }
 
 .existencia .cuerpo-existencia-datos .precio{
-	width: 175px;
+	width: 200px;
+}
+
+.existencia .cuerpo-existencia-datos .precio label{
+	display: block;
+	overflow: hidden;
+	width: 50px;
+	float: left;
+	margin-top: 3px;
+}
+
+.existencia .cuerpo-existencia-datos .precio p{
+	display: block;
+	float: left;
+	width: 50px;
 }
 
 .existencia .cuerpo-existencia-datos .iva{
@@ -381,6 +401,10 @@ h3.ui-accordion-header{
 .existencia .cuerpo-existencia-datos .ultimo{
 	float: right !important;
 	clear: both;
+}
+
+.existencias .jaula-existencias-masivo{
+	margin-bottom: 20px;
 }
 
 .cuerpo-existencia-estados .jaula-cuerpo-existencia-estados{

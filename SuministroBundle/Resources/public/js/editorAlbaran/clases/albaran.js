@@ -64,7 +64,7 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 	this.verContenedorItems = function(){
 		this.contenedorItems.accordion({
 	        header: "> div > h3",
-	        active: true,
+	        active: false,
 	        heightStyle: "content",
 	        collapsible: true,
 	        icons: { "header": "ui-icon-plus", "headerSelected": "ui-icon-minus" }

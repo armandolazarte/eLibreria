@@ -211,7 +211,7 @@ class AlbaranController extends Asistente{
 	
 			if($opcionesVM['form']->isValid()){
 				foreach($entidad->getItems() as $item){
-					$em->remove($item->getElemento());
+					$em->remove($item->getExistencia());
 				}
 				
 				$em->remove($entidad);
