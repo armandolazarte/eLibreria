@@ -105,7 +105,9 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 	}
 	
 	this.anadirLibroExistente = function(isbn, existenciasArray){
+		console.log('nuevo libro ' + new Date());	
 		this.items.push(new Libro(this, isbn, existenciasArray));
+		console.log(new Date());
 	}
 	
 	this.anadirLibroNuevo = function(){
@@ -132,15 +134,19 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 			type: "POST",
 			success: function(data){	
 				var itemsRecibidos = data.items;
-				
+								
 				for(var refItem in itemsRecibidos){
 					var item = itemsRecibidos[refItem];
 										
 					if(item.tipo === 'libro'){
-						albaran.anadirLibroExistente(refItem, item.existencias);
+						setTimeout(function(){
+							albaran.anadirLibroExistente(refItem, item.existencias);
+						}, 0);
 					}
 					else if(item.tipo === 'articulo'){
-						albaran.anadirArticuloExistente(refItem, item.existencias);
+						setTimeout(function(){
+							albaran.anadirArticuloExistente(refItem, item.existencias);
+						}, 0);						
 					}
 				}
 			}

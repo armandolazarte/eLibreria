@@ -19,7 +19,7 @@ class Venta {
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 * 
-	 * @GRID\Column(visible=false)
+	 * @GRID\Column(title="Nº de Venta")
 	 */
 	private $id;
 
@@ -28,14 +28,14 @@ class Venta {
 	 *
 	 * @ORM\Column(name="fecha", type="datetime", nullable=false)
 	 * 
-	 * @GRID\Column(title="Fecha")
+	 * @GRID\Column(title="Fecha", format="d/m/Y")
 	 */
 	private $fecha;
 
 	/**
 	 * @ORM\Column(name="total", type="float", nullable=true)
 	 * 
-	 * @GRID\Column(title="Total")
+	 * @GRID\Column(title="Total", type="text")
 	 */
 	private $total;
 

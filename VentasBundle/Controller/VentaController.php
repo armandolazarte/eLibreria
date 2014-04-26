@@ -4,6 +4,7 @@ namespace RGM\eLibreria\VentasBundle\Controller;
 use RGM\eLibreria\IndexBundle\Controller\GridController;
 use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use Symfony\Component\HttpFoundation\Request;
+use APY\DataGridBundle\Grid\Column\BlankColumn;
 
 class VentaController extends Asistente{
 	private $bundle = 'ventasbundle';
@@ -18,6 +19,35 @@ class VentaController extends Asistente{
 	private function getGrid(){
 		$infoEntidad = $this->getParametro('entidad');
 		$grid = new GridController($this->getEntidadLogico($infoEntidad['repositorio']), $this);
+
+		$coste = new BlankColumn(array('id' => 'cos', 'title' => 'Coste', 'size' => '100', 'safe' => false));
+		$beneficio = new BlankColumn(array('id' => 'ben', 'title' => 'Beneficio', 'size' => '100', 'safe' => false));
+		
+		$grid->getGrid()->addColumn($beneficio, 4);
+		$grid->getGrid()->addColumn($coste, 4);
+		
+		$controlador = $this;
+		$grid->getSource()->manipulateRow(function($row) use($controlador){
+			$entidad = $row->getEntity();
+		
+			$tot = $row->getField('total');
+			
+			$row->setField('total', number_format($tot, 2, '.', '') . '€');
+			
+			$cos = 0;
+			
+			foreach($entidad->getItems() as $item){
+				$existencia = $item->getExistencia();
+				$itemAlb = $existencia->getItemAlbaran();
+				
+				$cos += ($existencia->getPrecio() * (1 - $itemAlb->getDescuento()) * (1 + $existencia->getIva()));
+			} 
+
+			$row->setField('cos', number_format($cos, 2, '.', '') . '€' );
+			$row->setField('ben', number_format($tot - $cos, 2, '.', '') . '€' );
+		
+			return $row;
+		});
 			
 		return $grid;
 	}
