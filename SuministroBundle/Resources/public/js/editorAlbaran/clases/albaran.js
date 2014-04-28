@@ -139,14 +139,10 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 					var item = itemsRecibidos[refItem];
 										
 					if(item.tipo === 'libro'){
-						setTimeout(function(){
-							albaran.anadirLibroExistente(refItem, item.existencias);
-						}, 0);
+						albaran.anadirLibroExistente(refItem, item.existencias);
 					}
 					else if(item.tipo === 'articulo'){
-						setTimeout(function(){
-							albaran.anadirArticuloExistente(refItem, item.existencias);
-						}, 0);						
+						albaran.anadirArticuloExistente(refItem, item.existencias);						
 					}
 				}
 			}
