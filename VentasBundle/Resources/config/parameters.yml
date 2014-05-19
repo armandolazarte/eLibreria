@@ -27,6 +27,8 @@ parameters:
         grid_boton_editar: 'Editar'
         flash_editar: 'Venta editada con éxito'
         
+        ruta_ticket: 'rgm_e_libreria_ventas_ticket_ver'
+        
         grid_ruta_borrar: 'rgm_e_libreria_ventas_borrar'
         titulo_borrar: 'Confirmar Borrado'
         msg_borrar: 'Se va a proceder a borrar los siguientes datos. (Esta acción liberará todas aquellas existencias vendidas)'

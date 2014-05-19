@@ -22,9 +22,11 @@ class VentaController extends Asistente{
 
 		$coste = new BlankColumn(array('id' => 'cos', 'title' => 'Coste', 'size' => '100', 'safe' => false));
 		$beneficio = new BlankColumn(array('id' => 'ben', 'title' => 'Beneficio', 'size' => '100', 'safe' => false));
+		$ticket = new BlankColumn(array('id' => 'ticket', 'title' => 'Ver Ticket', 'size' => '100', 'safe' => false));
 		
 		$grid->getGrid()->addColumn($beneficio, 4);
 		$grid->getGrid()->addColumn($coste, 4);
+		$grid->getGrid()->addColumn($ticket, 10);
 		
 		$controlador = $this;
 		$grid->getSource()->manipulateRow(function($row) use($controlador){
@@ -42,7 +44,11 @@ class VentaController extends Asistente{
 				
 				$cos += ($existencia->getPrecio() * (1 - $itemAlb->getDescuento()) * (1 + $existencia->getIva()));
 			} 
-
+			
+			$ruta_ticket = $this->generateUrl($this->getParametro('ruta_ticket'), array("idVenta"=>$entidad->getId()));
+			$link_ticket = "<a href=\"".$ruta_ticket."\" onclick=\"window.open(this.href, this.target, 'menubar=no,width=500,height=600'); return false;\" target=\"_blank\">Ver Ticket</a>";
+			
+			$row->setField('ticket', $link_ticket);
 			$row->setField('cos', number_format($cos, 2, '.', '') . '€' );
 			$row->setField('ben', number_format($tot - $cos, 2, '.', '') . '€' );
 		
