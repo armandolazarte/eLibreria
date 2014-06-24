@@ -9,7 +9,7 @@
 	<div class="valor ejemplar_untercio">
 		<select id="localizacion_select">
 		{% for l in localizaciones %}
-			<option value="{{ l.id }}" {% if ejemplar.localizacion.id == l.id %}selected{% endif %}>{{ l.denominacion }}</option>
+			<option value="{{ l.id }}" {% if ejemplar.localizacion is not null %}{% if ejemplar.localizacion.id == l.id %}selected{% endif %}{% endif %}>{{ l.denominacion }}</option>
 		{% endfor %}
 		</select>
 	</div>

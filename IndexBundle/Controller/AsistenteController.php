@@ -235,7 +235,7 @@ class AsistenteController extends Controller {
 		return $this->opciones_plantilla;
 	}
 	
-	protected function getArrayOpcionesGridAjax($gbe, $gre, $gbb, $grb, $mcb = null, $l = array(6,10,15,30,60,100)){
+	protected function getArrayOpcionesGridAjax($gbe, $gre, $gbb, $grb, $mcb = null, $l = array(6,10,15,30)){
 		$res = array();
 	
 		$res['grid_boton_editar'] = $gbe;

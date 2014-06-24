@@ -9,7 +9,7 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
  * Albaran
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="RGM\eLibreria\SuministroBundle\Entity\RepositorioAlbaran")
  */
 class Albaran {
 	/**

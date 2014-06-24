@@ -44,6 +44,7 @@
 			{% endif %}			
 				
 			{% for l in lineas|slice(inicio, 33) %}
+				{% if l is iterable %}
 						<tr>
 							<td><div class="envoltura">{{ l.ref }}</div></td>
 							<td><div class="envoltura">{{ l.titulo }}</div></td>
@@ -55,6 +56,21 @@
 							<td><div class="envoltura">{{ '%.2f'|format((l.precio * (1 - l.desc))|round(2) * l.numEjemplares) }}€</div></td>
 							<td><div class="envoltura">{{ l.iva * 100 }}%</div></td>
 						</tr>
+						{% if 'loc' in l|keys %}
+							{% for localizacion in l.loc %}
+								<tr>
+									<td></td>
+									<td colspan="2" style="text-align: left;padding: 2px 0px; font-size: 13px; font-weight: 800;">Ejemplar en: {{ localizacion }}</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							{% endfor %}
+						{% endif %}
+					{% endif %}
 			{% endfor %}		
 					</table>
 				</section>
@@ -65,6 +81,7 @@
 						Total REC: <span class="cantidad">{{ '%.2f'|format(bRec) }}€</span><br>
 					</section>
 					<section class="total">
+						Total a pagar €: <span class="cantidad">{{ '%.2f'|format(vTotal) }}€</span><br>
 						TOTAL €: <span class="cantidad">{{ '%.2f'|format(bTotal) }}€</span>
 					</section>
 					<section class="impuestos">

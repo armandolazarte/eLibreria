@@ -19,6 +19,8 @@ class VentaController extends Asistente{
 	private function getGrid(){
 		$infoEntidad = $this->getParametro('entidad');
 		$grid = new GridController($this->getEntidadLogico($infoEntidad['repositorio']), $this);
+		
+		$grid->getGrid()->getColumn('id')->setOrder('desc');
 
 		$coste = new BlankColumn(array('id' => 'cos', 'title' => 'Coste', 'size' => '100', 'safe' => false));
 		$beneficio = new BlankColumn(array('id' => 'ben', 'title' => 'Beneficio', 'size' => '100', 'safe' => false));

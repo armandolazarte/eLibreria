@@ -28,6 +28,8 @@ class AlbaranController extends Asistente{
 	private function getGrid(){
 		$grid = new GridController($this->getEntidadLogico($this->getParametro('entidad')), $this);
 		
+		$grid->getGrid()->getColumn('id')->setOrder('desc');
+		
 		$columnaContrato = new BlankColumn(array('id' => 'contrato', 'title' => 'Contrato'));
 		$columnaTotal = new BlankColumn(array('id' => 'total', 'title' => 'Total'));
 		$columnaVer = new BlankColumn(array('id' => 'ver', 'title' => 'Ver Albaran', 'safe' => false));
@@ -254,9 +256,26 @@ class AlbaranController extends Asistente{
 			$opciones['bIva'] = $calculoAlbaran['bIva'];
 			$opciones['bRec'] = $calculoAlbaran['bRec'];
 			$opciones['bTotal'] = $calculoAlbaran['bTotal'];
+			$opciones['vTotal'] = $calculoAlbaran['totalVendido'];
 				
-			$opciones['lineas'] = $calculoAlbaran['lineas'];
 			$opciones['numPaginas'] = $calculoAlbaran['numPaginas'];
+			
+			$lineas = $calculoAlbaran['lineas'];			
+			$mixLineas = array();
+			
+			foreach($lineas as $linea){
+				//var_dump($linea);
+				$mixLineas[] = $linea;
+				
+				if(array_key_exists('loc', $linea)){
+					//var_dump($linea['loc']);
+					foreach($linea['loc'] as $loc){
+						$mixLineas[] = $loc;
+					}
+				}
+			}
+			
+			$opciones['lineas'] = $mixLineas;
 		}
 		
 		return $this->render($this->getPlantilla('ver'), $opciones);
@@ -286,15 +305,36 @@ class AlbaranController extends Asistente{
 			
 		$lineasAlbaran = new ArrayCollection();
 		$items = $albaran->getItems();
+		$lineasExtra = 0;
 		
 		foreach($items as $item){
 			$existencia = $item->getExistencia();
 			$referencia = $existencia->getReferencia();
+			//var_dump($existencia);
+			//var_dump($existencia->isVendido());
 		
 			if($lineasAlbaran->containsKey($referencia)){
 				$linea = $lineasAlbaran->get($referencia);
 				$linea['numEjemplares'] += 1;
 				$linea['vendidos'] += $existencia->getVendido();
+				
+				if($existencia->isVendido()){
+					$linea['totalVendido'] += $existencia->getPrecio() * (1 - $item->getDescuento());
+				}
+				$loc = $existencia->getLocalizacion();
+				
+				if($loc && !$existencia->isVendido()){
+					//var_dump($existencia->isVendido());
+					
+					if(array_key_exists('loc', $linea)){
+						$linea['loc'][] = $loc->getDenominacion();
+						$lineasExtra++;
+					}
+					else{
+						$linea['loc'] = array($loc->getDenominacion());
+						$lineasExtra++;
+					}
+				}				
 					
 				$lineasAlbaran->set($referencia, $linea);
 			}
@@ -306,15 +346,32 @@ class AlbaranController extends Asistente{
 				$linea['precio'] = $existencia->getPrecio();
 				$linea['numEjemplares'] = 1;
 				$linea['vendidos'] = 0 + $existencia->getVendido();
+				$linea['totalVendido'] = 0;
+				
+				if($existencia->isVendido()){
+					$linea['totalVendido'] += $existencia->getPrecio() * (1 - $item->getDescuento());
+				}
+				
 				$linea['desc'] = $item->getDescuento();
+				$loc = $existencia->getLocalizacion();
+				
+				if($loc && !$existencia->isVendido()){
+					//var_dump($existencia->isVendido());
+					$linea['loc'] = array($loc->getDenominacion());
+					$lineasExtra++;
+				}
 					
 				$lineasAlbaran->set($referencia, $linea);
 			}
 		}
+		
+		$totalVendido = 0;
 
 		foreach($lineasAlbaran as $linea){
 			$iva = $linea['iva'];
 			$base = $bases->get((string) $iva);
+			
+			$totalVendido += $linea['totalVendido'];
 			
 			$precio = $linea['precio'];
 			$numEjem = $linea['numEjemplares'];
@@ -351,13 +408,16 @@ class AlbaranController extends Asistente{
 		$albaran->setTotal($bTotal);
 		$salida['bTotal'] = $bTotal;
 		
+		$salida['totalVendido'] = $totalVendido;
+		
 		$em->persist($albaran);
 		$em->flush();
 		
 		$salida['lineas'] = $lineasAlbaran->getValues();
+		$salida['lineasExtra'] = $lineasExtra;
 		
 		$infoImpresion = $this->getParametro('impresion');
-		$salida['numPaginas'] = ceil(count($lineasAlbaran) / $infoImpresion['numElementosPagina']);
+		$salida['numPaginas'] = ceil( (count($lineasAlbaran) + $lineasExtra) / $infoImpresion['numElementosPagina']);
 						
 		return $salida;
 	}
