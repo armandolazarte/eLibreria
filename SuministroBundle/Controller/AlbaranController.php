@@ -288,7 +288,7 @@ class AlbaranController extends Asistente{
 	
 	public function verAbonoAction(Request $peticion, $id){
 		$em = $this->getEm();
-		
+				
 		$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
 		$opciones = array();
 			
@@ -395,7 +395,7 @@ class AlbaranController extends Asistente{
 		$opciones['bRec'] = $totalREC;
 		
 		$opciones['bTotal'] = $totalBase + $totalIVA + $totalREC;
-		
+
 		return $this->render($this->getPlantilla('verAB'), $opciones);
 	}
 	

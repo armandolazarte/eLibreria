@@ -35,13 +35,15 @@
 							</thead>
 							<tbody>
 								{% for linea in lineas|slice(inicio, 33) %}
-									{% if linea is iterable %}						
+									{% if linea is iterable %}
+										<tr>						
 										<td>{{ linea.referencia }}</td>
 										<td>{{ linea.localizacion }}</td>
 										<td>{{ '%.2f'|format(linea.precio) }}€</td>
 										<td>{{ linea.iva * 100 }}%</td>
 										<td>{{ linea.descuento * 100 }}%</td>
 										<td>{{ '%.2f'|format(linea.importe) }}€</td>
+										</tr>
 									{% endif %}
 								{% endfor %}
 							</tbody>
@@ -82,6 +84,33 @@
 					</footer>
 				</div>
 			{% endfor %}
+		{% else %}
+		<div id="albaran_contenedor">
+			<header id="albaran_header">
+				Distribuidora: {{ albaran.contrato.distribuidora.nombre }}<br>
+				Nº Albaran: {{ albaran.numeroAlbaran }}<br>
+				Fecha Realizacion: {{ albaran.fechaRealizacion|date('Y-m-d') }}<br>
+				Fecha Factura: {{ albaran.fechaVencimiento|date('Y-m-d') }}<br>
+				<h3>SOLO EXISTENCIAS NO VENDIDAS NI ADQUIRIDAS POR LIBRERIA</h3>
+			</header>
+			<section id="albaran_cuerpo">
+				<table>
+					<thead>
+						<th>Referencia</th>
+						<th>Localización</th>
+						<th>Precio Base</th>
+						<th>IVA</th>
+						<th>Descuento</th>
+						<th>Importe</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="6"><h2 style="text-align: center;">SIN ELEMENTOS A ABONAR</h2></td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</div>
 		{% endif %}
 	{% endif %}
 {% endblock %}
