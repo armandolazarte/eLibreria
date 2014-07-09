@@ -21,6 +21,10 @@ rgm_e_libreria_suministrobundle_albaran_buscar_referencia_ajax:
 rgm_e_libreria_suministro_albaran_ver:
     pattern: /albaran/{id}/ver
     defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:verAlbaran' }
+
+rgm_e_libreria_suministro_albaran_verAB:
+    pattern: /albaran/{id}/verAB
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:verAbono' }
     
 rgm_e_libreria_suministro_albaran_borrar:
     pattern: /albaran/{id}/borrar

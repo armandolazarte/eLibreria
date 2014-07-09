@@ -121,6 +121,7 @@ parameters:
             plantillaCrearMasivoExistencia: 'plantillaCrearMasivoExistencia.html.twig'
             plantillaArticulo: 'plantillaArticulo.html.twig'
             ver: 'verAlbaran.html.twig'
+            verAB: 'verAbono.html.twig'
             
         impresion:
             numElementosPagina: 33

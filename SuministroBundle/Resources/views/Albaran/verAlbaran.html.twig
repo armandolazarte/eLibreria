@@ -15,7 +15,7 @@
 	{% if numPaginas > 0 %}
 		{% for i in range(1, numPaginas) %}
 			{% set inicio = (i - 1) * 33 %}
-			{% set fin = (i * 33) - 1 %}				
+						
 			<div id="albaran_contenedor">
 				<header id="albaran_header">
 					Distribuidora: {{ albaran.contrato.distribuidora.nombre }}<br>
@@ -37,40 +37,36 @@
 							<th>Importe</th>
 							<th>Iva</th>
 						</tr>	
-			
-						
-			{% if fin > longitudLineas %}
-				{% set fin = longitudLineas %}
-			{% endif %}			
+				
 				
 			{% for l in lineas|slice(inicio, 33) %}
 				{% if l is iterable %}
-						<tr>
-							<td><div class="envoltura">{{ l.ref }}</div></td>
-							<td><div class="envoltura">{{ l.titulo }}</div></td>
-							<td><div class="envoltura">{{ l.numEjemplares }}</div></td>
-							<td><div class="envoltura">{{ l.vendidos }}</div></td>
-							<td><div class="envoltura">{{ '%.2f'|format(l.precio * (1 + l.iva)) }}€</div></td>
-							<td><div class="envoltura">{{ '%.2f'|format(l.precio) }}€</div></td>
-							<td><div class="envoltura">{{ l.desc * 100 }}%</div></td>
-							<td><div class="envoltura">{{ '%.2f'|format((l.precio * (1 - l.desc))|round(2) * l.numEjemplares) }}€</div></td>
-							<td><div class="envoltura">{{ l.iva * 100 }}%</div></td>
-						</tr>
-						{% if 'loc' in l|keys %}
-							{% for localizacion in l.loc %}
-								<tr>
-									<td></td>
-									<td colspan="2" style="text-align: left;padding: 2px 0px; font-size: 13px; font-weight: 800;">Ejemplar en: {{ localizacion }}</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-							{% endfor %}
-						{% endif %}
+					<tr>
+						<td><div class="envoltura">{{ l.ref }}</div></td>
+						<td><div class="envoltura">{{ l.titulo }}</div></td>
+						<td><div class="envoltura">{{ l.numEjemplares }}</div></td>
+						<td><div class="envoltura">{{ l.vendidos }}</div></td>
+						<td><div class="envoltura">{{ '%.2f'|format(l.precio * (1 + l.iva)) }}€</div></td>
+						<td><div class="envoltura">{{ '%.2f'|format(l.precio) }}€</div></td>
+						<td><div class="envoltura">{{ l.desc * 100 }}%</div></td>
+						<td><div class="envoltura">{{ '%.2f'|format((l.precio * (1 - l.desc))|round(2) * l.numEjemplares) }}€</div></td>
+						<td><div class="envoltura">{{ l.iva * 100 }}%</div></td>
+					</tr>
+					{% if 'loc' in l|keys %}
+						{% for localizacion in l.loc %}
+							<tr>
+								<td></td>
+								<td colspan="2" style="text-align: left;padding: 2px 0px; font-size: 13px; font-weight: 800;">Ejemplar en: {{ localizacion }}</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						{% endfor %}
 					{% endif %}
+				{% endif %}
 			{% endfor %}		
 					</table>
 				</section>
@@ -89,6 +85,11 @@
 							<tr>
 								<th>I.V.A.</th>
 								<th>REC.</th>
+								<th>Base Imponible</th>
+								<th>IMP I.V.A.</th>
+								<th>IMP REC.</th>
+							</tr>
+							<tr>
 								<th>Base Imponible</th>
 								<th>IMP I.V.A.</th>
 								<th>IMP REC.</th>

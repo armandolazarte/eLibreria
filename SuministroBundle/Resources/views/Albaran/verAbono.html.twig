@@ -1,0 +1,87 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Albaran{% endblock %}
+
+{% block stylesheets %}
+	<link href="{{ asset('bundles/rgmelibreriaindex/css/albaran.css') }}" type="text/css" rel="stylesheet" />	
+{% endblock %}
+
+{% block body %}
+	{% if error %}
+		{{ error }}
+	{% else %}	
+		{% if numPaginas > 0 %}
+			{% for i in range(1, numPaginas) %}
+				{% set inicio = (i - 1) * 33 %}	
+				<div id="albaran_contenedor">
+					<header id="albaran_header">
+						Distribuidora: {{ albaran.contrato.distribuidora.nombre }}<br>
+						Nº Albaran: {{ albaran.numeroAlbaran }}<br>
+						Fecha Realizacion: {{ albaran.fechaRealizacion|date('Y-m-d') }}<br>
+						Fecha Factura: {{ albaran.fechaVencimiento|date('Y-m-d') }}<br>
+						Pagina: {{ i }}<br>
+						<h3>SOLO EXISTENCIAS NO VENDIDAS NI ADQUIRIDAS POR LIBRERIA</h3>
+					</header>
+					
+					<section id="albaran_cuerpo">
+						<table>
+							<thead>
+								<th>Referencia</th>
+								<th>Localización</th>
+								<th>Precio Base</th>
+								<th>IVA</th>
+								<th>Descuento</th>
+								<th>Importe</th>
+							</thead>
+							<tbody>
+								{% for linea in lineas|slice(inicio, 33) %}
+									{% if linea is iterable %}						
+										<td>{{ linea.referencia }}</td>
+										<td>{{ linea.localizacion }}</td>
+										<td>{{ '%.2f'|format(linea.precio) }}€</td>
+										<td>{{ linea.iva * 100 }}%</td>
+										<td>{{ linea.descuento * 100 }}%</td>
+										<td>{{ '%.2f'|format(linea.importe) }}€</td>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+						</table>
+					</section>
+					
+					<footer id="albaran_footer">
+						<section class="total_base">
+							Total Base: <span class="cantidad">{{ '%.2f'|format(bImp) }}€</span><br>
+							Total IVA: <span class="cantidad">{{ '%.2f'|format(bIva) }}€</span><br>
+							Total REC: <span class="cantidad">{{ '%.2f'|format(bRec) }}€</span><br>
+						</section>
+						<section class="total">
+							TOTAL €: <span class="cantidad">{{ '%.2f'|format(bTotal) }}€</span>
+						</section>
+						<section class="impuestos">
+							<table>
+								<tr>
+									<th>I.V.A.</th>
+									<th>REC.</th>
+									<th>Base Imponible</th>
+									<th>IMP I.V.A.</th>
+									<th>IMP REC.</th>
+								</tr>
+								{% for base in lineasBase %}
+									{% if base.base > 0 %}
+										<tr>
+											<td>{{ base.iva * 100 }}%</td>
+											<td>{{ base.rec * 100 }}%</td>
+											<td>{{ '%.2f'|format(base.base) }}€</td>
+											<td>{{ '%.2f'|format(base.impIva) }}€</td>
+											<td>{{ '%.2f'|format(base.impRec) }}€</td>
+										</tr>
+									{% endif %}
+								{% endfor %}
+							</table>
+						</section>
+					</footer>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{% endif %}
+{% endblock %}

@@ -32,18 +32,22 @@ class AlbaranController extends Asistente{
 		
 		$columnaContrato = new BlankColumn(array('id' => 'contrato', 'title' => 'Contrato'));
 		$columnaTotal = new BlankColumn(array('id' => 'total', 'title' => 'Total'));
+		$columnaVerAB = new BlankColumn(array('id' => 'verAB', 'title' => 'Ver Abonos', 'safe' => false));
 		$columnaVer = new BlankColumn(array('id' => 'ver', 'title' => 'Ver Albaran', 'safe' => false));
 		
 		$grid->getGrid()->addColumn($columnaContrato);
 		$grid->getGrid()->addColumn($columnaTotal);
+		$grid->getGrid()->addColumn($columnaVerAB);
 		$grid->getGrid()->addColumn($columnaVer);
 				
 		$grid->getSource()->manipulateRow(function($row){
 			$entidad = $row->getEntity();
-				
+
+			$enlaceVerAB = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=960,height=500,toolbar=1,resizable=0"); return false;\' href="' . $this->generateUrl('rgm_e_libreria_suministro_albaran_verAB', array('id' => $entidad->getId())) . '">Ver Abonos</a>';
 			$enlaceVer = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=960,height=500,toolbar=1,resizable=0"); return false;\' href="' . $this->generateUrl('rgm_e_libreria_suministro_albaran_ver', array('id' => $entidad->getId())) . '">Ver Albaran</a>';
 				
 			$row->setField('contrato', $entidad->getContrato());
+			$row->setField('verAB', $enlaceVerAB);
 			$row->setField('ver', $enlaceVer);
 				
 			if(!$entidad->getTotal()){
@@ -246,6 +250,7 @@ class AlbaranController extends Asistente{
 			$opciones['error'] = 'Albaran no encontrado';
 		}
 		else{
+			$calculador = new CalculoAlbaran($albaran, null);
 			$calculoAlbaran = $this->calcularValorAlbaran($albaran);
 			
 			$opciones['albaran'] = $albaran;
@@ -279,6 +284,119 @@ class AlbaranController extends Asistente{
 		}
 		
 		return $this->render($this->getPlantilla('ver'), $opciones);
+	}
+	
+	public function verAbonoAction(Request $peticion, $id){
+		$em = $this->getEm();
+		
+		$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
+		$opciones = array();
+			
+		$infoRecargo = $this->getParametro('recargo');
+		$recargos = $em->getRepository($infoRecargo['repositorio'])->findAll();
+			
+		$bases = new ArrayCollection();
+			
+		foreach($recargos as $recargo){
+			$i = array();
+		
+			$i['rec'] = $recargo->getRecargo();
+			$i['iva'] = $recargo->getIva();
+		
+			$i['baseImp'] = 0;
+		
+			$bases->set((string) $recargo->getIva(), $i);
+		}
+		
+		$opciones['error'] = null;
+		$lineas = array();
+		$lineasBase = array();
+		$totalBase = 0;
+		$totalIVA = 0;
+		$totalREC = 0;
+		
+		if(!$albaran){
+			$opciones['error'] = 'Albaran no encontrado';
+		}
+		else{
+			$opciones['albaran'] = $albaran;
+			
+			foreach($albaran->getItems() as $item){
+				$existencia = $item->getExistencia();
+				
+				if(!$existencia->isVendido() && !$existencia->isAdquirido()){
+					$tipo = $existencia->getTipo();
+					$descuento = $item->getDescuento();
+					$precioBase = $existencia->getPrecio();
+					$iva = $existencia->getIva();
+					$importe = $precioBase * (1 - $descuento);
+										
+					$localizacion = $existencia->getLocalizacion();
+					if($localizacion){
+						$localizacion = $localizacion->getDenominacion();
+					}
+					else{
+						$localizacion = 'No se sabe';
+					}
+
+					$objeto = $existencia->getObjetoVinculado();
+					$referencia = $existencia->getReferencia() . ': ' . $objeto->getTitulo();
+
+					$bloqueIVA = $bases->get((string) $iva);
+					
+					if($bloqueIVA){
+						$bloqueIVA['baseImp'] += $importe;
+						$bases->set((string) $iva, $bloqueIVA);
+					}
+					
+					$linea = array();
+					$linea['referencia'] = $referencia;
+					$linea['localizacion'] = $localizacion;
+					$linea['precio'] = $precioBase;
+					$linea['iva'] = $iva;
+					$linea['descuento'] = $descuento;
+					$linea['importe'] = $importe;
+					
+					$lineas[] = $linea;
+				}
+			}
+			
+			foreach($bases as $base){
+				$baseImpTotal = $base['baseImp'];
+				$iva = $base['iva'];
+				$rec = $base['rec'];
+					
+				$ImpIVA = $baseImpTotal * $iva;
+				$ImpRec = $baseImpTotal * $rec;
+					
+				$lineaBase = array();
+				$lineaBase['base'] = $baseImpTotal;
+				$totalBase += $baseImpTotal;
+				$lineaBase['iva'] = $iva;
+				$lineaBase['impIva'] = $ImpIVA;
+				$totalIVA += $ImpIVA;
+				$lineaBase['rec'] = $rec;
+				$lineaBase['impRec'] = $ImpRec;
+				$totalREC += $ImpRec;
+					
+				$lineasBase[] = $lineaBase;
+			}
+		}
+
+		$numLineas = count($lineas);
+		
+		$opciones['numPaginas'] = ceil($numLineas / 33);
+		
+		$opciones['lineas'] = $lineas;
+		$opciones['lineasBase'] = $lineasBase;
+		
+		$opciones['bImp'] = $totalBase;
+		$opciones['bIva'] = $totalIVA;
+		$opciones['bRec'] = $totalREC;
+		
+		$opciones['bTotal'] = $totalBase + $totalIVA + $totalREC;
+		
+		return $this->render($this->getPlantilla('verAB'), $opciones);
 	}
 	
 	private function calcularValorAlbaran($albaran){
