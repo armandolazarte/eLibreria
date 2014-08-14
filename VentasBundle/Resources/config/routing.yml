@@ -2,8 +2,10 @@ rgm_e_libreria_ventas_ticket_ver:
     pattern: /ticket/{idVenta}/ver
     defaults: { _controller: 'RGMELibreriaVentasBundle:Ticket:verTicket' }
     
-    
-    
+
+rgm_e_libreria_ventas_informe_index:
+    pattern: /informe
+    defaults: { _controller: 'RGMELibreriaVentasBundle:InformeVenta:generarInforme' }    
 
     
 rgm_e_libreria_venta_plantilla_existencia:

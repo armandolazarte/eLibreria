@@ -55,6 +55,13 @@ class Existencia {
 	/**
 	 * @var integer
 	 *
+	 * @ORM\Column(name="vigente", type="boolean")
+	 */
+	private $vigente = 1;
+
+	/**
+	 * @var boolean
+	 *
 	 * @ORM\Column(name="adquirido", type="integer")
 	 */
 	private $adquirido = 0;
@@ -133,7 +140,7 @@ class Existencia {
 	/**
 	 * Set itemAlbaran
 	 *
-	 * @param string $itemAlbaran
+	 * @param ItemAlbaran $itemAlbaran
 	 * @return Existencia
 	 */
 	public function setItemAlbaran($itemAlbaran) {
@@ -145,7 +152,7 @@ class Existencia {
 	/**
 	 * Get itemAlbaran
 	 *
-	 * @return string 
+	 * @return ItemAlbaran 
 	 */
 	public function getItemAlbaran() {
 		return $this->itemAlbaran;
@@ -154,7 +161,7 @@ class Existencia {
 	/**
 	 * Set itemVenta
 	 *
-	 * @param string $itemVenta
+	 * @param ItemVenta $itemVenta
 	 * @return Existencia
 	 */
 	public function setItemVenta($itemVenta) {
@@ -166,7 +173,7 @@ class Existencia {
 	/**
 	 * Get itemVenta
 	 *
-	 * @return string 
+	 * @return ItemVenta 
 	 */
 	public function getItemVenta() {
 		return $this->itemVenta;
@@ -187,7 +194,7 @@ class Existencia {
 	/**
 	 * Get localizacion
 	 *
-	 * @return string 
+	 * @return Localizacion 
 	 */
 	public function getLocalizacion() {
 		return $this->localizacion;
@@ -245,7 +252,19 @@ class Existencia {
 		return $this;
 	}
 
-	public function getPVP(){
+	public function getPVP() {
 		return round($this->precio * (1 + $this->iva + $this->beneficio), 2);
+	}
+
+	public function getVigente() {
+		return $this->vigente;
+	}
+
+	public function setVigente($vigente) {
+		$this->vigente = $vigente;
+	}
+
+	public function isVigente(){
+		return $this->vigente == 1;
 	}
 }

@@ -4,6 +4,7 @@ namespace RGM\eLibreria\SuministroBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use APY\DataGridBundle\Grid\Mapping as GRID;
+use APY\DataGridBundle\Grid\Column\BooleanColumn;
 
 /**
  * Albaran
@@ -67,6 +68,14 @@ class Albaran {
 	 * @GRID\Column(title="Fecha de Vencimiento", format="d/m/Y")
 	 */
 	private $fechaVencimiento;
+
+	/**
+	 * @var boolean
+	 * 
+	 * @ORM\Column(name="liquidado", type="boolean", nullable=false)
+	 * @GRID\Column(visible=false)
+	 */
+	private $liquidado = false;
 
 	public function __construct() {
 		$this->fechaRealizacion = new \DateTime();
@@ -202,18 +211,18 @@ class Albaran {
 
 		return $res;
 	}
-	
-	public function getLibros(){
+
+	public function getLibros() {
 		$res = array();
-		
-		foreach($this->items as $i){
+
+		foreach ($this->items as $i) {
 			$ejemplar = $i->getEjemplar();
-			
-			if(!in_array($ejemplar->getLibro()->getIsbn(), $res)){
+
+			if (!in_array($ejemplar->getLibro()->getIsbn(), $res)) {
 				$res[] = $ejemplar->getLibro()->getIsbn();
 			}
 		}
-		
+
 		return $res;
 	}
 
@@ -237,4 +246,15 @@ class Albaran {
 		return $this;
 	}
 
+	public function getLiquidado() {
+		return $this->liquidado;
+	}
+
+	public function setLiquidado($liquidado) {
+		$this->liquidado = $liquidado;
+	}
+	
+	public function isLiquidado(){
+		return $this->liquidado == true;
+	}
 }

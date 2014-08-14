@@ -1,0 +1,52 @@
+#seleccionInforme{
+	overflow: hidden;
+	border: 1px solid #AAA;
+	padding: 2px 20px;
+	border-radius: 5px;
+}
+
+#seleccionInforme div.form{
+	float: right;
+	margin: 0 20px;
+}
+
+#seleccionInforme div.form > div{
+	width: auto !important;
+}
+
+#seleccionInforme div.form > div > div{
+	float: left;
+	margin: 0px;
+}
+
+#seleccionInforme input.submit{
+	float: right;
+	font-size: 10px;
+}
+
+#seleccionInforme label{
+	margin-right: 10px;
+	margin-top: 8px;
+	width: 50px;
+}
+
+#seleccionInforme select{
+	width: auto !important;
+	height: auto !important;
+	margin-top: 1px !important;
+}
+
+#resultadoBusqueda{
+	overflow: hidden;
+	border: 1px solid #AAA;
+	padding: 10px 20px;
+	border-radius: 5px;
+	margin-top: 20px;
+}
+
+#resultadoBusqueda h3{
+	font-size: 15px;
+	font-weight: 800;
+	border-bottom: 1px solid #AAA;
+	text-align: right;
+}

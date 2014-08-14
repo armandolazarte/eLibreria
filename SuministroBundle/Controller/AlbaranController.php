@@ -34,21 +34,35 @@ class AlbaranController extends Asistente{
 		$columnaTotal = new BlankColumn(array('id' => 'total', 'title' => 'Total'));
 		$columnaVerAB = new BlankColumn(array('id' => 'verAB', 'title' => 'Ver Abonos', 'safe' => false));
 		$columnaVer = new BlankColumn(array('id' => 'ver', 'title' => 'Ver Albaran', 'safe' => false));
+		$columnaLiquid = new BlankColumn(array('id' => 'liquidacion', 'title' => 'Liquidación', 'safe' => false));
 		
 		$grid->getGrid()->addColumn($columnaContrato);
 		$grid->getGrid()->addColumn($columnaTotal);
 		$grid->getGrid()->addColumn($columnaVerAB);
 		$grid->getGrid()->addColumn($columnaVer);
+		$grid->getGrid()->addColumn($columnaLiquid);
 				
 		$grid->getSource()->manipulateRow(function($row){
 			$entidad = $row->getEntity();
 
 			$enlaceVerAB = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=960,height=500,toolbar=1,resizable=0"); return false;\' href="' . $this->generateUrl('rgm_e_libreria_suministro_albaran_verAB', array('id' => $entidad->getId())) . '">Ver Abonos</a>';
 			$enlaceVer = '<a onclick=\'window.open(this.href, "mywin","left=20,top=20,width=960,height=500,toolbar=1,resizable=0"); return false;\' href="' . $this->generateUrl('rgm_e_libreria_suministro_albaran_ver', array('id' => $entidad->getId())) . '">Ver Albaran</a>';
+			
+			if($entidad->isLiquidado()){
+				$estadoLiq = 'liquidado';
+				$tituloLiq = 'Deshacer liquidación';
+			}
+			else{
+				$estadoLiq = 'noliquidado';
+				$tituloLiq = 'Liquidar';
+			}
+			
+			$enlaceLiq = '<a href="' . $this->generateUrl('rgm_e_libreria_suministro_albaran_liquidarTotal', array('id' => $entidad->getId())) . '">'.$tituloLiq.'</a>';
 				
 			$row->setField('contrato', $entidad->getContrato());
 			$row->setField('verAB', $enlaceVerAB);
 			$row->setField('ver', $enlaceVer);
+			$row->setField('liquidacion', $enlaceLiq);
 				
 			if(!$entidad->getTotal()){
 				$this->calcularValorAlbaran($entidad);
@@ -538,6 +552,47 @@ class AlbaranController extends Asistente{
 		$salida['numPaginas'] = ceil( (count($lineasAlbaran) + $lineasExtra) / $infoImpresion['numElementosPagina']);
 						
 		return $salida;
+	}
+	
+	public function liquidacionTotalAction(Request $peticion, $id){
+		$em = $this->getEm();
+				
+		$albaran = $em->getRepository($this->getEntidadLogico($this->getParametro('entidad')))->find($id);
+		
+		if($albaran->isLiquidado()){
+			foreach($albaran->getItems() as $item){
+				$existencia = $item->getExistencia();
+				
+				if(!$existencia->isVendido() && !$existencia->isAdquirido() && !$existencia->isVigente()){
+					$existencia->setVigente(true);
+					$em->persist($existencia);
+				}
+			}
+			
+			$albaran->setLiquidado(false);
+			$em->persist($albaran);
+			
+			$mensajeFlash = 'Albaran recuperado.';
+		}
+		else{
+			foreach($albaran->getItems() as $item){
+				$existencia = $item->getExistencia();
+				
+				if(!$existencia->isVendido() && !$existencia->isAdquirido() && $existencia->isVigente()){
+					$existencia->setVigente(false);
+					$em->persist($existencia);
+				}
+			}
+			
+			$albaran->setLiquidado(true);
+			$em->persist($albaran);
+			
+			$mensajeFlash = 'Albaran liquidado.';
+		}
+				
+		$this->setFlash($mensajeFlash);
+		$em->flush();
+		return $this->irInicio();
 	}
 }
 ?>

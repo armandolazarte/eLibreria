@@ -243,7 +243,7 @@ function Venta(
 			        	  }
 			        	  else{
 			          		return {
-				          		label: "[ " + item.tipo + " ] " + item.ref + " - " + item.titulo,
+				          		label: "[ " + item.tipo + " ] " + item.ref + " - " + item.titulo + item.loc,
 				          		value: "ISBN / REF",
 				          		titulo: item.titulo,
 				          		id: item.id,
@@ -276,7 +276,7 @@ function Venta(
 			        	  }
 			        	  else{
 			          		return {
-				          		label: "[ " + item.tipo + " ] " + item.ref + " - " + item.titulo,
+				          		label: "[ " + item.tipo + " ] " + item.ref + " - " + item.titulo + item.loc,
 				          		value: "Titulo",
 				          		ref: item.ref,
 				          		id: item.id,

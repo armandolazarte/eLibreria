@@ -1,0 +1,19 @@
+{% extends 'RGMELibreriaIndexBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('bundles/rgmelibreriaventas/css/informe.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block contenido %}
+<form id="seleccionInforme" method="POST" action="{{ formulario.ruta_destino_form }}" {{ form_enctype(formulario.form) }}>			
+	<input class="submit" type="submit" value="{{ formulario.titulo_submit }}">
+	<div class="form">{{ form_widget(formulario.form) }}</div>	
+</form>
+
+{% if resultadoBusqueda is defined %}
+<div id="resultadoBusqueda">
+	<h3>{{ resultadoBusqueda }}</h3>
+</div>
+{% endif %}
+{% endblock %}

@@ -98,6 +98,9 @@ class GeneradorVentaController extends Asistente{
 		if($loc){
 			$res = $loc->getDenominacion();
 		}
+		else{
+			$res = 'Sin Localización';
+		}
 		
 		return $res;
 	}
@@ -127,7 +130,7 @@ class GeneradorVentaController extends Asistente{
 			
 			$em = $this->getEm();
 			
-			$sql = 'SELECT e.id, l.titulo, l.isbn FROM Existencia as e Natural Join existenciaLibro as eL, Libro as l WHERE eL.libro_id = l.isbn AND e.vendido = 0 AND l.isbn LIKE :ref LIMIT 20';
+			$sql = 'SELECT e.id, e.localizacion_id, l.titulo, l.isbn FROM Existencia as e Natural Join existenciaLibro as eL, Libro as l WHERE eL.libro_id = l.isbn AND e.vigente = 1 AND e.vendido = 0 AND l.isbn LIKE :ref LIMIT 20';
 			
 			$stmt = $em->getConnection()->prepare($sql);
 			$stmt->bindValue(":ref", $buscar);
@@ -143,10 +146,16 @@ class GeneradorVentaController extends Asistente{
 				$obj['ref'] = $r['isbn'];
 				$obj['titulo'] = $r['titulo'];
 				
+				$loc = '';				
+				if($r['localizacion_id']){
+					$loc = ' [' . $this->buscarLocalizacion($r['localizacion_id']) . ']';
+				}
+				$obj['loc'] = $loc;
+				
 				$res[] = $obj;
 			}
 
-			$sql = 'SELECT e.id, a.titulo, a.ref FROM Existencia as e Natural Join existenciaArticulo as eA, Articulo as a WHERE e.vendido = 0 AND eA.articulo_id = a.id AND a.ref LIKE :ref LIMIT 20';
+			$sql = 'SELECT e.id, e.localizacion_id, a.titulo, a.ref FROM Existencia as e Natural Join existenciaArticulo as eA, Articulo as a WHERE e.vendido = 0 AND e.vigente = 1 AND eA.articulo_id = a.id AND a.ref LIKE :ref LIMIT 20';
 				
 			$stmt = $em->getConnection()->prepare($sql);
 			$stmt->bindValue(":ref", $buscar);
@@ -161,6 +170,12 @@ class GeneradorVentaController extends Asistente{
 				$obj['id'] = $r['id'];
 				$obj['ref'] = $r['ref'];
 				$obj['titulo'] = $r['titulo'];
+				
+				$loc = '';				
+				if($r['localizacion_id']){
+					$loc = ' [' . $this->buscarLocalizacion($r['localizacion_id']) . ']';
+				}
+				$obj['loc'] = $loc;
 				
 				$res[] = $obj;
 			}
@@ -179,7 +194,7 @@ class GeneradorVentaController extends Asistente{
 				
 			$em = $this->getEm();
 				
-			$sql = 'SELECT e.id, l.titulo, l.isbn FROM Existencia as e Natural Join existenciaLibro as eL, Libro as l WHERE eL.libro_id = l.isbn AND e.vendido = 0 AND l.titulo LIKE :titulo LIMIT 20';
+			$sql = 'SELECT e.id, e.localizacion_id, l.titulo, l.isbn FROM Existencia as e Natural Join existenciaLibro as eL, Libro as l WHERE eL.libro_id = l.isbn AND e.vigente = 1 AND e.vendido = 0 AND l.titulo LIKE :titulo LIMIT 20';
 				
 			$stmt = $em->getConnection()->prepare($sql);
 			$stmt->bindValue(":titulo", $buscar);
@@ -194,11 +209,17 @@ class GeneradorVentaController extends Asistente{
 				$obj['id'] = $r['id'];
 				$obj['ref'] = $r['isbn'];
 				$obj['titulo'] = $r['titulo'];
+				
+				$loc = '';				
+				if($r['localizacion_id']){
+					$loc = ' [' . $this->buscarLocalizacion($r['localizacion_id']) . ']';
+				}
+				$obj['loc'] = $loc;
 			
 				$res[] = $obj;
 			}
 			
-			$sql = 'SELECT e.id, a.titulo, a.ref FROM Existencia as e Natural Join existenciaArticulo as eA, Articulo as a WHERE e.vendido = 0 AND eA.articulo_id = a.id AND a.titulo LIKE :titulo LIMIT 20';
+			$sql = 'SELECT e.id, e.localizacion_id, a.titulo, a.ref FROM Existencia as e Natural Join existenciaArticulo as eA, Articulo as a WHERE e.vendido = 0 AND e.vigente = 1 AND eA.articulo_id = a.id AND a.titulo LIKE :titulo LIMIT 20';
 			
 			$stmt = $em->getConnection()->prepare($sql);
 			$stmt->bindValue(":titulo", $buscar);
@@ -213,6 +234,12 @@ class GeneradorVentaController extends Asistente{
 				$obj['id'] = $r['id'];
 				$obj['ref'] = $r['ref'];
 				$obj['titulo'] = $r['titulo'];
+				
+				$loc = '';				
+				if($r['localizacion_id']){
+					$loc = ' [' . $this->buscarLocalizacion($r['localizacion_id']) . ']';
+				}
+				$obj['loc'] = $loc;
 			
 				$res[] = $obj;
 			}

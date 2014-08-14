@@ -30,6 +30,10 @@ rgm_e_libreria_suministro_albaran_borrar:
     pattern: /albaran/{id}/borrar
     defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:borrarAlbaran' }
     
+rgm_e_libreria_suministro_albaran_liquidarTotal:
+    pattern: /albaran/{id}/liquidacionTotal
+    defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:liquidacionTotal' }
+    
 rgm_e_libreria_suministro_albaran_homepage:
     pattern: /albaran
     defaults: { _controller: 'RGMELibreriaSuministroBundle:Albaran:verAlbaranes' }
