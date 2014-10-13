@@ -18,11 +18,15 @@ class InformeVentaController extends Asistente{
 	public function generarInformeAction(Request $peticion){
 		$opciones = $this->getArrayOpcionesVista(array());
 		$seleccionInforme = new SeleccionInforme();
+		$em = $this->getEm();
 		
 		$formulario = $this->createForm($this->getFormulario('seleccionInforme'), $seleccionInforme);
 		
 		if($peticion->getMethod() == "POST"){
 			$formulario->bind($peticion);
+			
+			$repositorio = $em->getRepository('RGMELibreriaVentasBundle:Venta');
+			$ventas = $repositorio->findVentasPorDistribuidorasFiltroFecha($seleccionInforme->getMes(), $seleccionInforme->getAnno());
 			
 			$opciones['resultadoBusqueda'] = $seleccionInforme->getMesString() . '/' . $seleccionInforme->getAnno();
 		}
