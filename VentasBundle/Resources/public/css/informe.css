@@ -80,15 +80,35 @@
 #resultadoBusqueda .resultados .titulos > div{
 	font-weight: 800;
 	float: left;
-	width: 24.90%;
 	height: 25px;
 	line-height: 24px;
 	text-align: center;
 	border-right: 1px solid #CCC;
 }
 
+#resultadoBusqueda .resultados .titulos .ISBNREFTitulo{
+	width: 15%;
+}
+
+#resultadoBusqueda .resultados .titulos .NombreTitulo{
+	width: 52.5%;
+}
+
+#resultadoBusqueda .resultados .titulos .PrecioVentaTitulo{
+	width: 7%;
+}
+
+#resultadoBusqueda .resultados .titulos .BaseImponibleTitulo{
+	width: 7%;
+}
+
+#resultadoBusqueda .resultados .titulos .IVATitulo{
+	width: 11%;
+}
+
 #resultadoBusqueda .resultados .titulos .MetodoPagoTitulo{
 	border-right: 0px;
+	width: 7%;
 }
 
 #resultadoBusqueda .resultados .existencias{
@@ -100,15 +120,35 @@
 
 #resultadoBusqueda .resultados .existencias > div{
 	float: left;
-	width: 24.90%;
 	height: 25px;
 	line-height: 24px;
 	text-align: center;
 	border-right: 1px solid #CCC;
 }
 
+#resultadoBusqueda .resultados .existencias .ISBNREF{
+	width: 15%;
+}
+
+#resultadoBusqueda .resultados .existencias .Nombre{
+	width: 52.5%;
+}
+
+#resultadoBusqueda .resultados .existencias .PrecioVenta{
+	width: 7%;
+}
+
+#resultadoBusqueda .resultados .existencias .BaseImponible{
+	width: 7%;
+}
+
+#resultadoBusqueda .resultados .existencias .IVA{
+	width: 11%;
+}
+
 #resultadoBusqueda .resultados .existencias .MetodoPago{
 	border-right: 0px;
+	width: 7%;
 }
 
 #resultadoBusqueda .totales .titulos{
@@ -119,7 +159,7 @@
 #resultadoBusqueda .totales .titulos > div{
 	font-weight: 800;
 	float: left;
-	width: 49.95%;
+	width: 33%;
 	height: 25px;
 	line-height: 24px;
 	text-align: center;
@@ -139,7 +179,7 @@
 
 #resultadoBusqueda .totales .existencias > div{
 	float: left;
-	width: 49.95%;
+	width: 33%;
 	height: 25px;
 	line-height: 24px;
 	text-align: center;

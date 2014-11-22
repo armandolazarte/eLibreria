@@ -7,6 +7,7 @@ class ContenidoDistribuidora{
 	private $distribuidora;
 	private $existencias;
 	private $totalParcial = 0.0;
+	private $totalBaseParcial = 0.0;
 	private $totalIVAParcial = 0.0;
 	
 	public function __construct($d){
@@ -27,6 +28,7 @@ class ContenidoDistribuidora{
 		$iva = $e->getIVA();
 		
 		$this->totalParcial += $precio;
+		$this->totalBaseParcial += $precio / (1+$iva);
 		$this->totalIVAParcial += $precio * $iva;
 		
 		$this->existencias->add($e);
@@ -34,6 +36,10 @@ class ContenidoDistribuidora{
 	
 	public function getTotalParcialDistribuidora(){
 		return $this->totalParcial;
+	}
+	
+	public function getTotalBaseParcialDistribuidora(){
+		return $this->totalBaseParcial;
 	}
 	
 	public function getTotalIVAParcialDistribuidora(){

@@ -32,6 +32,7 @@ class InformeVentaController extends Asistente{
 			
 			$distribuidoras = new ArrayCollection();
 			$total = 0.0;
+			$totalBase = 0.0;
 			$totalIVA = 0.0;
 			
 			foreach ($ventas as $v){
@@ -45,6 +46,7 @@ class InformeVentaController extends Asistente{
 					$d = $contratoS->getDistribuidora();
 
 					$total += $i->getPrecioVenta();
+					$totalBase += $i->getPrecioVenta() / (1 + $existencia->getIVA());
 					$totalIVA += $existencia->getIVA() * $i->getPrecioVenta();
 					
 					if($distribuidoras->containsKey($d->getId())){
@@ -62,6 +64,7 @@ class InformeVentaController extends Asistente{
 			$opciones['resultadoBusqueda'] = $seleccionInforme->getMesString() . '/' . $seleccionInforme->getAnno();
 			$opciones['resultados'] = $distribuidoras;
 			$opciones['total'] = $total;
+			$opciones['totalBase'] = $totalBase;
 			$opciones['totalIVA'] = $totalIVA;
 		}
 		

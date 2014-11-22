@@ -18,10 +18,12 @@
 		<h4>Totales</h4>
 		<div class="titulos">
 			<div class="TotalTitulo">Total</div>
+			<div class="TotalBaseTitulo">Total Base Imponible</div>
 			<div class="TotalIVATitulo">Total IVA Recaudado</div>
 		</div>
 		<div class="existencias">
 			<div class="Total">{{ '%.2f'|format(total) }}€</div>
+			<div class="TotalBase">{{ '%.2f'|format(totalBase) }}€</div>
 			<div class="TotalIVA">{{ '%.2f'|format(totalIVA) }}€</div>
 		</div>
 	</section>
@@ -31,15 +33,19 @@
 		<h4>Distribuidora: {{ dis.distribuidora.nombre }}</h4>
 		<section class="resultados">
 			<div class="titulos">
+				<div class="ISBNREFTitulo">ISBN/REF</div>
 				<div class="NombreTitulo">Titulo del Artículo</div>
 				<div class="PrecioVentaTitulo">Precio de Venta</div>
+				<div class="BaseImponibleTitulo">Base Imponible</div>
 				<div class="IVATitulo">IVA % [ Cantidad IVA € ]</div>
 				<div class="MetodoPagoTitulo">Metodo de Pago</div>
 			</div>
 			{% for ex in dis.existencias %}
 				<div class="existencias {{ cycle(['filaUno', 'filaDos'], loop.index0) }}">
+					<div class="ISBNREF">{{ ex.referencia }}</div>
 					<div class="Nombre">{{ ex.objetovinculado.titulo }}</div>
 					<div class="PrecioVenta">{{ '%.2f'|format(ex.itemventa.precioventa) }}€</div>
+					<div class="BaseImponible">{{ '%.2f'|format(ex.itemventa.precioventa / (1 + ex.iva)) }}€</div>
 					<div class="IVA">{{ ex.iva * 100 }}% [ {{  '%.2f'|format(ex.itemventa.precioventa * ex.iva) }}  €]</div>
 					<div class="MetodoPago">{{ ex.itemventa.venta.metodopagostring }}</div>			
 				</div>
@@ -50,10 +56,12 @@
 			<h4>Total Parcial para la distribuidora</h4>
 			<div class="titulos">
 				<div class="TotalTitulo">Total</div>
+				<div class="TotalBaseTitulo">Total Base Imponible</div>
 				<div class="TotalIVATitulo">Total IVA Soportado</div>
 			</div>
 			<div class="existencias">
 				<div class="Total">{{ '%.2f'|format(dis.TotalParcialDistribuidora) }}€</div>
+				<div class="TotalBase">{{ '%.2f'|format(dis.TotalBaseParcialDistribuidora) }}€</div>
 				<div class="TotalIVA">{{ '%.2f'|format(dis.TotalIVAParcialDistribuidora) }}€</div>
 			</div>
 		</section>
@@ -64,10 +72,12 @@
 		<h4>Totales</h4>
 		<div class="titulos">
 			<div class="TotalTitulo">Total</div>
+			<div class="TotalBaseTitulo">Total Base Imponible</div>
 			<div class="TotalIVATitulo">Total IVA Recaudado</div>
 		</div>
 		<div class="existencias">
 			<div class="Total">{{ '%.2f'|format(total) }}€</div>
+			<div class="TotalBase">{{ '%.2f'|format(totalBase) }}€</div>
 			<div class="TotalIVA">{{ '%.2f'|format(totalIVA) }}€</div>
 		</div>
 	</section>
