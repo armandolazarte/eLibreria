@@ -50,3 +50,122 @@
 	border-bottom: 1px solid #AAA;
 	text-align: right;
 }
+
+#resultadoBusqueda section{
+	margin: 0 0 20px 0;
+	padding: 10px 20px 0;
+}
+
+#resultadoBusqueda h4{
+	font: italic bold normal 25px Tahoma;
+	border-bottom: 1px solid;
+	margin-bottom: 10px;
+}
+
+#resultadoBusqueda .marcoDistribuidora > h4{
+	padding: 0 10px 10px;
+}
+
+#resultadoBusqueda .marcoDistribuidora{
+	border: 1px solid;
+	margin: 40px 20px;
+	padding: 10px 0px 20px;
+}
+
+#resultadoBusqueda .resultados .titulos{
+	overflow: hidden;
+	border: 1px solid #CCC;
+}
+
+#resultadoBusqueda .resultados .titulos > div{
+	font-weight: 800;
+	float: left;
+	width: 24.95%;
+	height: 25px;
+	line-height: 24px;
+	text-align: center;
+	border-right: 1px solid #CCC;
+}
+
+#resultadoBusqueda .resultados .titulos .MetodoPagoTitulo{
+	border-right: 0px;
+}
+
+#resultadoBusqueda .resultados .existencias{
+	overflow: hidden;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+}
+
+#resultadoBusqueda .resultados .existencias > div{
+	float: left;
+	width: 24.95%;
+	height: 25px;
+	line-height: 24px;
+	text-align: center;
+	border-right: 1px solid #CCC;
+}
+
+#resultadoBusqueda .resultados .existencias .MetodoPago{
+	border-right: 0px;
+}
+
+#resultadoBusqueda .totales .titulos{
+	overflow: hidden;
+	border: 1px solid #CCC;
+}
+
+#resultadoBusqueda .totales .titulos > div{
+	font-weight: 800;
+	float: left;
+	width: 49.95%;
+	height: 25px;
+	line-height: 24px;
+	text-align: center;
+	border-right: 1px solid #CCC;
+}
+
+#resultadoBusqueda .totales .titulos .TotalIVATitulo{
+	border-right: 0px;
+}
+
+#resultadoBusqueda .totales .existencias{
+	overflow: hidden;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+}
+
+#resultadoBusqueda .totales .existencias > div{
+	float: left;
+	width: 49.95%;
+	height: 25px;
+	line-height: 24px;
+	text-align: center;
+	border-right: 1px solid #CCC;
+}
+
+#resultadoBusqueda .totales .existencias .TotalIVA{
+	border-right: 0px;
+}
+
+#resultadoBusqueda .filaUno{
+	background: #EEE;
+	color: #777;
+}
+
+#resultadoBusqueda .filaUno:hover{
+	background: #AAA;
+	color: #FFF;
+}
+
+#resultadoBusqueda .filaDos{
+	background: #f3f3f3;
+	color: #777;
+}
+
+#resultadoBusqueda .filaDos:hover{
+	background: #AAA;
+	color: #FFF;
+}

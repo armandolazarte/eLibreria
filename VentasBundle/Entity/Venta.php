@@ -65,6 +65,7 @@ class Venta {
 	 * @GRID\Column(title="Metodo de pago", filter="select", selectFrom="values", values={"1"="Efectivo", "2"="Tarjeta"})
 	 */
 	private $metodoPago = 1;
+	private $metodoPagoString = array(1=>"Efectivo", 2=>"Tarjeta");
 
 	public function __construct() {
 		$this->items = new ArrayCollection();
@@ -160,5 +161,8 @@ class Venta {
 
 		return $this;
 	}
-
+	
+	public function getMetodoPagoString(){
+		return $this->metodoPagoString[$this->metodoPago];
+	}
 }

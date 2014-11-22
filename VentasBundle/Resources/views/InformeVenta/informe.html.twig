@@ -14,6 +14,63 @@
 {% if resultadoBusqueda is defined %}
 <div id="resultadoBusqueda">
 	<h3>{{ resultadoBusqueda }}</h3>
+	<section class="totales">
+		<h4>Totales</h4>
+		<div class="titulos">
+			<div class="TotalTitulo">Total</div>
+			<div class="TotalIVATitulo">Total IVA Recaudado</div>
+		</div>
+		<div class="existencias">
+			<div class="Total">{{ '%.2f'|format(total) }}€</div>
+			<div class="TotalIVA">{{ '%.2f'|format(totalIVA) }}€</div>
+		</div>
+	</section>
+	
+	{% for dis in resultados %}
+	<div class="marcoDistribuidora">
+		<h4>Distribuidora: {{ dis.distribuidora.nombre }}</h4>
+		<section class="resultados">
+			<div class="titulos">
+				<div class="NombreTitulo">Titulo del Artículo</div>
+				<div class="PrecioVentaTitulo">Precio de Venta</div>
+				<div class="IVATitulo">IVA % [ Cantidad IVA € ]</div>
+				<div class="MetodoPagoTitulo">Metodo de Pago</div>
+			</div>
+			{% for ex in dis.existencias %}
+				<div class="existencias {{ cycle(['filaUno', 'filaDos'], loop.index0) }}">
+					<div class="Nombre">{{ ex.objetovinculado.titulo }}</div>
+					<div class="PrecioVenta">{{ '%.2f'|format(ex.itemventa.precioventa) }}€</div>
+					<div class="IVA">{{ ex.iva * 100 }}% [ {{  '%.2f'|format(ex.itemventa.precioventa * ex.iva) }}  €]</div>
+					<div class="MetodoPago">{{ ex.itemventa.venta.metodopagostring }}</div>			
+				</div>
+			{% endfor %}
+		</section>
+		
+		<section class="totales">
+			<h4>Total Parcial para la distribuidora</h4>
+			<div class="titulos">
+				<div class="TotalTitulo">Total</div>
+				<div class="TotalIVATitulo">Total IVA Soportado</div>
+			</div>
+			<div class="existencias">
+				<div class="Total">{{ '%.2f'|format(dis.TotalParcialDistribuidora) }}€</div>
+				<div class="TotalIVA">{{ '%.2f'|format(dis.TotalIVAParcialDistribuidora) }}€</div>
+			</div>
+		</section>
+	</div>
+	{% endfor %}
+	
+	<section class="totales">
+		<h4>Totales</h4>
+		<div class="titulos">
+			<div class="TotalTitulo">Total</div>
+			<div class="TotalIVATitulo">Total IVA Recaudado</div>
+		</div>
+		<div class="existencias">
+			<div class="Total">{{ '%.2f'|format(total) }}€</div>
+			<div class="TotalIVA">{{ '%.2f'|format(totalIVA) }}€</div>
+		</div>
+	</section>
 </div>
 {% endif %}
 {% endblock %}

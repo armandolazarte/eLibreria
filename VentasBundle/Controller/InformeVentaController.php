@@ -3,7 +3,9 @@ namespace RGM\eLibreria\VentasBundle\Controller;
 
 use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
 use RGM\eLibreria\VentasBundle\Entity\SeleccionInforme;
+use RGM\eLibreria\VentasBundle\Entity\ContenidoDistribuidora;
 
 class InformeVentaController extends Asistente{
 	private $bundle = 'ventasbundle';
@@ -28,7 +30,39 @@ class InformeVentaController extends Asistente{
 			$repositorio = $em->getRepository('RGMELibreriaVentasBundle:Venta');
 			$ventas = $repositorio->findVentasPorDistribuidorasFiltroFecha($seleccionInforme->getMes(), $seleccionInforme->getAnno());
 			
+			$distribuidoras = new ArrayCollection();
+			$total = 0.0;
+			$totalIVA = 0.0;
+			
+			foreach ($ventas as $v){
+				$items = $v->getItems();
+				
+				foreach ($items as $i){					
+					$existencia = $i->getExistencia();
+					$itemS = $existencia->getItemAlbaran();
+					$alb = $itemS->getAlbaran();
+					$contratoS = $alb->getContrato();
+					$d = $contratoS->getDistribuidora();
+
+					$total += $i->getPrecioVenta();
+					$totalIVA += $existencia->getIVA() * $i->getPrecioVenta();
+					
+					if($distribuidoras->containsKey($d->getId())){
+						$distribuidoras->get($d->getId())->addExistencia($existencia);
+					}
+					else{
+						$con = new ContenidoDistribuidora($d);
+						$con->addExistencia($existencia);
+												
+						$distribuidoras->set($d->getId(), $con);
+					}					
+				}
+			}
+			
 			$opciones['resultadoBusqueda'] = $seleccionInforme->getMesString() . '/' . $seleccionInforme->getAnno();
+			$opciones['resultados'] = $distribuidoras;
+			$opciones['total'] = $total;
+			$opciones['totalIVA'] = $totalIVA;
 		}
 		
 		$opcionesFormulario['form'] = $formulario->createView();
