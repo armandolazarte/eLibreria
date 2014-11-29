@@ -5,15 +5,25 @@
 	<link href="{{ asset('bundles/rgmelibreriaventas/css/informe.css') }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('bundles/rgmelibreriaventas/js/impresion.js') }}"></script>
+{% endblock %}
+
 {% block contenido %}
+
+
 <form id="seleccionInforme" method="POST" action="{{ formulario.ruta_destino_form }}" {{ form_enctype(formulario.form) }}>			
 	<input class="submit" type="submit" value="{{ formulario.titulo_submit }}">
 	<div class="form">{{ form_widget(formulario.form) }}</div>	
+	<span id="BotonImpresion">Imprimir</span>
 </form>
 
-{% if resultadoBusqueda is defined %}
+{% if resultadoBusqueda is defined %} 
 <div id="resultadoBusqueda">
 	<h3>{{ resultadoBusqueda }}</h3>
+	
+	{% if resultados is not empty %}
 	<section class="totales">
 		<h4>Totales</h4>
 		<div class="titulos">
@@ -46,7 +56,7 @@
 					<div class="Nombre">{{ ex.objetovinculado.titulo }}</div>
 					<div class="PrecioVenta">{{ '%.2f'|format(ex.itemventa.precioventa) }}€</div>
 					<div class="BaseImponible">{{ '%.2f'|format(ex.itemventa.precioventa / (1 + ex.iva)) }}€</div>
-					<div class="IVA">{{ ex.iva * 100 }}% [ {{  '%.2f'|format(ex.itemventa.precioventa * ex.iva) }}  €]</div>
+					<div class="IVA">{{ ex.iva * 100 }}% [ {{  '%.2f'|format((ex.itemventa.precioventa / (1+ex.iva)) * ex.iva) }}  €]</div>
 					<div class="MetodoPago">{{ ex.itemventa.venta.metodopagostring }}</div>			
 				</div>
 			{% endfor %}
@@ -81,6 +91,12 @@
 			<div class="TotalIVA">{{ '%.2f'|format(totalIVA) }}€</div>
 		</div>
 	</section>
+	
+	{% else %}
+	<section class="totales">
+		<h4>No existen ventas en el mes seleccionado</h4>
+	</section>
+	{% endif %}
 </div>
 {% endif %}
 {% endblock %}

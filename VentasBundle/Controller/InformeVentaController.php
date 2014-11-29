@@ -47,7 +47,7 @@ class InformeVentaController extends Asistente{
 
 					$total += $i->getPrecioVenta();
 					$totalBase += $i->getPrecioVenta() / (1 + $existencia->getIVA());
-					$totalIVA += $existencia->getIVA() * $i->getPrecioVenta();
+					$totalIVA += $existencia->getIVA() * $i->getPrecioVenta() / (1 + $existencia->getIVA());
 					
 					if($distribuidoras->containsKey($d->getId())){
 						$distribuidoras->get($d->getId())->addExistencia($existencia);

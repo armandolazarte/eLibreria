@@ -29,7 +29,7 @@ class ContenidoDistribuidora{
 		
 		$this->totalParcial += $precio;
 		$this->totalBaseParcial += $precio / (1+$iva);
-		$this->totalIVAParcial += $precio * $iva;
+		$this->totalIVAParcial += $precio / (1+$iva) * $iva;
 		
 		$this->existencias->add($e);
 	}
