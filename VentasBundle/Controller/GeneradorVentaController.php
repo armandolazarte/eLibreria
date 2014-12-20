@@ -130,7 +130,7 @@ class GeneradorVentaController extends Asistente{
 			
 			$em = $this->getEm();
 			
-			$sql = 'SELECT e.id, e.localizacion_id, l.titulo, l.isbn FROM Existencia as e Natural Join existenciaLibro as eL, Libro as l WHERE eL.libro_id = l.isbn AND e.vigente = 1 AND e.vendido = 0 AND l.isbn LIKE :ref LIMIT 20';
+			$sql = 'SELECT e.id, e.localizacion_id, l.titulo, l.isbn, alb.numeroAlbaran, D.nombre FROM Existencia as e Natural Join existenciaLibro as eL, Libro as l, ItemAlbaran as iA, Albaran as alb, ContratoSuministro as cnSum, Distribuidora as D WHERE eL.libro_id = l.isbn AND e.vigente = 1 AND e.vendido = 0 AND iA.existencia_id = e.id AND iA.albaran_id = alb.id AND alb.contrato_id = cnSum.id AND D.id = cnSum.distribuidora_id AND l.isbn LIKE :ref LIMIT 20';
 			
 			$stmt = $em->getConnection()->prepare($sql);
 			$stmt->bindValue(":ref", $buscar);
@@ -145,6 +145,8 @@ class GeneradorVentaController extends Asistente{
 				$obj['id'] = $r['id'];
 				$obj['ref'] = $r['isbn'];
 				$obj['titulo'] = $r['titulo'];
+				$obj['distribuidora'] = $r['nombre'];
+				$obj['numAlb'] = $r['numeroAlbaran'];
 				
 				$loc = '';				
 				if($r['localizacion_id']){
@@ -155,7 +157,7 @@ class GeneradorVentaController extends Asistente{
 				$res[] = $obj;
 			}
 
-			$sql = 'SELECT e.id, e.localizacion_id, a.titulo, a.ref FROM Existencia as e Natural Join existenciaArticulo as eA, Articulo as a WHERE e.vendido = 0 AND e.vigente = 1 AND eA.articulo_id = a.id AND a.ref LIKE :ref LIMIT 20';
+			$sql = 'SELECT e.id, e.localizacion_id, a.titulo, a.ref, alb.numeroAlbaran, D.nombre FROM Existencia as e Natural Join existenciaArticulo as eA, Articulo as a, ItemAlbaran as iA, Albaran as alb, ContratoSuministro as cnSum, Distribuidora as D WHERE e.vendido = 0 AND e.vigente = 1 AND eA.articulo_id = a.id AND iA.existencia_id = e.id AND iA.albaran_id = alb.id AND alb.contrato_id = cnSum.id AND D.id = cnSum.distribuidora_id AND a.ref LIKE :ref LIMIT 20';
 				
 			$stmt = $em->getConnection()->prepare($sql);
 			$stmt->bindValue(":ref", $buscar);
@@ -170,6 +172,8 @@ class GeneradorVentaController extends Asistente{
 				$obj['id'] = $r['id'];
 				$obj['ref'] = $r['ref'];
 				$obj['titulo'] = $r['titulo'];
+				$obj['distribuidora'] = $r['nombre'];
+				$obj['numAlb'] = $r['numeroAlbaran'];
 				
 				$loc = '';				
 				if($r['localizacion_id']){
@@ -194,7 +198,7 @@ class GeneradorVentaController extends Asistente{
 				
 			$em = $this->getEm();
 				
-			$sql = 'SELECT e.id, e.localizacion_id, l.titulo, l.isbn FROM Existencia as e Natural Join existenciaLibro as eL, Libro as l WHERE eL.libro_id = l.isbn AND e.vigente = 1 AND e.vendido = 0 AND l.titulo LIKE :titulo LIMIT 20';
+			$sql = 'SELECT e.id, e.localizacion_id, l.titulo, l.isbn, alb.numeroAlbaran, D.nombre FROM Existencia as e Natural Join existenciaLibro as eL, Libro as l, ItemAlbaran as iA, Albaran as alb, ContratoSuministro as cnSum, Distribuidora as D WHERE eL.libro_id = l.isbn AND e.vigente = 1 AND e.vendido = 0 AND iA.existencia_id = e.id AND iA.albaran_id = alb.id AND alb.contrato_id = cnSum.id AND D.id = cnSum.distribuidora_id AND l.titulo LIKE :titulo LIMIT 20';
 				
 			$stmt = $em->getConnection()->prepare($sql);
 			$stmt->bindValue(":titulo", $buscar);
@@ -209,6 +213,8 @@ class GeneradorVentaController extends Asistente{
 				$obj['id'] = $r['id'];
 				$obj['ref'] = $r['isbn'];
 				$obj['titulo'] = $r['titulo'];
+				$obj['distribuidora'] = $r['nombre'];
+				$obj['numAlb'] = $r['numeroAlbaran'];
 				
 				$loc = '';				
 				if($r['localizacion_id']){
@@ -219,7 +225,7 @@ class GeneradorVentaController extends Asistente{
 				$res[] = $obj;
 			}
 			
-			$sql = 'SELECT e.id, e.localizacion_id, a.titulo, a.ref FROM Existencia as e Natural Join existenciaArticulo as eA, Articulo as a WHERE e.vendido = 0 AND e.vigente = 1 AND eA.articulo_id = a.id AND a.titulo LIKE :titulo LIMIT 20';
+			$sql = 'SELECT e.id, e.localizacion_id, a.titulo, a.ref, alb.numeroAlbaran, D.nombre FROM Existencia as e Natural Join existenciaArticulo as eA, Articulo as a, ItemAlbaran as iA, Albaran as alb, ContratoSuministro as cnSum, Distribuidora as D WHERE e.vendido = 0 AND e.vigente = 1 AND eA.articulo_id = a.id AND iA.existencia_id = e.id AND iA.albaran_id = alb.id AND alb.contrato_id = cnSum.id AND D.id = cnSum.distribuidora_id AND a.titulo LIKE :titulo LIMIT 20';
 			
 			$stmt = $em->getConnection()->prepare($sql);
 			$stmt->bindValue(":titulo", $buscar);
@@ -234,6 +240,8 @@ class GeneradorVentaController extends Asistente{
 				$obj['id'] = $r['id'];
 				$obj['ref'] = $r['ref'];
 				$obj['titulo'] = $r['titulo'];
+				$obj['distribuidora'] = $r['nombre'];
+				$obj['numAlb'] = $r['numeroAlbaran'];
 				
 				$loc = '';				
 				if($r['localizacion_id']){

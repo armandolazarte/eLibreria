@@ -243,7 +243,7 @@ function Venta(
 			        	  }
 			        	  else{
 			          		return {
-				          		label: "[ " + item.tipo + " ] " + item.ref + " - " + item.titulo + item.loc,
+				          		label: "[ " + item.tipo + " ] " + item.ref + " - " + item.titulo + item.loc + ' - [' + item.distribuidora + '] [' + item.numAlb + ']',
 				          		value: "ISBN / REF",
 				          		titulo: item.titulo,
 				          		id: item.id,
@@ -276,7 +276,7 @@ function Venta(
 			        	  }
 			        	  else{
 			          		return {
-				          		label: "[ " + item.tipo + " ] " + item.ref + " - " + item.titulo + item.loc,
+				          		label: "[ " + item.tipo + " ] " + item.ref + " - " + item.titulo + item.loc + ' - [' + item.distribuidora + '] [' + item.numAlb + ']',
 				          		value: "Titulo",
 				          		ref: item.ref,
 				          		id: item.id,
