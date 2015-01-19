@@ -9,7 +9,7 @@ use APY\DataGridBundle\Grid\Mapping as GRID;
  * Recargo
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="RGM\eLibreria\SuministroBundle\Entity\RepositorioRecargo")
  */
 class Recargo
 {

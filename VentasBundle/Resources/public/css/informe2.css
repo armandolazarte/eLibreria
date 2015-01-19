@@ -1,0 +1,158 @@
+#seleccionInforme{
+	overflow: hidden;
+	border: 1px solid #AAA;
+	padding: 2px 20px;
+	border-radius: 5px;
+}
+
+#seleccionInforme div.form{
+	float: right;
+	margin: 0 20px;
+}
+
+#seleccionInforme div.form > div{
+	width: auto !important;
+}
+
+#seleccionInforme div.form > div > div{
+	float: left;
+	margin: 0px;
+}
+
+#seleccionInforme input.submit{
+	float: right;
+	font-size: 10px;
+}
+
+#seleccionInforme label{
+	margin-right: 10px;
+	margin-top: 8px;
+	width: 50px;
+}
+
+#seleccionInforme select{
+	width: auto !important;
+	height: auto !important;
+	margin-top: 1px !important;
+}
+
+#resultadoBusqueda{
+	overflow: hidden;
+	border: 1px solid #AAA;
+	padding: 10px 20px;
+	border-radius: 5px;
+	margin-top: 20px;
+}
+
+#resultadoBusqueda h3{
+	font-size: 15px;
+	font-weight: 800;
+	border-bottom: 1px solid #AAA;
+	text-align: right;
+}
+
+#resultadoBusqueda .filaUno{
+	background: #EEE;
+	color: #777;
+}
+
+#resultadoBusqueda .filaUno:hover{
+	background: #AAA;
+	color: #FFF;
+}
+
+#resultadoBusqueda .filaDos{
+	background: #f3f3f3;
+	color: #777;
+}
+
+#resultadoBusqueda .filaDos:hover{
+	background: #AAA;
+	color: #FFF;
+}
+
+#resultadoBusqueda table{
+	width: 99%;
+	margin: 20px auto;
+	border-collapse: collapse;
+	border: 1px solid;
+}
+
+#resultadoBusqueda table thead td{
+	font-weight: 800;
+}
+
+#resultadoBusqueda table tfoot td{
+	font-weight: 800;
+}
+
+#resultadoBusqueda table thead {
+	border-bottom: 1px solid;
+}
+
+#resultadoBusqueda table tfoot {
+	border-top: 1px solid;
+}
+
+#resultadoBusqueda table tfoot td.div2 {
+	border-bottom: 1px solid;
+}
+
+#resultadoBusqueda table td{
+	padding: 10px 20px;
+	text-align: center;
+	border-right: 1px solid;
+}
+
+#resultadoBusqueda table td.finFila{
+	border-right: 0px solid;
+}
+
+#contenedor.impresion{
+	margin: 0px !important;
+	padding: 0px !important;
+	background: #fff;	
+}
+
+#cuerpo.impresion{
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+#contenido.impresion{
+	margin: 0px !important;
+	padding: 0px !important;
+	border-radius: 0px !important;
+	border: 0px solid !important;
+}
+
+#resultadoBusqueda.impresion{
+	margin: 0px !important;
+	padding: 0px !important;
+	border-radius: 0px !important;
+	border: 0px solid !important;
+}
+
+#resultadoBusqueda.impresion h3{
+	margin: 10px 20px;
+}
+
+#resultadoBusqueda.impresion table{
+	zoom: 0.7;
+}
+
+#resultadoBusqueda.impresion table tbody td{
+	border-bottom: 1px solid;
+}
+
+#BotonImpresion{
+	width: 80px;
+	text-align: center;
+	padding: 7px 15px;
+	background: #617798;
+	border: 0;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 5px;
+	display: block;	
+}

@@ -89,6 +89,7 @@ parameters:
             repositorio: 'RGMELibreriaVentasBundle:Venta'
         plantillas:
             principal: 'informe.html.twig'
+            principal2: 'informe2.html.twig'
         formularios:
             seleccionInforme: 'RGM\eLibreria\VentasBundle\Form\Frontend\InformeVenta\InformeType'
         

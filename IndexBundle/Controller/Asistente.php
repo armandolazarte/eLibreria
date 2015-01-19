@@ -197,5 +197,13 @@ class Asistente extends Controller{
 	
 		return $res;
 	}
+	
+	protected function getRecargoPorIVA($iva){
+		$em = $this->getEm();
+		$repositorio = $em->getRepository('RGMELibreriaSuministroBundle:Recargo');
+		$tipoRecargo = $repositorio->findRecargoIVA($iva);
+		
+		return $tipoRecargo->getRecargo();
+	}
 }
 ?>

@@ -267,4 +267,12 @@ class Existencia {
 	public function isVigente(){
 		return $this->vigente == 1;
 	}
+	
+	public function getDistribuidora(){
+		return $this->getItemAlbaran()->getAlbaran()->getContrato()->getDistribuidora();
+	}
+	
+	public function getNombreDistribuidora(){
+		return $this->getDistribuidora()->getNombre();
+	}
 }

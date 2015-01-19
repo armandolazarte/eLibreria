@@ -40,12 +40,12 @@ h3.ui-accordion-header{
 	position: relative;
 	overflow: hidden;
 
-	width: 740px;
+	width: 850px;
 	margin: 0 auto;
 }
 
 #formulario-datos-albaran div{
-	width: 350px;
+	width: 400px;
 	padding: 10px;
 }
 
@@ -74,7 +74,7 @@ h3.ui-accordion-header{
 
 #formulario-datos-albaran div select{
 	height: 30px;
-	width: 156px;
+	width: 175px;
 }
 
 #formulario-datos-albaran div input, #formulario-datos-albaran div select{
