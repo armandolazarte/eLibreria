@@ -1,0 +1,35 @@
+#albaran_cuerpo thead th{
+	font-size: 12px;
+}
+
+#albaran_cuerpo tbody td{
+	font-size: 11px;
+}
+
+.referencia{
+	width: 28px;
+}
+
+.titulo{
+	width: 0px;
+}
+
+.loc{
+	width: 70px;
+}
+
+.precio{
+	width: 68px;
+}
+
+.iva{
+	width: 33px;
+}
+
+.descuento{
+	width: 58px;
+}
+
+.importe{
+	width: 68px;
+}

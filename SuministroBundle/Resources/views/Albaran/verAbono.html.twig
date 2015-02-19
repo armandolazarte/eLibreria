@@ -4,7 +4,10 @@
 
 {% block stylesheets %}
 	<link href="{{ asset('bundles/rgmelibreriaindex/css/albaran.css') }}" type="text/css" rel="stylesheet" />	
+	<link href="{{ asset('bundles/rgmelibreriasuministro/css/abono.css') }}" type="text/css" rel="stylesheet" />	
 {% endblock %}
+
+{% set limiteString = 55 %}
 
 {% block body %}
 	{% if error %}
@@ -12,37 +15,39 @@
 	{% else %}	
 		{% if numPaginas > 0 %}
 			{% for i in range(1, numPaginas) %}
-				{% set inicio = (i - 1) * 33 %}	
+				{% set inicio = (i - 1) * (numElementosPorPagina + 1) %}	
 				<div id="albaran_contenedor">
 					<header id="albaran_header">
 						Distribuidora: {{ albaran.contrato.distribuidora.nombre }}<br>
 						Nº Albaran: {{ albaran.numeroAlbaran }}<br>
-						Fecha Realizacion: {{ albaran.fechaRealizacion|date('Y-m-d') }}<br>
-						Fecha Factura: {{ albaran.fechaVencimiento|date('Y-m-d') }}<br>
+						Fecha Realizacion: {{ albaran.fechaRealizacion|date('d/m/Y') }}<br>
+						Fecha Factura: {{ albaran.fechaVencimiento|date('d/m/Y') }}<br>
 						Pagina: {{ i }}<br>
 						<h3>SOLO EXISTENCIAS NO VENDIDAS NI ADQUIRIDAS POR LIBRERIA</h3>
 					</header>
 					
 					<section id="albaran_cuerpo">
 						<table>
-							<thead>
-								<th>Referencia</th>
-								<th>Localización</th>
-								<th>Precio Base</th>
-								<th>IVA</th>
-								<th>Descuento</th>
-								<th>Importe</th>
+							<thead class="cabecera">
+								<th class="referencia">Referencia</th>
+								<th class="titulo">Titulo</th>
+								<th class="loc">Loc</th>
+								<th class="precio">Precio Base</th>
+								<th class="iva">IVA</th>
+								<th class="descuento">Descuento</th>
+								<th class="importe">Importe</th>
 							</thead>
-							<tbody>
-								{% for linea in lineas|slice(inicio, 33) %}
+							<tbody class="cuerpo">
+								{% for linea in lineas|slice(inicio, numElementosPorPagina) %}
 									{% if linea is iterable %}
 										<tr>						
-										<td>{{ linea.referencia }}</td>
-										<td>{{ linea.localizacion }}</td>
-										<td>{{ '%.2f'|format(linea.precio) }}€</td>
-										<td>{{ linea.iva * 100 }}%</td>
-										<td>{{ linea.descuento * 100 }}%</td>
-										<td>{{ '%.2f'|format(linea.importe) }}€</td>
+											<td class="referencia">{{ linea.referencia }}</td>
+											<td class="titulo">{% if linea.titulo|length > limiteString %}{{ linea.titulo|slice(0, limiteString) }} ...{% else %}{{ linea.titulo }}{% endif %}</td>
+											<td class="loc">{{ linea.localizacion }}</td>
+											<td class="precio">{{ '%.2f'|format(linea.precio) }}€</td>
+											<td class="iva">{{ linea.iva * 100 }}%</td>
+											<td class="descuento">{{ linea.descuento * 100 }}%</td>
+											<td class="importe">{{ '%.2f'|format(linea.importe) }}€</td>
 										</tr>
 									{% endif %}
 								{% endfor %}
@@ -95,13 +100,14 @@
 			</header>
 			<section id="albaran_cuerpo">
 				<table>
-					<thead>
-						<th>Referencia</th>
-						<th>Localización</th>
-						<th>Precio Base</th>
-						<th>IVA</th>
-						<th>Descuento</th>
-						<th>Importe</th>
+					<thead class="cabecera">
+						<th class="referencia">Referencia</th>
+						<th class="titulo">Titulo</th>
+						<th class="loc">Loc</th>
+						<th class="precio">Precio Base</th>
+						<th class="iva">IVA</th>
+						<th class="descuento">Descuento</th>
+						<th class="importe">Importe</th>
 					</thead>
 					<tbody>
 						<tr>

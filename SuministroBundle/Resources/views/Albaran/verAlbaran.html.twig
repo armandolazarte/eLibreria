@@ -20,8 +20,8 @@
 				<header id="albaran_header">
 					Distribuidora: {{ albaran.contrato.distribuidora.nombre }}<br>
 					Nº Albaran: {{ albaran.numeroAlbaran }}<br>
-					Fecha Realizacion: {{ albaran.fechaRealizacion|date('Y-m-d') }}<br>
-					Fecha Factura: {{ albaran.fechaVencimiento|date('Y-m-d') }}<br>
+					Fecha Realizacion: {{ albaran.fechaRealizacion|date('d/m/Y') }}<br>
+					Fecha Factura: {{ albaran.fechaVencimiento|date('d/m/Y') }}<br>
 					Pagina: {{ i }}<br>
 				</header>
 				<section id="albaran_cuerpo">

@@ -354,7 +354,8 @@ class AlbaranController extends Asistente{
 					}
 
 					$objeto = $existencia->getObjetoVinculado();
-					$referencia = $existencia->getReferencia() . ': ' . $objeto->getTitulo();
+					$referencia = $existencia->getReferencia();
+					$titulo = $objeto->getTitulo();
 
 					$bloqueIVA = $bases->get((string) $iva);
 					
@@ -365,6 +366,7 @@ class AlbaranController extends Asistente{
 					
 					$linea = array();
 					$linea['referencia'] = $referencia;
+					$linea['titulo'] = $titulo;
 					$linea['localizacion'] = $localizacion;
 					$linea['precio'] = $precioBase;
 					$linea['iva'] = $iva;
@@ -396,10 +398,13 @@ class AlbaranController extends Asistente{
 				$lineasBase[] = $lineaBase;
 			}
 		}
-
+		
 		$numLineas = count($lineas);
 		
-		$opciones['numPaginas'] = ceil($numLineas / 33);
+		$numElementosPorPagina = 46;
+		
+		$opciones['numPaginas'] = ceil($numLineas / $numElementosPorPagina);		
+		$opciones['numElementosPorPagina'] = $numElementosPorPagina;
 		
 		$opciones['lineas'] = $lineas;
 		$opciones['lineasBase'] = $lineasBase;
