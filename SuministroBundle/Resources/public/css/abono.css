@@ -1,9 +1,19 @@
+#albaran_cuerpo table{
+	max-height: 770px;
+	border-spacing: 0px;
+}
+
 #albaran_cuerpo thead th{
 	font-size: 12px;
+	padding: 0px;
+	line-height: 14px;
 }
 
 #albaran_cuerpo tbody td{
 	font-size: 11px;
+	line-height: 14px;
+	border-spacing: 0px;
+	padding: 0 0 1px 0;
 }
 
 .referencia{

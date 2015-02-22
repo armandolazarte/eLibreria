@@ -39,7 +39,7 @@
 							</thead>
 							<tbody class="cuerpo">
 								{% for linea in lineas|slice(inicio, numElementosPorPagina) %}
-									{% if linea is iterable %}
+									{% if linea is iterable %}									
 										<tr>						
 											<td class="referencia">{{ linea.referencia }}</td>
 											<td class="titulo">{% if linea.titulo|length > limiteString %}{{ linea.titulo|slice(0, limiteString) }} ...{% else %}{{ linea.titulo }}{% endif %}</td>

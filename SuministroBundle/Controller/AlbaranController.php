@@ -401,7 +401,7 @@ class AlbaranController extends Asistente{
 		
 		$numLineas = count($lineas);
 		
-		$numElementosPorPagina = 46;
+		$numElementosPorPagina = 50;
 		
 		$opciones['numPaginas'] = ceil($numLineas / $numElementosPorPagina);		
 		$opciones['numElementosPorPagina'] = $numElementosPorPagina;
