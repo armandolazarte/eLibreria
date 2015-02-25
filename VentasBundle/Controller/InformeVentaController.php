@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Collections\ArrayCollection;
 use RGM\eLibreria\VentasBundle\Entity\SeleccionInforme;
 use RGM\eLibreria\VentasBundle\Entity\ContenidoDistribuidora;
+use RGM\eLibreria\VentasBundle\Entity\OrdenVenta;
+use RGM\eLibreria\VentasBundle\Entity\DispensadorItemsVenta;
 
 class InformeVentaController extends Asistente{
 	private $bundle = 'ventasbundle';
@@ -89,7 +91,10 @@ class InformeVentaController extends Asistente{
 
 			$repositorio = $em->getRepository('RGMELibreriaVentasBundle:Venta');
 			$ventas = $repositorio->findVentasPorFechaOrdenado($seleccionInforme->getMes(), $seleccionInforme->getAnno());
-					
+			
+			$dispensadorOrdenVenta = new DispensadorOrdenVenta();
+			$orden = $dispensadorOrdenVenta->getNumOrden($em, $seleccionInforme->getAnno(), $seleccionInforme->getMes());
+			
 			$existencias = array();
 			
 			$totalBaseImp = 0.0;
@@ -147,7 +152,7 @@ class InformeVentaController extends Asistente{
 					
 					$total += $precioVenta;
 
-					$elemento['nOrden'] = $v->getId();
+					$elemento['nOrden'] = $orden++;
 					$elemento['fecha'] = $v->getFecha();
 					$elemento['distribuidora'] = $existencia->getNombreDistribuidora();
 					$elemento['bImp'] = $bImp;

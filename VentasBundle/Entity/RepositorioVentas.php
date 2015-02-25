@@ -41,6 +41,32 @@ class RepositorioVentas extends EntityRepository
 		return $q->getResult();
 	}
 	
+	public function findExistenciasVendidasPorFecha($mes, $anno)
+	{
+		$em = $this->getEntityManager();		
+		$qb = $em->createQueryBuilder();
+		
+		$qb->select('v')
+			->from('RGMELibreriaVentasBundle:Venta', 'v')
+				->where('v.fecha LIKE ?1');
+		
+		$mesString = str_pad($mes, 2, '0', STR_PAD_LEFT);
+		
+		$qb->setParameter(1, $anno . '-' . $mesString . '%');		
+		
+		$q = $qb->getQuery();
+		
+		$r = $q->getResult();
+		
+		$res = 0;
+		
+		foreach($r as $venta){
+			$res += count($venta->getItems());
+		}
+		
+		return $res;
+	}
+	
 	public function findVentasPorFechaOrdenado($mes, $anno, $orden = 'ASC')
 	{
 		$em = $this->getEntityManager();		
@@ -59,5 +85,6 @@ class RepositorioVentas extends EntityRepository
 		
 		return $q->getResult();
 	}
+	
 }
 ?>
