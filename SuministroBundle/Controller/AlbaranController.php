@@ -264,7 +264,19 @@ class AlbaranController extends Asistente{
 			$opciones['error'] = 'Albaran no encontrado';
 		}
 		else{
-			$calculador = new CalculoAlbaran($albaran, null);
+			$calculador = new CalculoAlbaran($albaran, $this->getRecargos());
+			
+			$opciones = array_merge($opciones, $calculador->getOpcionesVista());
+			
+			$numLineas = count($opciones['lineas']);
+			
+			$numElementosPorPagina = 50;
+		
+			$opciones['numElementosPorPagina'] = $numElementosPorPagina;		
+			$opciones['numPaginas'] = ceil($numLineas / $numElementosPorPagina);
+				
+			/*var_dump($opciones2);
+			
 			$calculoAlbaran = $this->calcularValorAlbaran($albaran);
 			
 			$opciones['albaran'] = $albaran;
@@ -294,7 +306,7 @@ class AlbaranController extends Asistente{
 				}
 			}
 			
-			$opciones['lineas'] = $mixLineas;
+			$opciones['lineas'] = $mixLineas;*/
 		}
 		
 		return $this->render($this->getPlantilla('ver'), $opciones);

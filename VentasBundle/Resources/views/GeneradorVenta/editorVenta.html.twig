@@ -16,6 +16,7 @@
 			ruta_ajax_plantilla_existencia = '{{ path(ajax.ruta_ajax_plantilla_existencia) }}';
 			ruta_ajax_registro_venta = '{{ path(ajax.ruta_ajax_registro_venta) }}',
 			ruta_ajax_borrar_existencia = '{{ path(ajax.ruta_ajax_borrar_existencia) }}',
+			ruta_inicio = '{{ path(rutaInicio) }}',
 			ruta_ajax_get_ruta_ticket = '{{ path(ajax.ruta_ajax_get_ruta_ticket) }}';
 
 		{% if venta is defined %}var venta_info = $.parseJSON('{{ venta | raw }}');{% endif %}

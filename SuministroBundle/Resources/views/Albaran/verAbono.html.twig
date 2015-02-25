@@ -15,7 +15,7 @@
 	{% else %}	
 		{% if numPaginas > 0 %}
 			{% for i in range(1, numPaginas) %}
-				{% set inicio = (i - 1) * (numElementosPorPagina + 1) %}	
+				{% set inicio = (i - 1) * (numElementosPorPagina) %}	
 				<div id="albaran_contenedor">
 					<header id="albaran_header">
 						Distribuidora: {{ albaran.contrato.distribuidora.nombre }}<br>

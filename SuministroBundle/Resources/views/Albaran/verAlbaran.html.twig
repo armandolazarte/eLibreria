@@ -3,119 +3,114 @@
 {% block title %}Albaran{% endblock %}
 
 {% block stylesheets %}
-	<link href="{{ asset('bundles/rgmelibreriaindex/css/albaran.css') }}" type="text/css" rel="stylesheet" />	
+	<link href="{{ asset('bundles/rgmelibreriaindex/css/albaran.css') }}" type="text/css" rel="stylesheet" />
+	<link href="{{ asset('bundles/rgmelibreriasuministro/css/abono.css') }}" type="text/css" rel="stylesheet" />	
 {% endblock %}
+
+{% set limiteString = 55 %}
 
 {% block body %}
 	{% if error %}
-	{{ error }}
+		{{ error }}
 	{% else %}
-	{% set longitudLineas = lineas | length %}
-	
-	{% if numPaginas > 0 %}
-		{% for i in range(1, numPaginas) %}
-			{% set inicio = (i - 1) * 33 %}
-						
-			<div id="albaran_contenedor">
-				<header id="albaran_header">
-					Distribuidora: {{ albaran.contrato.distribuidora.nombre }}<br>
-					Nº Albaran: {{ albaran.numeroAlbaran }}<br>
-					Fecha Realizacion: {{ albaran.fechaRealizacion|date('d/m/Y') }}<br>
-					Fecha Factura: {{ albaran.fechaVencimiento|date('d/m/Y') }}<br>
-					Pagina: {{ i }}<br>
-				</header>
-				<section id="albaran_cuerpo">
-					<table>
-						<tr>
-							<th>ISBN/REF</th>
-							<th>Titulo</th>
-							<th>UDS.</th>
-							<th>Vend.</th>
-							<th>P.V.c/i</th>
-							<th>P.V.s/i</th>
-							<th>Desc</th>
-							<th>Importe</th>
-							<th>Iva</th>
-						</tr>	
-				
-				
-			{% for l in lineas|slice(inicio, 33) %}
-				{% if l is iterable %}
-					<tr>
-						<td><div class="envoltura">{{ l.ref }}</div></td>
-						<td><div class="envoltura">{{ l.titulo }}</div></td>
-						<td><div class="envoltura">{{ l.numEjemplares }}</div></td>
-						<td><div class="envoltura">{{ l.vendidos }}</div></td>
-						<td><div class="envoltura">{{ '%.2f'|format(l.precio * (1 + l.iva)) }}€</div></td>
-						<td><div class="envoltura">{{ '%.2f'|format(l.precio) }}€</div></td>
-						<td><div class="envoltura">{{ l.desc * 100 }}%</div></td>
-						<td><div class="envoltura">{{ '%.2f'|format((l.precio * (1 - l.desc))|round(2) * l.numEjemplares) }}€</div></td>
-						<td><div class="envoltura">{{ l.iva * 100 }}%</div></td>
-					</tr>
-					{% if 'loc' in l|keys %}
-						{% for localizacion in l.loc %}
-							<tr>
-								<td></td>
-								<td colspan="2" style="text-align: left;padding: 2px 0px; font-size: 13px; font-weight: 800;">Ejemplar en: {{ localizacion }}</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-						{% endfor %}
-					{% endif %}
-				{% endif %}
-			{% endfor %}		
-					</table>
-				</section>
-				<footer id="albaran_footer">
-					<section class="total_base">
-						Total Base: <span class="cantidad">{{ '%.2f'|format(bImp) }}€</span><br>
-						Total IVA: <span class="cantidad">{{ '%.2f'|format(bIva) }}€</span><br>
-						Total REC: <span class="cantidad">{{ '%.2f'|format(bRec) }}€</span><br>
-					</section>
-					<section class="total">
-						Total a pagar €: <span class="cantidad">{{ '%.2f'|format(vTotal) }}€</span><br>
-						TOTAL €: <span class="cantidad">{{ '%.2f'|format(bTotal) }}€</span>
-					</section>
-					<section class="impuestos">
+		{% if numPaginas > 0 %}
+			{% for i in range(1, numPaginas) %}
+				{% set inicio = (i - 1) * (numElementosPorPagina) %}							
+				<div id="albaran_contenedor">
+					<header id="albaran_header">
+						Distribuidora: {{ albaran.contrato.distribuidora.nombre }}<br>
+						Nº Albaran: {{ albaran.numeroAlbaran }}<br>
+						Fecha Realizacion: {{ albaran.fechaRealizacion|date('d/m/Y') }}<br>
+						Fecha Factura: {{ albaran.fechaVencimiento|date('d/m/Y') }}<br>
+						Pagina: {{ i }}<br>
+					</header>
+					<section id="albaran_cuerpo">
 						<table>
-							<tr>
-								<th>I.V.A.</th>
-								<th>REC.</th>
-								<th>Base Imponible</th>
-								<th>IMP I.V.A.</th>
-								<th>IMP REC.</th>
-							</tr>
-							<tr>
-								<th>Base Imponible</th>
-								<th>IMP I.V.A.</th>
-								<th>IMP REC.</th>
-							</tr>
-							{% for base in bases %}
-								{% if base.baseImp > 0 %}
-									<tr>
-										<td>{{ base.iva * 100 }}%</td>
-										<td>{{ base.rec * 100 }}%</td>
-										<td>{{ '%.2f'|format(base.baseImp) }}€</td>
-										<td>{{ '%.2f'|format(base.ivaImp) }}€</td>
-										<td>{{ '%.2f'|format(base.recImp) }}€</td>
-									</tr>
-								{% endif %}
-							{% endfor %}
+							<thead class="cabecera">
+								<th>ISBN/REF</th>
+								<th>Titulo</th>
+								<th>UDS.</th>
+								<th>Vend.</th>
+								<th>P.V.c/i</th>
+								<th>P.V.s/i</th>
+								<th>Desc</th>
+								<th>Importe</th>
+								<th>Iva</th>							
+							</thead>
+					
+				<tbody class="cuerpo">	
+				{% for l in lineas|slice(inicio, numElementosPorPagina) %}
+					{% if l is iterable %}
+						{% if l.tipo == 0 %}
+						<tr>
+							<td>{{ l.ref }}</td>
+							<td>{% if l.titulo|length > limiteString %}{{ l.titulo|slice(0, limiteString) }} ...{% else %}{{ l.titulo }}{% endif %}</td>
+							<td>{{ l.numEjemplares }}</td>
+							<td>{{ l.vendidos }}</td>
+							<td>{{ '%.2f'|format(l.pvpConIVA) }}€</td>
+							<td>{{ '%.2f'|format(l.pvpSinIVA) }}€</td>
+							<td>{{ l.desc * 100 }}%</td>
+							<td>{{ '%.2f'|format(l.importe) }}€</td>
+							<td>{{ l.iva * 100 }}%</td>
+						</tr>
+						{% else %}
+						<tr>
+							<td></td>
+							<td colspan="2" style="text-align: left; font-weight: 800;">Ejemplar en: {{ l.localizacion }}</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+				</tbody>		
 						</table>
 					</section>
-				</footer>
+					<footer id="albaran_footer">
+						<section class="total_base">
+							Total Base: <span class="cantidad">{{ '%.2f'|format(bImp) }}€</span><br>
+							Total IVA: <span class="cantidad">{{ '%.2f'|format(bIVA) }}€</span><br>
+							Total REC: <span class="cantidad">{{ '%.2f'|format(bRec) }}€</span><br>
+						</section>
+						<section class="total">
+							Total a pagar €: <span class="cantidad">{{ '%.2f'|format(vTotal) }}€</span><br>
+							TOTAL €: <span class="cantidad">{{ '%.2f'|format(bTotal) }}€</span>
+						</section>
+						<section class="impuestos">
+							<table>
+								<tr>
+									<th>I.V.A.</th>
+									<th>REC.</th>
+									<th>Base Imponible</th>
+									<th>IMP I.V.A.</th>
+									<th>IMP REC.</th>
+								</tr>
+								{% for base in bases %}
+									{% if base.bImp > 0 %}
+										<tr>
+											<td>{{ base.iva * 100 }}%</td>
+											<td>{{ base.rec * 100 }}%</td>
+											<td>{{ '%.2f'|format(base.bImp) }}€</td>
+											<td>{{ '%.2f'|format(base.bIVA) }}€</td>
+											<td>{{ '%.2f'|format(base.bRec) }}€</td>
+										</tr>
+									{% endif %}
+								{% endfor %}
+							</table>
+						</section>
+					</footer>
+				</div>
+			{% endfor %}
+		{% else %}
+			<div id="albaran_contenedor">
+				<header id="albaran_header">
+					No se encontraron elementos en el albaran
+				</header>
 			</div>
-		{% endfor %}
-	{% else %}
-		<div id="albaran_contenedor">
-			<header id="albaran_header">
-				No se encontraron elementos en el albaran
-			</header>
-		</div>
+		{% endif %}
 	{% endif %}
-{% endif %}
 {% endblock %}

@@ -92,6 +92,7 @@ function Venta(
 							success: function(data){
 								if(data.estado){
 									window.open(data.url, '_blank', 'menubar=no,width=500,height=600');
+									window.location=ruta_inicio;
 								}
 							}
 						});
@@ -111,6 +112,7 @@ function Venta(
 				success: function(data){
 					if(data.estado){
 						window.open(data.url, '_blank', 'menubar=no,width=500,height=600');
+						window.location=ruta_inicio;
 					}
 				}
 			});

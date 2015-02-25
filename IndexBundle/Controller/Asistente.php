@@ -205,5 +205,12 @@ class Asistente extends Controller{
 		
 		return $tipoRecargo->getRecargo();
 	}
+	
+	protected function getRecargos(){
+		$em = $this->getEm();
+		$recargos = $em->getRepository('RGMELibreriaSuministroBundle:Recargo');
+		
+		return $recargos;
+	}
 }
 ?>

@@ -39,12 +39,14 @@ class CAExistencia{
 		
 		$descuento = $e->getItemAlbaran()->getDescuento();
 		$precio = $e->getPrecio();
+		
+		$importe = $precio * (1 - $descuento);
 			
-		$this->baseImpTotal += $precio * (1 - $descuento);
+		$this->baseImpTotal += $importe;
 		
 		if($e->isVendido() || $e->isAdquirido()){
 			$this->numeroExistenciasVendidas++;
-			$this->baseImpVendido += $precio * (1 - $descuento);
+			$this->baseImpVendido += $importe;
 		}
 		else{
 			$loc = $e->getLocalizacion();
@@ -99,6 +101,12 @@ class CAExistencia{
 	
 	public function getBaseIVA(){
 		return $this->getBaseImponible() * $this->getIva();
+	}
+	
+	public function getBaseRecargo($recargos){
+		$recargo = $recargos->findRecargoIVA($this->getIva());
+		
+		return $this->getBaseImponible() * $recargo->getRecargo();
 	}
 	
 	public function getPrecioIVA(){

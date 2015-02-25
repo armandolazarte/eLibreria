@@ -95,7 +95,7 @@ parameters:
         
 
     ventasbundle.generador:
-        inicio: 'rgm_e_libreria_ventas_index'
+        inicio: 'rgm_e_libreria_ventas_crear'
         seccion: 'Venta'
         subseccion: 'Editor de venta'
         nombrelogicobundle: 'RGMELibreriaVentasBundle'

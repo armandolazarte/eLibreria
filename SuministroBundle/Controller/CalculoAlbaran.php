@@ -41,18 +41,74 @@ class CalculoAlbaran{
 		$bImp = 0;
 		$bIVA = 0;
 		$bRec = 0;
-		$bases = array();
+		$bases = new ArrayCollection();
 		$vTotal = 0;
 		$bTotal = 0;
 		$lineas = array();
-		$numPaginas = 0;
 		
-		foreach($this->existencias as $CAExistencia){
-			$bImp += $CAExistencia->getBaseImponible();
-			$bIVA += $CAExistencia->getBaseIVA();
-			$bRec += $CAExistencia->getBaseRecargo($this->recargos);
+		foreach($this->existencias as $CAExistencia){			
+			$ivaActual = (string)$CAExistencia->getIVA();
+			
+			$bImpActual = $CAExistencia->getBaseImponible();
+			$bIVAActual = $CAExistencia->getBaseIVA();
+			$bRecActual = $CAExistencia->getBaseRecargo($this->recargos);
+			
+			$bImp += $bImpActual;
+			$bIVA += $bIVAActual;
+			$bRec += $bRecActual;
+			
+			if($bases->containsKey($ivaActual)){
+				$base = $bases->get($ivaActual);
+				
+				$base['bImp'] += $bImpActual;
+				$base['bIVA'] += $bIVAActual;
+				$base['bRec'] += $bRecActual;
+				
+				$bases->set($ivaActual, $base);
+			}
+			else{
+				$base = array();
+
+				$base['iva'] = $CAExistencia->getIVA();
+				$base['rec'] = $this->recargos->findRecargoIVA($CAExistencia->getIVA())->getRecargo();
+				$base['bImp'] = $bImpActual;
+				$base['bIVA'] = $bIVAActual;
+				$base['bRec'] = $bRecActual;
+				
+				$bases->set($ivaActual, $base);
+			}
+			
+			$bVendido = $CAExistencia->getBaseImponibleVendido();
+
+			if($bVendido > 0){
+				$vTotal += $bVendido + $bIVAActual + $bRecActual;
+			}
+			
+			$bTotal += $bImpActual + $bIVAActual + $bRecActual;
+			
+			$l = array();
+			$l['tipo'] = 0; //0 = Existencia; 1 = Localizacion
+			$l['ref'] = $CAExistencia->getReferencia();
+			$l['titulo'] = $CAExistencia->getTitulo();
+			$l['numEjemplares'] = $CAExistencia->getNumeroDeExistencias();
+			$l['vendidos'] = $CAExistencia->getNumeroDeExistenciasVendidas();
+			$l['pvpConIVA'] = $CAExistencia->getPrecioIVA();
+			$l['pvpSinIVA'] = $CAExistencia->getPrecioUnitario();
+			$l['desc'] = $CAExistencia->getDescuento();
+			$l['importe'] = $CAExistencia->getBaseImponible();
+			$l['iva'] = $CAExistencia->getIva();
+			
+			$lineas[] = $l;
+			
+			foreach($CAExistencia->getLocalizaciones() as $loc){
+				$l = array();
+				$l['tipo'] = 1;
+				$l['localizacion'] = $loc;
+				$lineas[] = $l;
+			}			
 		}
 
+		$res['albaran'] = $this->albaran;
 		$res['bImp'] = $bImp;
 		$res['bIVA'] = $bIVA;
 		$res['bRec'] = $bRec;
@@ -60,7 +116,6 @@ class CalculoAlbaran{
 		$res['vTotal'] = $vTotal;
 		$res['bTotal'] = $bTotal;
 		$res['lineas'] = $lineas;
-		$res['numPaginas'] = $numPaginas;
 		
 		return $res;
 	}
