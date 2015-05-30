@@ -172,6 +172,7 @@ function Articulo(albaran, ref, existenciasArray){
 	this.setArticuloEnContenedor = function(cuerpo){
 		cuerpo.prependTo(this.albaran.contenedorItems);
 		this.albaran.contenedorItems.accordion("refresh");
+		this.albaran.actItem();
 	}
 	
 	this.copiarInfo = function(){

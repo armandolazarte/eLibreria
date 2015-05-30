@@ -13,11 +13,20 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 	this.estadoGlobal;
 	this.botonActualizar;
 	
+	this.totalItems = 0;
+	this.itemActual = 0;
+	
 	this.items = new Array();
 
 	this.botonAnadirLibro;
 	this.botonAnadirArticulo;
 	this.contenedorItems;
+	
+	this.actItem = function(){
+		this.itemActual += 1;
+		
+		$("#visor").progressbar({value:this.itemActual});
+	}
 	
 	this.des = function(){
 		modificar_estado(this.estado, 'sinActualizar');
@@ -136,6 +145,8 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 				var itemsRecibidos = data.items;
 								
 				for(var refItem in itemsRecibidos){
+					albaran.totalItems += 1;
+					
 					var item = itemsRecibidos[refItem];
 										
 					if(item.tipo === 'libro'){
@@ -145,6 +156,8 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 						albaran.anadirArticuloExistente(refItem, item.existencias);						
 					}
 				}
+				
+				$("#visor").progressbar({max: albaran.totalItems});
 			}
 		});
 	}

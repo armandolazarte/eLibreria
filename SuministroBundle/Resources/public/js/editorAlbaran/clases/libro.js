@@ -206,6 +206,7 @@ function Libro(albaran, isbn, existenciasArray){
 	this.setLibroEnContenedor = function(cuerpo){
 		cuerpo.prependTo(this.albaran.contenedorItems);
 		this.albaran.contenedorItems.accordion("refresh");
+		this.albaran.actItem();
 	}
 	
 	this.copiarInfo = function(){
