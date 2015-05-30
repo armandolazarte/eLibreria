@@ -1,4 +1,4 @@
-function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit){
+function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit){
 	this.padre;
 	
 	this.id;
@@ -17,8 +17,10 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 	this.botonActualizar;
 	this.botonBorrar;
 	
-	this.init = function(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit){
+	this.init = function(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit){
 		this.padre = padre;
+		
+		console.debug(localizacionInit);
 		
 		if(id === undefined){
 			this.tituloId = "Existencia nueva-" + Existencia.idTemporal;
@@ -71,6 +73,12 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 				if(adquiridoInit){
 					this.adquirido.prop('checked', adquiridoInit.prop('checked'));
 				}
+				
+				console.debug(localizacionInit);
+				
+				if(localizacionInit){
+					this.localizacion.val(localizacionInit.val());
+				}
 
 				this.localizacion.change(function(){existencia.des();});
 				this.precio.change(function(){existencia.des();});
@@ -95,6 +103,12 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 				if(id !== undefined){
 					this.cargarInfoAjaxExistencia();
 					
+					this.act();
+				}
+				
+				if(localizacionInit){
+					this.actualizarInformacion();
+
 					this.act();
 				}
 			}
@@ -133,9 +147,10 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 	this.setExistenciaEnContenedor = function(cuerpo){
 		cuerpo.appendTo(this.padre.contenedorExistencias);
 		this.padre.contenedorExistencias.accordion("refresh");
+		this.padre.actItem();
 	}
 	
-	this.init(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit);
+	this.init(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit);
 	
 	this.act = function(){
 		modificar_estado(this.estado, 'actualizado');

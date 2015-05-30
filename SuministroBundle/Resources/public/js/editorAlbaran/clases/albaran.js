@@ -9,6 +9,9 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 	this.fechaRealizacion;
 	this.fechaVencimiento;
 	
+	this.visor;
+	this.visorEtiqueta;
+	
 	this.estado;
 	this.estadoGlobal;
 	this.botonActualizar;
@@ -23,9 +26,16 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 	this.contenedorItems;
 	
 	this.actItem = function(){
-		this.itemActual += 1;
+		this.itemActual += 1;		
+		this.visor.progressbar({value:this.itemActual});
 		
-		$("#visor").progressbar({value:this.itemActual});
+		if(this.totalItems == this.itemActual){
+			this.visor.css("height", "0px");
+
+			setTimeout(function(){$("#visor").css("margin", "0 20px 0");}, 2000);
+			setTimeout(function(){$("#visor").css("border", "0");}, 2000);
+			setTimeout(function(){$("#visor").css("display", "none");}, 4000);
+		}
 	}
 	
 	this.des = function(){
@@ -157,7 +167,14 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 					}
 				}
 				
-				$("#visor").progressbar({max: albaran.totalItems});
+				albaran.visorEtiqueta.text("Cargando información...");
+				
+				albaran.visor.progressbar({
+					max: albaran.totalItems, 
+					change: function() {
+								albaran.visorEtiqueta.text( Math.floor(albaran.visor.progressbar( "value" )/albaran.totalItems*100) + "%" );
+							}
+					});
 			}
 		});
 	}
@@ -194,6 +211,9 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 		this.botonAnadirLibro = bLibroNuevo;
 		this.botonAnadirArticulo = bArticuloNuevo;
 		this.contenedorItems = cItems;
+		
+		this.visor = $("#visor");
+		this.visorEtiqueta = $("#visorEtiqueta");
 
 		this.numeroIdentificacion.change(function(){$albaran.des();});
 		this.idContratoDistribucion.change(function(){$albaran.des();});

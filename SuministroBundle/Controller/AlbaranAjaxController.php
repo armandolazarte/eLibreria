@@ -464,11 +464,13 @@ class AlbaranAjaxController extends Asistente{
 
 // 	plantillaLibro
 	public function plantillaLibroAction(){
+		$em = $this->getEm();
 		//Sacar todos los autores y estilos
 	
 		$infoAutores = $this->getParametro('autor');
 		$infoEstilos = $this->getParametro('estilo');
 		$infoRec = $this->getParametro('recargo');
+		$infoLoc = $this->getParametro('localizacion');
 	
 		$em = $this->getEm();
 		$opciones = array();
@@ -476,7 +478,8 @@ class AlbaranAjaxController extends Asistente{
 		$opciones['recargos'] = $em->getRepository($infoRec['repositorio'])->findAll();	
 		$opciones['autores'] = $em->getRepository($infoAutores['repositorio'])->findAll();
 		$opciones['estilos'] = $em->getRepository($infoEstilos['repositorio'])->findAll();
-	
+		$opciones['localizaciones'] = $em->getRepository($infoLoc['repositorio'])->findAll();
+			
 		return $this->render($this->getPlantilla('plantillaLibro'), $opciones);
 	}
 
@@ -504,6 +507,9 @@ class AlbaranAjaxController extends Asistente{
 // 	plantillaCrearMasivoExistencia
 	public function plantillaCrearMasivoExistenciaAction(){
 		$em = $this->getEm();
+
+		$infoLoc = $this->getParametro('localizacion');
+		$opciones['localizaciones'] = $em->getRepository($infoLoc['repositorio'])->findAll();
 
 		$infoRec = $this->getParametro('recargo');
 		$opciones['recargos'] = $em->getRepository($infoRec['repositorio'])->findAll();

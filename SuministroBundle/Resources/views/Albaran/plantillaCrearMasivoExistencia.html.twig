@@ -30,6 +30,16 @@
 						<input class="porcentaje" name="descuento" type="text">%
 					</div>
 				</div>
+				<div>
+					<div class="jaula-existencia-dato loc">
+						<label>Localización</label>
+						<select name="localizacion">
+							{% for loc in localizaciones %}
+							<option value="{{ l.id }}">{{ l.denominacion }}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
 			</div>
 			<div class="cuerpo-existencia-estados">
 				<div class="jaula-cuerpo-existencia-estados">

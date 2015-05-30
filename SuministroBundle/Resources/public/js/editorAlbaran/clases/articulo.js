@@ -198,6 +198,8 @@ function Articulo(albaran, ref, existenciasArray){
 		this.habilitarExistencias();
 	}
 	
+	this.actItem = function(){}
+	
 	this.habilitarExistencias = function(){
 		this.contenedorExistencias.accordion({
 	        header: "> div > h5",

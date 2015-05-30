@@ -106,7 +106,21 @@ h3.ui-accordion-header{
 }
 
 .anadirLibro, .anadirArticulo, .anadirExistenciasMasivas{
-	width: 100px !important;
+	width: 150px !important;
+}
+
+.numExistencias{
+	width: 20px !important;
+	color: #000 !important;
+	cursor: text !important;
+	text-align: right !important;
+	padding-right: 10px !important;
+	font-size: 11px !important;
+	line-height: 10px !important;
+}
+
+.ui-widget-header{
+	background: #deedf7 url(../images/barraAzul.png) repeat-x 50% 50% !important;
 }
 
 .boton, .botonAnadir, .borrarLibro, .borrarArticulo, .anadirExistencia, .existencia > h5 .borrarExistencia{
@@ -164,9 +178,26 @@ h3.ui-accordion-header{
 	line-height: 15px;
 }
 
+#visorLibro{
+	margin: 0px;
+	margin-bottom: 20px;
+	position: relative;
+	transition: all 2s;
+}
+
 #visor{
 	margin: 0 20px 40px;
+	position: relative;
+	transition: all 2s;
 }
+
+#visorEtiqueta, #visorLibroEtiqueta {
+    position: absolute;
+    left: 50%;
+    top: 4px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+  }
 
 .estado{
 	width: 70px !important;
@@ -366,6 +397,11 @@ h3.ui-accordion-header{
 	width: 200px;
 }
 
+.existencia .cuerpo-existencia-datos .loc{
+	width: 200px;
+	padding-right: 20px;
+}
+
 .existencia .cuerpo-existencia-datos .precio label{
 	display: block;
 	overflow: hidden;
@@ -381,7 +417,8 @@ h3.ui-accordion-header{
 }
 
 .existencia .cuerpo-existencia-datos .iva{
-	width: 105px;
+	width: 200px;
+	padding-right: 20px;
 }
 
 .existencia .cuerpo-existencia-datos .beneficio{
@@ -392,6 +429,11 @@ h3.ui-accordion-header{
 .iva select{
 	height: 33px;
 	width: 80px;
+}
+
+.loc select{
+	height: 33px;
+	width: 122px;
 }
 
 .existencia .cuerpo-existencia-datos .descuento{

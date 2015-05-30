@@ -24,6 +24,11 @@ function Libro(albaran, isbn, existenciasArray){
 	
 	this.botonActualizar;
 	
+	this.visorLibro;
+	this.visorLibroEtiqueta;
+	this.NumTotalExistencias = 0;
+	this.elemActual = 0;
+	
 	this.existencias = new Array();
 	
 	this.botonAnadirEexistencia;
@@ -73,6 +78,10 @@ function Libro(albaran, isbn, existenciasArray){
 				this.botonAnadirExistenciaMasiva = $plantilla.find('.anadirExistenciasMasivas');
 				this.contenedorExistencias = $plantilla.find('.jaula-existencias');
 				this.masivoExistencias = $plantilla.find('.jaula-existencias-masivo');
+				this.numExistencias = $plantilla.find('input[name="numExistencias"]');
+				
+				this.visorLibro = $plantilla.find('#visorLibro');
+				this.visorLibroEtiqueta = $plantilla.find('#visorLibroEtiqueta');
 
 				this.isbnAutocomplete.click(function(evento){evento.preventDefault(); return false;});
 				this.isbnAutocomplete.autocomplete({
@@ -128,7 +137,9 @@ function Libro(albaran, isbn, existenciasArray){
 				
 				this.formDatosLibro.submit(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.actualizar(); return false;});
 				this.botonAnadirExistencia.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.anadirExistenciaNueva(); return false;});
-				this.botonAnadirExistenciaMasiva.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.anadirExistenciaNuevaConDatos(); return false;});
+				this.numExistencias.click(this, function(evento){evento.preventDefault(); return false;});
+				this.numExistencias.change(this, function(evento){evento.preventDefault(); return false;});
+				this.botonAnadirExistenciaMasiva.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.anadirExistenciaNuevaConDatos(libroActual.numExistencias.val()); return false;});
 				
 				this.isbn.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
 				this.titulo.change(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.des(); return false;});
@@ -168,6 +179,19 @@ function Libro(albaran, isbn, existenciasArray){
 		if(this.isActGlobal()){
 			modificar_estado(this.estadoGlobal, 'actualizado');
 			this.albaran.actGlobal();
+		}
+	}
+	
+	this.actItem = function(){		
+		this.elemActual += 1;		
+		this.visorLibro.progressbar({value:this.elemActual});
+		
+		if(this.NumTotalExistencias == this.elemActual){
+			this.visorLibro.css("height", "0px");
+			var libro = this;
+			setTimeout(function(){libro.visorLibro.css("margin", "0");}, 2000);
+			setTimeout(function(){libro.visorLibro.css("border", "0");}, 2000);
+			setTimeout(function(){libro.visorLibro.css("display", "none");}, 4000);
 		}
 	}
 	
@@ -222,6 +246,7 @@ function Libro(albaran, isbn, existenciasArray){
 			},
 			type: "POST",
 			success: function(data){
+				var libro = this;
 				this.titulo.val(data.titulo);
 				this.editorial.val(data.editorial);
 				
@@ -251,6 +276,17 @@ function Libro(albaran, isbn, existenciasArray){
 					});
 				}
 				
+				
+				
+				this.NumTotalExistencias = existenciasArray.length;
+				this.visorLibroEtiqueta.text("Cargando información...");
+				this.visorLibro.progressbar({
+					max: this.NumTotalExistencias,
+					change: function(){
+						libro.visorLibroEtiqueta.text( Math.floor(libro.visorLibro.progressbar( "value" )/libro.NumTotalExistencias*100) + "%" );
+					}
+				});
+								
 				this.cargarExistenciasAjax(existenciasArray);
 			}							
 		});
@@ -363,16 +399,25 @@ function Libro(albaran, isbn, existenciasArray){
 		var indexNuevoElemento = this.existencias.push(existencia);
 	}
 	
-	this.anadirExistenciaNuevaConDatos = function(){
+	this.anadirExistenciaNuevaConDatos = function(numExistencias){
 		var precioInit = this.masivoExistencias.find('input[name="precio"]');
 		var ivaInit = this.masivoExistencias.find('select[name="iva"]');
 		var beneficioInit = this.masivoExistencias.find('input[name="beneficio"]');
 		var descuentoInit = this.masivoExistencias.find('input[name="descuento"]');
 		var vendidoInit = this.masivoExistencias.find('input[name="vendido"]');
 		var adquiridoInit = this.masivoExistencias.find('input[name="adquirido"]');
+		var localizacionInit = this.masivoExistencias.find('select[name="localizacion"]');
 		
-		var existencia = new Existencia(this, undefined, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit);
-		var indexNuevoElemento = this.existencias.push(existencia);
+		if(numExistencias){
+			for(var i = 0; i < numExistencias; i++){
+				var existencia = new Existencia(this, undefined, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit);
+				var indexNuevoElemento = this.existencias.push(existencia);
+			}
+		}
+		else{
+			var existencia = new Existencia(this, undefined, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit);
+			var indexNuevoElemento = this.existencias.push(existencia);
+		}
 	}
 	
 	this.borrarExistencia = function(existencia){
