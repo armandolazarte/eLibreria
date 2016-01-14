@@ -257,4 +257,8 @@ class Albaran {
 	public function isLiquidado(){
 		return $this->liquidado == true;
 	}
+	
+	public function getDistribuidora(){
+		return $this->contrato->getDistribuidora();
+	}
 }

@@ -1,4 +1,4 @@
-function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit){
+function Existencia(padre, id, precioInit, precioIVAInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit){
 	this.padre;
 	
 	this.id;
@@ -6,6 +6,7 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 
 	this.localizacion;
 	this.precio;
+	this.precioIVA;
 	this.iva;
 	this.descuento;
 	this.beneficio;
@@ -17,10 +18,10 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 	this.botonActualizar;
 	this.botonBorrar;
 	
-	this.init = function(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit){
+	this.init = function(padre, id, precioInit, precioIVAInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit){
 		this.padre = padre;
 		
-		console.debug(localizacionInit);
+		//console.debug(localizacionInit);
 		
 		if(id === undefined){
 			this.tituloId = "Existencia nueva-" + Existencia.idTemporal;
@@ -43,6 +44,7 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 
 				this.localizacion = $plantilla.find('select[name="localizacion"]');
 				this.precio = $plantilla.find('input[name="precio"]');
+				this.precioIVA = $plantilla.find('input[name="precioIVA"]');
 				this.iva = $plantilla.find('select[name="iva"]');
 				this.descuento = $plantilla.find('input[name="descuento"]');
 				this.beneficio = $plantilla.find('input[name="beneficio"]');
@@ -74,14 +76,15 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 					this.adquirido.prop('checked', adquiridoInit.prop('checked'));
 				}
 				
-				console.debug(localizacionInit);
+				//console.debug(localizacionInit);
 				
 				if(localizacionInit){
 					this.localizacion.val(localizacionInit.val());
 				}
 
 				this.localizacion.change(function(){existencia.des();});
-				this.precio.change(function(){existencia.des();});
+				this.precio.change(function(){existencia.des(); existencia.precioIVA_actualizar();});
+				this.precioIVA.change(function(){existencia.des(); existencia.precioIVA_modificarPrecio();});
 				this.iva.change(function(){existencia.des();});
 				this.descuento.change(function(){existencia.des();});
 				this.beneficio.change(function(){existencia.des();});
@@ -127,8 +130,9 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 			success: function(data){
 				if(data.estado){
 					this.localizacion.val(data.localizacion);
-					this.precio.val(data.precio);
 					this.iva.val(data.iva);
+					this.precio.val(data.precio);
+					this.precioIVA_actualizar();
 					this.descuento.val(data.descuento * 100);
 					this.beneficio.val(data.beneficio * 100);
 					
@@ -150,14 +154,20 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 		this.padre.actItem();
 	}
 	
-	this.init(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit);
+	this.init(padre, id, precioInit, precioIVAInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit);
 	
 	this.act = function(){
+		this.estado.off('click');
 		modificar_estado(this.estado, 'actualizado');
 		this.padre.actGlobal();
 	}
 	
 	this.des = function(){
+		this.estado.on('click', function(evento){
+				evento.preventDefault();
+				$(this).parent().siblings(".cuerpo-existencia").children("form").submit();
+				return false;
+			});
 		modificar_estado(this.estado, 'sinActualizar');
 		this.padre.desGlobal();
 	}
@@ -173,8 +183,9 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 	}
 	
 	this.actualizarInformacion = function(){
-		this.precio.val(this.precio.val().replace(',', '.'));
 		this.iva.val(this.iva.val().replace(',', '.'));
+		this.precio.val(this.precio.val().replace(',', '.'));
+		this.precioIVA_actualizar();
 		this.descuento.val(this.descuento.val().replace(',', '.'));
 		
 		$.ajax({
@@ -201,6 +212,20 @@ function Existencia(padre, id, precioInit, ivaInit, descuentoInit, beneficioInit
 				}
 			}
 		});
+	}
+	
+	this.precioIVA_modificarPrecio = function(){
+		var p = parseFloat(this.precioIVA.val());
+		var i = parseFloat(this.iva.val());
+		var au = parseFloat(1);
+		this.precio.val((p / (au + i)).toFixed(2));
+	}
+	
+	this.precioIVA_actualizar = function(){
+		var p = parseFloat(this.precio.val());
+		var i = parseFloat(this.iva.val());
+		var au = parseFloat(1);
+		this.precioIVA.val((p * (au + i)).toFixed(2));
 	}
 	
 	this.borrarExistencia = function(){

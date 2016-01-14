@@ -16,6 +16,7 @@ $(document).ready(function(){
 		$venta_estado = $('#venta_estado'),
 		$venta_busqueda_isbnRef = $('#venta_busqueda_isbnRef'),
 		$venta_busqueda_titulo = $('#venta_busqueda_titulo'),
+		$venta_anadir_concepto = $('#venta_anadir_concepto'),
 		$input_submit_anadir_articulo = $('#input_submit_anadir_articulo'),
 		$venta_contenedorItems = $('#venta_contenedorItems');
 	
@@ -35,6 +36,7 @@ $(document).ready(function(){
 			$venta_estado,
 			$venta_busqueda_isbnRef,
 			$venta_busqueda_titulo,
+			$venta_anadir_concepto,
 			$input_submit_anadir_articulo,
 			$venta_contenedorItems);
 });

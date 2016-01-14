@@ -2,6 +2,7 @@
 namespace RGM\eLibreria\VentasBundle\Entity;
 
 class SeleccionInforme {
+	private $dia;
 	private $mes;
 	private $anno;
 	private $mesString = array(1 => 'Enero', 
@@ -17,6 +18,14 @@ class SeleccionInforme {
 			11 => 'Noviembre',  
 			12 => 'Diciembre');
 
+	public function getDia(){
+		return $this->dia;
+	}
+	
+	public function setDia($dia){
+		$this->dia = $dia;
+	}
+	
 	public function getMes() {
 		return $this->mes;
 	}

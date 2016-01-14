@@ -5,7 +5,7 @@
 .contenido_venta{
 	overflow: hidden;
 	
-	width: 800px;
+	width: 820px;
 	margin: 0 auto 20px;
 	padding: 3px;
 	
@@ -174,7 +174,7 @@
 }
 
 .venta_nuevo_articulo .inputTitulo{
-	width: 610px;
+	width: 550px;
 	margin-left: 5px;
 }
 
@@ -227,4 +227,10 @@
 .item .item_iva input, .item .item_descuento input{
 	width: 30px;
 	text-align: right;
+}
+
+#venta_anadir_concepto{
+	float: right;
+	padding: 0 13px;
+	height: 33px;
 }

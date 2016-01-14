@@ -9,7 +9,7 @@
 {# 		<input type="text" onfocus="funcion_onfocus(this, 'Unid.');" onblur="funcion_onblur(this, 'Unid.');" value="Unid.">#}
 {# 	</div>#}
 	<div class="item_contenido item_precio">
-		<input type="text" value="{{ existencia.precio }}" disabled>€
+		<input type="text" value="{{ existencia.precio * ( 1 + existencia.beneficio ) }}" disabled>€
 	</div>
 	<div class="item_contenido item_iva">
 		<input type="text" value="{{ existencia.iva * 100 }}" disabled>%

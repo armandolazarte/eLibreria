@@ -10,6 +10,7 @@ function Libro(albaran, isbn, existenciasArray){
 	
 	this.isbnAutocomplete;
 	this.botonCopiarInfo;
+	this.botonBuscarGoogle;
 	this.estadoGlobal;
 	this.estado;
 	this.botonBorrarLibro;
@@ -61,6 +62,7 @@ function Libro(albaran, isbn, existenciasArray){
 				
 				this.isbnAutocomplete = $plantilla.find('.isbnAcordeon');
 				this.botonCopiarInfo = $plantilla.find('.botonCopiarInfo');
+				this.botonBuscarGoogle = $plantilla.find('.datos-libro-buscar');
 				this.estadoGlobal = $plantilla.find('.estadoGlobal');
 				this.estado = $plantilla.find('.estado');
 				this.botonBorrarLibro = $plantilla.find('.borrarLibro');
@@ -79,6 +81,24 @@ function Libro(albaran, isbn, existenciasArray){
 				this.contenedorExistencias = $plantilla.find('.jaula-existencias');
 				this.masivoExistencias = $plantilla.find('.jaula-existencias-masivo');
 				this.numExistencias = $plantilla.find('input[name="numExistencias"]');
+
+				var precioMasivo = this.masivoExistencias.find('input[name="precio"]');
+				var precioIVAMasivo = this.masivoExistencias.find('input[name="precioIVA"]');
+				var ivaMasivo = this.masivoExistencias.find('select[name="iva"]');
+							
+				precioIVAMasivo.change(function(){
+					var p = parseFloat(precioIVAMasivo.val());
+					var i = parseFloat(ivaMasivo.val());
+					var au = parseFloat(1);
+					precioMasivo.val((p / (au + i)).toFixed(2));
+				});
+				
+				precioMasivo.change(function(){
+					var p = parseFloat(precioMasivo.val());
+					var i = parseFloat(ivaMasivo.val());
+					var au = parseFloat(1);
+					precioIVAMasivo.val((p * (au + i)).toFixed(2));
+				});
 				
 				this.visorLibro = $plantilla.find('#visorLibro');
 				this.visorLibroEtiqueta = $plantilla.find('#visorLibroEtiqueta');
@@ -95,13 +115,22 @@ function Libro(albaran, isbn, existenciasArray){
 					        },
 					        type: "POST",
 					        success: function( data ){
-					          response( $.map( data.sugerencias, function(item){
-					          		return {
-						          		label: item.isbn + " - " + item.titulo + (item.editorial ? " [ " + item.editorial + " ]" : ""),
-						          		value: item.isbn,
-						          		isbn: item.isbn
-						          	};    
-					          }));
+					        	var numObj = Object.keys(data.sugerencias).length;
+					        	
+					        	if(numObj > 0){
+					        		response( $.map( data.sugerencias, function(item){
+							          		return {
+								          		label: item.isbn + " - " + item.titulo + (item.editorial ? " [ " + item.editorial + " ]" : ""),
+								          		value: item.isbn,
+								          		isbn: item.isbn
+								          	};    
+							          }));
+					        	}
+					        	else{
+					        		response({
+					        			label: "No se encontraron coincidencias"
+					        		});
+					        	}					          
 					        }
 					      });
 					},
@@ -131,8 +160,9 @@ function Libro(albaran, isbn, existenciasArray){
 						});
 					}
 			    });
-				
+
 				this.botonCopiarInfo.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.copiarInfo();});
+				this.botonBuscarGoogle.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.buscarISBNGoogle();});
 				this.botonBorrarLibro.click(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.borrar(); return false;});
 				
 				this.formDatosLibro.submit(this, function(evento){evento.preventDefault(); var libroActual = evento.data; libroActual.actualizar(); return false;});
@@ -235,6 +265,10 @@ function Libro(albaran, isbn, existenciasArray){
 	
 	this.copiarInfo = function(){
 		this.isbn.val(this.isbnAutocomplete.val());
+	}
+	
+	this.buscarISBNGoogle = function(){
+		window.open("https://www.google.es/search?q="+this.isbn.val(), "mywin","left=20,top=20,width=960,height=800,toolbar=1,resizable=0");
 	}
 	
 	this.cargarInfoLibroAjax = function(existenciasArray){
@@ -401,21 +435,22 @@ function Libro(albaran, isbn, existenciasArray){
 	
 	this.anadirExistenciaNuevaConDatos = function(numExistencias){
 		var precioInit = this.masivoExistencias.find('input[name="precio"]');
+		var precioIVAInit = this.masivoExistencias.find('input[name="precioIVA"]');
 		var ivaInit = this.masivoExistencias.find('select[name="iva"]');
 		var beneficioInit = this.masivoExistencias.find('input[name="beneficio"]');
 		var descuentoInit = this.masivoExistencias.find('input[name="descuento"]');
 		var vendidoInit = this.masivoExistencias.find('input[name="vendido"]');
 		var adquiridoInit = this.masivoExistencias.find('input[name="adquirido"]');
 		var localizacionInit = this.masivoExistencias.find('select[name="localizacion"]');
-		
+				
 		if(numExistencias){
 			for(var i = 0; i < numExistencias; i++){
-				var existencia = new Existencia(this, undefined, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit);
+				var existencia = new Existencia(this, undefined, precioInit, precioIVAInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit);
 				var indexNuevoElemento = this.existencias.push(existencia);
 			}
 		}
 		else{
-			var existencia = new Existencia(this, undefined, precioInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit);
+			var existencia = new Existencia(this, undefined, precioInit, precioIVAInit, ivaInit, descuentoInit, beneficioInit, vendidoInit, adquiridoInit, localizacionInit);
 			var indexNuevoElemento = this.existencias.push(existencia);
 		}
 	}

@@ -23,15 +23,15 @@
 	</script>
 	
 	{% javascripts '@RGMELibreriaVentasBundle/Resources/public/js/editor/clases/*.js' %}
-	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	    <script data-scr-type="class" type="text/javascript" src="{{ asset_url }}"></script>
 	{% endjavascripts %}
 	
 	{% javascripts '@RGMELibreriaVentasBundle/Resources/public/js/editor/utiles/*.js' %}
-	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	    <script data-scr-type="util" type="text/javascript" src="{{ asset_url }}"></script>
 	{% endjavascripts %}
 	
 	{% javascripts '@RGMELibreriaVentasBundle/Resources/public/js/editor/*.js' %}
-	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	    <script data-scr-type="base" type="text/javascript" src="{{ asset_url }}"></script>
 	{% endjavascripts %}
 {% endblock %}
 
@@ -110,7 +110,9 @@
 	
 	<div class="venta_nuevo_articulo contenido_venta">
 		<input id="venta_busqueda_isbnRef" onfocus="funcion_onfocus(this, 'ISBN / REF');" onblur="funcion_onblur(this, 'ISBN / REF');" type="text" value="ISBN / REF" class="inputIsbn">
-		<input id="venta_busqueda_titulo" onfocus="funcion_onfocus(this, 'Titulo');" onblur="funcion_onblur(this, 'Titulo');" type="text" value="Titulo" class="inputTitulo">			
+		<input id="venta_busqueda_titulo" onfocus="funcion_onfocus(this, 'Titulo');" onblur="funcion_onblur(this, 'Titulo');" type="text" value="Titulo" class="inputTitulo">
+		
+		<input id="venta_anadir_concepto" type="submit" value="+">			
 	</div>
 	
 	<div id="venta_contenedorItems" class="venta_lista_articulos contenido_venta">

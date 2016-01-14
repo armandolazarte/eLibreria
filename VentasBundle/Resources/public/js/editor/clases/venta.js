@@ -14,6 +14,7 @@ function Venta(
 		$venta_estado,
 		$venta_busqueda_isbnRef,
 		$venta_busqueda_titulo,
+		$venta_anadir_concepto,
 		$input_submit_anadir_articulo,
 		$venta_contenedorItems){	
 
@@ -28,6 +29,7 @@ function Venta(
 	this.estado;
 	this.venta_busqueda_isbnRef;
 	this.venta_busqueda_titulo;
+	this.venta_anadir_concepto;
 	this.input_submit_anadir_articulo;
 	
 	this.items = new Array();
@@ -198,7 +200,7 @@ function Venta(
 	//Contructor
 	this.init = function($select_venta_cliente_nombre,$input_venta_cliente_nombre,$input_venta_cliente_tel,$input_venta_cliente_movil,
 			$input_venta_cliente_dir,$venta_cliente_estado,$venta_cliente_boton_actualizar,$venta_info_total,$venta_info_entregado,
-			$venta_info_vuelta,$select_metodo_pago,$input_submit_venta,$venta_estado,$venta_busqueda_isbnRef,$venta_busqueda_titulo,
+			$venta_info_vuelta,$select_metodo_pago,$input_submit_venta,$venta_estado,$venta_busqueda_isbnRef,$venta_busqueda_titulo,$venta_anadir_concepto,
 			$input_submit_anadir_articulo,$venta_contenedorItems){
 		
 		this.cliente = new Cliente(
@@ -218,6 +220,7 @@ function Venta(
 		this.estado = $venta_estado;
 		this.venta_busqueda_isbnRef = $venta_busqueda_isbnRef;
 		this.venta_busqueda_titulo = $venta_busqueda_titulo;
+		this.venta_anadir_concepto = $venta_anadir_concepto;
 		this.input_submit_anadir_articulo = $input_submit_anadir_articulo;
 		this.venta_contenedorItems = $venta_contenedorItems;
 		
@@ -305,6 +308,6 @@ function Venta(
 	
 	this.init($select_venta_cliente_nombre,$input_venta_cliente_nombre,$input_venta_cliente_tel,$input_venta_cliente_movil,
 			$input_venta_cliente_dir,$venta_cliente_estado,$venta_cliente_boton_actualizar,$venta_info_total,$venta_info_entregado,
-			$venta_info_vuelta,$select_metodo_pago,$input_submit_venta,$venta_estado,$venta_busqueda_isbnRef,$venta_busqueda_titulo,
+			$venta_info_vuelta,$select_metodo_pago,$input_submit_venta,$venta_estado,$venta_busqueda_isbnRef,$venta_busqueda_titulo,$venta_anadir_concepto,
 			$input_submit_anadir_articulo,$venta_contenedorItems);
 }

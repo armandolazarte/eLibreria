@@ -252,5 +252,4 @@ class Ejemplar implements ArticuloVendible {
 	public function setItemVenta($itemVenta) {
 		$this->itemVenta = $itemVenta;
 	}
-
 }

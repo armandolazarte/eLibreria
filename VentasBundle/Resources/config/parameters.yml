@@ -90,8 +90,10 @@ parameters:
         plantillas:
             principal: 'informe.html.twig'
             principal2: 'informe2.html.twig'
+            principal3: 'informe3.html.twig'
         formularios:
             seleccionInforme: 'RGM\eLibreria\VentasBundle\Form\Frontend\InformeVenta\InformeType'
+            seleccionInformeDIA: 'RGM\eLibreria\VentasBundle\Form\Frontend\InformeVenta\InformeDIAType'
         
 
     ventasbundle.generador:

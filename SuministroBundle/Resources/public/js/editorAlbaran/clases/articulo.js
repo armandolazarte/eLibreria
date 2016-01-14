@@ -75,13 +75,23 @@ function Articulo(albaran, ref, existenciasArray){
 					        },
 					        type: "POST",
 					        success: function( data ){
-					          response( $.map( data.sugerencias, function(item){
-					          		return {
-						          		label: item.ref + " - " + item.titulo,
-						          		value: item.ref,
-						          		ref: item.ref
-						          	};    
-					          }));
+					        	var numObj = Object.keys(data.sugerencias).length;
+					        	
+					        	if(numObj > 0){
+					        		response( $.map( data.sugerencias, function(item){
+						        			return {
+								          		label: item.ref + " - " + item.titulo,
+								          		value: item.ref,
+								          		ref: item.ref
+								          	};     
+							          }));
+					        	}
+					        	else{
+					        		response({
+					        			label: "No se encontraron coincidencias"
+					        		});
+					        	}				        	
+					         
 					        }
 					      });
 					},

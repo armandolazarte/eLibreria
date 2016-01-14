@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  
- * @ORM\DiscriminatorMap({"existenciaLibro" = "ExistenciaLibro", "existenciaArticulo" = "ExistenciaArticulo"})
+ * @ORM\DiscriminatorMap({"existenciaLibro" = "ExistenciaLibro", "existenciaArticulo" = "ExistenciaArticulo", "existenciaConcepto" = "ExistenciaConcepto"})
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="tipo", type="string")
  */
@@ -253,7 +253,7 @@ class Existencia {
 	}
 
 	public function getPVP() {
-		return round($this->precio * (1 + $this->iva + $this->beneficio), 2);
+		return round( ($this->precio * (1 + $this->beneficio)) * (1 + $this->iva), 2);
 	}
 
 	public function getVigente() {
@@ -274,5 +274,9 @@ class Existencia {
 	
 	public function getNombreDistribuidora(){
 		return $this->getDistribuidora()->getNombre();
+	}
+
+	public function getAlbaran() {
+		return $this->itemAlbaran->getAlbaran();
 	}
 }

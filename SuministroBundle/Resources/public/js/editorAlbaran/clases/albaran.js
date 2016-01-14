@@ -124,9 +124,9 @@ function Albaran(idAlb, formAlb, numIden, idContr, fechaRea, fechaVen, estGlobal
 	}
 	
 	this.anadirLibroExistente = function(isbn, existenciasArray){
-		console.log('nuevo libro ' + new Date());	
+		//console.log('nuevo libro ' + new Date());	
 		this.items.push(new Libro(this, isbn, existenciasArray));
-		console.log(new Date());
+		//console.log(new Date());
 	}
 	
 	this.anadirLibroNuevo = function(){

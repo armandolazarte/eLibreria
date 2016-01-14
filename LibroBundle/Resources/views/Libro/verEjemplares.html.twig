@@ -18,7 +18,7 @@
 				<select id="ejemplares_encontrados_select">
 					<option value="">Ejemplares encontrados: {{ libro.getEjemplaresDisponibles|length }}</option>
 					{% for ejemplar in libro.getEjemplaresDisponibles %}
-						<option value="{{ ejemplar.id }}">Ejemplar-{{ ejemplar.id }} {% if ejemplar.localizacion is not null %}[Loc: {{ ejemplar.localizacion.denominacion }}]{% endif %}</option>
+						<option value="{{ ejemplar.id }}">Ejemplar-{{ ejemplar.id }} {% if ejemplar.localizacion is not null %}[Loc: {{ ejemplar.localizacion.denominacion }}]{% endif %} [ {{ ejemplar.albaran.numeroAlbaran }} - {{ ejemplar.albaran.distribuidora.nombre }} ]</option>
 					{% endfor %}
 				</select>
 			</div>

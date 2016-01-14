@@ -286,7 +286,7 @@ class Libro {
 		$res = new ArrayCollection();
 
 		foreach ($this->existencias as $e) {
-			if (!$e->isVendido()) {
+			if (!$e->isVendido() && $e->isVigente()) {
 				$res->add($e);
 			}
 		}

@@ -86,5 +86,23 @@ class RepositorioVentas extends EntityRepository
 		return $q->getResult();
 	}
 	
+	public function findVentasPorFechaOrdenadoDIA($dia, $mes, $anno, $orden = 'ASC'){
+		$em = $this->getEntityManager();		
+		$qb = $em->createQueryBuilder();
+		
+		$qb->select('v')
+			->from('RGMELibreriaVentasBundle:Venta', 'v')
+				->where('v.fecha LIKE ?1')
+				->orderBy('v.fecha', $orden);
+		
+		$mesString = str_pad($mes, 2, '0', STR_PAD_LEFT);
+		
+		$qb->setParameter(1, $anno . '-' . $mesString . '-' . $dia . '%');		
+		
+		$q = $qb->getQuery();
+		
+		return $q->getResult();
+		
+	}	
 }
 ?>

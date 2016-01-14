@@ -1,0 +1,86 @@
+{% extends 'RGMELibreriaIndexBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('bundles/rgmelibreriaventas/css/informe2.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('bundles/rgmelibreriaventas/js/impresion2.js') }}"></script>
+{% endblock %}
+
+{% block contenido %}
+
+
+<form id="seleccionInforme" method="POST" action="{{ formulario.ruta_destino_form }}" {{ form_enctype(formulario.form) }}>			
+	<input class="submit" type="submit" value="{{ formulario.titulo_submit }}">
+	<div class="form">{{ form_widget(formulario.form) }}</div>	
+	<span id="BotonImpresion">Imprimir</span>
+</form>
+
+{% if resultadoBusqueda is defined %} 
+<div id="resultadoBusqueda">
+	<h3>{{ resultadoBusqueda }}</h3>
+	
+	{% if resultados is not empty %}
+	
+		<table>
+			<thead>
+				<tr>
+					<td>Día</td>
+					<td>Distribuidora</td>
+					<td>Base Imponible</td>
+					<td colspan="2">IVA</td>
+					<td colspan="2">Recargo</td>
+					<td>Total Factura</td>
+					<td>Caja</td>
+					<td>Banco</td>
+					<td class="finFila">Total a declarar</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for r in resultados %}
+				<tr class="{{ cycle(['filaUno', 'filaDos'], loop.index0) }}">
+					<td>{{ r.fecha|date("d/m/Y") }}</td>
+					<td>{{ r.distribuidora }}</td>
+					<td>{{ '%.2f'|format(r.bImp) }} €</td>
+					<td colspan="2">{{ '%.2f'|format(r.tIva*100) }}% [ {{ '%.2f'|format(r.Iva) }} € ]</td>
+					<td colspan="2">{{ '%.2f'|format(r.tRec*100) }}% [ {{ '%.2f'|format(r.Rec) }} € ]</td>
+					<td>{{ '%.2f'|format(r.total) }} €</td>
+					<td>{% if r.mPago == 1 %}{{ '%.2f'|format(r.total) }} €{% endif %}</td>
+					<td>{% if r.mPago == 2 %}{{ '%.2f'|format(r.total) }} €{% endif %}</td>
+					<td class="finFila"></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td rowspan="2" colspan="2">Totales</td>
+					<td rowspan="2">{{ '%.2f'|format(TotalBaseImp) }} €</td>
+					<td class="div2">{{ '%.2f'|format(TipoIva1 * 100) }}%</td>
+					<td class="div2">{{ '%.2f'|format(Iva1) }} €</td>
+					<td class="div2">{{ '%.2f'|format(TipoRecargo1 * 100) }}%</td>
+					<td class="div2">{{ '%.2f'|format(Recargo1) }} €</td>
+					<td rowspan="2">{{ '%.2f'|format(Total) }} €</td>
+					<td rowspan="2">{{ '%.2f'|format(TotalCaja) }} €</td>
+					<td rowspan="2">{{ '%.2f'|format(TotalBanco) }} €</td>
+					<td rowspan="2">{{ '%.2f'|format(TotalBaseImp) }} €</td>
+				</tr>
+				<tr>
+					<td>{{ '%.2f'|format(TipoIva2 * 100) }}%</td>
+					<td>{{ '%.2f'|format(Iva2) }} €</td>
+					<td>{{ '%.2f'|format(TipoRecargo2 * 100) }}%</td>
+					<td>{{ '%.2f'|format(Recargo2) }} €</td>
+				</tr>
+			</tfoot>
+		</table>
+	
+	{% else %}
+	<section class="totales">
+		<h4>No existen ventas en el mes seleccionado</h4>
+	</section>
+	{% endif %}
+</div>
+{% endif %}
+{% endblock %}

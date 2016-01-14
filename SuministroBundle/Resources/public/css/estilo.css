@@ -214,6 +214,19 @@ h3.ui-accordion-header{
 	width: 105px !important;
 }
 
+.jaula-datos-libro-isbn{
+	width: 340px !important;
+}
+
+.datos-libro-buscar{
+	width: 100px;
+	line-height: 29px;
+	height: 29px;
+	margin-top: 0px;
+	margin-left: 20px;
+	text-align: center;
+}
+
 .sinActualizar{
 	background: transparent url(../images/save_icon.png) no-repeat right center;
 	border-radius: 0px;
@@ -393,7 +406,7 @@ h3.ui-accordion-header{
 	text-align: right;
 }
 
-.existencia .cuerpo-existencia-datos .precio{
+.existencia .cuerpo-existencia-datos .precio, .existencia .cuerpo-existencia-datos .precioIVA{
 	width: 200px;
 }
 
@@ -402,7 +415,7 @@ h3.ui-accordion-header{
 	padding-right: 20px;
 }
 
-.existencia .cuerpo-existencia-datos .precio label{
+.existencia .cuerpo-existencia-datos .precio label, .existencia .cuerpo-existencia-datos .precioIVA label{
 	display: block;
 	overflow: hidden;
 	width: 50px;
@@ -410,7 +423,7 @@ h3.ui-accordion-header{
 	margin-top: 3px;
 }
 
-.existencia .cuerpo-existencia-datos .precio p{
+.existencia .cuerpo-existencia-datos .precio p, .existencia .cuerpo-existencia-datos .precioIVA p{
 	display: block;
 	float: left;
 	width: 50px;
@@ -422,7 +435,7 @@ h3.ui-accordion-header{
 }
 
 .existencia .cuerpo-existencia-datos .beneficio{
-	width: 174px;
+	width: 145px;
 	margin-bottom: 5px !important;
 }
 
@@ -444,9 +457,12 @@ h3.ui-accordion-header{
 	margin: 0 auto;
 }
 
+.existencia .cuerpo-existencia-datos .nuevaFila{
+	clear: both;
+}
+
 .existencia .cuerpo-existencia-datos .ultimo{
 	float: right !important;
-	clear: both;
 }
 
 .existencias .jaula-existencias-masivo{
@@ -456,6 +472,10 @@ h3.ui-accordion-header{
 .cuerpo-existencia-estados .jaula-cuerpo-existencia-estados{
 	width: 200px;
 	margin: 0 auto;
+}
+
+.info-existencia-masiva .cuerpo-existencia-datos .beneficio{
+	width: 145px !important;
 }
 
 .cuerpo-existencia-estados .jaula-cuerpo-existencia-estados > div{
