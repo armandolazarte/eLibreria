@@ -1,0 +1,29 @@
+<div class="item">
+	<div class="item_contenido primero">
+		<input type="text" value=" --- " disabled>
+	</div>			
+	<div class="item_contenido item_titulo">
+		<input type="text" value="">
+	</div>
+	<div class="item_contenido item_precio">
+		<input type="text" value="0.00" disabled>€
+	</div>
+	<div class="item_contenido item_iva">
+		<select>
+			{% for rec in recargos %}
+			<option value="{{ rec.iva }}">{{ rec.iva * 100 }}%</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="item_contenido item_pvp">
+		<input type="text" value="">€
+	</div>
+	<div class="item_contenido item_descuento">
+		<input type="text" value="0">%
+	</div>
+	<div class="item_contenido item_precio_total">
+		<input type="text" onfocus="funcion_onfocus(this, 'Total');" onblur="funcion_onblur(this, 'Total');" value="Total">€
+	</div>
+	
+	<input type="submit" class="boton borrar_Articulo" value="-">
+</div>

@@ -1,0 +1,48 @@
+rgm_e_libreria_facturacion_emitidas_impresion:
+    pattern:  /emitidas/impresion/{id}
+    defaults: { _controller: 'RGMeLibreriaFacturacionBundle:Emitidas:versionImprimible' }
+    
+rgm_e_libreria_facturacion_emitidas_editar:
+    pattern:  /emitidas/editar/{id}
+    defaults: { _controller: 'RGMeLibreriaFacturacionBundle:Emitidas:editarFactura' }
+    
+rgm_e_libreria_facturacion_emitidas_crear:
+    pattern:  /emitidas/crear
+    defaults: { _controller: 'RGMeLibreriaFacturacionBundle:Emitidas:crearFactura' }
+    
+rgm_e_libreria_facturacion_emitidas_index:
+    pattern:  /emitidas
+    defaults: { _controller: 'RGMeLibreriaFacturacionBundle:Emitidas:verFacturas' }
+    
+    
+    
+    
+rgm_e_libreria_facturacion_recibidas_index:
+    pattern:  /recibidas
+    defaults: { _controller: 'RGMeLibreriaFacturacionBundle:Recibidas:verFacturas' }
+    
+    
+    
+        
+rgm_e_libreria_facturacion_flujocaja_index:
+    pattern:  /flujocaja
+    defaults: { _controller: 'RGMeLibreriaFacturacionBundle:FlujoCaja:verFlujoCaja' }
+    
+    
+    
+    
+    
+rgm_e_libreria_facturacion_ajax_getClientes:
+    pattern:  /ajax/getClientes
+    defaults: { _controller: 'RGMeLibreriaFacturacionBundle:FacturaAjax:getClientes' }
+    methods:  [POST]    
+    
+rgm_e_libreria_facturacion_ajax_getCliente:
+    pattern:  /ajax/getCliente
+    defaults: { _controller: 'RGMeLibreriaFacturacionBundle:FacturaAjax:getCliente' }
+    methods:  [POST]   
+    
+rgm_e_libreria_facturacion_ajax_updateCliente:
+    pattern:  /ajax/updateCliente
+    defaults: { _controller: 'RGMeLibreriaFacturacionBundle:FacturaAjax:updateCliente' }
+    methods:  [POST]

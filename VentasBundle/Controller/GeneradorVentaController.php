@@ -5,6 +5,7 @@ use RGM\eLibreria\IndexBundle\Controller\Asistente;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use RGM\eLibreria\VentasBundle\Entity\DispensadorItemsVenta;
+use RGM\eLibreria\ExistenciaBundle\Entity\ExistenciaConcepto;
 
 class GeneradorVentaController extends Asistente{
 	private $bundle = 'ventasbundle';
@@ -277,6 +278,23 @@ class GeneradorVentaController extends Asistente{
 				$eArray['id'] = $ex->getId();				
 				$eArray['tipo'] = $ex->getTipo();
 				
+				if($ex->getTipo() == "concepto"){
+					$infoE = array();
+					
+					$p = number_format($ex->getPrecio(), 2);
+					$i = number_format($ex->getIVA(), 2);
+					$pvp = $p * (1 + $i);
+					
+					$infoE['titulo'] = $ex->getConcepto();
+					$infoE['precio'] = $p;
+					$infoE['iva'] = $i;
+					$infoE['pvp'] = number_format($pvp, 2);
+					$infoE['descuento'] = $ex->getItemVenta()->getDescuento();
+					$infoE['precioTotal'] = $ex->getItemVenta()->getPrecioVenta();
+					
+					$eArray['infoExistencia'] = $infoE;
+				}
+				
 				$existencias[] = $eArray;
 			}
 			
@@ -306,12 +324,18 @@ class GeneradorVentaController extends Asistente{
 			$idExistencia = $peticion->request->get('id');
 			$tipoExistencia = strtolower($peticion->request->get('tipo'));
 			
-			$infoExistencia = $this->getParametro('existencias');
-			$existencia = $em->getRepository($infoExistencia[$tipoExistencia]['repositorio'])->find($idExistencia);
-			
-			if($existencia){
-				$opciones['existencia'] = $existencia;
-				$render = $this->render($this->getPlantilla('plantillaItem'), $opciones);
+			if($tipoExistencia != "concepto"){
+				$infoExistencia = $this->getParametro('existencias');
+				$existencia = $em->getRepository($infoExistencia[$tipoExistencia]['repositorio'])->find($idExistencia);
+				
+				if($existencia){
+					$opciones['existencia'] = $existencia;
+					$render = $this->render($this->getPlantilla('plantillaItem'), $opciones);
+				}
+			}
+			else{
+				$opciones['recargos'] = $em->getRepository('RGMELibreriaSuministroBundle:Recargo')->findAll();
+				$render = $this->render($this->getPlantilla('plantillaItemEditable'), $opciones);
 			}
 		}
 		
@@ -336,8 +360,13 @@ class GeneradorVentaController extends Asistente{
 					$em->remove($itemVenta);
 				}
 				
-				$existencia->setVendido(0);
-				$em->persist($existencia);
+				if($tipoExistencia == "concepto"){
+					$em->remove($existencia);
+				}
+				else{
+					$existencia->setVendido(0);
+					$em->persist($existencia);
+				}
 				
 				$em->flush();
 				$res['estado'] = true;
@@ -410,6 +439,12 @@ class GeneradorVentaController extends Asistente{
 				$existencia->setVendido(1);
 				$itemVenta->setExistencia($existencia);
 
+				if($tipoExistencia == "concepto"){
+					$existencia->setConcepto($i['titulo']);
+					$existencia->setPrecio($i['precio']);
+					$existencia->setIVA($i['iva']);
+				}
+				
 				$em->persist($itemVenta);
 				$em->persist($existencia);				
 			}
@@ -422,6 +457,25 @@ class GeneradorVentaController extends Asistente{
 			$res['estado'] = true;
 		}
 		
+		return $this->getResponse($res);
+	}
+	
+	public function generarExistenciaConceptoAction(Request $peticion){
+		$res = array();
+		
+		$existenciaConcepto = new ExistenciaConcepto("");
+		
+		$existenciaConcepto->setPrecio(0.0);
+		$existenciaConcepto->setIva(0.0);
+		$existenciaConcepto->setBeneficio(0.0);
+		
+		$em = $this->getEm();
+		$em->persist($existenciaConcepto);
+		$em->flush();
+		
+		$res['id'] = $existenciaConcepto->getId();
+		$res['tipo'] = $existenciaConcepto->getTipo();
+			
 		return $this->getResponse($res);
 	}
 	

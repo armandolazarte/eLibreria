@@ -1,0 +1,7 @@
+parameters:
+#    rg_me_libreria_facturacion.example.class: RGM\eLibreria\FacturacionBundle\Example
+
+services:
+#    rg_me_libreria_facturacion.example:
+#        class: %rg_me_libreria_facturacion.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

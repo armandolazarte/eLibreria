@@ -236,8 +236,10 @@ class Existencia {
 		$tipo = '';
 		if (strtolower($claseString) == 'existencialibro') {
 			$tipo = 'libro';
-		} else {
+		} else if (strtolower($claseString) == 'existenciaarticulo') {
 			$tipo = 'articulo';
+		} else {
+			$tipo = 'concepto';
 		}
 
 		return $tipo;

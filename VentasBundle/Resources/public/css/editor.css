@@ -224,6 +224,11 @@
 	text-align: right;
 }
 
+.item .item_iva select{
+	height: 31px;
+	margin-right: 10px;
+}
+
 .item .item_iva input, .item .item_descuento input{
 	width: 30px;
 	text-align: right;

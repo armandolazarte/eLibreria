@@ -10,3 +10,7 @@ function modificar_estado($elemento, $estado){
 	$elemento.removeClass('sinActualizar enProceso actualizado');
 	$elemento.addClass($estado);
 }
+
+function vacio(i){
+	return typeof(i) == "undefined" || i == "";
+}

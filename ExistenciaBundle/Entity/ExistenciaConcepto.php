@@ -24,11 +24,11 @@ class ExistenciaConcepto extends Existencia {
 	}
 
 	public function getReferencia() {
-		return null;
+		return $this->getId();
 	}
 
 	public function getObjetoVinculado() {
-		return null;
+		return $this;
 	}
 
 	public function getConcepto() {
@@ -39,4 +39,11 @@ class ExistenciaConcepto extends Existencia {
 		$this->concepto = $concepto;
 	}
 
+	public function getTitulo(){
+		return $this->getConcepto();
+	}
+	
+	public function getNombreDistribuidora(){
+		return 'Sin Distribuidora';
+	}
 }

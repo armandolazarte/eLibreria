@@ -1,0 +1,40 @@
+parameters:
+    facturacionbundle.emitidas:
+        inicio: 'rgm_e_libreria_facturacion_emitidas_index'
+        seccion: 'Facturación'
+        subseccion: 'Emitidas'
+        nombrelogicobundle: 'RGMeLibreriaFacturacionBundle'
+        path: 'Emitidas'
+        formularios:
+        entidad: 'FacturaEmitida'
+        clase_entidad: 'RGM\eLibreria\FacturacionBundle\Entity\FacturaEmitida'
+        plantillas:
+            principal: 'RGMELibreriaIndexBundle:Grid:verEntidad.html.twig'
+            editor: 'RGMeLibreriaFacturacionBundle:Emitidas:editor.html.twig'
+        
+        ruta_form_crear: 'rgm_e_libreria_facturacion_emitidas_crear'
+        titulo_crear: 'Crear nueva factura'
+        titulo_submit_crear: 'Crear'
+        flash_crear: 'Factura creada con éxito'
+        
+        grid_ruta_editar: 'rgm_e_libreria_facturacion_emitidas_editar'
+        titulo_editar: 'Editar factura'
+        grid_boton_editar: 'Editar'
+        flash_editar: 'Factura editada con éxito'
+        
+        grid_ruta_imprimir: 'rgm_e_libreria_facturacion_emitidas_impresion'
+        titulo_imprimir: 'Imprimir factura'
+        
+        ajax:
+            getCliente: 'rgm_e_libreria_facturacion_ajax_getCliente'
+            getClientes: 'rgm_e_libreria_facturacion_ajax_getClientes'
+            updateCliente: 'rgm_e_libreria_facturacion_ajax_updateCliente'
+            
+            
+            
+        
+    facturacionbundle.recibidas:
+    
+    facturacionbundle.flujocaja:
+    
+    facturacionbundle.facturaajax:

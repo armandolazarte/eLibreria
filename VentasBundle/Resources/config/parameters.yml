@@ -106,6 +106,7 @@ parameters:
             editor: 'editorVenta.html.twig'
             menu_izq: 'RGMELibreriaIndexBundle::menu_izq_vacio.html.twig'
             plantillaItem: 'plantillaItem.html.twig'
+            plantillaItemEditable: 'plantillaItemEditable.html.twig'
             
         entidad:
             repositorio: 'Venta'
@@ -127,6 +128,9 @@ parameters:
                 
             libro:
                 repositorio: 'RGMeLibreriaExistenciaBundle:ExistenciaLibro'
+            
+            concepto:
+                repositorio: 'RGMeLibreriaExistenciaBundle:ExistenciaConcepto'
                 
         ruta_ticket: 'rgm_e_libreria_ventas_ticket_ver'
                         
@@ -139,3 +143,4 @@ parameters:
             ruta_ajax_registro_venta: 'rgm_e_libreria_venta_registro_venta'
             ruta_ajax_borrar_existencia: 'rgm_e_libreria_venta_borrar_existencia'
             ruta_ajax_get_ruta_ticket: 'rgm_e_libreria_venta_get_ruta_ticket'
+            ruta_ajax_plantilla_editable_existencia: 'rgm_e_libreria_venta_plantilla_editable_existencia'

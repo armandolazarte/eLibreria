@@ -44,7 +44,9 @@ class VentaController extends Asistente{
 				$existencia = $item->getExistencia();
 				$itemAlb = $existencia->getItemAlbaran();
 				
-				$cos += ($existencia->getPrecio() * (1 - $itemAlb->getDescuento()) * (1 + $existencia->getIva()));
+				if($itemAlb){
+					$cos += ($existencia->getPrecio() * (1 - $itemAlb->getDescuento()) * (1 + $existencia->getIva()));
+				}
 			} 
 			
 			$ruta_ticket = $this->generateUrl($this->getParametro('ruta_ticket'), array("idVenta"=>$entidad->getId()));

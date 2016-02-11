@@ -78,6 +78,18 @@ class Distribuidora
     }
 
     /**
+     * Set id
+     *
+     * @param integer
+     * @return Distribuidora 
+     */
+    public function setId($i)
+    {
+    	$this->id = $i;
+        return $this;
+    }
+
+    /**
      * Set nombre
      *
      * @param string $nombre

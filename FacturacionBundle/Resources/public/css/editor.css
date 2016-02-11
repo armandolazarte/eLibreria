@@ -1,0 +1,437 @@
+.c1{
+	width: 100%;	
+}
+
+.c2{
+	width: 49.9% !important;
+}
+
+.c3{
+	width: 33.2%;
+}
+
+.c4{
+	width: 24.9%;
+}
+
+.c5{
+	width: 19.9%;
+}
+
+.izq{
+	float: left;
+}
+
+.der{
+	float: right;
+}
+
+.nuevaLinea{
+	clear: both;
+}
+
+.boton{
+	background-color: #617798;
+	color: #FFF;
+	border: 0;
+	cursor: pointer;
+}
+
+.actualizado {
+    background: transparent url(../images/right_icon.png) no-repeat right center;
+    background-size: 19px 19px;
+    border-radius: 0px;
+}
+
+.sinActualizar {
+    background: transparent url(../images/save_icon.png) no-repeat right center;
+    border-radius: 0px;
+    margin-top: -1px;
+}
+
+#editorFacturas *{
+	box-sizing: border-box;
+}
+
+#editorFacturas input{
+	width: 100%;
+	box-sizing: border-box;
+}
+
+#editorFacturas select{
+	width: 100%;
+	box-sizing: border-box;
+	height: 32px;
+}
+
+#editorFacturas textarea{
+	width: 100%;
+	box-sizing: border-box;
+	font-size: 15px;
+	font-family: "Verdana";
+	font-weight: 800;
+	color: #999;
+}
+
+#editorFacturas h1{
+	font-size: 20px;
+	font-weight: 800;
+	border-bottom: 1px solid;
+	margin-top: 5px;
+	margin-bottom: 20px;
+}
+
+#editorFacturas .wrap_infoFactura{
+	position: relative;
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+
+#editorFacturas .wrap_datosInfoFactura{
+	width: 49.9%;
+	float: left;
+	padding: 0 20px;
+	box-sizing: border-box;
+	margin-top: 12px;
+}
+
+#editorFacturas .wrap_datosInfoFactura h2{
+	margin-bottom: 10px;
+	line-height: 32px;
+	font-size: 14px;
+	font-weight: 800;
+}
+
+#editorFacturas .wrap_datosInfoFactura .inputText{
+	margin-bottom: 10px;
+}
+
+#editorFacturas .wrap_datosInfoFactura .metodoPago{
+	position: relative;
+	padding-top: 15px;
+}
+
+#editorFacturas .wrap_datosInfoFactura .metodoPago .selectMetodoPago{
+	padding: 0 10px 0 10px;
+	z-index: 2;
+	position: relative;
+}
+
+#editorFacturas .wrap_datosInfoFactura .metodoPago .wrap_opcionTransBanc{
+	padding: 0 10px 0 10px;
+	z-index: 2;
+	position: relative;
+}
+
+#editorFacturas .wrap_datosInfoFactura .metodoPago .wrap_opcionTransBanc .opcionTransBanc{
+	line-height: 32px;
+	font-size: 12px;
+	font-weight: 800;
+	text-align: center;
+	background-color: #e9e9e9;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#editorFacturas .wrap_datosInfoFactura .metodoPago .indicadorMetodoPago{
+	border: 1px solid;
+	height: 53px;
+	width: 50%;
+	margin-left: 50%;
+	border-radius: 5px;
+	position: absolute;
+	margin-top: -10px;
+	transition: all 0.7s cubic-bezier(0.70, 0, 0.30, 1);;
+	z-index: 1;
+}
+
+#editorFacturas .wrap_datosClienteFactura{
+	width: 49.9%;
+	float: right;
+	padding: 0 10px;
+	box-sizing: border-box;
+	overflow: hidden;
+	border: 1px solid;
+	border-radius: 7px;
+	padding-top: 10px;
+}
+
+#editorFacturas .wrap_datosClienteFactura *{
+	margin-bottom: 5px;
+}
+
+#editorFacturas .wrap_datosClienteFactura > div{
+	padding: 0 10px;
+}
+
+#editorFacturas .wrap_datosClienteFactura h2{
+	margin-bottom: 10px;
+	line-height: 32px;
+	font-size: 14px;
+	font-weight: 800;
+	padding-left: 10px;
+}
+
+#editorFacturas .wrap_datosClienteFactura .barraEstadoCliente{
+	overflow: hidden;
+	height: 37px;
+}
+
+#editorFacturas .wrap_datosClienteFactura .barraEstadoCliente .estadoCliente{
+	height: 20px;
+	width: 20px;
+	
+	float: right;
+	margin-top: 7px;
+	margin-right: 20px;
+}
+
+#editorFacturas .wrap_datosClienteFactura .barraEstadoCliente .botonGuardarCliente{
+	height: 32px;
+	width: 200px;
+	border: 1px solid;
+	
+	float: right;
+	line-height: 32px;
+	text-align: center;
+	border-radius: 5px;
+}
+
+#editorFacturas .wrap_itemsFactura{
+	margin-bottom: 20px;	
+}
+
+#editorFacturas .wrap_itemsFactura .item{
+	clear: both;
+}
+
+#editorFacturas .wrap_itemsFactura .item .wrap_datosItem_concepto{
+	overflow: hidden;
+}
+
+#editorFacturas .wrap_itemsFactura .item .wrap_datosItem_concepto .datosItem_concepto{
+	width: 94%;
+}
+
+#editorFacturas .wrap_itemsFactura .item .wrap_datosItem_concepto .wrap_botonBorrarItem{
+	line-height: 32px;
+	font-size: 16px;
+	border-left: 1px solid #494949;
+	padding: 0 10px 0 15px;
+	cursor: pointer;
+	color: #494949;
+	margin-left: 20px;
+}
+
+#editorFacturas .wrap_itemsFactura .item .wrap_datosItem_concepto .wrap_botonBorrarItem:hover{
+	color: #fff;
+	font-weight: 800;
+	background: #494949;
+	border-radius: 5px;
+}
+
+#editorFacturas .wrap_itemsFactura .item .wrap_datosItem{
+	padding: 10px 5.5% 12px 3.2%;	
+}
+
+#editorFacturas .wrap_itemsFactura .item .wrap_datosItem > div > input{
+	width: 90%;
+}
+
+#editorFacturas .wrap_itemsFactura .item .wrap_infoItem{
+	padding: 10px 20px;
+	border: 1px solid;
+	border-radius: 5px;
+	border-top: 0px;
+	font-size: 12px;
+	font-weight: 800;
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+#editorFacturas .wrap_totalFactura{
+	border: 1px solid;
+	border-radius: 6px;
+	padding: 8px 20px;
+	text-align: right;
+	margin-bottom: 20px;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos{
+	border: 1px solid;
+	overflow: hidden;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_iva,
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_total{
+	text-align: center;
+	overflow: hidden;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_total{
+	width: 50%;
+	float: right;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_total .titulo{
+	width: 50%;
+	float: left;
+	border-left: 1px solid;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_iva{
+	border-bottom: 1px solid;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_iva .iva{
+	width: 50%;
+	float: left;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 45px;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .totales{
+	width: 50%;
+	float: right;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_total .titulo{
+	padding: 5px;
+	border-right: 1px solid;
+	font-weight: 800;
+	font-size: 15px;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_total .totales .valor{
+	text-align: right;
+	padding: 5px 20px;
+	font-size: 15px;
+	font-weight: 800;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_iva .totales .base,
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_iva .totales .imp{
+	overflow: hidden;
+	border-left: 1px solid;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_iva .totales .base{
+	border-bottom: 1px solid;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_iva .totales .clave{
+	width: 50%;
+	float: left;
+	font-weight: 800;
+	border-right: 1px solid;
+	padding: 5px;
+}
+
+#editorFacturas .wrap_totalFactura .wrap_impuestos .wrap_iva .totales .valor{
+	width: 50%;
+	float: right;
+	padding: 5px 20px;
+	text-align: right;
+}
+
+#editorFacturas .wrap_fechasVencimiento{
+	margin-bottom: 20px;
+}
+
+#editorFacturas .wrap_fechasVencimiento .wrap_itemsDesplegables .fecha{
+	overflow: hidden;
+    padding: 7px 5px 7px 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    background: #eeeeee url(images/ui-bg_glass_60_eeeeee_1x400.png) 50% 50% repeat-x;
+}
+
+#editorFacturas .wrap_fechasVencimiento .wrap_itemsDesplegables .fecha .wrap_datosFecha{
+	overflow: hidden;
+    width: 95%;
+    float: left;   
+}
+
+#editorFacturas .wrap_fechasVencimiento .wrap_itemsDesplegables .fecha .wrap_datosFecha input{
+	width: 90%;
+}
+
+#editorFacturas .wrap_fechasVencimiento .wrap_itemsDesplegables .fecha .wrap_botonBorrarFecha{
+	width: 40px;
+    float: right;
+    line-height: 32px;
+    font-size: 16px;
+    text-align: right;
+    border-left: 1px solid;
+    cursor: pointer;
+    padding-right: 10px;
+}
+
+#editorFacturas .wrap_fechasVencimiento .wrap_itemsDesplegables .fecha .wrap_botonBorrarFecha:hover{
+	color: #fff;
+    font-weight: 800;
+    background: #494949;
+    border-radius: 5px;
+}
+
+#editorFacturas .wrap_observacionesFactura{
+	
+}
+
+#editorFacturas .wrap_observacionesFactura h3{
+	font-size: 15px;
+	font-weight: 800;
+	margin-bottom: 10px;
+}
+
+#editorFacturas .wrap_observacionesFactura textarea{
+	padding: 10px 20px;
+	min-height: 80px;
+}
+
+#editorFacturas .barraEstadoGuardar{
+	width: inherit;
+    height: 50px;
+    border: 1px solid;
+    position: fixed;
+    bottom: -6px;
+    background: #fff;
+    right: 50px;
+    box-shadow: 0 5px 50px 0 #000;
+    border-radius: 6px;
+}
+
+#editorFacturas .barraEstadoGuardar .wrap_botonesEstadoGuardar{
+	width: 283px;
+    height: 40px;
+    padding: 5px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+#editorFacturas .barraEstadoGuardar .wrap_botonesEstadoGuardar .estado{
+	width: 20px;
+	height: 20px;
+	
+	float: right;
+	
+	margin-top: 6px;
+	margin-right: 20px;	
+}
+
+#editorFacturas .barraEstadoGuardar .wrap_botonesEstadoGuardar .botonGuardar{
+	height: 32px;
+	width: 200px;
+	border: 1px solid;
+	
+	float: right;
+	line-height: 32px;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.paraCrear{
+	opacity: 0.5 !important;
+    cursor: pointer !important;
+}

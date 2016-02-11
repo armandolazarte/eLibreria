@@ -1,0 +1,142 @@
+{% extends 'RGMELibreriaIndexBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('bundles/rgmelibreriafacturacion/css/editor.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		var ajax = {{ ajax | json_encode(constant('JSON_PRETTY_PRINT')) | raw }};
+		var clientes = {{ clientes | json_encode(constant('JSON_PRETTY_PRINT')) | raw }};
+	</script>
+	
+	{% javascripts '@RGMeLibreriaFacturacionBundle/Resources/public/js/editorFactura/clases/Controlador/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	
+	{% javascripts '@RGMeLibreriaFacturacionBundle/Resources/public/js/editorFactura/clases/Vista/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	
+	{% javascripts '@RGMeLibreriaFacturacionBundle/Resources/public/js/editorFactura/clases/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	
+	{% javascripts '@RGMeLibreriaFacturacionBundle/Resources/public/js/editorFactura/*.js' %}
+	    <script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
+
+
+{% block contenido %}
+<div id="editorFacturas">
+	<h1>Factura Emitida</h1>
+	<div class="wrap_infoFactura">
+		<div class="wrap_datosInfoFactura">
+			<h2 class="c2 izq">Datos de Factura</h2>
+			<div class="inputText">
+				<input id="fNumDoc" type="text" value="Número de Documento" name="numDoc">
+			</div>
+			
+			<div class="inputText">
+				<input id="fFecEmi" class="dateJquery" type="text" value="Fecha Emisión" name="fechaEm">
+			</div>
+			
+			<div id="fMetPago" class="metodoPago">
+				<div class="selectMetodoPago c2 izq">
+					<select><option>Método de pago</option></select>
+				</div>
+				
+				<div class="wrap_opcionTransBanc c2 der">
+					<div class="opcionTransBanc">Transferencia Bancaria</div>
+				</div>
+				
+				<div class="indicadorMetodoPago"></div>
+			</div>
+		</div>
+		
+		<div id="fCli" class="wrap_datosClienteFactura" data-plantillaSel="{% include 'RGMeLibreriaFacturacionBundle:Emitidas:itemSelect.html.twig' %}" data-plantillaSelDefault="{% include 'RGMeLibreriaFacturacionBundle:Emitidas:itemSelDefault.html.twig' %}">
+			<h2 class="c2 izq">Cliente</h2>
+			<div class="c2 der"><select id="fCliSel"></select></div>
+			<div class="nuevaLinea c2 izq"><input id="fCliRSocial" type="text" value="Razón social"></div>
+			<div class="c2 der"><input id="fCliNIF" type="text" value="NIF / CIF"></div>
+			<div class="nuevaLinea c1"><input id="fCliRComercial" type="text" value="Razón comercial"></div>
+			<div class="nuevaLinea c1"><input id="fCliDir" type="text" value="Dirección"></div>
+			<div class="nuevaLinea c5 izq"><input id="fCliCP" type="text" value="C.P."></div>
+			<div class="c4 izq"><input id="fCliTel" type="text" value="Tel."></div>
+			<div class="c2 der"><input id="fCliEmail" type="text" value="Email"></div>
+			<div class="nuevaLinea c1"><input id="fCliPerCont" type="text" value="Persona de contacto"></div>
+			<div class="nuevaLinea c1 barraEstadoCliente">
+				<div id="fCliGuardarCliente" class="boton botonGuardarCliente">Guardar</div>
+				<div id="fCliEstado" class="estadoCliente"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="wrap_itemsFactura">
+		<h3 class="tituloWrapItemsFactura">Elementos de la Factura</h3>
+		<div class="wrap_itemsDesplegablesFactura" data-plantillaItem="{% include 'RGMeLibreriaFacturacionBundle:Emitidas:itemFactura.html.twig' %}">
+			<div class="item paraCrear">
+				<h3 class="wrap_datosItem_concepto">
+					<div class="wrap_botonBorrarItem der">X</div>
+					<input class="datosItem_concepto der" type="text" name="concepto" value="Concepto">
+				</h3>
+			
+				<div class="wrap_datosItem">
+					<div class="c4 izq"><input type="text" name="cantidad" value="Cantidad"></div>
+					<div class="c4 izq"><input type="text" name="precio" value="Precio"> €</div>
+					<div class="c4 izq"><input type="text" name="iva" value="IVA"> %</div>
+					<div class="c4 der"><input type="text" name="desc" value="Desc."> %</div>
+				</div>
+				
+				
+				<div class="wrap_infoItem der c5">
+					Total: <span class="totalItem">x.xxx,xx</span> €
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="wrap_totalFactura">
+		<div id="totalFactura_totales" class="wrap_impuestos" data-plantillaIVA="{% include 'RGMeLibreriaFacturacionBundle:Emitidas:itemIVA.html.twig' %}">
+			<div id="wrap_total" class="wrap_total">
+				<div class="titulo">Total</div>
+				<div class="totales">
+					<div class="base">
+						<div class="valor">x.xxx,xx €</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="wrap_fechasVencimiento">
+		<h3>Fechas de Vencimiento</h3>
+		<div class="wrap_itemsDesplegables" data-plantillaFecha="{% include 'RGMeLibreriaFacturacionBundle:Emitidas:itemFechaVencimiento.html.twig' %}">
+			<div class="fecha paraCrear">
+				<div class="wrap_datosFecha">
+					<div class="c2 izq"><input type="text" name="fechaVencimiento" value="xx/xx/xxxx"></div>
+					<div class="c2 der"><input type="text" name="cuantiaVencimiento" value="x.xxx,xx"> €</div>
+				</div>
+				
+				<div class="wrap_botonBorrarFecha">X</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="wrap_observacionesFactura">
+		<h3>Observaciones</h3>
+		<textarea id="fObs" class="observacionesFactura">Observaciones</textarea>
+	</div>
+
+	<div class="barraEstadoGuardar">
+		<div class="wrap_botonesEstadoGuardar">
+			<div id="fBotonGuardar" class="botonGuardar boton">Guardar factura</div>
+			<div id="fEstado" class="estado"></div>
+		</div>
+	</div>
+</div>
+{% endblock %}

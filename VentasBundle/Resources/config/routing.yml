@@ -15,6 +15,10 @@ rgm_e_libreria_ventas_informe3_index:
     pattern: /informe3
     defaults: { _controller: 'RGMELibreriaVentasBundle:InformeVenta:generarInformePorDIA' }    
 
+rgm_e_libreria_venta_plantilla_editable_existencia:
+    pattern: /venta/ajax/plantillaEditable/existencia
+    defaults: { _controller: 'RGMELibreriaVentasBundle:GeneradorVenta:generarExistenciaConcepto' }
+    methods:  [POST]    
     
 rgm_e_libreria_venta_plantilla_existencia:
     pattern: /venta/ajax/plantilla/existencia

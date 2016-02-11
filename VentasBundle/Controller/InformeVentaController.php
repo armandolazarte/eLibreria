@@ -8,6 +8,7 @@ use RGM\eLibreria\VentasBundle\Entity\SeleccionInforme;
 use RGM\eLibreria\VentasBundle\Entity\ContenidoDistribuidora;
 use RGM\eLibreria\VentasBundle\Entity\OrdenVenta;
 use RGM\eLibreria\VentasBundle\Entity\DispensadorItemsVenta;
+use RGM\eLibreria\SuministroBundle\Entity\Distribuidora;
 
 class InformeVentaController extends Asistente{
 	private $bundle = 'ventasbundle';
@@ -23,6 +24,10 @@ class InformeVentaController extends Asistente{
 		$opciones = $this->getArrayOpcionesVista(array());
 		$seleccionInforme = new SeleccionInforme();
 		$em = $this->getEm();
+		
+		$distrVacia = new Distribuidora();						
+		$distrVacia->setId(-1);
+		$distrVacia->setNombre('Sin Distribuidora');
 		
 		$formulario = $this->createForm($this->getFormulario('seleccionInforme'), $seleccionInforme);
 		
@@ -43,10 +48,16 @@ class InformeVentaController extends Asistente{
 				foreach ($items as $i){					
 					$existencia = $i->getExistencia();
 					$itemS = $existencia->getItemAlbaran();
-					$alb = $itemS->getAlbaran();
-					$contratoS = $alb->getContrato();
-					$d = $contratoS->getDistribuidora();
-
+					
+					if($itemS){
+						$alb = $itemS->getAlbaran();
+						$contratoS = $alb->getContrato();
+						$d = $contratoS->getDistribuidora();
+					}
+					else{
+						$d = $distrVacia;
+					}
+					
 					$total += $i->getPrecioVenta();
 					$totalBase += $i->getPrecioVenta() / (1 + $existencia->getIVA());
 					$totalIVA += $existencia->getIVA() * $i->getPrecioVenta() / (1 + $existencia->getIVA());

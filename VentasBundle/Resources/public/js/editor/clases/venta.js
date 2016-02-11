@@ -61,9 +61,20 @@ function Venta(
 			
 			for(var i = 0; i < this.items.length; i++){
 				var it = this.items[i];
+				
+				if(vacio(it.id) || vacio(it.tipo) || vacio(it.titulo.val()) || vacio(it.precio.val()) || vacio(it.iva.val()) ||
+						vacio(it.pvp.val()) || vacio(it.descuento.val()) || vacio(it.precioTotal.val())){
+					alert('Linea vacia. Por favor, rellenela antes de continuar.');
+					return false;
+				}
+				
 				itemsAjax.push({
 					id: it.id,
 					tipo: it.tipo,
+					titulo: it.titulo.val(),
+					precio: parseFloat(it.precio.val()),
+					iva: parseFloat(it.iva.val()),
+					pvp: parseFloat(it.pvp.val()),
 					desc: parseFloat(it.descuento.val()),
 					precioVenta: parseFloat(it.precioTotal.val())
 				});			
@@ -158,13 +169,18 @@ function Venta(
 	this.cargarInfo = function(arrayItems){
 		for(var i = 0; i < arrayItems.length; i++){
 			var ex = arrayItems[i];
-			this.anadirExistencia(ex.id, ex.tipo);
+			if(ex.tipo == "concepto"){
+				this.anadirExistencia(ex.id, ex.tipo, ex.infoExistencia);
+			}
+			else{
+				this.anadirExistencia(ex.id, ex.tipo);
+			}
 		}
 	}
 	
-	this.anadirExistencia = function(idExistencia, tipoExistencia){
+	this.anadirExistencia = function(idExistencia, tipoExistencia, infoExistencia){
 		this.habilitarContenedorItem();
-		this.items.push(new Existencia(this, idExistencia, tipoExistencia));
+		this.items.push(new Existencia(this, idExistencia, tipoExistencia, infoExistencia));
 	}
 	
 	this.borrarItem = function(item){
@@ -197,6 +213,17 @@ function Venta(
 		return res;
 	}
 	
+	this.addExistenciaEditable = function(){
+		$.ajax({
+			url: ruta_ajax_plantilla_existencia_editable,
+			context: this,
+			type: "POST",
+			success: function(data){
+				this.anadirExistencia(data.id, data.tipo);
+			}
+		});
+	}
+	
 	//Contructor
 	this.init = function($select_venta_cliente_nombre,$input_venta_cliente_nombre,$input_venta_cliente_tel,$input_venta_cliente_movil,
 			$input_venta_cliente_dir,$venta_cliente_estado,$venta_cliente_boton_actualizar,$venta_info_total,$venta_info_entregado,
@@ -227,6 +254,8 @@ function Venta(
 		var $venta = this;
 		
 		this.input_submit_venta.click(function(evento){evento.preventDefault(); $venta.actualizarInfo(); return false;});
+		
+		this.venta_anadir_concepto.click(function(evento){evento.preventDefault(); $venta.addExistenciaEditable(); return false;});
 		
 		this.select_metodo_pago.change(function(evento){evento.preventDefault(); $venta.cambioModoPago(); return false;});		
 		this.venta_info_entregado.change(function(evento){evento.preventDefault(); $venta.modificarValoresInfoVenta(); return false;});
